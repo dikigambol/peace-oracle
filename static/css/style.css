@@ -60,7 +60,7 @@ body {
     opacity: 0.9;
 }
 
-/* Floating Light Orbs (Optimized: Static glow to reduce continuous repaint lag) */
+/* Floating Light Orbs (Optimized: Hardware accelerated to eliminate continuous repaint lag) */
 .glow-orb {
     position: fixed;
     border-radius: 50%;
@@ -68,6 +68,8 @@ body {
     z-index: -2;
     pointer-events: none;
     opacity: 0.45;
+    transform: translateZ(0);
+    will-change: transform;
 }
 
 .orb-1 {
@@ -154,7 +156,7 @@ body {
     font-weight: 500;
     padding: 0.6rem 1.25rem;
     border-radius: 20px;
-    transition: all 0.25s ease;
+    transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
     display: flex;
     align-items: center;
     gap: 0.5rem;

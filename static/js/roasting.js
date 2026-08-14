@@ -1,15 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
-    // Efek glow gerakan mouse pada kartu zodiak
+    // Efek glow gerakan mouse pada kartu zodiak (Optimized 60fps)
     // ----------------------------------------------------
     const cards = document.querySelectorAll('.zodiac-card');
     cards.forEach(card => {
+        let rect = null;
+        let ticking = false;
+
+        card.addEventListener('mouseenter', () => {
+            rect = card.getBoundingClientRect();
+        });
+
         card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            card.style.setProperty('--x', `${x}px`);
-            card.style.setProperty('--y', `${y}px`);
+            if (!rect) rect = card.getBoundingClientRect();
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    if (rect) {
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--x', `${x}px`);
+                        card.style.setProperty('--y', `${y}px`);
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+
+        card.addEventListener('mouseleave', () => {
+            rect = null;
         });
     });
 

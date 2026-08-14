@@ -225,7 +225,7 @@ def get_relationship_roast(sign_a, sign_b):
     
     # Kategori Pasangan Khusus jika zodiaknya sama
     if sa == sb:
-        return {
+        res = {
             "sign_a_name": name_a,
             "sign_b_name": name_b,
             "badge": "🪞 Hubungan Kaca Kembar",
@@ -233,98 +233,105 @@ def get_relationship_roast(sign_a, sign_b):
             "desc": f"Dua {name_a} jadian/berteman itu ibarat dua koki galak di satu dapur kecil. Keduanya punya ego & kebiasaan buruk yang sama persis, jadi gak ada yang bisa ngalah.",
             "verdict": "Vonis: Kalo gak jadi pasangan terseru abad ini, ya jadi musuh bebuyutan sampai kiamat."
         }
-    
-    # Berdasarkan Kombinasi Elemen
-    pair_type = tuple(sorted([elem_a, elem_b]))
-    
-    if pair_type == ("api", "api"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "💥 Kombinasi Ledakan Kosmik",
-            "headline": f"{name_a} x {name_b}: Dua kompor gas meledak jadian satu.",
-            "desc": f"Hubungan antara {name_a} dan {name_b} ini berasa kayak medan perang. Gak ada saringan kalau bicara, emosi cepat membara, dan kalau debat gorden rumah ikut terbakar.",
-            "verdict": "Vonis: Cocok buat bikin drama reality show di TikTok, tapi kasihan tetangga sebelah rumah."
-        }
-    elif pair_type == ("api", "tanah"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🌋 Gunung Berapi vs Tembok Semen",
-            "headline": f"{name_a} x {name_b}: Si impulsif bertemu si pembahas cicilan.",
-            "desc": f"{name_a} pengen hura-hura liburan spontan, sedangkan {name_b} sibuk ngitung sisa saldo rekening tabungan. Yang satu mau terbang ke awan, yang satu lagi sibuk narik ke bumi.",
-            "verdict": "Vonis: {name_a} bakal merasa terkekang, {name_b} bakal cape ngurusin kelakuan kekanak-kanakan pasangan."
-        }
-    elif pair_type == ("api", "udara"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🎪 Kebakaran Hutan Berjalan",
-            "headline": f"{name_a} x {name_b}: Si Api membara dikipasi oleh si Udara provokator.",
-            "desc": f"{name_b} paling pinter ngasih ide-ide gila yang langsung dieksekusi tanpa mikir oleh {name_a}. Pasangan pemicu kerusuhan sosial yang kalo jalan bareng selalu bikin kehebohan.",
-            "verdict": "Vonis: Seru banget buat jalan bareng, tapi bahaya buat keselamatan dompet & stabilitas mental."
-        }
-    elif pair_type == ("api", "air"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "💨 Uap Panas Kena Mental",
-            "headline": f"{name_a} x {name_b}: Yang satu emosi membara, yang satu lagi banjir air mata.",
-            "desc": f"Kalo ada masalah, {name_b} bakal menangis drama sesenggukan, sedangkan {name_a} bakal bingung & emosi gara-gara gak faham kenapa pasangan malah nangis bukannya nyelesaiin masalah.",
-            "verdict": "Vonis: Seperti menyiram minyak tanah ke dalam kolam renang — riuh dan penuh asap."
-        }
-    elif pair_type == ("tanah", "tanah"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🗿 Pasangan Batu Tahan Gempa",
-            "headline": f"{name_a} x {name_b}: Pasangan paling stabil sekaligus paling ngebosenin sejagad raya.",
-            "desc": f"Pertemuan antara {name_a} dan {name_b} isi agendanya cuma ngomongin deposito, kerjaan, dan rencana 10 tahun ke depan. Liburan bareng pun isinya duduk diam tanpa banyak bicara.",
-            "verdict": "Vonis: Hubungan paling awet sampai kiamat, tapi minim bumbu kehebohan kosmik."
-        }
-    elif pair_type == ("tanah", "udara"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🌪️ Badai Debu & Kepusingan",
-            "headline": f"{name_a} x {name_b}: Si kaku realistis ngurusin si plin-plan halusinasi.",
-            "desc": f"{name_a} kebingungan ngeliat {name_b} yang berubah rencana tiap 15 menit. Sementara {name_b} merasa {name_a} terlalu ngebosenin bagaikan ensiklopedia tua di perpustakaan.",
-            "verdict": "Vonis: Kalo mau awet, {name_a} kudu sabar tingkat dewa dan {name_b} kudu belajar napak tanah."
-        }
-    elif pair_type == ("air", "tanah"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🌱 Kolam Lumpur Subur",
-            "headline": f"{name_a} x {name_b}: Si Baperan dapet sandaran tembok beton.",
-            "desc": f"{name_a} dapet tempat curhat yang tenang di diri {name_b}. Tapi kalo {name_a} lagi kambuh baperan dramatisnya, {name_b} malah ngasih ceramah analisis rasional yang bikin {name_a} makin ngambek.",
-            "verdict": "Vonis: Pasangan yang saling melengkapi, asal jangan saling maksain cara berpikir."
-        }
-    elif pair_type == ("udara", "udara"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🛸 Skuadron UFO Tanpa Arah",
-            "headline": f"{name_a} x {name_b}: Dua manusia halu ketemu di alam gaib.",
-            "desc": f"Chat WA antara {name_a} dan {name_b} isinya 'wkwkwk' 100 baris dan stiker meme konyol. Tapi kalo disuruh milih mau makan malam di mana, bisa debat 2 jam sampai restoran tutup.",
-            "verdict": "Vonis: Teman obrolan terbaik di dunia, tapi hubungan tanpa nakhoda penentu arah."
-        }
-    elif pair_type == ("air", "udara"):
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "👻 Ghosting vs Tangisan Histeria",
-            "headline": f"{name_a} x {name_b}: Si Butuh Kejelasan vs Si Rajin Ghosting.",
-            "desc": f"{name_a} minta kepastian dan kejelasan emosional yang mendalam, tapi {name_b} malah panik merasa terkungkung lalu mendadak ngilang tanpa kabar selama 3 hari.",
-            "verdict": "Vonis: Resep sempurna buat dapet sesi terapi psikologis gratis di puskesmas terdekat."
-        }
-    else: # air + air
-        return {
-            "sign_a_name": name_a,
-            "sign_b_name": name_b,
-            "badge": "🌊 Tsunami Emosi & Sinetron",
-            "headline": f"{name_a} x {name_b}: Banjir bandang emosi dan asumsi fiktif.",
-            "desc": f"{name_a} dan {name_b} saling stalk sosmed tanpa ngomong langsung, lalu ngambek bersamaan gara-gara prasangka fiktif yang mereka buat sendiri di kepala masing-masing.",
-            "verdict": "Vonis: Penuh kehangatan dan rasa cinta, tapi hati-hati tenggelam dalam drama buatan sendiri."
-        }
+    else:
+        # Berdasarkan Kombinasi Elemen
+        pair_type = tuple(sorted([elem_a, elem_b]))
+        
+        if pair_type == ("api", "api"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "💥 Kombinasi Ledakan Kosmik",
+                "headline": f"{name_a} x {name_b}: Dua kompor gas meledak jadian satu.",
+                "desc": f"Hubungan antara {name_a} dan {name_b} ini berasa kayak medan perang. Gak ada saringan kalau bicara, emosi cepat membara, dan kalau debat gorden rumah ikut terbakar.",
+                "verdict": "Vonis: Cocok buat bikin drama reality show di TikTok, tapi kasihan tetangga sebelah rumah."
+            }
+        elif pair_type == ("api", "tanah"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🌋 Gunung Berapi vs Tembok Semen",
+                "headline": f"{name_a} x {name_b}: Si impulsif bertemu si pembahas cicilan.",
+                "desc": f"{name_a} pengen hura-hura liburan spontan, sedangkan {name_b} sibuk ngitung sisa saldo rekening tabungan. Yang satu mau terbang ke awan, yang satu lagi sibuk narik ke bumi.",
+                "verdict": f"Vonis: {name_a} bakal merasa terkekang, {name_b} bakal cape ngurusin kelakuan kekanak-kanakan pasangan."
+            }
+        elif pair_type == ("api", "udara"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🎪 Kebakaran Hutan Berjalan",
+                "headline": f"{name_a} x {name_b}: Si Api membara dikipasi oleh si Udara provokator.",
+                "desc": f"{name_b} paling pinter ngasih ide-ide gila yang langsung dieksekusi tanpa mikir oleh {name_a}. Pasangan pemicu kerusuhan sosial yang kalo jalan bareng selalu bikin kehebohan.",
+                "verdict": "Vonis: Seru banget buat jalan bareng, tapi bahaya buat keselamatan dompet & stabilitas mental."
+            }
+        elif pair_type == ("api", "air"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "💨 Uap Panas Kena Mental",
+                "headline": f"{name_a} x {name_b}: Yang satu emosi membara, yang satu lagi banjir air mata.",
+                "desc": f"Kalo ada masalah, {name_b} bakal menangis drama sesenggukan, sedangkan {name_a} bakal bingung & emosi gara-gara gak faham kenapa pasangan malah nangis bukannya nyelesaiin masalah.",
+                "verdict": "Vonis: Seperti menyiram minyak tanah ke dalam kolam renang — riuh dan penuh asap."
+            }
+        elif pair_type == ("tanah", "tanah"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🗿 Pasangan Batu Tahan Gempa",
+                "headline": f"{name_a} x {name_b}: Pasangan paling stabil sekaligus paling ngebosenin sejagad raya.",
+                "desc": f"Pertemuan antara {name_a} dan {name_b} isi agendanya cuma ngomongin deposito, kerjaan, dan rencana 10 tahun ke depan. Liburan bareng pun isinya duduk diam tanpa banyak bicara.",
+                "verdict": "Vonis: Hubungan paling awet sampai kiamat, tapi minim bumbu kehebohan kosmik."
+            }
+        elif pair_type == ("tanah", "udara"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🌪️ Badai Debu & Kepusingan",
+                "headline": f"{name_a} x {name_b}: Si kaku realistis ngurusin si plin-plan halusinasi.",
+                "desc": f"{name_a} kebingungan ngeliat {name_b} yang berubah rencana tiap 15 menit. Sementara {name_b} merasa {name_a} terlalu ngebosenin bagaikan ensiklopedia tua di perpustakaan.",
+                "verdict": f"Vonis: Kalo mau awet, {name_a} kudu sabar tingkat dewa dan {name_b} kudu belajar napak tanah."
+            }
+        elif pair_type == ("air", "tanah"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🌱 Kolam Lumpur Subur",
+                "headline": f"{name_a} x {name_b}: Si Baperan dapet sandaran tembok beton.",
+                "desc": f"{name_a} dapet tempat curhat yang tenang di diri {name_b}. Tapi kalo {name_a} lagi kambuh baperan dramatisnya, {name_b} malah ngasih ceramah analisis rasional yang bikin {name_a} makin ngambek.",
+                "verdict": "Vonis: Pasangan yang saling melengkapi, asal jangan saling maksain cara berpikir."
+            }
+        elif pair_type == ("udara", "udara"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🛸 Skuadron UFO Tanpa Arah",
+                "headline": f"{name_a} x {name_b}: Dua manusia halu ketemu di alam gaib.",
+                "desc": f"Chat WA antara {name_a} dan {name_b} isinya 'wkwkwk' 100 baris dan stiker meme konyol. Tapi kalo disuruh milih mau makan malam di mana, bisa debat 2 jam sampai restoran tutup.",
+                "verdict": "Vonis: Teman obrolan terbaik di dunia, tapi hubungan tanpa nakhoda penentu arah."
+            }
+        elif pair_type == ("air", "udara"):
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "👻 Ghosting vs Tangisan Histeria",
+                "headline": f"{name_a} x {name_b}: Si Butuh Kejelasan vs Si Rajin Ghosting.",
+                "desc": f"{name_a} minta kepastian dan kejelasan emosional yang mendalam, tapi {name_b} malah panik merasa terkungkung lalu mendadak ngilang tanpa kabar selama 3 hari.",
+                "verdict": "Vonis: Resep sempurna buat dapet sesi terapi psikologis gratis di puskesmas terdekat."
+            }
+        else: # air + air
+            res = {
+                "sign_a_name": name_a,
+                "sign_b_name": name_b,
+                "badge": "🌊 Tsunami Emosi & Sinetron",
+                "headline": f"{name_a} x {name_b}: Banjir bandang emosi dan asumsi fiktif.",
+                "desc": f"{name_a} dan {name_b} saling stalk sosmed tanpa ngomong langsung, lalu ngambek bersamaan gara-gara prasangka fiktif yang mereka buat sendiri di kepala masing-masing.",
+                "verdict": "Vonis: Penuh kehangatan dan rasa cinta, tapi hati-hati tenggelam dalam drama buatan sendiri."
+            }
+
+    # Safety cleanup for string placeholders
+    for k, v in res.items():
+        if isinstance(v, str):
+            res[k] = v.replace("{name_a}", name_a).replace("{name_b}", name_b)
+
+    return res
 
