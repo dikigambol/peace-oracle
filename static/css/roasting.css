@@ -1,0 +1,442 @@
+/* ============================================================
+   ROAST MY SIGN - STANDALONE CSS (ISOLATED SPECIFIC STYLES)
+   ============================================================ */
+
+/* Theme Color Utilities for Roasting */
+.text-flame {
+    color: #f97316 !important;
+}
+
+.text-red {
+    color: #ef4444 !important;
+}
+
+.text-amber {
+    color: #f59e0b !important;
+}
+
+.text-pink {
+    color: #ec4899 !important;
+}
+
+/* Input Container & Form Elements */
+.roast-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.roast-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-muted, #9ca3af);
+    margin-bottom: 10px !important;
+}
+
+.custom-date-input {
+    width: 100%;
+    background: rgba(17, 12, 36, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+    color: #f3f4f6;
+    font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.25s ease;
+    box-sizing: border-box;
+}
+
+.custom-date-input:focus {
+    border-color: #f97316;
+    box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
+}
+
+/* Divider 'atau' */
+.roast-divider-or {
+    text-align: center;
+    position: relative;
+    margin: 1.5rem 0;
+}
+
+.roast-divider-or::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.roast-divider-or span {
+    position: relative;
+    background: #0f0a1c;
+    padding: 0 0.85rem;
+    font-size: 0.78rem;
+    color: var(--text-muted, #9ca3af);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+}
+
+.roast-select-wrapper {
+    margin-bottom: 1.75rem;
+}
+
+/* Tombol Aksi Roasting */
+.btn-roast-action {
+    width: 100%;
+    background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    padding: 0.9rem 1.25rem !important;
+    border-radius: 16px !important;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(234, 88, 12, 0.4) !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-roast-action:hover {
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 8px 25px rgba(234, 88, 12, 0.6) !important;
+    filter: brightness(1.1);
+}
+
+/* Header Hasil Card Roasting */
+.roast-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+}
+
+.roast-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.roast-date-range {
+    font-size: 0.82rem;
+    color: var(--text-muted, #9ca3af);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.3rem 0.75rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Headline Card (Roast Utama) */
+.roast-headline-card {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(249, 115, 22, 0.15) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: 16px;
+    padding: 1.35rem 1.5rem;
+    margin: 1.5rem 0;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.1);
+}
+
+.roast-card-tag {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #ef4444;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-transform: uppercase;
+}
+
+.roast-headline-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.55;
+    color: #ffe4e6;
+}
+
+/* Red Flags List */
+.roast-section-block {
+    margin: 1.75rem 0;
+}
+
+.roast-section-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.roast-list {
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.roast-list li {
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: #e5e7eb;
+    position: relative;
+    padding-left: 1.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.75rem 1rem 0.75rem 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.roast-list li::before {
+    content: "🚩";
+    position: absolute;
+    left: 0.6rem;
+    top: 0.7rem;
+    font-size: 0.9rem;
+}
+
+/* 2 Column Grid untuk Dosa Finansial & Love Red Flag */
+.roast-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+    margin: 1.75rem 0;
+}
+
+.roast-sub-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.1rem 1.25rem;
+    transition: border-color 0.25s ease;
+}
+
+.roast-sub-card:hover {
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.roast-sub-title {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.roast-sub-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #d1d5db;
+}
+
+/* Quote Box (Pembelaan Khas) */
+.roast-quote-box {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border-left: 4px solid #a855f7;
+    border-radius: 0 16px 16px 0;
+    padding: 1.25rem 1.5rem;
+    margin: 1.75rem 0;
+    position: relative;
+}
+
+.quote-icon {
+    font-size: 1.35rem;
+    color: #c084fc;
+    margin-bottom: 0.4rem;
+    opacity: 0.7;
+}
+
+.roast-quote-text {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.08rem;
+    font-style: italic;
+    font-weight: 500;
+    color: #f3e8ff;
+    line-height: 1.55;
+    margin-bottom: 0.4rem;
+}
+
+.quote-author {
+    font-size: 0.78rem;
+    color: var(--text-muted, #9ca3af);
+    font-weight: 500;
+}
+
+/* Survival Tip Box */
+.roast-tip-box {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    margin: 1.75rem 0;
+}
+
+.tip-header {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #10b981;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.tip-text {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: #e5e7eb;
+}
+
+/* Tombol Copy & Share */
+.roast-share-container {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.btn-share-roast {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-family: var(--font-body, 'Plus Jakarta Sans', sans-serif);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 0.85rem 1.25rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+}
+
+.btn-share-roast:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #a855f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
+}
+
+.copied-toast {
+    display: inline-block;
+    margin-top: 0.6rem;
+    font-size: 0.82rem;
+    color: #10b981;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.12);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    animation: fadeIn 0.3s ease;
+}
+
+/* Relationship Roasting (Hubungan Zodiak A & B) */
+.pair-roast-container {
+    margin-top: 1.5rem;
+}
+
+.pair-roast-desc {
+    font-size: 0.88rem;
+    color: var(--text-muted, #9ca3af);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+}
+
+.pair-roast-desc b {
+    color: #f97316;
+}
+
+.pair-select-group {
+    margin-bottom: 1.25rem;
+}
+
+.pair-roast-result {
+    background: linear-gradient(135deg, rgba(234, 88, 12, 0.12) 0%, rgba(220, 38, 38, 0.08) 100%);
+    border: 1px solid rgba(234, 88, 12, 0.35);
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin-top: 1.25rem;
+    animation: fadeIn 0.35s ease;
+}
+
+.pair-roast-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #f97316;
+    background: rgba(249, 115, 22, 0.15);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    margin-bottom: 0.65rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.pair-roast-headline {
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fed7aa;
+    line-height: 1.45;
+    margin-bottom: 0.6rem;
+}
+
+.pair-roast-dynamic-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #e5e7eb;
+    margin-bottom: 0.85rem;
+}
+
+.pair-roast-verdict {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fca5a5;
+    font-style: italic;
+    background: rgba(239, 68, 68, 0.1);
+    padding: 0.6rem 0.85rem;
+    border-radius: 10px;
+    border-left: 3px solid #ef4444;
+}
+
+/* Media Query Responsif HP & Tablet (Hanya untuk Roasting) */
+@media (max-width: 600px) {
+    .roast-grid-2col {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+    }
+
+    .roast-headline-text {
+        font-size: 1.05rem;
+    }
+
+    .roast-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+    }
+
+    .btn-roast-action {
+        font-size: 0.95rem !important;
+        padding: 0.85rem 1rem !important;
+    }
+}
