@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Mode Shio - Zodiak Peace{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="shio-container" id="shio-bg">
+    <!-- Particle canvas for easter egg -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="shio-content-wrapper">
+        <h1 class="shio-title"><i class="fa-solid fa-yin-yang"></i> Takdir Shio</h1>
+        <p class="shio-subtitle">Temukan energi elemen dan jalan kebijaksanaan oriental Anda</p>
+
+        <!-- View 1: Selection Mode -->
+        <div id="view-selection" class="shio-view active">
+            <div class="choice-cards">
+                <button class="choice-card" id="btn-date">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Masukkan Tanggal Lahir</span>
+                    <small>Sistem Hitung Otomatis</small>
+                </button>
+                <button class="choice-card" id="btn-manual">
+                    <i class="fa-solid fa-dragon"></i>
+                    <span>Pilih Shio Sendiri</span>
+                    <small>Pilih dari 12 Lambang</small>
+                </button>
+            </div>
+            
+            <div id="construction-msg" class="construction-msg hidden">
+                <i class="fa-solid fa-person-digging"></i>
+                <p>Fitur Kalkulasi Tanggal Lahir Masih Dalam Pembuatan!</p>
+            </div>
+        </div>
+
+        <!-- View 2: Shio List -->
+        <div id="view-shio-list" class="shio-view hidden">
+            <button class="back-btn" id="back-to-sel"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+            <h2 class="view-title">Pilih Lambang Shio Anda</h2>
+            <div class="shio-grid">
+                <!-- Hardcoded for cool UI -->
+                <button class="shio-item" data-shio="tikus"><span class="icon">🐀</span><span class="name">Tikus</span></button>
+                <button class="shio-item" data-shio="kerbau"><span class="icon">🐂</span><span class="name">Kerbau</span></button>
+                <button class="shio-item" data-shio="macan"><span class="icon">🐅</span><span class="name">Macan</span></button>
+                <button class="shio-item" data-shio="kelinci"><span class="icon">🐇</span><span class="name">Kelinci</span></button>
+                <button class="shio-item" data-shio="naga"><span class="icon">🐉</span><span class="name">Naga</span></button>
+                <button class="shio-item" data-shio="ular"><span class="icon">🐍</span><span class="name">Ular</span></button>
+                <button class="shio-item" data-shio="kuda"><span class="icon">🐎</span><span class="name">Kuda</span></button>
+                <button class="shio-item" data-shio="kambing"><span class="icon">🐐</span><span class="name">Kambing</span></button>
+                <button class="shio-item" data-shio="monyet"><span class="icon">🐒</span><span class="name">Monyet</span></button>
+                <button class="shio-item" data-shio="ayam"><span class="icon">🐓</span><span class="name">Ayam</span></button>
+                <button class="shio-item" data-shio="anjing"><span class="icon">🐕</span><span class="name">Anjing</span></button>
+                <button class="shio-item" data-shio="babi"><span class="icon">🐖</span><span class="name">Babi</span></button>
+            </div>
+        </div>
+
+        <!-- View 3: Element List -->
+        <div id="view-element-list" class="shio-view hidden">
+            <button class="back-btn" id="back-to-shio"><i class="fa-solid fa-arrow-left"></i> Pilih Shio Lain</button>
+            <h2 class="view-title">Pilih Elemen Dominan Anda</h2>
+            <div class="element-grid">
+                <button class="element-item kayu" data-element="kayu"><i class="fa-solid fa-tree"></i> Kayu</button>
+                <button class="element-item api" data-element="api"><i class="fa-solid fa-fire"></i> Api</button>
+                <button class="element-item tanah" data-element="tanah"><i class="fa-solid fa-mountain"></i> Tanah</button>
+                <button class="element-item logam" data-element="logam"><i class="fa-solid fa-coins"></i> Logam</button>
+                <button class="element-item air" data-element="air"><i class="fa-solid fa-water"></i> Air</button>
+            </div>
+        </div>
+
+        <!-- View 4: Result -->
+        <div id="view-result" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start"><i class="fa-solid fa-rotate-right"></i> Mulai Ulang</button>
+            <div class="fortune-card">
+                <h2 id="res-title" class="res-title">Naga Api</h2>
+                <div class="res-body">
+                    <p id="res-fortune">Ramalan sedang dibaca...</p>
+                    <div class="res-meta">
+                        <div class="meta-box">
+                            <i class="fa-regular fa-compass"></i> Arah Hoki: <span id="res-dir"></span>
+                        </div>
+                        <div class="meta-box">
+                            <i class="fa-solid fa-dice"></i> Angka Hoki: <span id="res-num"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('shio.static', filename='js/shio.js') }}"></script>
+{% endblock %}

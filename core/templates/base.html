@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Zodiak Peace{% endblock %}</title>
+    <meta name="description" content="{% block description %}Temukan ramalan kosmik dan shio Anda.{% endblock %}">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Page Loader -->
+    <div id="global-loader" class="global-loader">
+        <div class="loader-spinner">
+            <i class="fa-solid fa-bahai fa-spin"></i>
+        </div>
+        <p class="loader-text">Menyelaraskan Kosmik...</p>
+    </div>
+
+    <!-- Floating Mode Switcher -->
+    <div class="mode-switcher-container">
+        <div class="mode-switcher-btn" id="mode-switcher-toggle">
+            <i class="fa-solid fa-layer-group"></i>
+        </div>
+        <div class="mode-switcher-menu" id="mode-switcher-menu">
+            <a href="/" class="mode-item" data-mode="zodiak">
+                <i class="fa-solid fa-moon"></i>
+                <span>Zodiak</span>
+            </a>
+            <a href="/shio" class="mode-item" data-mode="shio">
+                <i class="fa-solid fa-dragon"></i>
+                <span>Shio</span>
+            </a>
+            <a href="#" class="mode-item locked" data-mode="weton" title="Segera Hadir">
+                <i class="fa-solid fa-scroll"></i>
+                <span>Weton</span>
+            </a>
+            <a href="#" class="mode-item locked" data-mode="tarot" title="Segera Hadir">
+                <i class="fa-solid fa-cards-blank"></i>
+                <span>Tarot</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Global JS -->
+    <script src="{{ url_for('static', filename='js/global.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

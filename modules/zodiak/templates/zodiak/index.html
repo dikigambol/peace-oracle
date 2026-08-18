@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="id">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zodiak Peace - Ramalan Zodiak & Kecocokan Kosmik</title>
-    <meta name="description"
-        content="Temukan ramalan zodiak harian, elemen kepribadian, dan hitung tingkat kecocokan hubungan Anda di Zodiak Peace.">
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <!-- FontAwesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
+{% block title %}Zodiak Peace - Ramalan Zodiak & Kecocokan Kosmik{% endblock %}
 
-<body>
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+
     <div class="stars-bg"></div>
 
     <header class="app-header">
@@ -310,7 +298,9 @@
     </footer>
 
     <!-- Custom JavaScript -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
+    
+{% endblock %}
 
-</html>
+{% block extra_js %}
+    <script src="{{ url_for('zodiak.static', filename='js/script.js') }}"></script>
+{% endblock %}
