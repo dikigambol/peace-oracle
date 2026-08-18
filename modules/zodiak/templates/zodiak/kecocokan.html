@@ -18,10 +18,10 @@
             <p class="tagline">Temukan Ketenangan Lewat Penyelarasan Kosmik & Kecocokan Zodiak</p>
         </div>
         <nav class="app-nav">
-            <a href="/" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
-            <a href="/kecocokan" class="nav-item active"><i class="fa-solid fa-calculator "></i> Kecocokan</a>
-            <a href="/general" class="nav-item"><i class="fa-solid fa-compass"></i> General</a>
-            <a href="/roasting" class="nav-item"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
+            <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
+            <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item active"><i class="fa-solid fa-calculator "></i> Kecocokan</a>
+            <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><i class="fa-solid fa-compass"></i> General</a>
+            <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
         </nav>
     </header>
 

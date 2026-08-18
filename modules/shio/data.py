@@ -1,3 +1,5 @@
+import random
+
 SHIO_DATA = {
     "tikus": {"name": "Tikus", "icon": "🐀", "traits": ["Cerdik", "Adaptif", "Kreatif", "Agresif"]},
     "kerbau": {"name": "Kerbau", "icon": "🐂", "traits": ["Dapat diandalkan", "Tenang", "Metodis", "Keras Kepala"]},
@@ -25,10 +27,43 @@ def generate_shio_fortune(shio_key, element_key):
     shio = SHIO_DATA.get(shio_key, SHIO_DATA["naga"])
     element = ELEMENT_DATA.get(element_key, ELEMENT_DATA["kayu"])
     
+    # Deterministic generation based on combination
+    seed_val = sum(ord(c) for c in (shio_key + element_key))
+    rng = random.Random(seed_val)
+    
+    karir_pool = [
+        f"Karakter {shio['traits'][0].lower()} membawa Anda pada peluang luar biasa. {element['vibe'].split('.')[0]} di tempat kerja.",
+        f"Tantangan baru muncul, tapi sisi {shio['traits'][1].lower()} Anda bisa menyelesaikannya. Gunakan energi {element['name']} untuk negosiasi.",
+        f"Kerja sama tim akan sangat menguntungkan jika Anda menonjolkan sifat {shio['traits'][0].lower()}. Hindari bersikap terlalu {shio['traits'][3].lower()}."
+    ]
+    
+    keuangan_pool = [
+        f"Ada potensi rezeki dari investasi masa lalu. Pertahankan sikap {shio['traits'][1].lower()} dalam mengelola keuangan.",
+        f"Energi {element['name']} mendatangkan kelimpahan, namun sifat {shio['traits'][3].lower()} Anda bisa membuat pemborosan. Berhati-hatilah.",
+        f"Bulan ini stabil. Keputusan finansial yang Anda buat dengan cara {shio['traits'][0].lower()} akan membuahkan hasil manis di masa depan."
+    ]
+    
+    asmara_pool = [
+        f"Hubungan asmara sedang hangat. Sifat {shio['traits'][2].lower()} membuat pasangan semakin lengket. {element['name']} memperkuat ikatan.",
+        f"Jika lajang, pesona {shio['traits'][0].lower()} Anda menarik perhatian seseorang. Jika berpasangan, waspadai sifat {shio['traits'][3].lower()} yang memicu konflik.",
+        f"Waktunya kejujuran emosional. {element['vibe']} Karakter {shio['traits'][1].lower()} Anda akan membantu menjembatani perbedaan pendapat."
+    ]
+    
+    kesehatan_pool = [
+        f"Fokus pada vitalitas elemen {element['name']}. Sifat {shio['traits'][3].lower()} terkadang memicu stres mental, perbanyak relaksasi.",
+        f"Kesehatan fisik sangat prima berkat gaya hidup {shio['traits'][0].lower()}. Jangan lupa seimbangkan dengan kesehatan spiritual.",
+        f"Ada sedikit penurunan energi kosmik. Hindari begadang, dan jadikan sifat {shio['traits'][1].lower()} Anda untuk disiplin berolahraga."
+    ]
+
     return {
         "title": f"{shio['name']} {element['name']}",
-        "fortune": f"Energi kosmik {element['name'].lower()} berpadu dengan karakter {shio['name'].lower()} Anda. {element['vibe']} "
-                   f"Kekuatan utama Anda saat ini terletak pada sifat {shio['traits'][0].lower()} dan {shio['traits'][1].lower()}.",
-        "lucky_direction": "Timur Laut",
-        "lucky_numbers": [3, 8, 12]
+        "fortune": f"Ramalan paduan kosmik antara {shio['name']} dan {element['name']} membentuk energi unik bagi jalan hidup Anda saat ini.",
+        "traits": ", ".join(shio["traits"]),
+        "vibe": element["vibe"],
+        "karir": rng.choice(karir_pool),
+        "keuangan": rng.choice(keuangan_pool),
+        "asmara": rng.choice(asmara_pool),
+        "kesehatan": rng.choice(kesehatan_pool),
+        "lucky_direction": rng.choice(["Utara", "Selatan", "Timur", "Barat", "Timur Laut", "Barat Daya", "Tenggara", "Barat Laut"]),
+        "lucky_numbers": [rng.randint(1, 9), rng.randint(10, 30), rng.randint(31, 99)]
     }

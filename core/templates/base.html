@@ -16,10 +16,14 @@
     
     <!-- Global CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/3d-bg.css') }}">
     
     {% block extra_css %}{% endblock %}
 </head>
 <body>
+    <!-- Global 3D Interactive Background -->
+    <canvas id="webgl-bg"></canvas>
+
     <!-- Page Loader -->
     <div id="global-loader" class="global-loader">
         <div class="loader-spinner">
@@ -34,11 +38,15 @@
             <i class="fa-solid fa-layer-group"></i>
         </div>
         <div class="mode-switcher-menu" id="mode-switcher-menu">
-            <a href="/" class="mode-item" data-mode="zodiak">
+            <a href="{{ url_for('home') }}" class="mode-item" data-mode="home">
+                <i class="fa-solid fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="{{ url_for('zodiak.home') }}" class="mode-item" data-mode="zodiak">
                 <i class="fa-solid fa-moon"></i>
                 <span>Zodiak</span>
             </a>
-            <a href="/shio" class="mode-item" data-mode="shio">
+            <a href="{{ url_for('shio.shio_index') }}" class="mode-item" data-mode="shio">
                 <i class="fa-solid fa-dragon"></i>
                 <span>Shio</span>
             </a>
@@ -47,7 +55,7 @@
                 <span>Weton</span>
             </a>
             <a href="#" class="mode-item locked" data-mode="tarot" title="Segera Hadir">
-                <i class="fa-solid fa-cards-blank"></i>
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
                 <span>Tarot</span>
             </a>
         </div>
@@ -57,6 +65,8 @@
     {% block content %}{% endblock %}
 
     <!-- Global JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="{{ url_for('static', filename='js/3d-bg.js') }}"></script>
     <script src="{{ url_for('static', filename='js/global.js') }}"></script>
     {% block extra_js %}{% endblock %}
 </body>

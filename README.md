@@ -19,6 +19,10 @@
 
 ## 🌟 Fitur Utama
 
+### 🌌 Landing Page (Hub Utama)
+* **Portal Nebula 3D:** Halaman beranda dilengkapi animasi CSS *Nebula* yang sangat memanjakan mata, sebagai gerbang sentral untuk memilih 4 jalan takdir Anda.
+* **Mode Switcher:** Navigasi melayang (*floating mode switcher*) untuk pindah alam semesta kapan saja.
+
 ### 🌙 Mode Zodiak
 * **Ramalan Kosmik Harian:** Dihitung berdasarkan fase bulan dan posisi planet secara aktual (menggunakan library `ephem`).
 * **Karakteristik General:** Ketahui sifat, kebiasaan unik, kecocokan *soulmate* hewan, hingga selera *cosmic pantry* dari masing-masing zodiak.
@@ -26,9 +30,10 @@
 * **Roasting Zodiak:** Butuh hiburan kasar? Terdapat mode *roasting* pedas khusus untuk setiap zodiak!
 
 ### 🐉 Mode Shio (Oriental)
-* **Kalkulator Elemen:** Gabungkan energi 12 Lambang Shio (Tikus, Macan, Naga, dll.) dengan 5 Elemen Kosmik (Air, Kayu, Api, Tanah, Logam).
-* **Efek Easter-Egg Interaktif:** Klik pada *background* halaman Shio untuk melihat ledakan partikel kembang api emas & merah!
-* **Desain Premium:** Menggunakan skema warna merah dan emas elegan yang sangat lekat dengan kebudayaan timur.
+* **Sistem Hitung Otomatis (Baru!):** Masukkan tanggal lahir Anda menggunakan *Premium Date Picker* (Flatpickr), dan sistem akan secara otomatis mengkalkulasi elemen kosmik serta Shio Anda!
+* **Generator Takdir Unik:** Setiap kombinasi dari 12 Shio + 5 Elemen (60 kombinasi unik) menghasilkan ramalan Karir, Asmara, Keuangan, dan Kesehatan yang dipersonalisasi.
+* **Background 3D Interaktif:** Menyertakan `Three.js` untuk merender galaksi 3D partikel yang merespon gerakan *mouse*!
+* **Efek Easter-Egg (Drag & Burst):** Klik dan seret (*drag*) partikel kosmik di layar untuk menciptakan ledakan cahaya di halaman Shio.
 
 ### 🔜 Mode Mendatang (Terkunci)
 * **Weton (Jawa):** Perhitungan primbon berdasarkan neptu hari dan pasaran.
@@ -42,14 +47,17 @@ Aplikasi ini menggunakan arsitektur **Flask Blueprints** untuk memastikan skalab
 
 ```text
 zodiac-z/
-├── app.py                      # Entry point Flask (Meregistrasi Blueprints)
-├── core/                       # Template & CSS/JS Global (Loader, Mode Switcher)
+├── app.py                      # Entry point Flask (Meregistrasi Blueprints & Rute Utama)
+├── core/                       # Template & CSS/JS Global
+│   ├── static/css/home.css     # CSS untuk Landing Page Hub
+│   └── templates/home.html     # Landing Page Utama (Hub)
 ├── modules/
 │   ├── zodiak/                 # Blueprint Zodiak (Routes, Data, Templates, Static)
 │   ├── shio/                   # Blueprint Shio (Routes, Data, Templates, Static)
 │   ├── weton/                  # Placeholder untuk Weton
 │   └── tarot/                  # Placeholder untuk Tarot
-├── vercel.json                 # Konfigurasi Serverless Vercel
+├── requirements.txt            # Dependensi Python
+├── vercel.json                 # Konfigurasi Deployment Serverless Vercel
 └── api/index.py                # Adapter Vercel
 ```
 

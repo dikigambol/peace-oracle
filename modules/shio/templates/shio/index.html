@@ -3,6 +3,8 @@
 {% block title %}Mode Shio - Zodiak Peace{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
 {% endblock %}
@@ -30,14 +32,23 @@
                     <small>Pilih dari 12 Lambang</small>
                 </button>
             </div>
+            </div>
+
+        <!-- View 1.5: Auto Calculation Form -->
+        <div id="view-auto" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start-from-auto"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+            <h2 class="view-title">Kapan Anda Lahir?</h2>
             
-            <div id="construction-msg" class="construction-msg hidden">
-                <i class="fa-solid fa-person-digging"></i>
-                <p>Fitur Kalkulasi Tanggal Lahir Masih Dalam Pembuatan!</p>
+            <div class="auto-form-container">
+                <p>Masukkan tanggal lahir Anda untuk mengetahui kombinasi Shio dan Elemen yang ditakdirkan untuk Anda.</p>
+                <div class="input-group">
+                    <input type="date" id="birthdate-input" class="shio-date-input" required>
+                </div>
+                <button id="btn-calculate" class="calculate-btn"><i class="fa-solid fa-sparkles"></i> Ungkap Takdir</button>
             </div>
         </div>
 
-        <!-- View 2: Shio List -->
+        <!-- View 2: Manual Shio Selection -->
         <div id="view-shio-list" class="shio-view hidden">
             <button class="back-btn" id="back-to-sel"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
             <h2 class="view-title">Pilih Lambang Shio Anda</h2>
@@ -63,11 +74,31 @@
             <button class="back-btn" id="back-to-shio"><i class="fa-solid fa-arrow-left"></i> Pilih Shio Lain</button>
             <h2 class="view-title">Pilih Elemen Dominan Anda</h2>
             <div class="element-grid">
-                <button class="element-item kayu" data-element="kayu"><i class="fa-solid fa-tree"></i> Kayu</button>
-                <button class="element-item api" data-element="api"><i class="fa-solid fa-fire"></i> Api</button>
-                <button class="element-item tanah" data-element="tanah"><i class="fa-solid fa-mountain"></i> Tanah</button>
-                <button class="element-item logam" data-element="logam"><i class="fa-solid fa-coins"></i> Logam</button>
-                <button class="element-item air" data-element="air"><i class="fa-solid fa-water"></i> Air</button>
+                <div class="element-card kayu" data-element="kayu">
+                    <i class="fa-solid fa-tree"></i>
+                    <h3>Kayu</h3>
+                    <p>Pertumbuhan, inovasi, dan ekspansi</p>
+                </div>
+                <div class="element-card api" data-element="api">
+                    <i class="fa-solid fa-fire"></i>
+                    <h3>Api</h3>
+                    <p>Semangat, keberanian, dan dinamika</p>
+                </div>
+                <div class="element-card tanah" data-element="tanah">
+                    <i class="fa-solid fa-mountain"></i>
+                    <h3>Tanah</h3>
+                    <p>Kestabilan, fondasi, dan kepraktisan</p>
+                </div>
+                <div class="element-card logam" data-element="logam">
+                    <i class="fa-solid fa-coins"></i>
+                    <h3>Logam</h3>
+                    <p>Fokus, ketahanan, dan ketekunan</p>
+                </div>
+                <div class="element-card air" data-element="air">
+                    <i class="fa-solid fa-water"></i>
+                    <h3>Air</h3>
+                    <p>Kebijaksanaan, fleksibilitas, dan arus</p>
+                </div>
             </div>
         </div>
 
@@ -78,6 +109,31 @@
                 <h2 id="res-title" class="res-title">Naga Api</h2>
                 <div class="res-body">
                     <p id="res-fortune">Ramalan sedang dibaca...</p>
+                    
+                    <div class="fortune-highlights" style="margin-bottom: 25px; background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; border-left: 3px solid #ffd700;">
+                        <p style="margin: 0 0 10px 0;"><strong><i class="fa-solid fa-star"></i> Sifat Bawaan:</strong> <span id="res-traits"></span></p>
+                        <p style="margin: 0;"><strong><i class="fa-solid fa-wind"></i> Energi Elemen:</strong> <span id="res-vibe"></span></p>
+                    </div>
+
+                    <div class="fortune-categories">
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-briefcase"></i> Karir</h3>
+                            <p id="res-karir"></p>
+                        </div>
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-coins"></i> Keuangan</h3>
+                            <p id="res-keuangan"></p>
+                        </div>
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-heart"></i> Asmara</h3>
+                            <p id="res-asmara"></p>
+                        </div>
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-staff-snake"></i> Kesehatan</h3>
+                            <p id="res-kesehatan"></p>
+                        </div>
+                    </div>
+
                     <div class="res-meta">
                         <div class="meta-box">
                             <i class="fa-regular fa-compass"></i> Arah Hoki: <span id="res-dir"></span>
@@ -95,5 +151,7 @@
 {% endblock %}
 
 {% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
     <script src="{{ url_for('shio.static', filename='js/shio.js') }}"></script>
 {% endblock %}
