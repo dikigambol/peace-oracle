@@ -1,10 +1,11 @@
 .home-container {
     min-height: 100vh;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 40px 20px;
+    padding: 20px 20px 60px 20px; /* Extra bottom padding for footer */
     position: relative;
     z-index: 10;
     /* Nebula Animated Background */
@@ -14,30 +15,22 @@
 }
 
 @keyframes nebulaFlow {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .home-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     animation: fadeInDown 1s ease-out;
 }
 
 .home-header h1 {
     font-family: 'Cinzel', serif;
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     color: #ffd700;
-    margin: 0 0 10px 0;
+    margin: 0 0 5px 0;
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
     letter-spacing: 2px;
 }
@@ -45,15 +38,51 @@
 .home-header p {
     font-family: 'Plus Jakarta Sans', sans-serif;
     color: #e0e0e0;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin: 0;
     opacity: 0.9;
+}
+
+/* Footer for Discord Shoutout */
+.home-footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+.home-footer p {
+    margin: 0;
+    padding: 10px 25px;
+    background: rgba(20, 5, 25, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 30px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.home-footer p:hover {
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+.home-footer strong {
+    color: #ffd700;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .mode-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 20px;
     max-width: 1000px;
     width: 100%;
     animation: fadeInUp 1s ease-out 0.2s both;
@@ -64,7 +93,7 @@
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 215, 0, 0.15);
     border-radius: 20px;
-    padding: 40px;
+    padding: 30px 20px;
     text-align: center;
     text-decoration: none;
     color: white;
@@ -75,7 +104,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 250px;
 }
 
 .mode-card::before {
@@ -102,8 +130,8 @@
 }
 
 .mode-card i {
-    font-size: 3.5rem;
-    margin-bottom: 20px;
+    font-size: 3rem;
+    margin-bottom: 15px;
     transition: transform 0.4s;
 }
 
@@ -133,8 +161,8 @@
 
 .mode-card h2 {
     font-family: 'Cinzel', serif;
-    font-size: 1.8rem;
-    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
     color: #fff;
     letter-spacing: 1px;
 }
@@ -218,11 +246,74 @@
 }
 
 @media (max-width: 768px) {
-    .mode-grid {
-        grid-template-columns: 1fr;
+    .home-container {
+        padding: 15px 15px 60px 15px;
+    }
+
+    .home-header {
+        margin-bottom: 20px;
     }
 
     .home-header h1 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+    }
+
+    .home-header p {
+        font-size: 0.9rem;
+    }
+
+    .mode-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    /* Change cards to horizontal layout on mobile to save vertical space */
+    .mode-card {
+        flex-direction: row;
+        text-align: left;
+        padding: 15px;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .card-text {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .mode-card i {
+        font-size: 2.2rem;
+        margin-bottom: 0;
+        margin-right: 15px;
+        width: 40px;
+        text-align: center;
+    }
+
+    .mode-card h2 {
+        font-size: 1.15rem;
+        margin-bottom: 3px;
+    }
+
+    .mode-card p {
+        font-size: 0.8rem;
+    }
+
+    .coming-soon-badge,
+    .beta-badge {
+        top: 10px;
+        right: 10px;
+        font-size: 0.6rem;
+        padding: 3px 8px;
+    }
+
+    .home-footer {
+        bottom: 10px;
+    }
+
+    .home-footer p {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        border-radius: 20px;
     }
 }

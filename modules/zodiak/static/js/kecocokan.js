@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Panggil API Backend Flask
-            const response = await fetch(`/api/compatibility/${signOne}/${signTwo}`);
+            const response = await fetch(`/zodiak/api/compatibility/${signOne}/${signTwo}`);
             if (!response.ok) throw new Error('Gagal memproses kecocokan zodiak');
 
             const data = await response.json();

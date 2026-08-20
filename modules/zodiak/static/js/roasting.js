@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Ambil data Roast My Sign dari server Flask
-                const response = await fetch(`/api/roast?sign=${signKey}`);
+                const response = await fetch(`/zodiak/api/roast?sign=${signKey}`);
                 if (!response.ok) throw new Error('Gagal mengambil data roasting zodiak');
 
                 const data = await response.json();
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             try {
-                const response = await fetch(`/api/roast?sign=${activeSignA}&sign_b=${signB}`);
+                const response = await fetch(`/zodiak/api/roast?sign=${activeSignA}&sign_b=${signB}`);
                 if (!response.ok) throw new Error('Gagal mengambil data roasting pasangan');
 
                 const data = await response.json();

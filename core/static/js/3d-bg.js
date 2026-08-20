@@ -20,10 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const colors = new Float32Array(particleCount * 3);
 
     const colorPalette = [
-        new THREE.Color('#ffffff'), // White star
-        new THREE.Color('#ffd700'), // Gold star (Shio vibe)
-        new THREE.Color('#8a2be2'), // Purple/Blue (Zodiac vibe)
-        new THREE.Color('#ff4500')  // Red/Orange
+        new THREE.Color('#ff0000'), // Pure Red (Oriental)
+        new THREE.Color('#ff4500'), // Orange Red (Dragon Fire)
+        new THREE.Color('#ffd700'), // Gold (Prosperity)
+        new THREE.Color('#ff8c00')  // Dark Orange (Ember)
     ];
 
     for (let i = 0; i < particleCount; i++) {

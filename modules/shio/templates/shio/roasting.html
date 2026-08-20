@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Roasting Shio - Peace Oracle{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="shio-container" id="shio-bg">
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="shio-content-wrapper">
+        <div class="bagua-wrapper">
+            <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+            <div class="trigram t1">☰</div>
+            <div class="trigram t2">☴</div>
+            <div class="trigram t3">☵</div>
+            <div class="trigram t4">☶</div>
+            <div class="trigram t5">☷</div>
+            <div class="trigram t6">☳</div>
+            <div class="trigram t7">☲</div>
+            <div class="trigram t8">☱</div>
+        </div>
+        <h1 class="shio-title">Roasting Shio</h1>
+        <p class="shio-subtitle">Siap menerima kenyataan pahit tentang karakter hewan langit Anda?</p>
+
+        <!-- View 2: Manual Shio Selection -->
+        <div id="view-shio-list" class="shio-view active">
+            <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i>
+                Kembali</a>
+            <h2 class="view-title">Pilih Shio untuk di-Roasting</h2>
+            <div class="shio-grid">
+                <button class="shio-item" data-shio="tikus"><span class="icon hanzi">鼠</span><span
+                        class="name">Tikus</span></button>
+                <button class="shio-item" data-shio="kerbau"><span class="icon hanzi">牛</span><span
+                        class="name">Kerbau</span></button>
+                <button class="shio-item" data-shio="macan"><span class="icon hanzi">虎</span><span
+                        class="name">Macan</span></button>
+                <button class="shio-item" data-shio="kelinci"><span class="icon hanzi">兔</span><span
+                        class="name">Kelinci</span></button>
+                <button class="shio-item" data-shio="naga"><span class="icon hanzi">龍</span><span
+                        class="name">Naga</span></button>
+                <button class="shio-item" data-shio="ular"><span class="icon hanzi">蛇</span><span
+                        class="name">Ular</span></button>
+                <button class="shio-item" data-shio="kuda"><span class="icon hanzi">馬</span><span
+                        class="name">Kuda</span></button>
+                <button class="shio-item" data-shio="kambing"><span class="icon hanzi">羊</span><span
+                        class="name">Kambing</span></button>
+                <button class="shio-item" data-shio="monyet"><span class="icon hanzi">猴</span><span
+                        class="name">Monyet</span></button>
+                <button class="shio-item" data-shio="ayam"><span class="icon hanzi">雞</span><span
+                        class="name">Ayam</span></button>
+                <button class="shio-item" data-shio="anjing"><span class="icon hanzi">狗</span><span
+                        class="name">Anjing</span></button>
+                <button class="shio-item" data-shio="babi"><span class="icon hanzi">豬</span><span
+                        class="name">Babi</span></button>
+            </div>
+        </div>
+
+        <!-- View 3: Element List -->
+        <div id="view-element-list" class="shio-view hidden">
+            <button class="back-btn" id="back-to-shio"><i class="fa-solid fa-arrow-left"></i> Pilih Shio Lain</button>
+            <h2 class="view-title">Pilih Elemen Kosmik Anda</h2>
+            <div class="element-grid">
+                <div class="element-card kayu" data-element="kayu">
+                    <i class="fa-solid fa-tree"></i>
+                    <h3>Kayu</h3>
+                    <p>Pertumbuhan, inovasi, dan ekspansi</p>
+                </div>
+                <div class="element-card api" data-element="api">
+                    <i class="fa-solid fa-fire"></i>
+                    <h3>Api</h3>
+                    <p>Semangat, keberanian, dan dinamika</p>
+                </div>
+                <div class="element-card tanah" data-element="tanah">
+                    <i class="fa-solid fa-mountain"></i>
+                    <h3>Tanah</h3>
+                    <p>Kestabilan, fondasi, dan kepraktisan</p>
+                </div>
+                <div class="element-card logam" data-element="logam">
+                    <i class="fa-solid fa-coins"></i>
+                    <h3>Logam</h3>
+                    <p>Fokus, ketahanan, dan ketekunan</p>
+                </div>
+                <div class="element-card air" data-element="air">
+                    <i class="fa-solid fa-water"></i>
+                    <h3>Air</h3>
+                    <p>Kebijaksanaan, fleksibilitas, dan arus</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 4: Result -->
+        <div id="view-result" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start"><i class="fa-solid fa-rotate-right"></i> Kembali</button>
+            <div class="fortune-card hidden" id="main-fortune-card">
+                <h2 id="res-title" class="res-title">...</h2>
+                <div class="res-body" style="text-align: center; padding: 40px 0;">
+                    <i class="fa-solid fa-fire" style="font-size: 3rem; color: #ff4500; margin-bottom: 20px;"></i>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 1.8rem; margin-bottom: 15px;">Roasting Kosmik Belum Siap!</h3>
+                    <p id="res-fortune" class="res-fortune" style="font-size: 1.1rem; opacity: 0.8;">Tungku roasting masih dipanaskan. Para dewa sedang meracik kata-kata paling pedas untuk Anda.<br><b>Coming Soon!</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('shio.static', filename='js/roasting.js') }}"></script>
+{% endblock %}

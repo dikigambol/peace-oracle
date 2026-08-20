@@ -1,0 +1,307 @@
+# ============================================================
+# SHIO DAILY MESSAGE BANK
+# Bank pesan harian untuk fitur Ramalan Hari Ini
+# Menggantikan pesan statis 1-per-status menjadi 20 variasi
+# ============================================================
+
+# ============================================================
+# BAGIAN 1: PESAN UMUM BERDASARKAN STATUS RELASI
+# Dipilih berdasarkan hubungan Shio user dengan Shio hari ini
+# ============================================================
+
+DAILY_CIONG_MESSAGES = [
+    # dist == 6 — Bentrokan langsung (status_code: "bad")
+    "Hari ini energi kosmik berbenturan denganmu. Hindari mengambil keputusan finansial besar atau menandatangani kontrak.",
+    "Energi bertentangan sedang melingkupimu. Lebih baik tunda rapat penting atau negosiasi besar jika memungkinkan.",
+    "Hari yang penuh drama potensial. Tarik napas dalam-dalam sebelum membalas chat yang bikin kesel.",
+    "Kosmik lagi gak berpihak nih. Jangan mulai debat sama siapapun hari ini — kamu bakal kalah bukan karena salah, tapi karena energinya emang lagi sial.",
+    "Hari Ciong aktif! Simpan kartu kreditmu jauh-jauh, jangan checkout apapun yang harganya lebih dari harga makan siang.",
+    "Energi bentrokan bikin emosi gampang meledak. Kalau ada yang bikin kesel, tahan dulu — besok kamu bakal bersyukur gak nge-chat hal yang kamu sesali.",
+    "Bintang-bintang lagi bertengkar di atas sana, dan kamu kena imbasnya. Hari yang tepat untuk rebahan dan menghindari konfrontasi.",
+    "Hati-hati di jalan dan dalam berkomunikasi. Energi Ciong bisa bikin salah paham kecil jadi masalah besar.",
+    "Hari ini bukan waktunya jadi pahlawan. Diam itu emas — terutama saat energi kosmik lagi nge-test kesabaranmu.",
+    "Gelombang negatif Ciong sedang kuat. Kelilingi dirimu dengan warna merah atau emas untuk menetralkan energi buruk.",
+    "Kosmos memperingatkan: jangan pinjamkan uang hari ini, dan jangan juga meminjam. Urusan finansial rawan bermasalah.",
+    "Hari yang cocok untuk 'low profile mode'. Jangan cari perhatian, jangan cari ribut, fokus aja selesaikan yang perlu.",
+    "Bentrokan kosmik hari ini bisa bikin kamu salah baca situasi. Double-check semua email dan pesan sebelum kirim!",
+    "Energi Ciong bikin kamu rentan terpengaruh mood orang lain. Pasang headset, dengerin musik tenang, dan lindungi energimu.",
+    "Hari ini seperti berjalan di atas es tipis — pelan-pelan aja. Jangan ambil risiko yang gak perlu.",
+    "Bintang pelindungmu lagi istirahat hari ini. Andalkan logika, bukan emosi, dalam setiap keputusan.",
+    "Ciong alert! Kalau bisa WFH atau diam di rumah, itu pilihan paling bijak hari ini.",
+    "Jangan tergoda untuk membalas provokasi. Energi Ciong bikin lawan debatmu 2x lebih menyebalkan dari biasanya.",
+    "Ini bukan hari terbaikmu, dan itu tidak apa-apa. Istirahat juga bagian dari strategi kosmik.",
+    "Peringatan kosmik: hindari memulai proyek baru, hubungan baru, atau kebiasaan baru hari ini. Tunda sampai energi membaik."
+]
+
+DAILY_SAN_HE_MESSAGES = [
+    # dist == 4 — Tiga Harmoni (status_code: "good")
+    "Energi kosmik sangat bersinergi denganmu hari ini! Peluang besar menantimu di karir dan asmara.",
+    "San He aktif! Ini hari yang sempurna untuk memulai proyek baru, pitching ide, atau menyatakan perasaan.",
+    "Tiga Harmoni memberkatimu hari ini. Keputusan yang kamu buat sekarang punya potensi mengubah hidupmu ke arah lebih baik.",
+    "Rezeki datang dari arah yang tidak terduga! Tetap buka mata dan telinga — peluang bisa muncul dari obrolan santai.",
+    "Energi San He bikin aura leadershipmu bersinar. Orang-orang akan secara natural mengikuti arahanmu hari ini.",
+    "Hari yang luar biasa untuk networking! Setiap orang yang kamu temui hari ini berpotensi menjadi koneksi penting di masa depan.",
+    "Kreativitasmu sedang di puncak berkat sinergi San He. Ide-ide brilian akan mengalir deras — catat semuanya!",
+    "Keberuntungan finansial sedang memihakmu. Kalau ada investasi yang sudah lama kamu pertimbangkan, ini momennya.",
+    "San He memberikan keberanian ekstra. Hal-hal yang biasanya kamu takuti, hari ini terasa lebih ringan dan bisa diatasi.",
+    "Hari yang sempurna untuk menyelesaikan konflik lama. Energi harmoni membuatmu lebih bijak dalam memilih kata.",
+    "Kosmos mendukung langkah besarmu! Wawancara kerja, ujian, atau presentasi — semuanya punya bintang terang hari ini.",
+    "Energi positif San He menular ke orang-orang di sekitarmu. Kamu jadi pembawa keberuntungan bagi timmu hari ini.",
+    "Intuisi kosmikmu sangat tajam. Percaya pada firasat pertamamu — dia jarang salah di hari San He.",
+    "Hari untuk berani bermimpi besar! San He membuka pintu-pintu yang biasanya tertutup rapat.",
+    "Peluang promosi atau kenaikan jabatan sangat cerah. Tunjukkan hasil kerjamu dengan percaya diri.",
+    "Cinta dan keharmonisan menyelimuti hubunganmu. Momen romantis akan tercipta secara natural hari ini.",
+    "Hari yang cocok untuk belajar hal baru. Otakmu menyerap informasi 3x lebih cepat berkat energi San He.",
+    "Keberanian dan kebijaksanaan berjalan beriringan hari ini. Ambil langkah yang sudah lama kamu tunda!",
+    "San He membawa keberuntungan berlipat! Apapun yang kamu mulai hari ini punya fondasi kosmik yang kuat.",
+    "Bintang-bintang bersekutu untukmu. Nikmati hari ini dengan penuh syukur — momen seperti ini tidak datang setiap hari."
+]
+
+DAILY_LIU_HE_MESSAGES = [
+    # Liu He pairs — Enam Harmoni / Jodoh Kosmik (status_code: "good")
+    "Hari yang luar biasa harmonis! Akan ada penolong misterius atau kelancaran dalam segala urusan.",
+    "Liu He aktif — ini level keberuntungan tertinggi! Segala yang kamu sentuh hari ini berpotensi jadi emas.",
+    "Harmoni Keenam membuka pintu rezeki tersembunyi. Jangan tolak undangan atau ajakan apapun hari ini!",
+    "Hari ini kamu dikelilingi oleh energi pelindung kosmik. Rasanya seperti punya guardian angel yang kerja lembur.",
+    "Liu He bikin karisma kamu meledak! Orang-orang akan tertarik padamu secara natural — gunakan untuk hal positif.",
+    "Keberuntungan langka sedang berpihak padamu. Beli lotre? Mungkin. Tapi lebih baik investasikan energi ini untuk keputusan hidup yang bermakna.",
+    "Hari di mana 'kebetulan' sebenarnya adalah takdir. Perhatikan tanda-tanda kecil dari semesta hari ini.",
+    "Energi Liu He membuat masalah yang rumit tiba-tiba menemukan solusinya. Hari untuk menyelesaikan urusan yang menumpuk!",
+    "Seseorang akan menawarkan bantuan yang sangat kamu butuhkan tanpa diminta. Terima dengan tangan terbuka!",
+    "Aura positifmu hari ini bisa menyembuhkan hubungan yang retak. Waktu terbaik untuk minta maaf atau memaafkan.",
+    "Liu He memberikan kejelasan pikiran yang luar biasa. Keputusan yang kamu buat hari ini akan kamu syukuri bertahun-tahun kemudian.",
+    "Hari ini kamu adalah magnet keberuntungan. Bahkan hal-hal kecil — antrian pendek, diskon tak terduga — semuanya berpihak padamu.",
+    "Kombinasi kosmik terbaik sedang aktif! Ini hari untuk negosiasi, melamar kerja, atau bahkan melamar pasangan.",
+    "Energi harmoni Liu He sangat langka dan sakral. Gunakan hari ini untuk menanam benih kebaikan — hasilnya akan berlipat ganda.",
+    "Hari yang sempurna untuk memulai tradisi baru, kebiasaan sehat, atau babak baru dalam hidupmu.",
+    "Kosmos memberikanmu 'golden ticket' hari ini. Jangan sia-siakan dengan rebahan — keluar dan buat sesuatu terjadi!",
+    "Liu He membawa keselarasan antara pikiran, hati, dan tindakan. Kamu akan merasa utuh dan damai hari ini.",
+    "Penolong datang dari arah yang paling tidak kamu sangka. Bisa jadi teman lama, stranger, atau bahkan mantan yang tiba-tiba helpful.",
+    "Hari yang diberkati penuh! Energi Liu He ini hanya datang beberapa kali sebulan — manfaatkan sebaik mungkin.",
+    "Semesta sedang tersenyum padamu. Apapun yang membuatmu cemas belakangan ini, hari ini kamu akan mendapat jawaban yang melegakan."
+]
+
+DAILY_WARNING_MESSAGES = [
+    # dist == 3 — Friksi / Ketegangan (status_code: "bad")
+    "Ada sedikit friksi energi hari ini. Berhati-hatilah dalam berkomunikasi agar tidak memicu konflik.",
+    "Gelombang ketegangan terasa samar tapi nyata. Pilih kata-katamu dengan hati-hati, terutama saat chatting.",
+    "Energi hari ini membawa gesekan kecil yang bisa membesar kalau tidak diantisipasi. Stay cool!",
+    "Friksi kosmik sedang menguji kesabaranmu. Jangan terpancing emosi oleh hal-hal sepele.",
+    "Hari yang sedikit 'gerah' secara energi. Hindari gosip dan drama — fokus pada urusanmu sendiri.",
+    "Ada potensi miscommunication hari ini. Kalau pesan pentingnya panjang, mending telpon langsung daripada chat.",
+    "Ketegangan batin mungkin muncul tanpa alasan jelas. Itu efek friksi kosmik — bukan karena ada yang salah denganmu.",
+    "Hari yang butuh ekstra kesabaran. Orang-orang di sekitarmu mungkin lebih sensitif dari biasanya.",
+    "Energi gesekan bikin kamu gampang kesal sama hal kecil. Sebelum marah, tanya: 'Ini penting gak sih setahun lagi?'",
+    "Hati-hati dengan nada bicara hari ini. Apa yang kamu maksud bercanda bisa ditangkap serius oleh orang lain.",
+    "Friksi ringan di aspek keuangan. Cek dua kali sebelum transfer atau bayar sesuatu — pastikan nominalnya benar.",
+    "Hari ini bukan waktu yang tepat untuk mengkritik orang lain, meski niatmu membangun. Simpan feedbacknya untuk besok.",
+    "Energi ketegangan bisa dinetralisir dengan aktivitas fisik. Olahraga ringan atau jalan kaki bisa bantu reset moodmu.",
+    "Rekan kerja atau teman mungkin tanpa sadar menyinggungmu. Berikan benefit of the doubt sebelum bereaksi.",
+    "Gesekan kosmik hari ini ibarat cuaca mendung — tidak hujan, tapi juga tidak cerah. Bawa 'payung' kesabaran.",
+    "Hari untuk mendengarkan lebih banyak dan berbicara lebih sedikit. Kebijaksanaan ada di keheningan.",
+    "Jangan buat keputusan besar saat emosi sedang tidak stabil. Tidur dulu, besok pagi pikiran lebih jernih.",
+    "Friksi hari ini bisa jadi sinyal bahwa ada sesuatu yang perlu kamu evaluasi ulang dalam hidupmu.",
+    "Energi gesekan membuat hubungan asmara sedikit rawan baper. Jangan over-analyze chat gebetan hari ini.",
+    "Ketegangan kecil ini akan berlalu. Hari ini cukup bertahan dan menjaga ketenangan — besok energinya jauh lebih baik."
+]
+
+DAILY_TAI_SUI_MESSAGES = [
+    # dist == 0 — Hari Kembar / Hari Shio sendiri (status_code: "neutral")
+    "Hari ini dikuasai oleh Shio milikmu. Energi sangat kuat namun bisa fluktuatif, tetaplah membumi.",
+    "Ini hari cermin kosmikmu! Energi menguat tapi juga mengamplifikasi sisi negatifmu. Sadar diri adalah kuncinya.",
+    "Tai Sui hari ini — kekuatanmu di puncak, tapi begitu juga kelemahanmu. Seimbangkan keduanya.",
+    "Hari Shio-mu sendiri! Seperti ultah kosmik mini. Energinya intens — bisa sangat bagus atau sangat chaos, tergantung pilihanmu.",
+    "Energi Tai Sui membuat intuisimu sangat tajam, tapi juga bikin kamu lebih emosional. Jaga keseimbangan.",
+    "Hari di mana sifat dominanmu terasa 2x lebih kuat. Kalau dominanmu positif, hari ini luar biasa. Kalau negatif... ya berhati-hatilah.",
+    "Tai Sui aktif — kamu seperti baterai yang di-overcharge. Energi melimpah tapi perlu disalurkan dengan bijak.",
+    "Ini hari refleksi diri yang sempurna. Apa yang kamu rasakan hari ini adalah cerminan jujur dari kondisi batinmu.",
+    "Energi kembar bikin orang-orang dengan Shio yang sama denganmu juga sedang intens hari ini. Komunitas kosmikmu sedang sinkron!",
+    "Hari Tai Sui cocok untuk ritual self-care atau meditasi. Energimu yang kuat perlu di-grounding agar tidak berlebihan.",
+    "Sifat terbaikmu bersinar terang hari ini — tapi awas, sifat terburukmu juga ikut muncul di permukaan.",
+    "Hari yang powerful untuk manifestasi. Tulis keinginanmu, visualisasikan, dan lepaskan ke semesta.",
+    "Tai Sui membawa kesadaran penuh tentang siapa dirimu sebenarnya. Terima semua sisimu — yang baik dan yang masih perlu diperbaiki.",
+    "Energi hari ini ibarat pedang bermata dua. Gunakan untuk memotong hambatan, bukan untuk melukai orang lain.",
+    "Hari kembar kosmik! Kamu akan merasa lebih 'dirimu sendiri' dari biasanya — embrace it.",
+    "Tai Sui bikin kreativitasmu meledak, tapi juga bikin kamu mudah bosan. Fokuskan energi pada satu hal penting.",
+    "Ini hari di mana keputusan kecil bisa berdampak besar. Pilih dengan sadar, bukan impulsif.",
+    "Energi Tai Sui mengamplifikasi segalanya. Cinta terasa lebih dalam, kemarahan terasa lebih panas. Kendalikan volumenya.",
+    "Hari yang tepat untuk mengevaluasi goals dan arah hidupmu. Energi kosmik sedang menyorot 'panggung' pribadimu.",
+    "Tai Sui mengingatkan: kamu lebih kuat dari yang kamu kira, tapi juga lebih rentan dari yang kamu akui. Jaga dirimu."
+]
+
+DAILY_NEUTRAL_MESSAGES = [
+    # dist == 1, 2, 5 — Energi seimbang / netral (status_code: "neutral")
+    "Energi kosmik hari ini cukup seimbang. Lakukan aktivitas rutinitasmu dengan pikiran tenang.",
+    "Hari yang damai dan stabil. Tidak ada kejutan besar — nikmati ketenangan ini untuk recharge energimu.",
+    "Energi netral berarti kamu punya kendali penuh atas harimu. Mau produktif atau santai, semua terserahmu.",
+    "Hari yang cocok untuk menyelesaikan pekerjaan yang tertunda. Tidak ada gangguan kosmik yang berarti.",
+    "Keseimbangan energi hari ini mendukung aktivitas sehari-hari. Fokus, selesaikan, dan nikmati prosesnya.",
+    "Hari biasa yang bisa kamu ubah jadi luar biasa dengan sikap positif. Energi kosmik mendukung niat baikmu.",
+    "Tidak ada badai, tidak ada pelangi ganda — tapi ada kedamaian yang cukup untuk menyelesaikan banyak hal.",
+    "Energi hari ini seperti air tenang: jernih dan menenangkan. Bagus untuk berpikir jernih dan membuat rencana.",
+    "Hari yang netral adalah kanvas kosong. Kamu yang menentukan warnanya — mau diisi produktivitas atau quality time.",
+    "Kosmik lagi dalam mode 'standby'. Manfaatkan untuk mengejar tugas-tugas kecil yang sering kamu tunda.",
+    "Hari yang tenang untuk memulihkan energi dari hari-hari sebelumnya yang mungkin intens. Self-care time!",
+    "Tidak ada urgensi kosmik hari ini. Nikmati secangkir teh, baca buku, atau sekadar menikmati momen.",
+    "Energi stabil cocok untuk belajar hal baru atau mengasah skill. Otakmu siap menyerap informasi dengan baik.",
+    "Hari yang bagus untuk bonding dengan keluarga atau teman dekat. Energi hangat dan nyaman menyelimuti interaksimu.",
+    "Kosmik memberikan jeda hari ini. Gunakan untuk merencanakan langkah besar yang akan kamu ambil di hari-hari mendatang.",
+    "Hari netral adalah hadiah tersembunyi — tidak semua orang bisa menikmati ketenangan di tengah hiruk-pikuk kehidupan.",
+    "Energi hari ini mendukung konsistensi. Kalau kamu punya rutinitas bagus, hari ini hasilnya terasa lebih nyata.",
+    "Tidak ada friksi, tidak ada drama. Hari yang sempurna untuk menata ulang kamar, meja kerja, atau bahkan pikiranmu.",
+    "Hari yang damai untuk introspeksi ringan. Coba tanya pada dirimu: 'Apa satu hal yang bisa aku syukuri hari ini?'",
+    "Energi seimbang membuat semua aspek hidupmu berjalan smooth. Karir aman, asmara tenang, keuangan stabil. Nikmati!"
+]
+
+
+# ============================================================
+# BAGIAN 2: TIPS HARIAN SPESIFIK PER SHIO
+# Ditambahkan sebagai "tips_harian" di response untuk sentuhan personal
+# ============================================================
+
+SHIO_DAILY_TIPS = {
+    "tikus": [
+        "Tips Tikus: Insting bisnismu tajam hari ini. Kalau ada firasat soal peluang, jangan diabaikan!",
+        "Tips Tikus: Jangan terlalu banyak mikir. Kadang overthinking adalah musuh terbesar orang secerdik kamu.",
+        "Tips Tikus: Hari yang bagus untuk networking. Sapa orang baru — kamu gak pernah tahu siapa yang jadi koneksi penting.",
+        "Tips Tikus: Sifat adaptifmu adalah superpower. Kalau ada perubahan mendadak, kamu yang paling siap menghadapinya.",
+        "Tips Tikus: Hati-hati sama kecenderunganmu untuk mengontrol segalanya. Lepaskan sedikit, biarkan alam bekerja.",
+        "Tips Tikus: Coba kurangi multitasking hari ini. Fokus satu hal dan selesaikan sampai tuntas.",
+        "Tips Tikus: Kreativitasmu sedang tinggi! Tulis ide-ide yang muncul — salah satunya bisa jadi game changer.",
+        "Tips Tikus: Jangan lupa makan teratur. Kamu sering terlalu fokus kerja sampai lupa isi perut.",
+        "Tips Tikus: Hari yang cocok untuk menabung atau review keuangan. Sisi cermatmu lagi kuat!",
+        "Tips Tikus: Sesekali tunjukkan sisi vulnerablemu ke orang terdekat. Gak harus selalu keliatan kuat."
+    ],
+    "kerbau": [
+        "Tips Kerbau: Konsistensimu adalah kekuatan terbesar. Terus jalan di jalurmu meski orang lain berbelok.",
+        "Tips Kerbau: Coba sedikit lebih fleksibel hari ini. Rencana yang berubah bukan berarti bencana.",
+        "Tips Kerbau: Hari yang bagus untuk menyelesaikan proyek jangka panjang. Stamina kosmimu sedang prima.",
+        "Tips Kerbau: Jangan simpan perasaan terlalu dalam. Curhat ke satu orang terpercaya bisa sangat meringankan.",
+        "Tips Kerbau: Sisi perfeksionismu mungkin muncul kuat hari ini. Ingat: done is better than perfect.",
+        "Tips Kerbau: Istirahat itu bukan kelemahan. Kamu sudah bekerja sangat keras — beri dirimu jeda.",
+        "Tips Kerbau: Coba masakan baru atau restoran baru hari ini. Keluar dari zona nyaman dimulai dari hal kecil.",
+        "Tips Kerbau: Jangan biarkan keras kepalamu merusak hubungan. Kadang mengalah bukan berarti kalah.",
+        "Tips Kerbau: Fokusmu pada detail sangat diapresiasi orang lain. Kamu mungkin gak sadar betapa diandalkannya kamu.",
+        "Tips Kerbau: Hari yang cocok untuk olahraga berat. Energi fisikmu sedang melimpah!"
+    ],
+    "macan": [
+        "Tips Macan: Keberanianmu menginspirasi orang lain. Tapi hari ini, coba dengarkan dulu sebelum bertindak.",
+        "Tips Macan: Jangan terlalu kompetitif hari ini. Hidup bukan lomba — kadang jalan santai lebih menikmati pemandangan.",
+        "Tips Macan: Energi dominanmu bisa overwhelm orang lain. Sedikit kelembutan akan membuat pesanmu lebih didengar.",
+        "Tips Macan: Hari yang cocok untuk petualangan kecil. Jelajahi tempat baru, coba makanan yang belum pernah kamu coba.",
+        "Tips Macan: Intuisi Macan lagi tajam. Kalau ada sesuatu yang 'gak beres', kemungkinan besar firasatmu benar.",
+        "Tips Macan: Channel energi agresifmu ke olahraga atau hobi kreatif. Jangan ke drama medsos.",
+        "Tips Macan: Kamu natural born leader, tapi hari ini cobalah jadi follower yang supportive. Tim butuh itu.",
+        "Tips Macan: Jangan abaikan sinyal tubuhmu. Kamu sering push diri terlalu keras sampai burnout.",
+        "Tips Macan: Hari yang bagus untuk mengambil risiko yang sudah kamu perhitungkan matang.",
+        "Tips Macan: Sisi unpredictable-mu kadang bikin orang bingung. Coba konsisten di satu hal hari ini."
+    ],
+    "kelinci": [
+        "Tips Kelinci: Elegansi dan kelembutan adalah kekuatanmu. Jangan pernah anggap itu kelemahan.",
+        "Tips Kelinci: Hari ini cocok untuk aktivitas kreatif — melukis, menulis, memasak, atau mendekorasi.",
+        "Tips Kelinci: Jangan terlalu menghindari konflik. Kadang menyuarakan pendapat itu penting untuk dirimu sendiri.",
+        "Tips Kelinci: Waspada terhadap energi orang lain yang terlalu negatif. Lindungi batinmu yang sensitif.",
+        "Tips Kelinci: Ketenangan batinmu hari ini bisa jadi jangkar bagi orang-orang di sekitarmu yang sedang kacau.",
+        "Tips Kelinci: Coba tantang dirimu untuk keluar dari comfort zone — meski cuma sedikit. Kamu lebih kuat dari yang kamu kira.",
+        "Tips Kelinci: Hari yang bagus untuk merawat tanaman, menata rumah, atau melakukan sesuatu yang nurturing.",
+        "Tips Kelinci: Jangan ragu bilang 'tidak' kalau memang kamu merasa sudah kewalahan. Itu bukan egois, itu self-respect.",
+        "Tips Kelinci: Sisi diplomatismu sangat dibutuhkan hari ini. Kamu bisa jadi mediator alami untuk konflik orang lain.",
+        "Tips Kelinci: Luangkan waktu untuk dirimu sendiri. Me-time bukan kemewahan — itu kebutuhan esensial Kelinci."
+    ],
+    "naga": [
+        "Tips Naga: Percaya dirimu menular ke orang lain. Gunakan energi itu untuk memotivasi timmu.",
+        "Tips Naga: Hari ini jangan terlalu dominan dalam diskusi. Beri ruang orang lain untuk bersinar juga.",
+        "Tips Naga: Antusiasme Naga bisa jadi bumerang kalau gak diimbangi perencanaan. Mikir dulu, baru terbang!",
+        "Tips Naga: Hari yang cocok untuk menyusun visi besar. Kamu Naga — impianmu memang seharusnya besar!",
+        "Tips Naga: Sisi perfeksionis dan dominanmu kadang bikin orang lain merasa kurang. Puji orang lain hari ini.",
+        "Tips Naga: Energi leadershipmu sedang kuat. Kalau ada masalah tim, kamu yang paling bisa menyelesaikannya.",
+        "Tips Naga: Jangan takut menunjukkan sisi vulnerablemu. Kekuatan Naga sejati terletak pada keberanian untuk jujur.",
+        "Tips Naga: Hari yang bagus untuk belajar hal baru. Otak Naga haus pengetahuan dan hari ini penyerapannya maksimal.",
+        "Tips Naga: Hati-hati dengan ego. Kadang pendapat orang lain juga bisa lebih baik dari idemu.",
+        "Tips Naga: Kamu ditakdirkan untuk hal-hal besar. Tapi jangan lupa, hal-hal kecil juga punya makna."
+    ],
+    "ular": [
+        "Tips Ular: Kebijaksanaanmu adalah aset paling berharga. Hari ini, gunakan untuk menasihati orang yang membutuhkan.",
+        "Tips Ular: Jangan terlalu misterius. Kadang keterbukaan justru menarik orang lebih dekat padamu.",
+        "Tips Ular: Intuisi Ular sedang sangat tajam hari ini. Firasat pertamamu hampir pasti benar.",
+        "Tips Ular: Kamu tipe yang menyimpan dendam lama. Hari ini, coba lepaskan satu hal yang sudah membebanmu.",
+        "Tips Ular: Hari yang bagus untuk riset, analisis, atau memecahkan masalah yang rumit. Otakmu sedang sharp!",
+        "Tips Ular: Sisi materialistismu mungkin muncul hari ini. Ingatkan dirimu: hal-hal terbaik dalam hidup itu gratis.",
+        "Tips Ular: Kamu punya aura magnetik alami. Gunakan untuk menarik peluang, bukan untuk memanipulasi.",
+        "Tips Ular: Hari yang cocok untuk meditasi atau mindfulness. Kedalaman batinmu perlu diisi ulang secara rutin.",
+        "Tips Ular: Jangan over-analyze hubunganmu hari ini. Kadang cinta itu sederhana — tidak perlu dibedah.",
+        "Tips Ular: Sisi bijaksanamu sangat dibutuhkan di situasi yang sedang kacau. Jadi penengah hari ini."
+    ],
+    "kuda": [
+        "Tips Kuda: Energimu sedang meledak-ledak! Salurkan ke aktivitas produktif sebelum jadi gelisah tanpa arah.",
+        "Tips Kuda: Coba sabar sedikit. Gak semua hal perlu diselesaikan hari ini — beberapa butuh waktu.",
+        "Tips Kuda: Hari yang bagus untuk olahraga, travelling, atau aktivitas outdoor. Kuda butuh ruang untuk berlari!",
+        "Tips Kuda: Sifat humorismu bisa mencairkan situasi tegang. Gunakan superpower ini dengan bijak.",
+        "Tips Kuda: Jangan buat keputusan impulsif soal keuangan. Tidur dulu sebelum checkout barang mahal.",
+        "Tips Kuda: Kamu mudah bosan — itu wajar. Tapi coba tantang dirimu untuk menyelesaikan satu hal sampai tuntas hari ini.",
+        "Tips Kuda: Energi sosialmu sedang tinggi. Hari yang sempurna untuk hangout, reunian, atau kencan!",
+        "Tips Kuda: Jangan tinggalkan proyek setengah jadi. Disiplin menyelesaikan adalah pelajaran terbesar untuk Kuda.",
+        "Tips Kuda: Kamu adalah sumber semangat bagi orang di sekitarmu. Jangan underestimate dampak positifmu!",
+        "Tips Kuda: Hari ini hindari debat panjang — kamu mudah terpancing dan bilang hal yang kamu sesali."
+    ],
+    "kambing": [
+        "Tips Kambing: Kepekaan emosionalmu adalah hadiah, bukan beban. Hari ini, gunakan untuk memahami orang lain.",
+        "Tips Kambing: Jangan terlalu bergantung pada validasi orang lain. Kamu sudah cukup baik apa adanya.",
+        "Tips Kambing: Hari yang cocok untuk kegiatan artistik — musik, puisi, fashion, atau apapun yang melibatkan estetika.",
+        "Tips Kambing: Sisi pemalumu mungkin muncul kuat hari ini. Tapi ingat, di balik ketenanganmu ada kekuatan yang luar biasa.",
+        "Tips Kambing: Kelilingi dirimu dengan orang-orang positif. Energi negatif orang lain sangat mudah memengaruhi Kambing.",
+        "Tips Kambing: Hari yang bagus untuk merapikan rumah atau workspace. Kambing butuh lingkungan yang tenang dan indah.",
+        "Tips Kambing: Jangan overthinking soal masa depan. Fokus pada hari ini — masa depan akan mengikuti langkahmu.",
+        "Tips Kambing: Sisi simpatikmu sangat diapresiasi. Tapi jangan sampai kamu mengorbankan dirimu sendiri untuk orang lain terus.",
+        "Tips Kambing: Coba berjemur di bawah matahari pagi 10 menit. Energi alam sangat membantu recharge batin Kambing.",
+        "Tips Kambing: Kamu lebih tangguh dari yang kamu kira. Hari ini, buktikan itu pada dirimu sendiri."
+    ],
+    "monyet": [
+        "Tips Monyet: Kecerdasanmu sedang bersinar hari ini. Gunakan untuk problem-solving, bukan untuk iseng nge-troll orang.",
+        "Tips Monyet: Jangan spread too thin. Pilih 1–2 prioritas dan fokus — kamu bisa multitask, tapi hasilnya lebih bagus kalau fokus.",
+        "Tips Monyet: Hari yang bagus untuk brainstorming dan inovasi. Ide-ide gila dari Monyet sering jadi hal revolusioner!",
+        "Tips Monyet: Sisi egoismu mungkin muncul hari ini. Coba lakukan satu tindakan selfless tanpa mengharapkan apapun.",
+        "Tips Monyet: Social butterfly mode: ON. Hari ini energimu cocok untuk bertemu banyak orang dan bikin suasana rame.",
+        "Tips Monyet: Jangan terlalu sering menertawakan masalah serius. Kadang orang butuh kamu untuk serius dan empati.",
+        "Tips Monyet: Kreativitasmu lagi overflow. Tuangkan ke proyek nyata sebelum hilang — ide Monyet datang dan pergi secepat kilat.",
+        "Tips Monyet: Hari yang cocok untuk belajar skill baru. Kamu tipe yang cepat menguasai sesuatu — manfaatkan itu!",
+        "Tips Monyet: Hindari bergosip hari ini. Mulut Monyet yang terlalu ramai bisa bikin masalah yang gak perlu.",
+        "Tips Monyet: Kamu adalah jiwa pesta di setiap kelompok. Tapi jangan lupa, kadang teman-temanmu butuh Monyet yang serius dan suportif."
+    ],
+    "ayam": [
+        "Tips Ayam: Observasi tajammu hari ini bisa menangkap detail yang dilewatkan semua orang. Kamu detective kosmik!",
+        "Tips Ayam: Jangan terlalu keras mengkritik dirimu sendiri. Standar tinggimu kadang jadi beban yang tidak perlu.",
+        "Tips Ayam: Hari yang cocok untuk organizing — file digital, lemari pakaian, atau jadwal mingguanmu.",
+        "Tips Ayam: Keberanianmu bicara jujur itu langka. Tapi hari ini, coba bungkus kejujuranmu dengan sedikit kelembutan.",
+        "Tips Ayam: Sisi perfeksionismu bisa bikin orang lain insecure. Pujilah effort orang lain, bukan cuma hasilnya.",
+        "Tips Ayam: Kamu pekerja keras yang sering gak diapresiasi. Hari ini, apresiasi dirimu sendiri — kamu pantas mendapatkannya.",
+        "Tips Ayam: Jangan terlalu sombong soal pencapaianmu. Biarkan hasilnya yang berbicara — orang akan notice sendiri.",
+        "Tips Ayam: Hari yang bagus untuk financial planning. Ketelitianmu cocok untuk bikin budget atau review investasi.",
+        "Tips Ayam: Bangun lebih pagi hari ini dan nikmati ketenangan sebelum dunia ramai. Itu me-time terbaik untuk Ayam.",
+        "Tips Ayam: Kamu adalah pilar kekuatan yang sering gak disadari. Hari ini, akui bahwa kamu juga boleh lemah sesekali."
+    ],
+    "anjing": [
+        "Tips Anjing: Loyalitasmu sangat dihargai oleh orang-orang terpercaya. Hari ini, biarkan mereka membalas kebaikanmu.",
+        "Tips Anjing: Jangan terlalu curiga. Tidak semua orang punya niat buruk — beri kesempatan pada orang baru.",
+        "Tips Anjing: Hari yang cocok untuk volunteer atau membantu orang yang membutuhkan. Hatimu akan terasa sangat puas.",
+        "Tips Anjing: Sisi kehati-hatianmu kadang berlebihan. Coba ambil satu risiko kecil hari ini — hasilnya mungkin mengejutkan.",
+        "Tips Anjing: Kejujuranmu adalah harta karun. Tapi hari ini, sampaikan kebenaran dengan kasih sayang, bukan blak-blakan.",
+        "Tips Anjing: Kamu sering menanggung beban emosional orang lain. Hari ini, izinkan dirimu untuk melepas dan istirahat.",
+        "Tips Anjing: Hari yang bagus untuk quality time dengan orang yang paling kamu percaya. Kamu butuh safe space.",
+        "Tips Anjing: Jangan simpan kecemasan sendirian. Bicarakan dengan seseorang — kamu gak harus selalu jadi yang kuat.",
+        "Tips Anjing: Sisi protektifmu kadang bikin orang merasa terkekang. Beri mereka ruang untuk bertumbuh sendiri.",
+        "Tips Anjing: Kamu adalah definisi 'teman sejati'. Hari ini, jangan lupa jadi teman terbaik untuk dirimu sendiri."
+    ],
+    "babi": [
+        "Tips Babi: Kemurahan hatimu sangat mulia. Tapi hari ini, pastikan kamu juga murah hati kepada dirimu sendiri.",
+        "Tips Babi: Jangan terlalu memanjakan diri sampai lupa tanggung jawab. Satu jam produktif dulu, baru reward!",
+        "Tips Babi: Hari yang cocok untuk memasak sesuatu yang lezat untuk orang-orang tersayang. Food is your love language!",
+        "Tips Babi: Sisi materialistismu mungkin muncul — pengen belanja ini itu. Tanya dulu: butuh atau cuma mau?",
+        "Tips Babi: Kamu tipe yang diam-diam sangat rajin. Hari ini hasilnya mulai terlihat — terima pujiannya dengan bangga!",
+        "Tips Babi: Jangan biarkan orang memanfaatkan kebaikanmu. Belajar bilang 'tidak' itu bukan kejahatan.",
+        "Tips Babi: Hari yang bagus untuk menikmati alam — taman, pantai, atau sekadar duduk di balkon menikmati angin.",
+        "Tips Babi: Welaskasihmu adalah kekuatan langka di dunia yang keras ini. Jangan pernah kehilangan sisi itu.",
+        "Tips Babi: Coba evaluasi pengeluaran minggu ini. Babi yang cermat keuangannya akan menjadi Babi yang kaya raya.",
+        "Tips Babi: Kamu adalah 'comfort person' bagi banyak orang. Pastikan kamu juga punya comfort person untuk dirimu sendiri."
+    ]
+}

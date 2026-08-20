@@ -1,22 +1,21 @@
 {% extends 'base.html' %}
 
-{% block title %}Zodiak Peace - Gerbang Takdir Kosmik{% endblock %}
+{% block title %}Peace Oracle - Gerbang Takdir Kosmik{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* Hide the mode switcher on the landing page */
-        .mode-switcher-container {
-            display: none !important;
-        }
-    </style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Hide the mode switcher on the landing page */
+    .mode-switcher-container {
+        display: none !important;
+    }
+</style>
 {% endblock %}
-
 {% block content %}
 <div class="home-container">
     <div class="home-header">
-        <h1>Zodiak Peace</h1>
+        <h1>Peace Oracle</h1>
         <p>Pilih Gerbang Menuju Takdir Kosmik Anda</p>
     </div>
 
@@ -24,33 +23,45 @@
         <!-- Zodiak Card -->
         <a href="{{ url_for('zodiak.home') }}" class="mode-card zodiak">
             <i class="fa-solid fa-moon"></i>
-            <h2>Zodiak Barat</h2>
-            <p>Singkap misteri bintang-bintang dan pelajari kepribadian astrologi Anda.</p>
+            <div class="card-text">
+                <h2>Zodiak Barat</h2>
+                <p>Singkap misteri bintang-bintang dan pelajari kepribadian astrologi Anda.</p>
+            </div>
         </a>
 
         <!-- Shio Card -->
         <a href="{{ url_for('shio.shio_index') }}" class="mode-card shio">
             <div class="beta-badge">BETA</div>
             <i class="fa-solid fa-dragon"></i>
-            <h2>Shio Timur</h2>
-            <p>Temukan energi elemen dan jalan kebijaksanaan oriental Anda.</p>
+            <div class="card-text">
+                <h2>Shio Timur</h2>
+                <p>Temukan energi elemen dan kebijaksanaan oriental Anda.</p>
+            </div>
         </a>
 
         <!-- Weton Card (Locked) -->
         <a href="#" class="mode-card weton locked" onclick="event.preventDefault();">
             <div class="coming-soon-badge">SOON</div>
             <i class="fa-solid fa-scroll"></i>
-            <h2>Weton Jawa</h2>
-            <p>Hitung neptu dan selaraskan energi spiritual leluhur nusantara.</p>
+            <div class="card-text">
+                <h2>Weton Jawa</h2>
+                <p>Hitung neptu dan selaraskan energi spiritual leluhur nusantara.</p>
+            </div>
         </a>
 
         <!-- Tarot Card (Locked) -->
         <a href="#" class="mode-card tarot locked" onclick="event.preventDefault();">
             <div class="coming-soon-badge">SOON</div>
             <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <h2>Kartu Tarot</h2>
-            <p>Buka tabir masa depan melalui arkana dan sinkronisitas kartu.</p>
+            <div class="card-text">
+                <h2>Kartu Tarot</h2>
+                <p>Buka tabir masa depan melalui arkana dan sinkronisitas kartu.</p>
+            </div>
         </a>
+    </div>
+
+    <div class="home-footer">
+        <p>Diciptakan dari kegabutan tingkat kosmis oleh orang-orang di <strong>Peace Server</strong> 🪐</p>
     </div>
 </div>
 {% endblock %}

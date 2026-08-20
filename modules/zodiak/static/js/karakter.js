@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 // Ambil data karakter zodiak dari server Flask
-                const response = await fetch(`/api/karakter/${sign}`);
+                const response = await fetch(`/zodiak/api/karakter/${sign}`);
                 if (!response.ok) throw new Error('Gagal mengambil data karakter');
 
                 const data = await response.json();

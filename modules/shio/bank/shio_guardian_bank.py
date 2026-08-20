@@ -1,0 +1,254 @@
+# ============================================================
+# 🛡️ SHIO PENJAGA BANK — Bank Data Penjaga Spiritual
+# ============================================================
+# Setiap Shio memiliki Bodhisattva/Buddha pelindung dalam
+# tradisi astrologi Tionghoa-Buddhis. Data ini berisi informasi
+# lengkap tentang pelindung, mantra, saran Feng Shui, dan
+# panduan spiritual per Shio.
+#
+# REFERENSI TRADISI:
+# Sistem "Ben Ming Fo" (本命佛) — Buddha/Bodhisattva Kelahiran
+# Setiap orang memiliki pelindung kosmik berdasarkan Shio-nya.
+# ============================================================
+
+SHIO_GUARDIAN_BANK = {
+    "tikus": {
+        "guardian_name": "Avalokiteśvara (Guanyin / 觀世音菩薩)",
+        "guardian_icon": "images/guardians/avalokitesvara.jpg",
+        "guardian_desc": "Guanyin adalah Bodhisattva Welas Asih yang mendengar tangisan seluruh makhluk hidup. Sebagai pelindung Shio Tikus, Guanyin menerangi jalan bagi mereka yang cerdik namun sering cemas — memberikan ketenangan batin di tengah pikiran yang selalu aktif berputar. Guanyin mengajarkan bahwa kecerdasan sejati adalah yang dilandasi kasih sayang, bukan kalkulasi semata.",
+        "guardian_element": "Air",
+        "mantra": "Oṃ Maṇi Padme Hūṃ (嗡嘛呢叭咪吽)",
+        "mantra_meaning": "Permata teratai yang bersinar dalam hati — membangkitkan welas asih universal.",
+        "protection_advice": "Guanyin melindungi Tikus dari sifat cemasnya yang berlebihan. Saat pikiran mulai berlari ke seribu arah, diam sejenak, tarik napas, dan bayangkan cahaya putih Guanyin menyelimuti seluruh tubuhmu. Biarkan kecerdasanmu mengalir tanpa kecemasan.",
+        "offering_suggestion": "Persembahkan air bersih, bunga teratai putih atau merah muda, dan dupa halus beraroma cendana. Guanyin menyukai kesederhanaan dan ketulusan — niat bersih lebih berharga dari persembahan mewah.",
+        "best_pray_time": "Jam 23.00 – 01.00 (Jam Tikus / Shichen Zi)",
+        "sacred_direction": "Utara",
+        "feng_shui_tips": [
+            "Letakkan patung atau gambar Guanyin di area Utara rumah untuk memperkuat perlindungan spiritual.",
+            "Gunakan elemen air kecil seperti air mancur mini atau aquarium di ruang kerja untuk mengaktifkan rezeki.",
+            "Hindari meletakkan tempat tidur langsung menghadap pintu — energi Tikus butuh ruang aman untuk istirahat.",
+            "Warna pelindung: Putih, Biru, dan Emas. Gunakan sebagai aksen di kamar tidur atau ruang meditasi.",
+            "Simpan kristal bening atau batu giok putih di meja kerja untuk menjernihkan pikiran saat bekerja."
+        ]
+    },
+
+    "kerbau": {
+        "guardian_name": "Ākāśagarbha (Xukongzang / 虛空藏菩薩)",
+        "guardian_icon": "images/guardians/akasagarbha.jpg",
+        "guardian_desc": "Ākāśagarbha adalah Bodhisattva Perbendaharaan Angkasa yang kebijaksanaannya seluas langit tanpa batas. Sebagai pelindung Shio Kerbau, beliau memberikan ketabahan dan kekuatan yang tak tergoyahkan — seperti langit yang tetap luas meski diterjang badai. Ākāśagarbha mengajarkan bahwa kekokohan sejati bukan berasal dari keras kepala, melainkan dari kelapangan hati.",
+        "guardian_element": "Tanah",
+        "mantra": "Oṃ Vajra Ratna Oṃ (嗡 縛日羅 囉怛曩 嗡)",
+        "mantra_meaning": "Kebijaksanaan seluas angkasa yang menampung segalanya tanpa syarat.",
+        "protection_advice": "Ākāśagarbha melindungi Kerbau dari sifat keras kepalanya yang bisa mengisolasi diri dari orang lain. Saat merasa terlalu kaku pada prinsip, bayangkan langit luas tanpa batas — ingatkan dirimu bahwa fleksibilitas bukan kelemahan, melainkan kekuatan tersembunyi.",
+        "offering_suggestion": "Persembahkan buah-buahan segar (terutama jeruk dan apel), dupa kayu gaharu, dan lilin kuning emas. Kerbau yang tekun dalam ibadah akan merasakan ketenangan mendalam.",
+        "best_pray_time": "Jam 01.00 – 03.00 (Jam Kerbau / Shichen Chou)",
+        "sacred_direction": "Timur Laut",
+        "feng_shui_tips": [
+            "Tempatkan batu alam atau kristal tanah (seperti citrine atau tiger eye) di sudut Timur Laut rumah.",
+            "Kerbau membutuhkan stabilitas — pastikan meja kerja dan tempat tidur berada di posisi yang kokoh, tidak goyah.",
+            "Gunakan warna cokelat tanah, kuning emas, dan hijau tua sebagai aksen ruangan untuk memperkuat energi.",
+            "Hindari terlalu banyak cermin di kamar tidur — energi Kerbau butuh ketenangan tanpa refleksi berlebihan.",
+            "Letakkan tanaman hijau berdaun tebal (seperti jade plant) di ruang keluarga untuk mengundang kemakmuran."
+        ]
+    },
+
+    "macan": {
+        "guardian_name": "Ākāśagarbha (Xukongzang / 虛空藏菩薩)",
+        "guardian_icon": "images/guardians/akasagarbha.jpg",
+        "guardian_desc": "Sama seperti Kerbau, Shio Macan juga dilindungi oleh Ākāśagarbha — namun dengan manifestasi yang berbeda. Untuk Macan yang pemberani dan kompetitif, Ākāśagarbha hadir sebagai penyeimbang yang menenangkan api semangat tanpa memadamkannya. Beliau mengajarkan bahwa keberanian sejati adalah yang disertai kebijaksanaan, bukan keliaran.",
+        "guardian_element": "Kayu",
+        "mantra": "Oṃ Vajra Ratna Oṃ (嗡 縛日羅 囉怛曩 嗡)",
+        "mantra_meaning": "Kebijaksanaan seluas angkasa yang menampung segalanya tanpa syarat.",
+        "protection_advice": "Ākāśagarbha melindungi Macan dari impulsivitas dan kecenderungan mengambil risiko berlebihan. Saat adrenalin memuncak dan kamu ingin langsung bertindak, berhenti sejenak — tarik napas dan minta bimbingan. Keberanian yang diarahkan jauh lebih powerful dari keberanian yang membabi buta.",
+        "offering_suggestion": "Persembahkan dupa kemenyan, bunga krisan kuning, dan lilin merah. Macan yang mendisiplinkan energinya akan menerima perlindungan berlipat dari Ākāśagarbha.",
+        "best_pray_time": "Jam 03.00 – 05.00 (Jam Macan / Shichen Yin)",
+        "sacred_direction": "Timur Laut",
+        "feng_shui_tips": [
+            "Tempatkan simbol kekuatan (seperti batu obsidian atau patung kecil macan) di area Timur Laut.",
+            "Macan membutuhkan ruang gerak — jangan terlalu banyak perabot di kamar tidur, biarkan energi mengalir bebas.",
+            "Gunakan warna hijau kayu dan biru langit untuk menyeimbangkan energi api bawaan Macan.",
+            "Hindari menumpuk barang di belakang pintu masuk rumah — itu memblokir aliran keberuntungan Macan.",
+            "Letakkan tanaman bambu di ruang kerja sebagai simbol ketahanan dan fleksibilitas."
+        ]
+    },
+
+    "kelinci": {
+        "guardian_name": "Mañjuśrī (Wenshu / 文殊菩薩)",
+        "guardian_icon": "images/guardians/manjusri.jpg",
+        "guardian_desc": "Mañjuśrī adalah Bodhisattva Kebijaksanaan yang menggenggam pedang pemotong kegelapan batin. Sebagai pelindung Shio Kelinci yang lemah lembut dan elegan, Mañjuśrī memberikan ketajaman pikiran di balik kelembutan — mengajarkan bahwa ketenangan bukan berarti pasif, dan kelembutan bisa menjadi senjata paling ampuh.",
+        "guardian_element": "Kayu",
+        "mantra": "Oṃ A Ra Pa Ca Na Dhīḥ (嗡 阿 囉 巴 佐 曩 地)",
+        "mantra_meaning": "Pedang kebijaksanaan yang memotong semua ilusi dan kebingungan.",
+        "protection_advice": "Mañjuśrī melindungi Kelinci dari kecenderungan menghindari konflik sampai merugikan diri sendiri. Kelembutan adalah kekuatanmu, tapi Mañjuśrī mengajarkan bahwa kadang kamu perlu mengangkat pedang kebijaksanaan — tegas dalam membela diri bukan berarti kehilangan keanggunan.",
+        "offering_suggestion": "Persembahkan bunga lily putih, teh hijau segar, dan dupa aroma melati. Mañjuśrī menyukai keindahan yang sederhana dan natural — seperti karakter Kelinci sendiri.",
+        "best_pray_time": "Jam 05.00 – 07.00 (Jam Kelinci / Shichen Mao)",
+        "sacred_direction": "Timur",
+        "feng_shui_tips": [
+            "Letakkan buku-buku atau simbol kebijaksanaan di area Timur rumah untuk memperkuat energi Mañjuśrī.",
+            "Gunakan warna hijau muda, lavender, dan putih susu sebagai palet ruangan untuk menenangkan batin.",
+            "Kelinci butuh sanctuary — ciptakan satu sudut tenang di rumah khusus untuk membaca atau meditasi.",
+            "Hindari pencahayaan yang terlalu terang dan mencolok. Kelinci lebih nyaman dengan cahaya lembut dan hangat.",
+            "Taruh kristal amethyst di dekat tempat tidur untuk meningkatkan kualitas tidur dan memperkuat intuisi."
+        ]
+    },
+
+    "naga": {
+        "guardian_name": "Samantabhadra (Puxian / 普賢菩薩)",
+        "guardian_icon": "images/guardians/samantabhadra.jpg",
+        "guardian_desc": "Samantabhadra adalah Bodhisattva Kebajikan Universal yang menunggangi gajah putih bermata enam — melambangkan kemurnian tindakan dan pandangan yang menyeluruh. Sebagai pelindung Shio Naga yang percaya diri dan dominan, Samantabhadra mengajarkan bahwa kekuasaan sejati adalah yang digunakan untuk kebaikan banyak orang, bukan untuk memuaskan ego.",
+        "guardian_element": "Tanah",
+        "mantra": "Oṃ Samantabhadra Hūṃ (嗡 三曼多 跋陀羅 吽)",
+        "mantra_meaning": "Kebajikan universal yang merata ke seluruh penjuru alam semesta.",
+        "protection_advice": "Samantabhadra melindungi Naga dari jebakan ego dan keangkuhan. Saat merasa paling berkuasa dan tak tersentuh, itulah momen paling berbahaya. Samantabhadra mengingatkan: gunakan karisma dan kekuatanmu untuk mengangkat orang lain — baru kamu akan benar-benar menjadi Naga sejati.",
+        "offering_suggestion": "Persembahkan kue bulan atau makanan manis tradisional, bunga peony merah, dan dupa aroma kayu cendana premium. Naga yang rendah hati di hadapan pelindungnya akan menerima berkah paling besar.",
+        "best_pray_time": "Jam 07.00 – 09.00 (Jam Naga / Shichen Chen)",
+        "sacred_direction": "Tenggara",
+        "feng_shui_tips": [
+            "Tempatkan simbol naga atau patung gajah putih kecil di area Tenggara rumah untuk mengaktifkan kemakmuran.",
+            "Naga membutuhkan 'singgasana' — pastikan kursi kerja atau sofa utamamu berkualitas tinggi dan nyaman.",
+            "Gunakan warna emas, merah tua, dan hijau zamrud sebagai aksen ruangan untuk memperkuat aura kepemimpinan.",
+            "Jangan biarkan area pintu masuk rumah berantakan — itu adalah 'gerbang naga' yang harus selalu bersih dan terang.",
+            "Letakkan bola kristal di jendela yang menghadap matahari pagi untuk menangkap energi positif kosmik."
+        ]
+    },
+
+    "ular": {
+        "guardian_name": "Samantabhadra (Puxian / 普賢菩薩)",
+        "guardian_icon": "images/guardians/samantabhadra.jpg",
+        "guardian_desc": "Shio Ular juga berada di bawah perlindungan Samantabhadra, namun dengan resonansi yang berbeda. Untuk Ular yang penuh teka-teki dan bijaksana, Samantabhadra hadir sebagai cahaya yang menerangi kedalaman batin — mengajarkan bahwa kebijaksanaan yang disimpan sendiri adalah sia-sia, dan ilmu yang dibagikan akan berlipat ganda.",
+        "guardian_element": "Api",
+        "mantra": "Oṃ Samantabhadra Hūṃ (嗡 三曼多 跋陀羅 吽)",
+        "mantra_meaning": "Kebajikan universal yang merata ke seluruh penjuru alam semesta.",
+        "protection_advice": "Samantabhadra melindungi Ular dari kecenderungan menyimpan dendam dan memanipulasi secara diam-diam. Saat merasa dikhianati, Ular cenderung merencanakan balas dendam yang rumit. Samantabhadra mengajarkan: lepaskan, maafkan, dan gunakan energi itu untuk membangun, bukan menghancurkan.",
+        "offering_suggestion": "Persembahkan teh oolong berkualitas, bunga teratai merah, dan dupa aroma kayu gaharu. Ular yang meditasi dengan tulus akan menemukan ketenangan yang selama ini dicari.",
+        "best_pray_time": "Jam 09.00 – 11.00 (Jam Ular / Shichen Si)",
+        "sacred_direction": "Tenggara",
+        "feng_shui_tips": [
+            "Ciptakan ruang meditasi kecil di area Tenggara rumah — Ular membutuhkan ruang introspeksi yang sakral.",
+            "Gunakan warna merah gelap, emas antik, dan hitam elegan untuk ruangan yang memperkuat aura misterius Ular.",
+            "Hindari menggantung cermin tepat di depan tempat tidur — refleksi berlebihan mengganggu tidur Ular yang sensitif.",
+            "Letakkan lilin aromaterapi beraroma kayu atau rempah di kamar mandi untuk ritual self-care malam hari.",
+            "Simpan batu garnet atau ruby kecil di dompet atau tas untuk menarik energi kemakmuran."
+        ]
+    },
+
+    "kuda": {
+        "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
+        "guardian_icon": "💪",
+        "guardian_desc": "Mahāsthāmaprāpta adalah Bodhisattva Kekuatan Agung yang cahayanya mampu menerangi seluruh alam semesta. Sebagai pelindung Shio Kuda yang aktif dan energik, beliau memberikan kekuatan yang terarah — mengajarkan bahwa energi yang terfokus jauh lebih dahsyat dari energi yang tersebar ke segala arah tanpa tujuan.",
+        "guardian_element": "Api",
+        "mantra": "Oṃ Vajrapāṇi Hūṃ (嗡 金剛手 吽)",
+        "mantra_meaning": "Kekuatan vajra yang tak terpatahkan dan cahaya kebijaksanaan yang menerangi kegelapan.",
+        "protection_advice": "Mahāsthāmaprāpta melindungi Kuda dari sifat tidak sabar dan kecenderungan meninggalkan hal setengah jadi. Saat semangat mulai padam dan kamu ingin lari ke hal baru, ingatlah: kekuatan sejati terlihat dari kemampuan menyelesaikan, bukan memulai.",
+        "offering_suggestion": "Persembahkan buah-buahan merah (apel, delima), bunga matahari kuning, dan dupa aroma kayu manis. Kuda yang fokus dalam doanya akan merasakan ledakan energi positif.",
+        "best_pray_time": "Jam 11.00 – 13.00 (Jam Kuda / Shichen Wu)",
+        "sacred_direction": "Selatan",
+        "feng_shui_tips": [
+            "Letakkan simbol kuda atau patung kecil di area Selatan rumah untuk mengaktifkan energi pengakuan dan reputasi.",
+            "Kuda butuh kebebasan — jangan terlalu banyak tirai tebal di jendela, biarkan cahaya matahari masuk maksimal.",
+            "Gunakan warna merah, oranye, dan kuning cerah sebagai aksen energi di ruang kerja.",
+            "Hindari meletakkan meja kerja membelakangi pintu — Kuda harus selalu bisa 'melihat' peluang yang datang.",
+            "Pasang wind chime (lonceng angin) di teras atau balkon untuk mengalirkan energi segar ke dalam rumah."
+        ]
+    },
+
+    "kambing": {
+        "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
+        "guardian_icon": "💪",
+        "guardian_desc": "Kambing juga dilindungi oleh Mahāsthāmaprāpta, namun dengan sentuhan yang lebih lembut. Untuk Kambing yang tenang dan simpatik, Bodhisattva ini memberikan keberanian tersembunyi — kekuatan yang muncul justru saat dibutuhkan, seperti akar pohon yang tak terlihat namun menopang seluruh batang dengan kokoh.",
+        "guardian_element": "Tanah",
+        "mantra": "Oṃ Vajrapāṇi Hūṃ (嗡 金剛手 吽)",
+        "mantra_meaning": "Kekuatan vajra yang tak terpatahkan dan cahaya kebijaksanaan yang menerangi kegelapan.",
+        "protection_advice": "Mahāsthāmaprāpta melindungi Kambing dari kecenderungan terlalu bergantung pada orang lain dan menghindari konflik sampai menelan semua ketidakadilan. Beliau mengajarkan: kelembutan bukan berarti lemah, dan menyuarakan hak adalah bentuk cinta pada diri sendiri.",
+        "offering_suggestion": "Persembahkan bunga krisan putih, susu atau teh manis, dan dupa aroma lavender. Kambing yang berdoa dengan hati tulus akan merasakan pelukan kosmik yang menenangkan.",
+        "best_pray_time": "Jam 13.00 – 15.00 (Jam Kambing / Shichen Wei)",
+        "sacred_direction": "Selatan",
+        "feng_shui_tips": [
+            "Ciptakan sudut nyaman dengan bantal empuk dan selimut lembut — Kambing membutuhkan 'sarang' yang aman.",
+            "Gunakan warna pastel — pink muda, krem, dan hijau sage — untuk menciptakan atmosfer tenang di rumah.",
+            "Letakkan tanaman bunga di area Barat Daya rumah untuk memperkuat energi hubungan dan keharmonisan.",
+            "Hindari suara bising di area tidur. Pertimbangkan white noise machine atau playlist alam untuk kualitas tidur.",
+            "Simpan batu rose quartz di dekat tempat tidur untuk memperkuat energi cinta dan penerimaan diri."
+        ]
+    },
+
+    "monyet": {
+        "guardian_name": "Mahāvairocana (Dari Rulai / 大日如來)",
+        "guardian_icon": "☀️",
+        "guardian_desc": "Mahāvairocana adalah Buddha Kosmik yang merupakan sumber dari semua cahaya dan kebijaksanaan. Sebagai pelindung Shio Monyet yang cerdas dan inovatif, Mahāvairocana memberikan pencerahan yang mengarahkan kecerdasan pada tujuan mulia — mengajarkan bahwa kejeniusan tanpa kebijaksanaan moral hanyalah tipu daya yang merugikan diri sendiri.",
+        "guardian_element": "Logam",
+        "mantra": "Oṃ Vairocana Hūṃ (嗡 縛日囉 佐曩 吽)",
+        "mantra_meaning": "Cahaya kosmik yang menerangi kebenaran dan mengusir kegelapan batin.",
+        "protection_advice": "Mahāvairocana melindungi Monyet dari sifat egois dan kecenderungan memanfaatkan kecerdasannya untuk keuntungan pribadi semata. Saat kamu tergoda untuk mengambil jalan pintas atau menipu, cahaya Mahāvairocana mengingatkan: reputasi yang dibangun bertahun-tahun bisa hancur dalam sekejap.",
+        "offering_suggestion": "Persembahkan buah pisang emas, kue tradisional, dan dupa premium aroma kayu cendana putih. Monyet yang serius dalam spiritualitas akan menemukan kedalaman yang selama ini dihindari.",
+        "best_pray_time": "Jam 15.00 – 17.00 (Jam Monyet / Shichen Shen)",
+        "sacred_direction": "Barat Daya",
+        "feng_shui_tips": [
+            "Letakkan simbol matahari atau kristal bening di jendela yang terkena sinar matahari sore.",
+            "Monyet butuh stimulasi visual — tapi jangan berlebihan. Pilih 1-2 artwork berkualitas daripada banyak dekorasi murahan.",
+            "Gunakan warna putih bersih, emas, dan oranye terang untuk ruang kerja kreatif.",
+            "Hindari menumpuk gadget atau elektronik terlalu banyak di kamar tidur — Monyet perlu disconnect dari stimulasi.",
+            "Letakkan tanaman kecil (sukulen atau kaktus) di meja kerja untuk menyerap energi negatif dari layar."
+        ]
+    },
+
+    "ayam": {
+        "guardian_name": "Acala (Budong Mingwang / 不動明王)",
+        "guardian_icon": "images/guardians/acala.jpg",
+        "guardian_desc": "Acala adalah Raja Kebijaksanaan yang Tak Tergoyahkan — berwajah garang namun berhati welas asih, memegang pedang api untuk membakar semua rintangan dan tali karma negatif. Sebagai pelindung Shio Ayam yang pekerja keras dan berani, Acala memberikan keteguhan yang tak terguncang oleh godaan dan pujian, mengajarkan bahwa kerja keras tanpa kerendahan hati akan berakhir dalam kesombongan.",
+        "guardian_element": "Logam",
+        "mantra": "Namaḥ Samanta Vajrāṇāṃ Hāṃ (南無 三曼多 伐折囉 赧 含)",
+        "mantra_meaning": "Kebijaksanaan yang tak tergoyahkan membakar semua halangan karma.",
+        "protection_advice": "Acala melindungi Ayam dari keangkuhan dan kecenderungan mengkritik orang lain tanpa melihat kelemahan sendiri. Pedang apinya memotong ilusi bahwa kamu selalu benar. Saat merasa ingin menghakimi, tanyakan dulu: 'Apakah aku sudah cukup baik untuk menilai orang lain?'",
+        "offering_suggestion": "Persembahkan nasi putih, bunga krisan kuning, dan dupa aroma kemenyan tebal. Ayam yang tekun beribadah akan merasakan kekuatan batin yang menggemparkan.",
+        "best_pray_time": "Jam 17.00 – 19.00 (Jam Ayam / Shichen You)",
+        "sacred_direction": "Barat",
+        "feng_shui_tips": [
+            "Letakkan benda logam berkualitas (lonceng kuningan, mangkok tibetan) di area Barat rumah.",
+            "Ayam sangat terpengaruh oleh kerapian — pastikan meja kerja selalu bersih dan tertata setiap malam.",
+            "Gunakan warna putih, silver, dan emas sebagai dominasi ruangan untuk memperkuat elemen Logam.",
+            "Hindari menggantung jam dinding yang berisik (tik-tok keras) — itu meningkatkan kecemasan perfeksionis Ayam.",
+            "Letakkan cermin kecil di area kerja untuk 'memantulkan' energi negatif dari rekan kerja yang toxic."
+        ]
+    },
+
+    "anjing": {
+        "guardian_name": "Amitābha (Amituofo / 阿彌陀佛)",
+        "guardian_icon": "images/guardians/amitabha.jpg",
+        "guardian_desc": "Amitābha adalah Buddha Cahaya Tak Terbatas, penguasa Tanah Suci Sukhāvatī di arah Barat. Sebagai pelindung Shio Anjing yang setia dan jujur, Amitābha memberikan cahaya harapan yang tak pernah padam — bahkan di saat paling gelap. Beliau mengajarkan bahwa kesetiaan sejati dimulai dari setia pada diri sendiri dan kebenaran.",
+        "guardian_element": "Tanah",
+        "mantra": "Namo Amitābhāya (南無阿彌陀佛)",
+        "mantra_meaning": "Berlindung pada Buddha Cahaya Tak Terbatas yang mengasihi tanpa syarat.",
+        "protection_advice": "Amitābha melindungi Anjing dari kecemasan berlebihan dan kecurigaan yang merusak hubungan. Sifat waspada Anjing adalah aset, tapi jika berlebihan akan berubah menjadi paranoia. Amitābha mengingatkan: tidak semua orang bermaksud buruk, dan mempercayai orang lain adalah bentuk keberanian tertinggi.",
+        "offering_suggestion": "Persembahkan bunga teratai merah atau putih, buah persik, dan dupa aroma kayu aloeswood. Anjing yang berdoa dengan hati terbuka akan merasakan kedamaian yang lama dicari.",
+        "best_pray_time": "Jam 19.00 – 21.00 (Jam Anjing / Shichen Xu)",
+        "sacred_direction": "Barat",
+        "feng_shui_tips": [
+            "Letakkan lampu hangat atau lilin di area Barat rumah untuk mengundang cahaya Amitābha.",
+            "Anjing membutuhkan rasa aman — pastikan kunci dan sistem keamanan rumah berfungsi baik untuk ketenangan batin.",
+            "Gunakan warna kuning hangat, cokelat madu, dan merah bata sebagai aksen yang menenangkan.",
+            "Hindari menempatkan benda tajam yang terekspos (pisau, gunting) di area umum — itu meningkatkan energi kecemasan.",
+            "Taruh foto keluarga atau orang-orang tersayang di ruang keluarga untuk memperkuat energi kesetiaan dan cinta."
+        ]
+    },
+
+    "babi": {
+        "guardian_name": "Amitābha (Amituofo / 阿彌陀佛)",
+        "guardian_icon": "images/guardians/amitabha.jpg",
+        "guardian_desc": "Babi juga berada di bawah naungan Amitābha, namun dengan resonansi yang berbeda. Untuk Babi yang welaskasih dan murah hati, Amitābha memperkuat sisi dermawan sambil melindungi dari eksploitasi. Cahaya tak terbatas Amitābha mengajarkan bahwa kebaikan yang tulus tidak akan pernah sia-sia — bahkan jika dunia belum membalasnya, alam semesta selalu mencatat.",
+        "guardian_element": "Air",
+        "mantra": "Namo Amitābhāya (南無阿彌陀佛)",
+        "mantra_meaning": "Berlindung pada Buddha Cahaya Tak Terbatas yang mengasihi tanpa syarat.",
+        "protection_advice": "Amitābha melindungi Babi dari sifat terlalu mudah percaya dan kecenderungan dimanfaatkan karena kebaikannya. Saat seseorang terus-menerus meminta tanpa pernah memberi, Amitābha mengingatkan: menolong orang lain itu mulia, tapi jangan sampai kamu mengorbankan dirimu sendiri hingga habis.",
+        "offering_suggestion": "Persembahkan kue-kue manis tradisional, buah anggur, dan dupa aroma mawar atau melati. Babi yang bermeditasi dengan ikhlas akan merasakan kelimpahan batin yang lebih berharga dari harta duniawi.",
+        "best_pray_time": "Jam 21.00 – 23.00 (Jam Babi / Shichen Hai)",
+        "sacred_direction": "Barat",
+        "feng_shui_tips": [
+            "Letakkan elemen air (air mancur mini, gambar laut) di area Utara rumah untuk mengalirkan rezeki.",
+            "Babi menyukai kenyamanan — investasi pada kasur dan bantal berkualitas tinggi untuk tidur yang memulihkan.",
+            "Gunakan warna biru laut, hijau air, dan putih mutiara untuk kamar tidur yang menenangkan.",
+            "Hindari menimbun barang berlebihan di lemari — Babi cenderung menyimpan terlalu banyak hal yang tidak perlu.",
+            "Simpan batu moonstone atau pearl di kamar tidur untuk memperkuat intuisi dan koneksi spiritual."
+        ]
+    }
+}
