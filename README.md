@@ -33,13 +33,11 @@
 * **Roasting Zodiak:** Butuh hiburan kasar? Terdapat mode *roasting* pedas (personal & pasangan) khusus untuk setiap zodiak!
 
 ### 🐉 Mode Shio (Oriental)
-* **Sistem Hitung Otomatis (BETA):** Kalkulasi elemen kosmik, Shio Utama, dan Shio Tersembunyi berdasarkan tanggal dan jam lahir (Bazi).
-* **Teropong Energi Tahunan (BETA):** Kalkulator proyeksi status kosmik dan skor keberuntungan Anda di tahun berjalan.
-* **Timbangan Jodoh Kosmik (BETA):** Kalkulator persentase kecocokan pasangan/bisnis komprehensif berdasarkan bentrokan atau keselarasan elemen dan cabang bumi!
-* **Pilih Penjaga Spiritual:** Eksplorasi figur Bodhisattva pelindung spiritual lengkap dengan mantra suci dan tips Feng Shui.
+* **Profil Karakter Shio:** Ketahui karakteristik bawaan, kecenderungan *green flag/red flag*, dan elemen *alter ego* dari masing-masing Shio.
 * **Almanak Harian (Tong Shu):** Dasbor harian interaktif *real-time* yang menampilkan hoki, status hari (Ciong, San He, dll) beserta *daily tip* untuk ke-12 Shio.
-* **Roasting Shio (SOON):** Mode roasting pedas untuk karakter shio Anda (Dalam pengembangan).
+* **Pilih Penjaga Spiritual:** Eksplorasi figur Bodhisattva pelindung spiritual lengkap dengan mantra suci dan tips Feng Shui.
 * **Latar Belakang Interaktif:** Tampilan *partikel galaksi 3D* interaktif.
+* **Segera Hadir (SOON):** Baca Gulungan Takdir (Kalkulator Bazi), Teropong Energi Tahunan, Timbangan Jodoh Kosmik, dan Roasting Shio.
 
 ### 🔜 Mode Mendatang (Terkunci / Coming Soon)
 * **Weton (Kejawen):** Perhitungan primbon berdasarkan neptu hari dan pasaran Jawa.

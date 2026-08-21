@@ -56562,5 +56562,5 @@ def get_daily_youtube_track(sign_key, cosmic):
     idx = int(seed[:6], 16) % len(tracks)
     
     track = tracks[idx].copy()
-    track["youtube_url"] = f"https://www.youtube.com/results?search_query={requests.utils.quote(track['query'])}"
+    track["youtube_url"] = f"https://music.youtube.com/search?q={requests.utils.quote(track['query'])}"
     return track

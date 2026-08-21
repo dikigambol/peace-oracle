@@ -4,24 +4,24 @@ from .data import *
 zodiak_bp = Blueprint("zodiak", __name__, template_folder="templates", static_folder="static", static_url_path="/zodiak-static")
 
 # ROUTES
-@zodiak_bp.route('/')
+@zodiak_bp.route('/zodiak')
 def home():
     return render_template('zodiak/index.html')
 
-@zodiak_bp.route('/kecocokan')
+@zodiak_bp.route('/zodiak/kecocokan')
 def compatibility_page():
     return render_template('zodiak/kecocokan.html')
 
-@zodiak_bp.route('/general')
-@zodiak_bp.route('/karakter')
+@zodiak_bp.route('/zodiak/general')
+@zodiak_bp.route('/zodiak/karakter')
 def general_page():
     return render_template('zodiak/general.html')
 
-@zodiak_bp.route('/roasting')
+@zodiak_bp.route('/zodiak/roasting')
 def roasting_page():
     return render_template('zodiak/roasting.html')
 
-@zodiak_bp.route('/api/roast', methods=['GET', 'POST'])
+@zodiak_bp.route('/api/zodiak/roast', methods=['GET', 'POST'])
 def api_roast():
     sign_key = None
     if request.method == 'POST':
@@ -84,7 +84,7 @@ def api_roast():
         "relationship_roast": relationship_roast
     })
 
-@zodiak_bp.route('/api/zodiac/<sign>')
+@zodiak_bp.route('/api/zodiak/zodiac/<sign>')
 def get_zodiac(sign):
     sign_key = sign.lower()
     if sign_key not in ZODIAC_DATA:
@@ -128,8 +128,8 @@ def get_zodiac(sign):
         }
     })
 
-@zodiak_bp.route('/api/general/<sign>')
-@zodiak_bp.route('/api/karakter/<sign>')
+@zodiak_bp.route('/api/zodiak/general/<sign>')
+@zodiak_bp.route('/api/zodiak/karakter/<sign>')
 def get_general_details(sign):
     sign_key = sign.lower()
     if sign_key not in ZODIAC_DATA:
@@ -152,7 +152,7 @@ def get_general_details(sign):
         "fun_fact": char["fun_fact"]
     })
 
-@zodiak_bp.route('/api/compatibility/<sign_one>/<sign_two>')
+@zodiak_bp.route('/api/zodiak/compatibility/<sign_one>/<sign_two>')
 def get_compatibility(sign_one, sign_two):
     s1_key = sign_one.lower()
     s2_key = sign_two.lower()

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, jsonify, request
-from .data import SHIO_DATA, generate_shio_fortune, get_secret_animal, calculate_yearly_fortune, calculate_compatibility, get_all_daily_fortunes, get_shio_guardian
+from .data import SHIO_DATA, get_all_daily_fortunes, get_shio_guardian, get_shio_profile, get_shio_compatibility, get_shio_fortune
 
 shio_bp = Blueprint('shio', __name__, template_folder='templates', static_folder='static', static_url_path='/shio-static')
 
@@ -11,51 +11,13 @@ def shio_index():
 def guardian_spiritual():
     return render_template('shio/guardian.html')
 
+@shio_bp.route('/shio/profile')
+def shio_profile():
+    return render_template('shio/profile.html')
 
-
-@shio_bp.route('/api/shio/fortune', methods=['POST'])
-def get_shio_fortune():
-    data = request.get_json()
-    shio_key = data.get('shio')
-    element_key = data.get('element')
-    time_str = data.get('time')
-    
-    result = generate_shio_fortune(shio_key, element_key)
-    
-    if time_str:
-        secret_shio = get_secret_animal(time_str)
-        if secret_shio:
-            result['secret_animal'] = SHIO_DATA.get(secret_shio)["name"]
-            
-    return jsonify(result)
-
-@shio_bp.route('/api/shio/yearly', methods=['POST'])
-def get_shio_yearly():
-    data = request.get_json()
-    shio_key = data.get('shio')
-    year = data.get('year')
-    
-    if not shio_key or not year:
-        return jsonify({"error": "Missing shio or year"}), 400
-        
-    result = calculate_yearly_fortune(shio_key, year)
-    return jsonify(result)
-
-@shio_bp.route('/api/shio/compatibility', methods=['POST'])
-def get_shio_compatibility():
-    data = request.get_json()
-    s1 = data.get('shio1')
-    s2 = data.get('shio2')
-    e1 = data.get('element1')
-    e2 = data.get('element2')
-    t1 = data.get('time1')
-    t2 = data.get('time2')
-    
-    if not all([s1, s2, e1, e2]):
-        return jsonify({"error": "Missing parameters"}), 400
-        
-    result = calculate_compatibility(s1, s2, e1, e2, t1, t2)
-    return jsonify(result)
+@shio_bp.route('/shio/compatibility')
+def shio_compatibility():
+    return render_template('shio/compatibility.html')
 
 @shio_bp.route('/api/shio/daily', methods=['GET'])
 def get_shio_daily():
@@ -72,4 +34,38 @@ def get_shio_guardian_endpoint():
         return jsonify({"error": "Missing shio"}), 400
         
     result = get_shio_guardian(shio_key)
+    return jsonify(result)
+
+@shio_bp.route('/api/shio/profile', methods=['POST'])
+def get_shio_profile_endpoint():
+    data = request.get_json()
+    shio_key = data.get('shio')
+    
+    if not shio_key:
+        return jsonify({"error": "Missing shio"}), 400
+        
+    result = get_shio_profile(shio_key)
+    return jsonify(result)
+
+@shio_bp.route('/api/shio/compatibility', methods=['POST'])
+def get_shio_compatibility_endpoint():
+    data = request.get_json()
+    shio1 = data.get('shio1')
+    shio2 = data.get('shio2')
+    
+    if not shio1 or not shio2:
+        return jsonify({"error": "Missing shio1 or shio2"}), 400
+        
+    result = get_shio_compatibility(shio1, shio2)
+    return jsonify(result)
+
+@shio_bp.route('/api/shio/fortune', methods=['POST'])
+def get_shio_fortune_endpoint():
+    data = request.get_json()
+    shio_key = data.get('shio')
+    
+    if not shio_key:
+        return jsonify({"error": "Missing shio"}), 400
+        
+    result = get_shio_fortune(shio_key)
     return jsonify(result)

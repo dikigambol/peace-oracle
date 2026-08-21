@@ -26,46 +26,50 @@
             <div class="trigram t7">☲</div>
             <div class="trigram t8">☱</div>
         </div>
-        <h1 class="shio-title">Kitab Takdir Shio</h1>
-        <p class="shio-subtitle">Singkap rahasia langit, elemen kosmik, dan jalan kebijaksanaan oriental Anda</p>
+        <h1 class="shio-title">Shio Oracle</h1>
+        <p class="shio-subtitle">Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai <i>inner peace</i>.</p>
 
         <!-- View 1: Selection Mode -->
         <div id="view-selection" class="shio-view active">
             <div class="choice-cards">
-                <button class="choice-card" id="btn-date">
-                    <span class="badge badge-beta">BETA</span>
+                <a href="javascript:void(0)" class="choice-card unavailable" style="text-decoration: none;">
+                    <span class="badge badge-soon">SOON</span>
                     <i class="fa-solid fa-calendar-days"></i>
                     <span>Baca Gulungan Takdir</span>
                     <small>Kalkulasi Bintang Otomatis</small>
-                </button>
-                <a href="{{ url_for('shio.guardian_spiritual') }}" class="choice-card" style="text-decoration: none;">
-                    <i class="fa-solid fa-dragon"></i>
-                    <span>Pilih Penjaga Spiritual</span>
-                    <small>Pilih dari 12 Hewan Langit</small>
                 </a>
-                <button class="choice-card" id="btn-yearly">
-                    <span class="badge badge-beta">BETA</span>
+                <button class="choice-card" id="btn-daily" style="grid-column: 1 / -1;">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    <span>Almanak Harian (Tong Shu)</span>
+                    <small>Navigasi Energi Harian & Pemilihan Waktu</small>
+                </button>
+                <a href="javascript:void(0)" class="choice-card unavailable" style="text-decoration: none;">
+                    <span class="badge badge-soon">SOON</span>
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span>Teropong Energi Tahunan</span>
                     <small id="yearly-subtitle">Proyeksi Keberuntungan</small>
-                </button>
-                <button class="choice-card" id="btn-compatibility">
-                    <span class="badge badge-beta">BETA</span>
+                </a>
+                <a href="{{ url_for('shio.shio_compatibility') }}" class="choice-card" style="text-decoration: none;">
                     <i class="fa-solid fa-heart-pulse"></i>
-                    <span>Timbangan Jodoh Kosmik</span>
-                    <small>Ukur Harmoni Pasangan & Bisnis</small>
-                </button>
+                    <span>Sinergi Jodoh Kosmik (He Hun)</span>
+                    <small>Kalkulasi Kompatibilitas Asmara &amp; Kemitraan Profesional</small>
+                </a>
+                <a href="{{ url_for('shio.shio_profile') }}" class="choice-card" style="text-decoration: none;">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Analisis Karakter Bawaan (Ben Ming Nian)</span>
+                    <small>Pemetaan Watak, Potensi &amp; Dinamika Psikologis</small>
+                </a>
                 <a href="javascript:void(0)" class="choice-card unavailable" style="text-decoration: none;">
                     <span class="badge badge-soon">SOON</span>
                     <i class="fa-solid fa-fire"></i>
                     <span>Roasting Shio</span>
                     <small>Kenyataan Pahit Karakter Anda</small>
                 </a>
-                <button class="choice-card" id="btn-daily" style="grid-column: 1 / -1;">
-                    <i class="fa-solid fa-calendar-day"></i>
-                    <span>Almanak Harian (Tong Shu)</span>
-                    <small>Ramalan Otomatis Hari Ini</small>
-                </button>
+                <a href="{{ url_for('shio.guardian_spiritual') }}" class="choice-card" style="text-decoration: none;">
+                    <i class="fa-solid fa-dragon"></i>
+                    <span>Afinitas Penjaga Spiritual</span>
+                    <small>Temukan Entitas Pelindung Berdasarkan Konstelasi Anda</small>
+                </a>
             </div>
             </div>
 
@@ -230,9 +234,60 @@
             
             <div class="daily-header">
                 <div class="daily-icon"><span id="daily-master-icon">✨</span></div>
-                <h2 class="view-title" style="margin-bottom: 5px;">Energi Hari Ini: <span id="daily-master-name">...</span></h2>
-                <p id="daily-date-str" style="color: #ffd700; letter-spacing: 1px; font-size: 1rem; margin-top: 0;">...</p>
-                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.9;">Lihat bagaimana energi kosmik hari ini mempengaruhi ke-12 Shio secara instan.</p>
+                <h2 class="view-title" style="margin-bottom: 5px;">Almanak Kosmik: <span id="daily-master-name">...</span></h2>
+                <p id="daily-date-str" style="display: none;">...</p>
+                
+                <style>
+                    /* Force flatpickr altInput to be transparent and golden */
+                    .daily-date-wrapper input {
+                        background: transparent !important;
+                        border: none !important;
+                        color: #ffd700 !important;
+                        font-family: 'Cinzel', serif !important;
+                        font-size: 1.1rem !important;
+                        font-weight: bold !important;
+                        text-align: center !important;
+                        cursor: pointer !important;
+                        outline: none !important;
+                        box-shadow: none !important;
+                        width: 190px !important;
+                        padding: 0 !important;
+                        margin-top: 3px !important; /* Vertical alignment fix for Cinzel */
+                        line-height: 1 !important;
+                    }
+                    @keyframes cardFadeInUp {
+                        from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+                        to { opacity: 1; transform: translateY(0); filter: blur(0); }
+                    }
+                    .daily-card.animate-in {
+                        animation: cardFadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+                        opacity: 0;
+                    }
+                    @keyframes pulseGlow {
+                        0% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2)); transform: scale(0.98); }
+                        50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255,215,0,0.6)); transform: scale(1); }
+                        100% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2)); transform: scale(0.98); }
+                    }
+                    .loading-cosmic {
+                        grid-column: 1 / -1;
+                        text-align: center; 
+                        color: #ffd700; 
+                        padding: 80px 0;
+                        animation: pulseGlow 2s infinite ease-in-out;
+                    }
+                </style>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0 auto 20px;">
+                    <div class="daily-date-wrapper" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 8px 20px; border: 1px solid rgba(255,215,0,0.3); border-radius: 30px; background: rgba(0,0,0,0.4); cursor: pointer; transition: all 0.3s ease;" onclick="document.getElementById('daily-date-input')._flatpickr.open()" onmouseover="this.style.background='rgba(255,215,0,0.1)'" onmouseout="this.style.background='rgba(0,0,0,0.4)'">
+                        <i class="fa-solid fa-calendar-day" style="color: #ffd700; margin-top: -1px;"></i>
+                        <input type="text" id="daily-date-input" placeholder="Pilih Tanggal...">
+                        <i class="fa-solid fa-chevron-down" style="color: #ffd700; font-size: 0.8rem; margin-top: -1px;"></i>
+                    </div>
+                    <button id="btn-today-reset" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,215,0,0.3); color: #ffd700; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center;" title="Kembali ke Hari Ini" onmouseover="this.style.background='rgba(255,215,0,0.1)'" onmouseout="this.style.background='rgba(0,0,0,0.4)'">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+
+                <p style="font-size: 0.9rem; opacity: 0.9;">Lihat bagaimana energi kosmik pada hari tersebut mempengaruhi ke-12 Shio.</p>
             </div>
             
             <div id="daily-grid" class="daily-grid">

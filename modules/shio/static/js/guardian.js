@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const views = {
         shioList: document.getElementById('view-shio-list'),
-        elementList: document.getElementById('view-element-list'),
         result: document.getElementById('view-result')
     };
 
@@ -24,17 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.shio-item').forEach(btn => {
         btn.addEventListener('click', (e) => {
             selectedShio = e.currentTarget.dataset.shio;
-            switchView('elementList');
-        });
-    });
-
-    // View 3 Handlers (Element Selection)
-    document.getElementById('back-to-shio').addEventListener('click', () => switchView('shioList'));
-    
-    document.querySelectorAll('.element-card').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const selectedElement = e.currentTarget.dataset.element;
-            fetchFortune(selectedShio, selectedElement);
+            
+            // Fetch directly without asking for element
+            fetchFortune(selectedShio);
             
             const resultCard = document.getElementById('main-fortune-card');
             resultCard.classList.remove('hidden');
@@ -55,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Fetch Fortune Logic
-    function fetchFortune(shioKey, elementKey) {
+    function fetchFortune(shioKey) {
         const payload = { shio: shioKey };
         
         fetch('/api/shio/guardian', {
@@ -69,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const resTitle = document.getElementById('res-title');
             if (resTitle) {
                 resTitle.textContent = data.guardian_name;
-                resTitle.style.color = getComputedStyle(document.documentElement).getPropertyValue(`--${elementKey}-color`) || '#ffd700';
+                resTitle.style.color = '#ffd700'; // Default gold color
             }
             
             const staticBaseUrl = document.querySelector('link[href*="shio.css"]').href.split('css/')[0];
@@ -105,18 +96,104 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Optional Easter Egg Canvas (same as in shio.js)
+    // --- INTERACTIVE BACKGROUND (EASTER EGG) ---
     const canvas = document.getElementById('particle-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // Simple starfield
-        for (let i = 0; i < 100; i++) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
-            ctx.beginPath();
-            ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
-            ctx.fill();
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 2;
+                this.speedX = Math.random() * 6 - 3;
+                this.speedY = Math.random() * 6 - 3;
+                this.color = Math.random() > 0.5 ? '#ffd700' : '#ff4500';
+                this.life = 1.0;
+                this.decay = Math.random() * 0.02 + 0.02;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= this.decay;
+            }
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+            }
+        }
+
+        function createParticles(x, y) {
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        let isDragging = false;
+        const shioBg = document.getElementById('shio-bg');
+
+        if (shioBg) {
+            shioBg.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                createParticles(e.clientX, e.clientY);
+            });
+
+            shioBg.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    for (let i = 0; i < 5; i++) {
+                        particles.push(new Particle(e.clientX, e.clientY));
+                    }
+                }
+            });
+
+            window.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            shioBg.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                const touch = e.touches[0];
+                createParticles(touch.clientX, touch.clientY);
+            });
+
+            shioBg.addEventListener('touchmove', (e) => {
+                if (isDragging) {
+                    const touch = e.touches[0];
+                    for (let i = 0; i < 5; i++) {
+                        particles.push(new Particle(touch.clientX, touch.clientY));
+                    }
+                }
+            });
+
+            window.addEventListener('touchend', () => {
+                isDragging = false;
+            });
         }
     }
 });
