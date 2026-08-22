@@ -12,7 +12,7 @@
             if (window.crypto && window.crypto.randomUUID) {
                 deviceId = window.crypto.randomUUID();
             } else {
-                deviceId = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 10);
+                deviceId = Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 10);
             }
             try {
                 localStorage.setItem('zodiak_device_id', deviceId);
