@@ -40,6 +40,10 @@ ehthumbs.db
 Thumbs.db
 Desktop.ini
 
+# SQLite Databases & Quota files
+*.db
+ai_quota_store.json
+
 # IDEs and Editors
 .vscode/
 .idea/
