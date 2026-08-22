@@ -56535,7 +56535,7 @@ MUSIC_BANK = {
 AI_HOROSCOPE_CACHE = {}
 
 def get_openrouter_api_key():
-    for key_name in ["OPENROUTER_API_KEY", "openrouter-key", "OPENROUTER_KEY", "OPENROUTER_TOKEN"]:
+    for key_name in ["OPENROUTER_API_KEY", "openrouter_key", "OPENROUTER_KEY", "OPENROUTER_TOKEN"]:
         val = os.getenv(key_name)
         if val:
             return val.strip()
