@@ -122,7 +122,7 @@ def check_ai_quota(client_id=None):
     effective_count = max(count, fp_count)
 
     if effective_count >= DAILY_AI_LIMIT:
-        notice = f"🔒 Quota Mode AI Gratis (2x/hari) Anda telah habis untuk hari ini ({effective_count}/{DAILY_AI_LIMIT}). Beralih otomatis ke Mode Data Statis Default."
+        notice = f"AI quota mode limited. Switching to Static Data Prediction."
         return False, effective_count, DAILY_AI_LIMIT, notice
 
     return True, effective_count, DAILY_AI_LIMIT, None
