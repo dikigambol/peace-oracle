@@ -8,4 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 500); // 500ms delay for aesthetics
     });
+
+    // Mobile & Desktop Click/Tap Toggle for Floating Mode Switcher
+    const modeSwitcherToggle = document.getElementById('mode-switcher-toggle');
+    const modeSwitcherContainer = document.querySelector('.mode-switcher-container');
+
+    if (modeSwitcherToggle && modeSwitcherContainer) {
+        modeSwitcherToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            modeSwitcherContainer.classList.toggle('active');
+        });
+
+        // Close mode switcher menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!modeSwitcherContainer.contains(e.target)) {
+                modeSwitcherContainer.classList.remove('active');
+            }
+        });
+    }
 });

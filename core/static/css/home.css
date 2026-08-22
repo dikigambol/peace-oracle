@@ -5,7 +5,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px 20px 60px 20px; /* Extra bottom padding for footer */
+    padding: 20px 20px 60px 20px;
+    /* Extra bottom padding for footer */
     position: relative;
     z-index: 10;
     /* Nebula Animated Background */
@@ -15,9 +16,17 @@
 }
 
 @keyframes nebulaFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .home-header {
@@ -309,11 +318,14 @@
 
     .home-footer {
         bottom: 10px;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
     }
 
     .home-footer p {
         font-size: 0.75rem;
         padding: 6px 12px;
-        border-radius: 20px;
+        border-radius: 15px;
     }
 }
