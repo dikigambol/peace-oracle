@@ -22,12 +22,16 @@ def roasting_page():
     return render_template('zodiak/roasting.html')
 
 @zodiak_bp.route('/api/zodiak/roast', methods=['GET', 'POST'])
-def api_roast():
+def get_roasting_data():
     sign_key = None
+    refresh = request.args.get('refresh') == '1' or request.args.get('roll') == '1'
+
     if request.method == 'POST':
         data = request.get_json() or {}
+        sign_key = data.get('sign')
         birthdate = data.get('birthdate')
-        sign = data.get('sign')
+        if not refresh:
+            refresh = data.get('refresh') == 1 or data.get('roll') == 1
         if birthdate:
             try:
                 parts = birthdate.split('-')
@@ -37,16 +41,10 @@ def api_roast():
                     sign_key = determine_zodiac(day, month)
             except Exception:
                 pass
-        elif sign:
-            sign_key = sign.lower()
     else:
+        sign_key = request.args.get('sign')
         birthdate = request.args.get('birthdate')
-        sign = request.args.get('sign')
-        day = request.args.get('day')
-        month = request.args.get('month')
-        if day and month:
-            sign_key = determine_zodiac(day, month)
-        elif birthdate:
+        if birthdate:
             try:
                 parts = birthdate.split('-')
                 if len(parts) == 3:
@@ -55,14 +53,14 @@ def api_roast():
                     sign_key = determine_zodiac(day, month)
             except Exception:
                 pass
-        elif sign:
-            sign_key = sign.lower()
+        elif sign_key:
+            sign_key = sign_key.lower()
 
     if not sign_key or sign_key not in ZODIAC_DATA:
         sign_key = 'aries'
 
     z = ZODIAC_DATA[sign_key]
-    roast_info = get_roast(sign_key)
+    roast_info = get_ai_roast(sign_key, refresh=refresh)
 
     sign_b = None
     if request.method == 'POST':
@@ -73,7 +71,7 @@ def api_roast():
 
     relationship_roast = None
     if sign_b and sign_b.lower() in ZODIAC_DATA:
-        relationship_roast = get_relationship_roast(sign_key, sign_b.lower())
+        relationship_roast = get_ai_relationship_roast(sign_key, sign_b.lower(), refresh=refresh)
 
     return jsonify({
         "sign_key": sign_key,
@@ -97,7 +95,7 @@ def get_zodiac(sign):
         z["base_ratings"], cosmic, z["ruler_planet"], sign_key
     )
     genz_readings = get_daily_horoscope(sign_key, cosmic)
-    youtube_track = get_daily_youtube_track(sign_key, cosmic)
+    youtube_track = genz_readings.get("youtube_track") or get_daily_youtube_track(sign_key, cosmic)
 
     ruler_planet = z["ruler_planet"]
     planet_info = cosmic["planet_status"].get(ruler_planet, {})
@@ -264,6 +262,8 @@ def get_compatibility(sign_one, sign_two):
             "metrics": {"love": base_metrics["comm"], "comm": base_metrics["comm"], "trust": base_metrics["trust"], "future": int((work_score + base_metrics["trust"]) / 2)}
         }
     }
+
+    modes_data = get_ai_compatibility_modes(s1_key, s2_key, z1["name"], elem_one, z2["name"], elem_two, modes_data)
 
     return jsonify({
         "sign_one": z1["name"], "sign_two": z2["name"],

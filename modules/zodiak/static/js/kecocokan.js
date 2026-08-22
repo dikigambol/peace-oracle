@@ -59,6 +59,26 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const loaderPanel = document.getElementById('comp-details-loader');
+        const origBtnText = btnCalc.innerHTML;
+
+        // Tampilkan loader, sembunyikan instruksi & konten lama
+        if (instructionPanel) instructionPanel.classList.add('hidden');
+        if (contentPanel) contentPanel.classList.add('hidden');
+        if (quickViz) quickViz.classList.add('hidden');
+        if (loaderPanel) loaderPanel.classList.remove('hidden');
+
+        btnCalc.disabled = true;
+        btnCalc.innerHTML = '<i class="fa-solid fa-atom fa-spin"></i> Menghitung';
+
+        // Scroll otomatis ke panel detail di layar mobile/tablet (<= 968px)
+        if (window.innerWidth <= 968) {
+            const detailsContainer = document.querySelector('.details-panel-container');
+            if (detailsContainer) {
+                detailsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
         try {
             // Panggil API Backend Flask
             const response = await fetch(`/api/zodiak/compatibility/${signOne}/${signTwo}`);
@@ -66,9 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await response.json();
             lastFetchedData = data;
-            displayCompatibilityDetails(data);
+
+            setTimeout(() => {
+                if (loaderPanel) loaderPanel.classList.add('hidden');
+                displayCompatibilityDetails(data);
+                if (data.modes && data.modes.ai_notice && typeof window.showAiQuotaToast === 'function') {
+                    window.showAiQuotaToast(data.modes.ai_notice);
+                }
+                btnCalc.disabled = false;
+                btnCalc.innerHTML = origBtnText;
+            }, 300);
         } catch (err) {
             console.error(err);
+            if (loaderPanel) loaderPanel.classList.add('hidden');
+            if (instructionPanel) instructionPanel.classList.remove('hidden');
+            btnCalc.disabled = false;
+            btnCalc.innerHTML = origBtnText;
             alert('Gagal memuat analisis kecocokan. Silakan coba lagi.');
         }
     });

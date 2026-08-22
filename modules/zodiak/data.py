@@ -3,8 +3,8 @@ import requests
 import datetime
 import math
 import hashlib
-from .horoscope_bank import get_daily_horoscope, get_daily_youtube_track
-from .roasting_bank import determine_zodiac, get_roast, get_relationship_roast
+from .horoscope_bank import get_daily_horoscope, get_daily_youtube_track, get_ai_compatibility_modes
+from .roasting_bank import determine_zodiac, get_roast, get_relationship_roast, get_ai_roast, get_ai_relationship_roast
 # DATA ZODIAK STATIK
 # ============================================================
 ZODIAC_DATA = {

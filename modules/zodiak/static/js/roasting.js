@@ -113,6 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     loaderPanel.classList.add('hidden');
                     displayRoastingDetails(data, signKey);
+                    if (data.roast && data.roast.ai_notice && typeof window.showAiQuotaToast === 'function') {
+                        window.showAiQuotaToast(data.roast.ai_notice);
+                    }
                 }, 300);
             } catch (err) {
                 console.error(err);
@@ -169,14 +172,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (tipTextEl) tipTextEl.innerText = roast.survival_tip;
     }
 
+    const pairLoaderPanel = document.getElementById('pair-roast-loader');
+
     // Event Listener Pemilihan Zodiak B untuk Roasting Hubungan
     if (pairSignSelectEl) {
         pairSignSelectEl.addEventListener('change', async () => {
             const signB = pairSignSelectEl.value;
             if (!activeSignA || !signB) {
                 if (pairRoastResultEl) pairRoastResultEl.classList.add('hidden');
+                if (pairLoaderPanel) pairLoaderPanel.classList.add('hidden');
                 return;
             }
+
+            if (pairRoastResultEl) pairRoastResultEl.classList.add('hidden');
+            if (pairLoaderPanel) pairLoaderPanel.classList.remove('hidden');
 
             try {
                 const response = await fetch(`/api/zodiak/roast?sign=${activeSignA}&sign_b=${signB}`);
@@ -185,17 +194,110 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 const rel = data.relationship_roast;
 
-                if (rel && pairRoastResultEl) {
-                    pairRoastBadgeEl.innerText = rel.badge;
-                    pairRoastHeadlineEl.innerText = rel.headline;
-                    pairRoastDescEl.innerText = rel.desc;
-                    pairRoastVerdictEl.innerText = rel.verdict;
+                setTimeout(() => {
+                    if (pairLoaderPanel) pairLoaderPanel.classList.add('hidden');
+                    if (rel && pairRoastResultEl) {
+                        pairRoastBadgeEl.innerText = rel.badge;
+                        pairRoastHeadlineEl.innerText = rel.headline;
+                        pairRoastDescEl.innerText = rel.desc;
+                        pairRoastVerdictEl.innerText = rel.verdict;
 
-                    pairRoastResultEl.classList.remove('hidden');
-                }
+                        pairRoastResultEl.classList.remove('hidden');
+                        if (rel && rel.ai_notice && typeof window.showAiQuotaToast === 'function') {
+                            window.showAiQuotaToast(rel.ai_notice);
+                        }
+                    }
+                }, 300);
             } catch (err) {
                 console.error(err);
+                if (pairLoaderPanel) pairLoaderPanel.classList.add('hidden');
                 alert('Gagal mengambil roasting hubungan.');
+            }
+        });
+    }
+
+    // ----------------------------------------------------
+    // Event Listener Roll Dice Roasting (Acak Roasting Baru)
+    // ----------------------------------------------------
+    const btnRollDiceRoast = document.getElementById('btn-roll-dice-roast');
+    const btnRollDicePair = document.getElementById('btn-roll-dice-pair');
+
+    if (btnRollDiceRoast) {
+        btnRollDiceRoast.addEventListener('click', async () => {
+            if (!activeSignA) return;
+
+            btnRollDiceRoast.classList.add('rolling');
+            btnRollDiceRoast.disabled = true;
+            loaderPanel.classList.remove('hidden');
+            contentPanel.classList.add('hidden');
+
+            try {
+                const response = await fetch(`/api/zodiak/roast?sign=${activeSignA}&roll=1`);
+                if (!response.ok) throw new Error('Gagal mengacak roasting');
+
+                const data = await response.json();
+                setTimeout(() => {
+                    loaderPanel.classList.add('hidden');
+                    displayRoastingDetails(data, activeSignA);
+                    if (data.roast && data.roast.ai_notice && typeof window.showAiQuotaToast === 'function') {
+                        window.showAiQuotaToast(data.roast.ai_notice);
+                    }
+                    btnRollDiceRoast.classList.remove('rolling');
+                    btnRollDiceRoast.disabled = false;
+                }, 300);
+            } catch (err) {
+                console.error(err);
+                loaderPanel.classList.add('hidden');
+                contentPanel.classList.remove('hidden');
+                btnRollDiceRoast.classList.remove('rolling');
+                btnRollDiceRoast.disabled = false;
+                alert('Gagal mengacak roasting baru.');
+            }
+        });
+    }
+
+    if (btnRollDicePair) {
+        btnRollDicePair.addEventListener('click', async () => {
+            const signB = pairSignSelectEl ? pairSignSelectEl.value : '';
+            if (!activeSignA || !signB) {
+                alert('Pilih zodiak pasangan terlebih dahulu!');
+                return;
+            }
+
+            btnRollDicePair.classList.add('rolling');
+            btnRollDicePair.disabled = true;
+            if (pairRoastResultEl) pairRoastResultEl.classList.add('hidden');
+            if (pairLoaderPanel) pairLoaderPanel.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`/api/zodiak/roast?sign=${activeSignA}&sign_b=${signB}&roll=1`);
+                if (!response.ok) throw new Error('Gagal mengacak roasting pasangan');
+
+                const data = await response.json();
+                const rel = data.relationship_roast;
+
+                setTimeout(() => {
+                    if (pairLoaderPanel) pairLoaderPanel.classList.add('hidden');
+                    if (rel && pairRoastResultEl) {
+                        pairRoastBadgeEl.innerText = rel.badge;
+                        pairRoastHeadlineEl.innerText = rel.headline;
+                        pairRoastDescEl.innerText = rel.desc;
+                        pairRoastVerdictEl.innerText = rel.verdict;
+
+                        pairRoastResultEl.classList.remove('hidden');
+                        if (rel && rel.ai_notice && typeof window.showAiQuotaToast === 'function') {
+                            window.showAiQuotaToast(rel.ai_notice);
+                        }
+                    }
+                    btnRollDicePair.classList.remove('rolling');
+                    btnRollDicePair.disabled = false;
+                }, 300);
+            } catch (err) {
+                console.error(err);
+                if (pairLoaderPanel) pairLoaderPanel.classList.add('hidden');
+                btnRollDicePair.classList.remove('rolling');
+                btnRollDicePair.disabled = false;
+                alert('Gagal mengacak roasting pasangan baru.');
             }
         });
     }

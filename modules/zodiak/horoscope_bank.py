@@ -3,6 +3,8 @@
 # ============================================================
 import hashlib
 import requests
+import os
+import json
 
 HOROSCOPE_BANK = {
   "aries": {
@@ -56530,12 +56532,38 @@ MUSIC_BANK = {
   }
 }
 
-def get_daily_horoscope(sign_key, cosmic):
+AI_HOROSCOPE_CACHE = {}
+
+def get_openrouter_api_key():
+    for key_name in ["OPENROUTER_API_KEY", "openrouter-key", "OPENROUTER_KEY", "OPENROUTER_TOKEN"]:
+        val = os.getenv(key_name)
+        if val:
+            return val.strip()
+    
+    env_paths = [
+        os.path.join(os.path.dirname(__file__), "..", "..", ".env"),
+        os.path.join(os.getcwd(), ".env"),
+        ".env"
+    ]
+    for env_path in env_paths:
+        if os.path.exists(env_path):
+            try:
+                with open(env_path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if "=" in line and not line.startswith("#"):
+                            k, v = line.split("=", 1)
+                            if "openrouter" in k.lower():
+                                return v.strip()
+            except Exception:
+                pass
+    return None
+
+def get_bank_horoscope(sign_key, cosmic):
     sign_key = sign_key.lower()
     sign_data = HOROSCOPE_BANK.get(sign_key, HOROSCOPE_BANK["aries"])
     readings = sign_data["readings"]
     
-    # Kombinasi seed nyata dari Tanggal + Fase Bulan Live + Cuaca Live + Sign Zodiak
     cosmic_signature = f"{cosmic['date']}_{cosmic['moon_phase']}_{cosmic['weather']}_{sign_key}_reading"
     seed = hashlib.md5(cosmic_signature.encode()).hexdigest()
     idx = int(seed[:6], 16) % len(readings)
@@ -56551,6 +56579,125 @@ def get_daily_horoscope(sign_key, cosmic):
         "health": item["health"].format(moon_phase=moon_fmt, weather=weather_fmt)
     }
 
+def get_daily_horoscope(sign_key, cosmic):
+    sign_key = sign_key.lower()
+    date_str = cosmic.get('date', '')
+    cache_key = f"{sign_key}_{date_str}"
+
+    if cache_key in AI_HOROSCOPE_CACHE:
+        return AI_HOROSCOPE_CACHE[cache_key]
+
+    from modules.zodiak.ai_limiter import check_ai_quota, increment_ai_quota
+    is_allowed, count, limit, notice = check_ai_quota()
+    if not is_allowed:
+        fallback_res = get_bank_horoscope(sign_key, cosmic)
+        fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
+        fallback_res["ai_notice"] = notice
+        fallback_res["is_ai_quota_exceeded"] = True
+        return fallback_res
+
+    api_key = get_openrouter_api_key()
+    if not api_key:
+        fallback_res = get_bank_horoscope(sign_key, cosmic)
+        fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
+        return fallback_res
+
+    sign_name = sign_key.capitalize()
+    moon_fmt = f"{cosmic.get('moon_emoji', '')} {cosmic.get('moon_phase', '')}"
+    weather_fmt = cosmic.get('weather', '')
+
+    prompt = f"""Kamu adalah pakar astrologi profesional yang ramah, hangat, dan berbahasa Indonesia gaul/modern ala anak muda (Gen Z / santai dan natural). 
+Tuliskan ramalan harian dan rekomendasi lagu musik yang cocok untuk zodiak **{sign_name}** pada hari ini ({date_str}).
+
+Kondisi Kosmik Hari Ini:
+- Fase Bulan: {moon_fmt} ({cosmic.get('moon_illumination', 0)}%)
+- Cuaca: {weather_fmt}
+
+Buatkan bagian ramalan & rekomendasi lagu musik berikut:
+1. `summary`: Ringkasan aura dan vibe harian {sign_name} secara umum. (2-3 kalimat)
+2. `love`: Ramalan asmara/percintaan untuk single maupun berpasangan. (2-3 kalimat)
+3. `career`: Ramalan karir, studi, keuangan, dan produktivitas. (2-3 kalimat)
+4. `health`: Ramalan kesehatan fisik, emosional, dan tips self-care. (2-3 kalimat)
+5. `music_title`: Judul 1 lagu populer/nyata (Indonesia atau Barat) yang sangat cocok dengan energi vibe kosmik {sign_name} hari ini.
+6. `music_artist`: Nama penyanyi / band pencipta lagu tersebut.
+7. `music_genre`: Genre musik lagu tersebut (contoh: Indie Pop, Chill R&B, Synthwave, Lofi Beats, Pop Rock).
+8. `music_reason`: 1-2 kalimat alasan seru & relatable kenapa lagu ini sangat cocok menyelaraskan mood kosmik {sign_name} hari ini.
+
+Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks/markdown lain):
+{{
+  "summary": "...",
+  "love": "...",
+  "career": "...",
+  "health": "...",
+  "music_title": "...",
+  "music_artist": "...",
+  "music_genre": "...",
+  "music_reason": "..."
+}}"""
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://zodiak-data-asia.local",
+        "X-OpenRouter-Title": "Zodiak Data Asia"
+    }
+
+    models = [
+        "google/gemini-2.5-flash-lite"
+    ]
+
+    for model in models:
+        try:
+            payload = {
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": "Kamu adalah ahli astrologi berpengalaman yang memberikan ramalan zodiak dan rekomendasi lagu musik dengan gaya bahasa Indonesia yang natural, hangat, santai, dan modern. Kembalikan respons HANYA dalam format JSON valid."},
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.7
+            }
+            resp = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=8)
+            if resp.status_code == 200:
+                res_data = resp.json()
+                content = res_data['choices'][0]['message']['content'].strip()
+                
+                if content.startswith("```"):
+                    content = content.split("\n", 1)[-1]
+                    if content.endswith("```"):
+                        content = content.rsplit("```", 1)[0]
+                    content = content.strip()
+                if content.startswith("json"):
+                    content = content[4:].strip()
+
+                parsed = json.loads(content)
+                if all(k in parsed for k in ["summary", "love", "career", "health"]):
+                    title = parsed.get("music_title", "Cosmic Vibe")
+                    artist = parsed.get("music_artist", "Astrology AI")
+                    genre = parsed.get("music_genre", "✨ Cosmic Vibe")
+                    vibe_reason = parsed.get("music_reason", "Lagu ini dipilihkan kosmik untuk menyelaraskan energi harianmu.")
+                    query = f"{title} {artist}"
+                    youtube_url = f"https://music.youtube.com/search?q={requests.utils.quote(query)}"
+
+                    parsed["youtube_track"] = {
+                        "title": title,
+                        "artist": artist,
+                        "genre": genre,
+                        "vibe_reason": vibe_reason,
+                        "query": query,
+                        "youtube_url": youtube_url
+                    }
+                    parsed["ai_notice"] = None
+                    parsed["is_ai_quota_exceeded"] = False
+                    increment_ai_quota()
+                    AI_HOROSCOPE_CACHE[cache_key] = parsed
+                    return parsed
+        except Exception:
+            pass
+
+    fallback_res = get_bank_horoscope(sign_key, cosmic)
+    fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
+    return fallback_res
+
 def get_daily_youtube_track(sign_key, cosmic):
     sign_key = sign_key.lower()
     sign_music = MUSIC_BANK.get(sign_key, MUSIC_BANK["aries"])
@@ -56564,3 +56711,139 @@ def get_daily_youtube_track(sign_key, cosmic):
     track = tracks[idx].copy()
     track["youtube_url"] = f"https://music.youtube.com/search?q={requests.utils.quote(track['query'])}"
     return track
+
+AI_COMPATIBILITY_CACHE = {}
+
+def get_ai_compatibility_modes(s1_key, s2_key, z1_name, elem_one, z2_name, elem_two, modes_data):
+    s1_key = s1_key.lower()
+    s2_key = s2_key.lower()
+    cache_key = f"{s1_key}_{s2_key}"
+
+    if cache_key in AI_COMPATIBILITY_CACHE:
+        cached_ai = AI_COMPATIBILITY_CACHE[cache_key]
+        for mode_key in ["romance", "friendship", "work"]:
+            if mode_key in cached_ai and mode_key in modes_data:
+                ai_mode = cached_ai[mode_key]
+                if "status" in ai_mode:
+                    modes_data[mode_key]["status"] = ai_mode["status"]
+                if "summary" in ai_mode:
+                    modes_data[mode_key]["summary"] = ai_mode["summary"]
+                if "strengths" in ai_mode:
+                    modes_data[mode_key]["strengths"] = ai_mode["strengths"]
+                if "challenges" in ai_mode:
+                    modes_data[mode_key]["challenges"] = ai_mode["challenges"]
+        return modes_data
+
+    from modules.zodiak.ai_limiter import check_ai_quota, increment_ai_quota
+    is_allowed, count, limit, notice = check_ai_quota()
+    if not is_allowed:
+        modes_data["ai_notice"] = notice
+        modes_data["is_ai_quota_exceeded"] = True
+        return modes_data
+
+    api_key = get_openrouter_api_key()
+    if not api_key:
+        return modes_data
+
+    love_score = modes_data.get("romance", {}).get("score", 80)
+    friend_score = modes_data.get("friendship", {}).get("score", 80)
+    work_score = modes_data.get("work", {}).get("score", 80)
+
+    prompt = f"""Kamu adalah pakar astrologi dan dinamika hubungan interpersonal yang ramah, hangat, dan berbahasa Indonesia santai, natural, dan modern (ala Gen Z / anak muda) tanpa kaku.
+
+Analisis kecocokan hubungan antara 2 zodiak berikut:
+- Zodiak 1: **{z1_name}** (Elemen {elem_one})
+- Zodiak 2: **{z2_name}** (Elemen {elem_two})
+
+Skor Kecocokan:
+- Pasangan (Asmara/Romance): {love_score}%
+- Sahabat (Pertemanan/Friendship): {friend_score}%
+- Rekan Kerja (Profesional/Work): {work_score}%
+
+Tuliskan analisis yang natural, ramah, dan mengalir untuk 3 mode hubungan tersebut:
+1. `romance`: Pasangan/Asmara
+2. `friendship`: Sahabat/Bestie
+3. `work`: Rekan Kerja/Profesional
+
+Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa markdown/teks tambahan):
+{{
+  "romance": {{
+    "status": "...", 
+    "summary": "...", 
+    "strengths": ["...", "...", "..."], 
+    "challenges": ["...", "..."]
+  }},
+  "friendship": {{
+    "status": "...",
+    "summary": "...",
+    "strengths": ["...", "...", "..."],
+    "challenges": ["...", "..."]
+  }},
+  "work": {{
+    "status": "...",
+    "summary": "...",
+    "strengths": ["...", "...", "..."],
+    "challenges": ["...", "..."]
+  }}
+}}"""
+
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "HTTP-Referer": "https://zodiak-data-asia.local",
+        "X-OpenRouter-Title": "Zodiak Data Asia"
+    }
+
+    models = [
+        "google/gemini-2.5-flash-lite"
+    ]
+
+    for model in models:
+        try:
+            payload = {
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": "Kamu adalah pakar astrologi dan hubungan interpersonal yang memberikan analisis kecocokan zodiak dengan gaya bahasa Indonesia yang natural, hangat, santai, dan modern. Kembalikan respons HANYA dalam format JSON valid."},
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.7
+            }
+            resp = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=9)
+            if resp.status_code == 200:
+                res_data = resp.json()
+                content = res_data['choices'][0]['message']['content'].strip()
+                
+                if content.startswith("```"):
+                    content = content.split("\n", 1)[-1]
+                    if content.endswith("```"):
+                        content = content.rsplit("```", 1)[0]
+                    content = content.strip()
+                if content.startswith("json"):
+                    content = content[4:].strip()
+
+                parsed = json.loads(content)
+                if all(k in parsed for k in ["romance", "friendship", "work"]):
+                    increment_ai_quota()
+                    modes_data["ai_notice"] = None
+                    modes_data["is_ai_quota_exceeded"] = False
+                    AI_COMPATIBILITY_CACHE[cache_key] = parsed
+                    if s1_key != s2_key:
+                        AI_COMPATIBILITY_CACHE[f"{s2_key}_{s1_key}"] = parsed
+
+                    for mode_key in ["romance", "friendship", "work"]:
+                        if mode_key in parsed and mode_key in modes_data:
+                            ai_mode = parsed[mode_key]
+                            if "status" in ai_mode:
+                                modes_data[mode_key]["status"] = ai_mode["status"]
+                            if "summary" in ai_mode:
+                                modes_data[mode_key]["summary"] = ai_mode["summary"]
+                            if "strengths" in ai_mode:
+                                modes_data[mode_key]["strengths"] = ai_mode["strengths"]
+                            if "challenges" in ai_mode:
+                                modes_data[mode_key]["challenges"] = ai_mode["challenges"]
+                    return modes_data
+        except Exception:
+            pass
+
+    return modes_data
+
