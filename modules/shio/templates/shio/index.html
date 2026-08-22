@@ -1,0 +1,306 @@
+{% extends 'base.html' %}
+
+{% block title %}Mode Shio - Peace Oracle{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="shio-container" id="shio-bg">
+    <!-- Particle canvas for easter egg -->
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="shio-content-wrapper">
+        <div class="bagua-wrapper">
+            <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+            <div class="trigram t1">☰</div>
+            <div class="trigram t2">☴</div>
+            <div class="trigram t3">☵</div>
+            <div class="trigram t4">☶</div>
+            <div class="trigram t5">☷</div>
+            <div class="trigram t6">☳</div>
+            <div class="trigram t7">☲</div>
+            <div class="trigram t8">☱</div>
+        </div>
+        <h1 class="shio-title">Shio Oracle</h1>
+        <p class="shio-subtitle">Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai <i>inner peace</i>.</p>
+
+        <!-- View 1: Selection Mode -->
+        <div id="view-selection" class="shio-view active">
+            <div class="choice-cards">
+                <a href="javascript:void(0)" class="choice-card unavailable" style="text-decoration: none;">
+                    <span class="badge badge-soon">SOON</span>
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Baca Gulungan Takdir</span>
+                    <small>Kalkulasi Bintang Otomatis</small>
+                </a>
+                <button class="choice-card" id="btn-daily" style="grid-column: 1 / -1;">
+                    <i class="fa-solid fa-calendar-day"></i>
+                    <span>Almanak Harian (Tong Shu)</span>
+                    <small>Navigasi Energi Harian & Pemilihan Waktu</small>
+                </button>
+                <a href="javascript:void(0)" class="choice-card unavailable" style="text-decoration: none;">
+                    <span class="badge badge-soon">SOON</span>
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Teropong Energi Tahunan</span>
+                    <small id="yearly-subtitle">Proyeksi Keberuntungan</small>
+                </a>
+                <a href="{{ url_for('shio.shio_compatibility') }}" class="choice-card" style="text-decoration: none;">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span>Sinergi Jodoh Kosmik (He Hun)</span>
+                    <small>Kalkulasi Kompatibilitas Asmara &amp; Kemitraan Profesional</small>
+                </a>
+                <a href="{{ url_for('shio.shio_profile') }}" class="choice-card" style="text-decoration: none;">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Analisis Karakter Bawaan (Ben Ming Nian)</span>
+                    <small>Pemetaan Watak, Potensi &amp; Dinamika Psikologis</small>
+                </a>
+                <a href="javascript:void(0)" class="choice-card unavailable" style="text-decoration: none;">
+                    <span class="badge badge-soon">SOON</span>
+                    <i class="fa-solid fa-fire"></i>
+                    <span>Roasting Shio</span>
+                    <small>Kenyataan Pahit Karakter Anda</small>
+                </a>
+                <a href="{{ url_for('shio.guardian_spiritual') }}" class="choice-card" style="text-decoration: none;">
+                    <i class="fa-solid fa-dragon"></i>
+                    <span>Afinitas Penjaga Spiritual</span>
+                    <small>Temukan Entitas Pelindung Berdasarkan Konstelasi Anda</small>
+                </a>
+            </div>
+            </div>
+
+        <!-- View 1.5: Auto Calculation Form -->
+        <div id="view-auto" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start-from-auto"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+            <h2 class="view-title">Kapan Bintang Anda Turun ke Bumi?</h2>
+            
+            <div class="auto-form-container">
+                <p>Serahkan waktu kelahiran Anda, dan biarkan alam semesta menyingkap wujud Penjaga Spiritual dan Shio Tersembunyi Anda.</p>
+                <div class="input-group">
+                    <label style="display:block; margin-bottom:8px; color:#ffd700;">Tanggal Lahir Anda</label>
+                    <input type="text" id="birthdate-input" class="shio-date-input" placeholder="Kapan Bintang Anda Pertama Kali Terbit?">
+                </div>
+                <div class="input-group" style="margin-top: 15px;">
+                    <label style="display:block; margin-bottom:8px; color:#ffd700;">Jam Lahir (Opsional)</label>
+                    <div class="date-select-group">
+                        <select id="bt-hour" class="shio-select"><option value="" disabled selected>Jam (00-23)</option></select>
+                        <select id="bt-minute" class="shio-select"><option value="" disabled selected>Menit (00-59)</option></select>
+                    </div>
+                </div>
+                <button id="btn-calculate" class="calculate-btn"><i class="fa-solid fa-sparkles"></i> Singkap Takdir</button>
+            </div>
+        </div>
+
+
+
+        <!-- View 4: Result -->
+        <div id="view-result" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start"><i class="fa-solid fa-rotate-right"></i> Mulai Ulang</button>
+            <div class="fortune-card hidden" id="main-fortune-card">
+                <div id="auto-result-badge" class="auto-badge hidden">
+                    <i class="fa-solid fa-calendar-check"></i> <span id="res-birthdate"></span>
+                </div>
+                <h2 id="res-title" class="res-title">Naga Api</h2>
+                <div class="res-body">
+                    <p id="res-fortune" class="res-fortune">Ramalan sedang dibaca...</p>
+                    
+                    <div class="fortune-highlights">
+                        <p class="highlight-item"><strong><i class="fa-solid fa-star"></i> Sifat Bawaan:</strong> <span id="res-traits"></span></p>
+                        <p class="highlight-item"><strong><i class="fa-solid fa-wind"></i> Energi Elemen:</strong> <span id="res-vibe"></span></p>
+                        <p class="highlight-item" id="res-secret-wrapper" style="display: none;"><strong><i class="fa-solid fa-mask"></i> Shio Tersembunyi:</strong> <span id="res-secret-animal"></span> (Karakter Insting Terdalam)</p>
+                    </div>
+
+                    <div class="fortune-categories">
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-briefcase"></i> Karir</h3>
+                            <p id="res-karir"></p>
+                        </div>
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-coins"></i> Keuangan</h3>
+                            <p id="res-keuangan"></p>
+                        </div>
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-heart"></i> Asmara</h3>
+                            <p id="res-asmara"></p>
+                        </div>
+                        <div class="category-box">
+                            <h3><i class="fa-solid fa-staff-snake"></i> Kesehatan</h3>
+                            <p id="res-kesehatan"></p>
+                        </div>
+                    </div>
+
+                    <div class="res-meta">
+                        <div class="meta-box">
+                            <i class="fa-regular fa-compass"></i> Arah Hoki: <span id="res-dir"></span>
+                        </div>
+                        <div class="meta-box">
+                            <i class="fa-solid fa-dice"></i> Angka Hoki: <span id="res-num"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 5: Yearly Fortune -->
+        <div id="view-yearly" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start-from-yearly"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+            <h2 class="view-title">Teropong Energi Tahunan</h2>
+            
+            <div class="auto-form-container" id="yearly-form">
+                <p id="yearly-desc">Masukkan tahun kelahiran Anda untuk melihat ramalan energi kosmik pada tahun berjalan.</p>
+                <div class="input-group">
+                    <input type="number" id="yearly-year-input" class="shio-date-input" placeholder="Tahun Kelahiran Anda? (misal: 2001)" required>
+                </div>
+                <button id="btn-calc-yearly" class="calculate-btn"><i class="fa-solid fa-book-journal-whills"></i> Ramal Nasib Tahunan</button>
+            </div>
+            
+            <div id="yearly-result" class="fortune-card hidden">
+                <h2 id="res-yearly-title" class="res-title">...</h2>
+                <div class="res-body">
+                    <div class="fortune-highlights">
+                        <p class="highlight-item"><strong><i class="fa-solid fa-bolt"></i> Status Kosmik:</strong> <span id="res-yearly-status" style="color: #ffd700;">...</span></p>
+                        <p class="highlight-item"><strong><i class="fa-solid fa-chart-line"></i> Skor Keberuntungan:</strong> <span id="res-yearly-score">...</span>/100</p>
+                    </div>
+                    <p id="res-yearly-desc" class="res-fortune">...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 6: Compatibility -->
+        <div id="view-compatibility" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start-from-comp"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+            <h2 class="view-title">Timbangan Jodoh Kosmik</h2>
+            
+            <div class="auto-form-container" style="max-width: 600px;" id="comp-form">
+                <p>Pertemukan dua garis waktu untuk membaca keselarasan batin dan energi alam di antara kalian.</p>
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div class="input-group" style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,215,0,0.2);">
+                        <label style="display:block; margin-bottom:12px; color:#ffd700; text-align: center; font-weight: bold; letter-spacing: 1px;"><i class="fa-solid fa-user-astronaut"></i> PIHAK PERTAMA</label>
+                        <input type="text" id="comp-date1" class="shio-date-input" placeholder="Jejak Waktu Sang Pihak Pertama...">
+                        <div class="date-select-group" style="margin-top: 10px;">
+                            <select id="c1-hour" class="shio-select"><option value="" disabled selected>Jam (Opsional)</option></select>
+                            <select id="c1-minute" class="shio-select"><option value="" disabled selected>Menit (Opsional)</option></select>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px; color: #ffd700; margin: 5px 0;">
+                        <hr style="flex: 1; border: none; border-top: 1px dashed rgba(255,215,0,0.4);">
+                        <i class="fa-solid fa-yin-yang" style="font-size: 1.5rem; filter: drop-shadow(0 0 8px rgba(255,215,0,0.6));"></i>
+                        <hr style="flex: 1; border: none; border-top: 1px dashed rgba(255,215,0,0.4);">
+                    </div>
+
+                    <div class="input-group" style="background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,215,0,0.2);">
+                        <label style="display:block; margin-bottom:12px; color:#ffd700; text-align: center; font-weight: bold; letter-spacing: 1px;"><i class="fa-solid fa-user-astronaut"></i> PIHAK KEDUA</label>
+                        <input type="text" id="comp-date2" class="shio-date-input" placeholder="Jejak Waktu Sang Pihak Kedua...">
+                        <div class="date-select-group" style="margin-top: 10px;">
+                            <select id="c2-hour" class="shio-select"><option value="" disabled selected>Jam (Opsional)</option></select>
+                            <select id="c2-minute" class="shio-select"><option value="" disabled selected>Menit (Opsional)</option></select>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-calc-comp" class="calculate-btn" style="margin-top: 25px;"><i class="fa-solid fa-heart-circle-check"></i> Timbang Keharmonisan</button>
+            </div>
+
+            <div id="comp-result" class="fortune-card hidden">
+                <h2 id="res-comp-title" class="res-title">...</h2>
+                <div class="res-body">
+                    <div class="fortune-highlights">
+                        <p class="highlight-item"><strong><i class="fa-solid fa-star"></i> Hubungan Shio Utama:</strong> <span id="res-comp-shio">...</span></p>
+                        <p id="res-comp-secret-row" class="highlight-item hidden" style="color:#b0c4de;"><strong><i class="fa-solid fa-mask"></i> Relasi Shio Tersembunyi:</strong> <span id="res-comp-secret">...</span></p>
+                        <p class="highlight-item"><strong><i class="fa-solid fa-wind"></i> Hubungan Elemen:</strong> <span id="res-comp-elem">...</span></p>
+                        <p class="highlight-item"><strong><i class="fa-solid fa-percent"></i> Skor Total:</strong> <span id="res-comp-score">...</span>/100 (<span id="res-comp-status">...</span>)</p>
+                    </div>
+                    <div class="fortune-categories">
+                        <div class="category-box" style="grid-column: 1 / -1;">
+                            <h3><i class="fa-solid fa-heart"></i> Potensi Asmara</h3>
+                            <p id="res-comp-asmara">...</p>
+                        </div>
+                        <div class="category-box" style="grid-column: 1 / -1;">
+                            <h3><i class="fa-solid fa-briefcase"></i> Potensi Bisnis & Karir</h3>
+                            <p id="res-comp-bisnis">...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 7: Daily Almanak (Tong Shu) -->
+        <div id="view-daily" class="shio-view hidden">
+            <button class="back-btn" id="back-to-start-from-daily"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
+            
+            <div class="daily-header">
+                <div class="daily-icon"><span id="daily-master-icon">✨</span></div>
+                <h2 class="view-title" style="margin-bottom: 5px;">Almanak Kosmik: <span id="daily-master-name">...</span></h2>
+                <p id="daily-date-str" style="display: none;">...</p>
+                
+                <style>
+                    /* Force flatpickr altInput to be transparent and golden */
+                    .daily-date-wrapper input {
+                        background: transparent !important;
+                        border: none !important;
+                        color: #ffd700 !important;
+                        font-family: 'Cinzel', serif !important;
+                        font-size: 1.1rem !important;
+                        font-weight: bold !important;
+                        text-align: center !important;
+                        cursor: pointer !important;
+                        outline: none !important;
+                        box-shadow: none !important;
+                        width: 190px !important;
+                        padding: 0 !important;
+                        margin-top: 3px !important; /* Vertical alignment fix for Cinzel */
+                        line-height: 1 !important;
+                    }
+                    @keyframes cardFadeInUp {
+                        from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+                        to { opacity: 1; transform: translateY(0); filter: blur(0); }
+                    }
+                    .daily-card.animate-in {
+                        animation: cardFadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+                        opacity: 0;
+                    }
+                    @keyframes pulseGlow {
+                        0% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2)); transform: scale(0.98); }
+                        50% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255,215,0,0.6)); transform: scale(1); }
+                        100% { opacity: 0.5; filter: drop-shadow(0 0 5px rgba(255,215,0,0.2)); transform: scale(0.98); }
+                    }
+                    .loading-cosmic {
+                        grid-column: 1 / -1;
+                        text-align: center; 
+                        color: #ffd700; 
+                        padding: 80px 0;
+                        animation: pulseGlow 2s infinite ease-in-out;
+                    }
+                </style>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0 auto 20px;">
+                    <div class="daily-date-wrapper" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 8px 20px; border: 1px solid rgba(255,215,0,0.3); border-radius: 30px; background: rgba(0,0,0,0.4); cursor: pointer; transition: all 0.3s ease;" onclick="document.getElementById('daily-date-input')._flatpickr.open()" onmouseover="this.style.background='rgba(255,215,0,0.1)'" onmouseout="this.style.background='rgba(0,0,0,0.4)'">
+                        <i class="fa-solid fa-calendar-day" style="color: #ffd700; margin-top: -1px;"></i>
+                        <input type="text" id="daily-date-input" placeholder="Pilih Tanggal...">
+                        <i class="fa-solid fa-chevron-down" style="color: #ffd700; font-size: 0.8rem; margin-top: -1px;"></i>
+                    </div>
+                    <button id="btn-today-reset" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,215,0,0.3); color: #ffd700; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; transition: all 0.3s ease; display: flex; justify-content: center; align-items: center;" title="Kembali ke Hari Ini" onmouseover="this.style.background='rgba(255,215,0,0.1)'" onmouseout="this.style.background='rgba(0,0,0,0.4)'">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
+
+                <p style="font-size: 0.9rem; opacity: 0.9;">Lihat bagaimana energi kosmik pada hari tersebut mempengaruhi ke-12 Shio.</p>
+            </div>
+            
+            <div id="daily-grid" class="daily-grid">
+                <!-- Cards injected via JS -->
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+    <script src="{{ url_for('shio.static', filename='js/shio.js') }}"></script>
+{% endblock %}

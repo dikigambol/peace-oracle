@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+
+{% block title %}Zodiak Peace - General Profile & Esensi Zodiak{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="stars-bg"></div>
+
+    <header class="app-header">
+        <div class="header-container">
+            <h1 class="logo-title" id="logo-title">
+                <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
+            </h1>
+            <p class="tagline">Temukan Ketenangan Lewat Penyelarasan Kosmik & Kecocokan Zodiak</p>
+        </div>
+        <nav class="app-nav">
+            <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
+            <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-calculator "></i> Kecocokan</a>
+            <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><i class="fa-solid fa-compass"></i> General</a>
+            <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="portal-grid">
+            <!-- Left Side: Zodiac sign grid selector -->
+            <div class="zodiac-selector-container">
+                <h2 class="section-title"><i class="fa-solid fa-fingerprint"></i> Pilih Zodiak</h2>
+                <div class="zodiac-grid" id="zodiac-grid">
+                    <!-- Aries -->
+                    <button class="zodiac-card" data-sign="aries" id="card-aries">
+                        <span class="zodiac-symbol">♈</span>
+                        <h3 class="zodiac-name">Aries</h3>
+                        <p class="zodiac-dates">21 Mar - 19 Apr</p>
+                        <span class="element-badge fire">Api</span>
+                    </button>
+                    <!-- Taurus -->
+                    <button class="zodiac-card" data-sign="taurus" id="card-taurus">
+                        <span class="zodiac-symbol">♉</span>
+                        <h3 class="zodiac-name">Taurus</h3>
+                        <p class="zodiac-dates">20 Apr - 20 Mei</p>
+                        <span class="element-badge earth">Tanah</span>
+                    </button>
+                    <!-- Gemini -->
+                    <button class="zodiac-card" data-sign="gemini" id="card-gemini">
+                        <span class="zodiac-symbol">♊</span>
+                        <h3 class="zodiac-name">Gemini</h3>
+                        <p class="zodiac-dates">21 Mei - 20 Jun</p>
+                        <span class="element-badge air">Udara</span>
+                    </button>
+                    <!-- Cancer -->
+                    <button class="zodiac-card" data-sign="cancer" id="card-cancer">
+                        <span class="zodiac-symbol">♋</span>
+                        <h3 class="zodiac-name">Cancer</h3>
+                        <p class="zodiac-dates">21 Jun - 22 Jul</p>
+                        <span class="element-badge water">Air</span>
+                    </button>
+                    <!-- Leo -->
+                    <button class="zodiac-card" data-sign="leo" id="card-leo">
+                        <span class="zodiac-symbol">♌</span>
+                        <h3 class="zodiac-name">Leo</h3>
+                        <p class="zodiac-dates">23 Jul - 22 Agu</p>
+                        <span class="element-badge fire">Api</span>
+                    </button>
+                    <!-- Virgo -->
+                    <button class="zodiac-card" data-sign="virgo" id="card-virgo">
+                        <span class="zodiac-symbol">♍</span>
+                        <h3 class="zodiac-name">Virgo</h3>
+                        <p class="zodiac-dates">23 Agu - 22 Sep</p>
+                        <span class="element-badge earth">Tanah</span>
+                    </button>
+                    <!-- Libra -->
+                    <button class="zodiac-card" data-sign="libra" id="card-libra">
+                        <span class="zodiac-symbol">♎</span>
+                        <h3 class="zodiac-name">Libra</h3>
+                        <p class="zodiac-dates">23 Sep - 22 Okt</p>
+                        <span class="element-badge air">Udara</span>
+                    </button>
+                    <!-- Scorpio -->
+                    <button class="zodiac-card" data-sign="scorpio" id="card-scorpio">
+                        <span class="zodiac-symbol">♏</span>
+                        <h3 class="zodiac-name">Scorpio</h3>
+                        <p class="zodiac-dates">23 Okt - 21 Nov</p>
+                        <span class="element-badge water">Air</span>
+                    </button>
+                    <!-- Sagittarius -->
+                    <button class="zodiac-card" data-sign="sagittarius" id="card-sagittarius">
+                        <span class="zodiac-symbol">♐</span>
+                        <h3 class="zodiac-name">Sagittarius</h3>
+                        <p class="zodiac-dates">22 Nov - 21 Des</p>
+                        <span class="element-badge fire">Api</span>
+                    </button>
+                    <!-- Capricorn -->
+                    <button class="zodiac-card" data-sign="capricorn" id="card-capricorn">
+                        <span class="zodiac-symbol">♑</span>
+                        <h3 class="zodiac-name">Capricorn</h3>
+                        <p class="zodiac-dates">22 Des - 19 Jan</p>
+                        <span class="element-badge earth">Tanah</span>
+                    </button>
+                    <!-- Aquarius -->
+                    <button class="zodiac-card" data-sign="aquarius" id="card-aquarius">
+                        <span class="zodiac-symbol">♒</span>
+                        <h3 class="zodiac-name">Aquarius</h3>
+                        <p class="zodiac-dates">20 Jan - 18 Feb</p>
+                        <span class="element-badge air">Udara</span>
+                    </button>
+                    <!-- Pisces -->
+                    <button class="zodiac-card" data-sign="pisces" id="card-pisces">
+                        <span class="zodiac-symbol">♓</span>
+                        <h3 class="zodiac-name">Pisces</h3>
+                        <p class="zodiac-dates">19 Feb - 20 Mar</p>
+                        <span class="element-badge water">Air</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side: General Profile Panel -->
+            <div class="details-panel-container">
+                <div class="panel glass-panel" id="gen-details-panel">
+                    <!-- Instruction state -->
+                    <div class="details-instruction" id="gen-instruction">
+                        <i class="fa-solid fa-compass cosmic-icon animated-float"></i>
+                        <h3>Profil General Zodiak</h3>
+                        <p>Pilih salah satu zodiak di sebelah kiri untuk membuka esensi general: ciri fisik, sifat,
+                            kebiasaan, animal soulmate, selera lidah, hingga astro decor.</p>
+                    </div>
+
+                    <!-- Loader state -->
+                    <div class="details-loader hidden" id="gen-loader">
+                        <div class="cosmic-spinner-wrapper">
+                            <i class="fa-solid fa-atom cosmic-spinner"></i>
+                        </div>
+                        <p class="loader-text">Membuka Profil General Kosmik...</p>
+                    </div>
+
+                    <!-- Details state (hidden by default) -->
+                    <div class="details-content hidden" id="gen-content">
+                        <button class="btn-back-grid" id="btn-back-grid-gen"><i class="fa-solid fa-arrow-left"></i>
+                            Pilih Zodiak Lain</button>
+                        <div class="details-header">
+                            <span class="details-symbol" id="gen-symbol">♈</span>
+                            <div class="details-title-wrapper">
+                                <h3 class="details-name" id="gen-name">Aries</h3>
+                                <p class="details-dates" id="gen-dates">21 Maret - 19 April</p>
+                            </div>
+                            <span class="details-element-badge fire" id="gen-element-badge">Api</span>
+                        </div>
+
+                        <hr class="separator">
+
+                        <!-- Ciri Fisik -->
+                        <div class="char-section">
+                            <h4 class="char-section-title"><i class="fa-solid fa-eye"></i> Ciri Fisik Dominan</h4>
+                            <div class="physical-tags-grid" id="gen-physical-tags"></div>
+                        </div>
+
+                        <!-- Sifat & Karakter Utama -->
+                        <div class="char-section">
+                            <h4 class="char-section-title"><i class="fa-solid fa-brain"></i> Sifat & Karakter Utama</h4>
+                            <div class="char-box">
+                                <p class="char-personality-text" id="gen-personality-text">...</p>
+                            </div>
+                        </div>
+
+                        <!-- Kebiasaan Unik Sehari-hari -->
+                        <div class="char-section">
+                            <h4 class="char-section-title"><i class="fa-solid fa-mug-hot"></i> Kebiasaan Unik
+                                Sehari-hari</h4>
+                            <ul class="habits-list" id="gen-habits-list"></ul>
+                        </div>
+
+                        <!-- Animal Soulmate -->
+                        <div class="char-section">
+                            <div class="feature-card animal-card">
+                                <div class="feature-card-header"><i class="fa-solid fa-paw"></i> Animal Soulmate</div>
+                                <h5 class="feature-card-title" id="gen-animal-name">...</h5>
+                                <p class="feature-card-desc" id="gen-animal-desc">...</p>
+                            </div>
+                        </div>
+
+                        <!-- Selera Lidah / Cosmic Pantry -->
+                        <div class="char-section">
+                            <div class="feature-card pantry-card">
+                                <div class="feature-card-header"><i class="fa-solid fa-utensils"></i> Selera Lidah /
+                                    Cosmic Pantry</div>
+                                <div class="sub-feature-item">
+                                    <span class="sub-feature-label">Profil Selera:</span>
+                                    <span class="sub-feature-val" id="gen-pantry-profile">...</span>
+                                </div>
+                                <div class="sub-feature-item">
+                                    <span class="sub-feature-label">Makanan / Minuman Favorit:</span>
+                                    <span class="sub-feature-val" id="gen-pantry-food">...</span>
+                                </div>
+                                <div class="sub-feature-item">
+                                    <span class="sub-feature-label">Kebiasaan Kuliner:</span>
+                                    <span class="sub-feature-val" id="gen-pantry-habit">...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Astro Decor / Tata Letak Ruang -->
+                        <div class="char-section">
+                            <div class="feature-card decor-card">
+                                <div class="feature-card-header"><i class="fa-solid fa-house-chimney-window"></i> Astro
+                                    Decor / Tata Letak Ruang</div>
+                                <div class="sub-feature-item">
+                                    <span class="sub-feature-label">Gaya Interior:</span>
+                                    <span class="sub-feature-val" id="gen-decor-style">...</span>
+                                </div>
+                                <div class="sub-feature-item">
+                                    <span class="sub-feature-label">Elemen Kunci:</span>
+                                    <span class="sub-feature-val" id="gen-decor-elements">...</span>
+                                </div>
+                                <div class="sub-feature-item">
+                                    <span class="sub-feature-label">Atmosfer Ruangan:</span>
+                                    <span class="sub-feature-val" id="gen-decor-vibe">...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fun Fact -->
+                        <div class="char-section">
+                            <div class="fun-fact-card">
+                                <div class="fun-fact-header"><i class="fa-solid fa-bolt-lightning"></i> Fun Fact Kosmik
+                                </div>
+                                <p class="fun-fact-text" id="gen-fun-fact-text">...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="app-footer">
+        <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
+    </footer>
+
+    <!-- General Page JavaScript -->
+    
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('zodiak.static', filename='js/general.js') }}"></script>
+{% endblock %}

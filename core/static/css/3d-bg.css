@@ -1,0 +1,10 @@
+#webgl-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -10; /* Deepest layer */
+    pointer-events: auto; /* Allow interaction if needed */
+    background: radial-gradient(circle at center, #1a0505 0%, #050202 100%);
+}

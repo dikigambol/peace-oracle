@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil Shio - Peace Oracle{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    /* Profile-specific styles */
+    .profile-card { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.2); border-radius: 16px; padding: 30px; margin-top: 20px; backdrop-filter: blur(10px); }
+    .profile-header { text-align: center; margin-bottom: 25px; }
+    .profile-icon { font-size: 4rem; display: block; margin-bottom: 5px; }
+    .profile-hanzi { font-size: 1.5rem; color: #ffd700; opacity: 0.7; }
+    .profile-name { font-family: 'Cinzel', serif; font-size: 2rem; color: #ffd700; margin: 5px 0; }
+    .profile-meta { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 10px; }
+    .profile-meta .meta-tag { background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #ffd700; }
+
+    .profile-section { margin-bottom: 25px; }
+    .profile-section h3 { font-family: 'Cinzel', serif; color: #ffd700; font-size: 1.15rem; margin-bottom: 12px; border-bottom: 1px solid rgba(255,215,0,0.2); padding-bottom: 8px; }
+    .profile-section h3 i { margin-right: 8px; }
+    .profile-section p, .profile-section li { color: rgba(255,255,255,0.9); font-size: 0.95rem; line-height: 1.7; }
+    .profile-section ul { padding-left: 20px; margin: 0; }
+    .profile-section li { margin-bottom: 6px; }
+
+    .traits-container { display: flex; flex-wrap: wrap; gap: 8px; }
+    .trait-tag { padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
+    .trait-positive { background: rgba(76,175,80,0.2); border: 1px solid rgba(76,175,80,0.4); color: #81c784; }
+    .trait-negative { background: rgba(244,67,54,0.2); border: 1px solid rgba(244,67,54,0.4); color: #e57373; }
+
+    .flag-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    @media (max-width: 768px) { .flag-grid { grid-template-columns: 1fr; } }
+    .flag-box { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px; }
+    .flag-box h4 { margin: 0 0 10px; font-size: 1rem; }
+    .flag-box.green h4 { color: #81c784; }
+    .flag-box.red h4 { color: #e57373; }
+    .flag-box li { font-size: 0.9rem; margin-bottom: 8px; line-height: 1.5; }
+
+    .lucky-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+    .lucky-item { background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.15); border-radius: 10px; padding: 12px; text-align: center; }
+    .lucky-item .lucky-label { font-size: 0.75rem; color: #ffd700; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+    .lucky-item .lucky-value { font-size: 0.95rem; color: #fff; }
+
+    .alter-ego-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .alter-ego-card { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,215,0,0.15); border-radius: 12px; padding: 15px; text-align: center; transition: transform 0.2s, border-color 0.2s; }
+    .alter-ego-card:hover { transform: translateY(-3px); border-color: rgba(255,215,0,0.5); }
+    .alter-ego-card .ego-element { font-size: 0.75rem; color: #ffd700; opacity: 0.6; text-transform: uppercase; letter-spacing: 1px; }
+    .alter-ego-card .ego-title { font-size: 1rem; color: #ffd700; font-weight: 600; margin: 5px 0; }
+    .alter-ego-card .ego-desc { font-size: 0.85rem; color: rgba(255,255,255,0.8); line-height: 1.4; }
+
+    .famous-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .famous-tag { background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.2); padding: 4px 12px; border-radius: 15px; font-size: 0.85rem; color: rgba(255,255,255,0.9); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="shio-container" id="shio-bg">
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="shio-content-wrapper">
+        <div class="bagua-wrapper">
+            <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+            <div class="trigram t1">☰</div><div class="trigram t2">☴</div>
+            <div class="trigram t3">☵</div><div class="trigram t4">☶</div>
+            <div class="trigram t5">☷</div><div class="trigram t6">☳</div>
+            <div class="trigram t7">☲</div><div class="trigram t8">☱</div>
+        </div>
+        <h1 class="shio-title">Shio Oracle</h1>
+        <p class="shio-subtitle">Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai <i>inner peace</i>.</p>
+
+        <!-- View 1: Shio Selection -->
+        <div id="view-shio-list" class="shio-view active">
+            <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+            <h2 class="view-title">Pilih Shio Anda</h2>
+            <div class="shio-grid">
+                <button class="shio-item" data-shio="tikus"><span class="icon hanzi">鼠</span><span class="name">Tikus</span></button>
+                <button class="shio-item" data-shio="kerbau"><span class="icon hanzi">牛</span><span class="name">Kerbau</span></button>
+                <button class="shio-item" data-shio="macan"><span class="icon hanzi">虎</span><span class="name">Macan</span></button>
+                <button class="shio-item" data-shio="kelinci"><span class="icon hanzi">兔</span><span class="name">Kelinci</span></button>
+                <button class="shio-item" data-shio="naga"><span class="icon hanzi">龍</span><span class="name">Naga</span></button>
+                <button class="shio-item" data-shio="ular"><span class="icon hanzi">蛇</span><span class="name">Ular</span></button>
+                <button class="shio-item" data-shio="kuda"><span class="icon hanzi">馬</span><span class="name">Kuda</span></button>
+                <button class="shio-item" data-shio="kambing"><span class="icon hanzi">羊</span><span class="name">Kambing</span></button>
+                <button class="shio-item" data-shio="monyet"><span class="icon hanzi">猴</span><span class="name">Monyet</span></button>
+                <button class="shio-item" data-shio="ayam"><span class="icon hanzi">雞</span><span class="name">Ayam</span></button>
+                <button class="shio-item" data-shio="anjing"><span class="icon hanzi">狗</span><span class="name">Anjing</span></button>
+                <button class="shio-item" data-shio="babi"><span class="icon hanzi">豬</span><span class="name">Babi</span></button>
+            </div>
+        </div>
+
+        <!-- View 2: Profile Result -->
+        <div id="view-profile" class="shio-view hidden">
+            <button class="back-btn" id="back-to-select"><i class="fa-solid fa-arrow-left"></i> Pilih Shio Lain</button>
+
+            <div class="profile-card hidden" id="profile-card">
+                <!-- Header -->
+                <div class="profile-header">
+                    <span class="profile-icon" id="p-icon"></span>
+                    <span class="profile-hanzi" id="p-hanzi"></span>
+                    <h2 class="profile-name" id="p-name"></h2>
+                    <div class="profile-meta">
+                        <span class="meta-tag" id="p-branch"></span>
+                        <span class="meta-tag" id="p-yinyang"></span>
+                        <span class="meta-tag" id="p-element"></span>
+                    </div>
+                </div>
+
+                <!-- Traits -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-star"></i> Sifat Karakter</h3>
+                    <div class="traits-container" id="p-traits"></div>
+                </div>
+
+                <!-- Personality -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-scroll"></i> Kepribadian</h3>
+                    <div id="p-personality"></div>
+                </div>
+
+                <!-- Green & Red Flags -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-flag"></i> Green Flags & Red Flags</h3>
+                    <div class="flag-grid">
+                        <div class="flag-box green">
+                            <h4>🟩 Green Flags</h4>
+                            <ul id="p-green-flags"></ul>
+                        </div>
+                        <div class="flag-box red">
+                            <h4>🟥 Red Flags</h4>
+                            <ul id="p-red-flags"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lucky Data -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-clover"></i> Data Keberuntungan</h3>
+                    <div class="lucky-grid" id="p-lucky-grid"></div>
+                </div>
+
+                <!-- Career & Health -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-briefcase"></i> Karir Ideal</h3>
+                    <div class="traits-container" id="p-career"></div>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-heart-pulse"></i> Peringatan Kesehatan</h3>
+                    <p id="p-health"></p>
+                </div>
+
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-spa"></i> Nasihat Spiritual</h3>
+                    <p id="p-spirit"></p>
+                </div>
+
+                <!-- Alter Ego -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-masks-theater"></i> Alter Ego per Elemen</h3>
+                    <div class="alter-ego-grid" id="p-alter-ego"></div>
+                </div>
+
+                <!-- Famous People -->
+                <div class="profile-section">
+                    <h3><i class="fa-solid fa-users"></i> Tokoh Terkenal</h3>
+                    <div class="famous-list" id="p-famous"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('shio.static', filename='js/profile.js') }}"></script>
+{% endblock %}

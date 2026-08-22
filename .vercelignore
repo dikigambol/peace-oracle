@@ -1,6 +1,27 @@
+# Environments
+.env
 .venv/
 venv/
+ENV/
+env/
+
+# Python artifacts
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+
+# Git & OS
 .git/
 .gitignore
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Local scripts
+README.md
