@@ -56571,12 +56571,19 @@ def get_bank_horoscope(sign_key, cosmic):
     item = readings[idx]
     moon_fmt = f"{cosmic['moon_emoji']} {cosmic['moon_phase']}"
     weather_fmt = cosmic['weather']
+
+    from modules.zodiak.data import ZODIAC_DATA, generate_dynamic_ratings
+    z_info = ZODIAC_DATA.get(sign_key, ZODIAC_DATA["aries"])
+    fallback_ratings = generate_dynamic_ratings(
+        z_info["base_ratings"], cosmic, z_info["ruler_planet"], sign_key
+    )
     
     return {
         "summary": item["summary"].format(moon_phase=moon_fmt, weather=weather_fmt),
         "love": item["love"].format(moon_phase=moon_fmt, weather=weather_fmt),
         "career": item["career"].format(moon_phase=moon_fmt, weather=weather_fmt),
-        "health": item["health"].format(moon_phase=moon_fmt, weather=weather_fmt)
+        "health": item["health"].format(moon_phase=moon_fmt, weather=weather_fmt),
+        "ratings": fallback_ratings
     }
 
 def get_daily_horoscope(sign_key, cosmic):
@@ -56607,21 +56614,24 @@ def get_daily_horoscope(sign_key, cosmic):
     weather_fmt = cosmic.get('weather', '')
 
     prompt = f"""Kamu adalah pakar astrologi profesional yang ramah, hangat, dan berbahasa Indonesia gaul/modern ala anak muda (Gen Z / santai dan natural). 
-Tuliskan ramalan harian dan rekomendasi lagu musik yang cocok untuk zodiak **{sign_name}** pada hari ini ({date_str}).
+Tuliskan ramalan harian, persentase energi harian, dan rekomendasi lagu musik yang cocok untuk zodiak **{sign_name}** pada hari ini ({date_str}).
 
 Kondisi Kosmik Hari Ini:
 - Fase Bulan: {moon_fmt} ({cosmic.get('moon_illumination', 0)}%)
 - Cuaca: {weather_fmt}
 
-Buatkan bagian ramalan & rekomendasi lagu musik berikut:
+Buatkan bagian ramalan, persentase energi harian, & rekomendasi lagu musik berikut:
 1. `summary`: Ringkasan aura dan vibe harian {sign_name} secara umum. (2-3 kalimat)
 2. `love`: Ramalan asmara/percintaan untuk single maupun berpasangan. (2-3 kalimat)
 3. `career`: Ramalan karir, studi, keuangan, dan produktivitas. (2-3 kalimat)
 4. `health`: Ramalan kesehatan fisik, emosional, dan tips self-care. (2-3 kalimat)
-5. `music_title`: Judul 1 lagu populer/nyata (Indonesia atau Barat) yang sangat cocok dengan energi vibe kosmik {sign_name} hari ini.
-6. `music_artist`: Nama penyanyi / band pencipta lagu tersebut.
-7. `music_genre`: Genre musik lagu tersebut (contoh: Indie Pop, Chill R&B, Synthwave, Lofi Beats, Pop Rock).
-8. `music_reason`: 1-2 kalimat alasan seru & relatable kenapa lagu ini sangat cocok menyelaraskan mood kosmik {sign_name} hari ini.
+5. `love_rating`: Persentase skor energi cinta (angka bulat 40-99%) yang sangat selaras dan mencerminkan tone ramalan cinta di atas.
+6. `career_rating`: Persentase skor energi karir (angka bulat 40-99%) yang sangat selaras dan mencerminkan tone ramalan karir di atas.
+7. `health_rating`: Persentase skor energi kesehatan (angka bulat 40-99%) yang sangat selaras dan mencerminkan tone ramalan kesehatan di atas.
+8. `music_title`: Judul 1 lagu populer/nyata (Indonesia atau Barat, Barat lebih disarankan, kalau bisa lagu yang popular saja, indie boleh, kalau ada) yang sangat cocok dengan energi vibe kosmik {sign_name} hari ini, pastikan judulnya lagu itu memang ada ya, dan gak terbalik, bukan malah artisnya siapa.
+9. `music_artist`: Nama penyanyi / band pencipta lagu tersebut dan pastikan artisnya ada ya, dan gak terbalik dengan judul lagu.
+10. `music_genre`: Genre musik lagu tersebut (contoh: Indie Pop, Chill R&B, Synthwave, Lofi Beats, Pop Rock, dll) pastikan genre lagunya nyambung dengan judul lagu dan artisnya ya.
+11. `music_reason`: 1-2 kalimat alasan seru & relatable kenapa lagu ini sangat cocok menyelaraskan mood kosmik {sign_name} hari ini, pastikan sesuai dengan judul lagunya tentang apa.
 
 Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks/markdown lain):
 {{
@@ -56629,6 +56639,9 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
   "love": "...",
   "career": "...",
   "health": "...",
+  "love_rating": 85,
+  "career_rating": 90,
+  "health_rating": 80,
   "music_title": "...",
   "music_artist": "...",
   "music_genre": "...",
@@ -56671,6 +56684,29 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
 
                 parsed = json.loads(content)
                 if all(k in parsed for k in ["summary", "love", "career", "health"]):
+                    from modules.zodiak.data import ZODIAC_DATA, generate_dynamic_ratings
+                    z_info = ZODIAC_DATA.get(sign_key, ZODIAC_DATA["aries"])
+                    fallback_ratings = generate_dynamic_ratings(
+                        z_info["base_ratings"], cosmic, z_info["ruler_planet"], sign_key
+                    )
+
+                    def clean_score(val, fallback):
+                        try:
+                            v = int(val)
+                            return min(99, max(40, v))
+                        except (ValueError, TypeError):
+                            return fallback
+
+                    love_r = clean_score(parsed.get("love_rating"), fallback_ratings["love"])
+                    career_r = clean_score(parsed.get("career_rating"), fallback_ratings["career"])
+                    health_r = clean_score(parsed.get("health_rating"), fallback_ratings["health"])
+
+                    parsed["ratings"] = {
+                        "love": love_r,
+                        "career": career_r,
+                        "health": health_r
+                    }
+
                     title = parsed.get("music_title", "Cosmic Vibe")
                     artist = parsed.get("music_artist", "Astrology AI")
                     genre = parsed.get("music_genre", "✨ Cosmic Vibe")

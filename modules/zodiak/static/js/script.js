@@ -1,27 +1,29 @@
-window.showAiQuotaToast = function(message) {
-    if (!message) return;
-    let toast = document.getElementById('ai-quota-toast');
-    if (toast) toast.remove();
+if (!window.showAiQuotaToast) {
+    window.showAiQuotaToast = function(message) {
+        if (!message) return;
+        let toast = document.getElementById('ai-quota-toast');
+        if (toast) toast.remove();
 
-    toast = document.createElement('div');
-    toast.id = 'ai-quota-toast';
-    toast.innerHTML = `
-        <div style="position: fixed; top: 24px; right: 24px; z-index: 999999; background: rgba(20, 15, 38, 0.95); border: 1.5px solid rgba(255, 179, 71, 0.6); box-shadow: 0 10px 40px rgba(255, 179, 71, 0.3), 0 0 20px rgba(255, 107, 107, 0.3); backdrop-filter: blur(16px); color: #ffffff; padding: 16px 22px; border-radius: 16px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 500; display: flex; align-items: center; gap: 14px; max-width: 440px;">
-            <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(255, 179, 71, 0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                <i class="fa-solid fa-lock" style="color: #ffb347; font-size: 1.2rem;"></i>
+        toast = document.createElement('div');
+        toast.id = 'ai-quota-toast';
+        toast.innerHTML = `
+            <div class="ai-quota-toast-card">
+                <div class="ai-quota-toast-icon">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <div class="ai-quota-toast-msg">${message}</div>
+                <button type="button" class="ai-quota-toast-close" onclick="this.closest('#ai-quota-toast').remove()" aria-label="Tutup">&times;</button>
             </div>
-            <div style="flex: 1; line-height: 1.4; font-size: 0.9rem;">${message}</div>
-            <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 1.3rem; padding: 0 4px;">&times;</button>
-        </div>
-    `;
-    document.body.appendChild(toast);
+        `;
+        document.body.appendChild(toast);
 
-    setTimeout(() => {
-        if (toast && toast.parentElement) {
-            toast.remove();
-        }
-    }, 7000);
-};
+        setTimeout(() => {
+            if (toast && toast.parentElement) {
+                toast.remove();
+            }
+        }, 7000);
+    };
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------

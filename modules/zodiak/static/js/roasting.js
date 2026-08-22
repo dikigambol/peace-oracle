@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const instructionPanel = document.getElementById('roast-instruction');
     const loaderPanel = document.getElementById('roast-loader');
     const contentPanel = document.getElementById('roast-content');
+    const pairCardPanel = document.getElementById('pair-roast-card-panel');
     const btnBackGrid = document.getElementById('btn-back-grid-roast');
 
     const symbolEl = document.getElementById('roast-symbol');
@@ -85,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Tampilkan loader, sembunyikan instruksi & konten lama
             instructionPanel.classList.add('hidden');
             contentPanel.classList.add('hidden');
+            if (pairCardPanel) pairCardPanel.classList.add('hidden');
             loaderPanel.classList.remove('hidden');
 
             // Scroll otomatis ke panel detail di layar mobile/tablet (<= 968px)
@@ -137,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayRoastingDetails(data, signKey) {
         contentPanel.classList.remove('hidden');
+        if (pairCardPanel) pairCardPanel.classList.remove('hidden');
 
         const roast = data.roast;
 
@@ -230,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btnRollDiceRoast.disabled = true;
             loaderPanel.classList.remove('hidden');
             contentPanel.classList.add('hidden');
+            if (pairCardPanel) pairCardPanel.classList.add('hidden');
 
             try {
                 const response = await fetch(`/api/zodiak/roast?sign=${activeSignA}&roll=1`);
@@ -249,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(err);
                 loaderPanel.classList.add('hidden');
                 contentPanel.classList.remove('hidden');
+                if (pairCardPanel) pairCardPanel.classList.remove('hidden');
                 btnRollDiceRoast.classList.remove('rolling');
                 btnRollDiceRoast.disabled = false;
                 alert('Gagal mengacak roasting baru.');

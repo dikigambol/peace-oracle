@@ -91,10 +91,10 @@ def get_zodiac(sign):
     z = ZODIAC_DATA[sign_key]
 
     cosmic = get_cosmic_context()
-    dynamic_ratings = generate_dynamic_ratings(
+    genz_readings = get_daily_horoscope(sign_key, cosmic)
+    dynamic_ratings = genz_readings.get("ratings") or generate_dynamic_ratings(
         z["base_ratings"], cosmic, z["ruler_planet"], sign_key
     )
-    genz_readings = get_daily_horoscope(sign_key, cosmic)
     youtube_track = genz_readings.get("youtube_track") or get_daily_youtube_track(sign_key, cosmic)
 
     ruler_planet = z["ruler_planet"]
