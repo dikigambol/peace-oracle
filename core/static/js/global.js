@@ -1,3 +1,50 @@
+// ============================================================
+// STRICT MULTI-LAYER CLIENT DEVICE FINGERPRINT & FETCH INTERCEPTOR
+// ============================================================
+(function() {
+    function getOrCreateDeviceId() {
+        let deviceId = '';
+        try {
+            deviceId = localStorage.getItem('zodiak_device_id') || '';
+        } catch (e) {}
+
+        if (!deviceId || deviceId.length < 8) {
+            if (window.crypto && window.crypto.randomUUID) {
+                deviceId = window.crypto.randomUUID();
+            } else {
+                deviceId = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 10);
+            }
+            try {
+                localStorage.setItem('zodiak_device_id', deviceId);
+            } catch (e) {}
+        }
+        try {
+            document.cookie = `_z_device_id=${deviceId}; path=/; max-age=31536000; SameSite=Lax`;
+        } catch (e) {}
+        return deviceId;
+    }
+
+    const deviceId = getOrCreateDeviceId();
+
+    const originalFetch = window.fetch;
+    window.fetch = function(url, options) {
+        options = options || {};
+        options.headers = options.headers || {};
+
+        if (options.headers instanceof Headers) {
+            if (!options.headers.has('X-Device-Id')) {
+                options.headers.append('X-Device-Id', deviceId);
+            }
+        } else if (typeof options.headers === 'object') {
+            if (!options.headers['X-Device-Id']) {
+                options.headers['X-Device-Id'] = deviceId;
+            }
+        }
+
+        return originalFetch.call(this, url, options);
+    };
+})();
+
 // Global AI Quota Toast Notification Function
 window.showAiQuotaToast = function(message) {
     if (!message) return;
