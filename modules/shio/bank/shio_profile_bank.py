@@ -1,12 +1,3 @@
-# ============================================================
-# 🐲 SHIO PROFILE BANK — Bank Profil Mendalam per Shio
-# ============================================================
-# Bank data profil karakter mendalam untuk 12 Shio.
-# Digunakan di halaman profil/detail Shio.
-# SHIO_DATA di data.py tetap untuk core logic.
-# Bank ini untuk konten tampilan yang lebih kaya.
-# ============================================================
-
 SHIO_PROFILE_BANK = {
     "tikus": {
         "name": "Tikus",
@@ -15,11 +6,33 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Zi (子)",
         "yin_yang": "Yang",
         "fixed_element": "Air",
-        "traits_positive": ["Cerdik", "Adaptif", "Kreatif", "Insting tajam", "Pandai bersosialisasi"],
-        "traits_negative": ["Agresif", "Oportunis", "Perhitungan berlebihan", "Mudah cemas"],
+        "traits_positive": [
+            "Cerdik",
+            "Adaptif",
+            "Kreatif",
+            "Insting tajam",
+            "Pandai bersosialisasi",
+        ],
+        "traits_negative": [
+            "Agresif",
+            "Oportunis",
+            "Perhitungan berlebihan",
+            "Mudah cemas",
+        ],
         "personality_long": "Tikus menempati posisi pertama dalam siklus zodiak Tiongkok dan dikenal karena kecerdasan serta kelincahannya. Orang yang lahir di tahun Tikus biasanya memiliki sifat tanggap, cepat beradaptasi, dan pintar membaca situasi. Mereka sangat mandiri, namun juga pandai menjalin relasi berkat pesona dan keterampilan komunikasinya. Keingintahuan mereka yang tinggi membuat mereka selalu ingin mencoba hal-hal baru dan siap menghadapi tantangan.\n\nDi balik pesona sosialnya, Tikus adalah perencana yang cerdas dan ambisius. Mereka sangat jeli dalam melihat peluang, terutama dalam urusan karier maupun finansial. Namun, kadang sifat kalkulatif ini bisa membuat mereka terlihat sedikit perhitungan atau egois di mata orang lain. Meski begitu, bagi keluarga dan sahabat dekat, Tikus adalah pelindung yang loyal dan sangat peduli.",
-        "famous_people": ["William Shakespeare (1564)", "Mozart (1756)", "George Washington (1732)", "Cristiano Ronaldo (1985)"],
-        "ideal_career": ["Entrepreneur", "Jurnalis", "Konsultan Strategi", "Penulis", "Akuntan"],
+        "famous_people": [
+            "William Shakespeare (1564)",
+            "Mozart (1756)",
+            "George Washington (1732)",
+            "Cristiano Ronaldo (1985)",
+        ],
+        "ideal_career": [
+            "Entrepreneur",
+            "Jurnalis",
+            "Konsultan Strategi",
+            "Penulis",
+            "Akuntan",
+        ],
         "lucky_flowers": ["Lily", "Seruni"],
         "lucky_colors": ["Biru", "Emas", "Hijau"],
         "unlucky_colors": ["Kuning", "Cokelat"],
@@ -34,22 +47,37 @@ SHIO_PROFILE_BANK = {
             "Circle pertemanannya luas, bawa untung buat networking.",
             "Jago nabung dan me-manage keuangan.",
             "Perhatian banget sama detail kecil tentang kamu.",
-            "Adaptif diajak ke tongkrongan mana aja nyambung."
+            "Adaptif diajak ke tongkrongan mana aja nyambung.",
         ],
         "red_flags": [
             "Kadang suka terlalu perhitungan soal duit.",
             "Gampang anxious kalau rencana melenceng.",
             "Suka ngomong manis padahal ada maunya.",
             "Overthinking-nya bisa bikin drama sendiri.",
-            "Agak susah dikasih tahu kalau lagi nge-push ambisi."
+            "Agak susah dikasih tahu kalau lagi nge-push ambisi.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Social Butterfly", "desc": "Paling jago bikin circle, temannya ada di tiap sudut kota."},
-            "api": {"title": "Si Raja Hustle", "desc": "Ambisius abis, siang malam mikirin cuan dan masa depan."},
-            "tanah": {"title": "Si Paling Aman", "desc": "Suka main aman, nabung jalan terus, anti ambil risiko berlebih."},
-            "logam": {"title": "Si Tukang Overthinking", "desc": "Keras kepala dan suka analisis berlebihan sebelum bertindak."},
-            "air": {"title": "Si Cerdik Lincah", "desc": "Intuisi super tajam, paling jago ngeles dari masalah."}
-        }
+            "kayu": {
+                "title": "Si Social Butterfly",
+                "desc": "Paling jago bikin circle, temannya ada di tiap sudut kota.",
+            },
+            "api": {
+                "title": "Si Raja Hustle",
+                "desc": "Ambisius abis, siang malam mikirin cuan dan masa depan.",
+            },
+            "tanah": {
+                "title": "Si Paling Aman",
+                "desc": "Suka main aman, nabung jalan terus, anti ambil risiko berlebih.",
+            },
+            "logam": {
+                "title": "Si Tukang Overthinking",
+                "desc": "Keras kepala dan suka analisis berlebihan sebelum bertindak.",
+            },
+            "air": {
+                "title": "Si Cerdik Lincah",
+                "desc": "Intuisi super tajam, paling jago ngeles dari masalah.",
+            },
+        },
     },
     "kerbau": {
         "name": "Kerbau",
@@ -58,11 +86,33 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Chou (丑)",
         "yin_yang": "Yin",
         "fixed_element": "Tanah",
-        "traits_positive": ["Pekerja keras", "Sabar", "Jujur", "Dapat diandalkan", "Bertanggung jawab"],
-        "traits_negative": ["Keras kepala", "Kaku", "Sulit mengekspresikan emosi", "Konservatif"],
+        "traits_positive": [
+            "Pekerja keras",
+            "Sabar",
+            "Jujur",
+            "Dapat diandalkan",
+            "Bertanggung jawab",
+        ],
+        "traits_negative": [
+            "Keras kepala",
+            "Kaku",
+            "Sulit mengekspresikan emosi",
+            "Konservatif",
+        ],
         "personality_long": "Kerbau adalah simbol ketekunan dan kerja keras tanpa pamrih. Mereka yang lahir di tahun Kerbau umumnya memiliki sifat yang stabil, dapat diandalkan, dan sangat metodis dalam bekerja. Mereka tidak suka hal-hal yang instan; bagi mereka, kesuksesan adalah hasil dari usaha yang gigih selangkah demi selangkah. Teman dan kolega sering kali mengandalkan mereka karena sifatnya yang jujur dan dedikasi yang tinggi.\n\nNamun, keteguhan hati mereka sering kali berujung pada keras kepala. Jika seorang Kerbau sudah menetapkan pikirannya pada sesuatu, sangat sulit untuk membujuk mereka mengubahnya. Mereka juga cenderung kaku dan kurang mahir dalam mengekspresikan emosi, membuat mereka kadang disalahpahami sebagai sosok yang dingin. Meski begitu, di dalam hatinya, mereka sangat peduli dan setia pada keluarga.",
-        "famous_people": ["Barack Obama (1961)", "Vincent Van Gogh (1853)", "Walt Disney (1901)", "Lionel Messi (1987)"],
-        "ideal_career": ["Arsitek", "Insinyur", "Dokter", "Pegawai Bank", "Manajer Proyek"],
+        "famous_people": [
+            "Barack Obama (1961)",
+            "Vincent Van Gogh (1853)",
+            "Walt Disney (1901)",
+            "Lionel Messi (1987)",
+        ],
+        "ideal_career": [
+            "Arsitek",
+            "Insinyur",
+            "Dokter",
+            "Pegawai Bank",
+            "Manajer Proyek",
+        ],
         "lucky_flowers": ["Bunga Tulip", "Bunga Persik"],
         "lucky_colors": ["Merah", "Ungu", "Kuning"],
         "unlucky_colors": ["Hijau", "Biru"],
@@ -77,22 +127,37 @@ SHIO_PROFILE_BANK = {
             "Sangat setia dan anti-selingkuh club.",
             "Nggak banyak omong tapi langsung ada bukti nyata.",
             "Hidupnya teratur, bawa vibe positif buat yang berantakan.",
-            "Tahan banting menghadapi badai cobaan hidup."
+            "Tahan banting menghadapi badai cobaan hidup.",
         ],
         "red_flags": [
             "Keras kepalanya nggak ada obat.",
             "Kaku banget, kadang susah diajak bercanda lepas.",
             "Gengsi gede kalau disuruh minta maaf duluan.",
             "Kurang romantis, ngasih hadiah nunggu tanggalan merah.",
-            "Suka ngedumel sendiri kalau kerjaan orang gak bener."
+            "Suka ngedumel sendiri kalau kerjaan orang gak bener.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Paling Nrimo", "desc": "Lebih open-minded dari kerbau lain, bisa diajak kompromi."},
-            "api": {"title": "Si Bos Ambisius", "desc": "Kerjanya ngegas terus, cocok jadi leader tegas (baca: galak)."},
-            "tanah": {"title": "Si Paling Stabil", "desc": "Super kalem, rajin nabung untuk beli rumah KPR 15 tahun."},
-            "logam": {"title": "Si Keras Kepala Max", "desc": "Prinsipnya pantang digoyang, ngotot abis kalau berdebat."},
-            "air": {"title": "Si Fleksibel Merakyat", "desc": "Masih bisa diajak santai dan punya empati tinggi buat sekitarnya."}
-        }
+            "kayu": {
+                "title": "Si Paling Nrimo",
+                "desc": "Lebih open-minded dari kerbau lain, bisa diajak kompromi.",
+            },
+            "api": {
+                "title": "Si Bos Ambisius",
+                "desc": "Kerjanya ngegas terus, cocok jadi leader tegas (baca: galak).",
+            },
+            "tanah": {
+                "title": "Si Paling Stabil",
+                "desc": "Super kalem, rajin nabung untuk beli rumah KPR 15 tahun.",
+            },
+            "logam": {
+                "title": "Si Keras Kepala Max",
+                "desc": "Prinsipnya pantang digoyang, ngotot abis kalau berdebat.",
+            },
+            "air": {
+                "title": "Si Fleksibel Merakyat",
+                "desc": "Masih bisa diajak santai dan punya empati tinggi buat sekitarnya.",
+            },
+        },
     },
     "macan": {
         "name": "Macan",
@@ -101,10 +166,21 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Yin (寅)",
         "yin_yang": "Yang",
         "fixed_element": "Kayu",
-        "traits_positive": ["Berani", "Karismatik", "Bersemangat", "Optimis", "Pelindung"],
+        "traits_positive": [
+            "Berani",
+            "Karismatik",
+            "Bersemangat",
+            "Optimis",
+            "Pelindung",
+        ],
         "traits_negative": ["Agresif", "Ceroboh", "Egois", "Pemarah", "Suka pamer"],
         "personality_long": "Macan dikenal dengan auranya yang mendominasi dan berani. Mereka terlahir sebagai pemimpin alami dengan karisma yang kuat dan energi tak terbatas. Kepercayaan diri seorang Macan selalu menonjol di keramaian, dan mereka tidak pernah takut menyuarakan pendapat atau melindungi orang-orang yang tertindas. Jiwa petualang membuat mereka selalu mendambakan tantangan baru dan kebebasan.\n\nSisi negatifnya, Macan cenderung impulsif dan terkadang bertindak sebelum berpikir panjang. Emosi mereka gampang meledak-ledak dan ego yang tinggi membuat mereka sulit menerima kekalahan atau kritik. Meskipun keras di luar, mereka sebenarnya penyayang dan sangat memanjakan orang-orang yang berhasil menembus tembok emosinya. Bergaul dengan Macan dijamin tidak akan pernah membosankan.",
-        "famous_people": ["Marilyn Monroe (1926)", "Leonardo DiCaprio (1974)", "Lady Gaga (1986)", "Karl Marx (1818)"],
+        "famous_people": [
+            "Marilyn Monroe (1926)",
+            "Leonardo DiCaprio (1974)",
+            "Lady Gaga (1986)",
+            "Karl Marx (1818)",
+        ],
         "ideal_career": ["Politisi", "Aktor", "Manajer", "Penjelajah", "Penulis"],
         "lucky_flowers": ["Cineraria", "Anthurium"],
         "lucky_colors": ["Biru", "Abu-abu", "Oranye"],
@@ -120,22 +196,37 @@ SHIO_PROFILE_BANK = {
             "Berani ambil risiko demi impian besar.",
             "Aura pede-nya nular bikin semangat.",
             "Bucin parah kalau udah nemu pasangan yang pas.",
-            "Gak takut ngomong jujur demi kebaikan."
+            "Gak takut ngomong jujur demi kebaikan.",
         ],
         "red_flags": [
             "Suka ngambek parah kalau egonya tersentil.",
             "Emosian dan kadang sumbu pendek.",
             "Terlalu impulsif pas ngambil keputusan penting.",
             "Susah disuruh mengalah dalam perdebatan.",
-            "Cenderung bossy dan pengen selalu ngatur."
+            "Cenderung bossy dan pengen selalu ngatur.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Baik Hati Merakyat", "desc": "Macan tapi versi ramah lingkungan, peduli sesama dan demokratis."},
-            "api": {"title": "Si Haus Panggung", "desc": "Paling ekstrovert, suka dandan cetar dan jadi pusat perhatian."},
-            "tanah": {"title": "Si Bijaksana", "desc": "Sangat membumi, pikir panjang dulu sebelum cakar keluar."},
-            "logam": {"title": "Si Tangan Besi", "desc": "Ambisi gede, galak banget kalau rencana gak jalan mulus."},
-            "air": {"title": "Si Pengamat Tenang", "desc": "Kelihatan santai tapi tajam, jago ngebaca karakter orang lain."}
-        }
+            "kayu": {
+                "title": "Si Baik Hati Merakyat",
+                "desc": "Macan tapi versi ramah lingkungan, peduli sesama dan demokratis.",
+            },
+            "api": {
+                "title": "Si Haus Panggung",
+                "desc": "Paling ekstrovert, suka dandan cetar dan jadi pusat perhatian.",
+            },
+            "tanah": {
+                "title": "Si Bijaksana",
+                "desc": "Sangat membumi, pikir panjang dulu sebelum cakar keluar.",
+            },
+            "logam": {
+                "title": "Si Tangan Besi",
+                "desc": "Ambisi gede, galak banget kalau rencana gak jalan mulus.",
+            },
+            "air": {
+                "title": "Si Pengamat Tenang",
+                "desc": "Kelihatan santai tapi tajam, jago ngebaca karakter orang lain.",
+            },
+        },
     },
     "kelinci": {
         "name": "Kelinci",
@@ -144,10 +235,26 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Mao (卯)",
         "yin_yang": "Yin",
         "fixed_element": "Kayu",
-        "traits_positive": ["Lemah lembut", "Diplomatis", "Romantis", "Simpatik", "Elegan"],
-        "traits_negative": ["Terlalu sensitif", "Lari dari konflik", "Ragu-ragu", "Pasif"],
+        "traits_positive": [
+            "Lemah lembut",
+            "Diplomatis",
+            "Romantis",
+            "Simpatik",
+            "Elegan",
+        ],
+        "traits_negative": [
+            "Terlalu sensitif",
+            "Lari dari konflik",
+            "Ragu-ragu",
+            "Pasif",
+        ],
         "personality_long": "Kelinci adalah lambang kelembutan, perdamaian, dan keanggunan. Mereka yang lahir di tahun Kelinci umumnya menghindari konflik dengan segala cara, memilih hidup dalam harmoni dan ketenangan. Memiliki empati yang mendalam, mereka sangat peka terhadap perasaan orang lain dan sering menjadi tempat curhat yang paling nyaman. Selera seni mereka biasanya tinggi dan mencintai lingkungan yang indah dan tertata.\n\nSisi kalem ini sayangnya sering membuat Kelinci terlihat pasif atau tidak tegas. Mereka sering ragu-ragu saat dihadapkan pada pilihan sulit dan lebih suka menghindar daripada berkonfrontasi. Mereka juga sangat sensitif dan bisa berlarut-larut dalam kesedihan jika merasa disakiti. Namun, di balik penampilannya yang rapuh, mereka memiliki ketahanan mental dan kecerdikan untuk bertahan dari situasi krisis.",
-        "famous_people": ["Albert Einstein (1879)", "Michael Jordan (1963)", "Angelina Jolie (1975)", "Johnny Depp (1963)"],
+        "famous_people": [
+            "Albert Einstein (1879)",
+            "Michael Jordan (1963)",
+            "Angelina Jolie (1975)",
+            "Johnny Depp (1963)",
+        ],
         "ideal_career": ["Seniman", "Desainer", "Guru", "Terapis", "Humas"],
         "lucky_flowers": ["Lily Plantain", "Jasmine"],
         "lucky_colors": ["Merah", "Pink", "Ungu", "Biru"],
@@ -163,22 +270,37 @@ SHIO_PROFILE_BANK = {
             "Tahu cara bikin suasana jadi estetik dan cozy.",
             "Nggak suka drama dan lebih pilih damai.",
             "Sangat romantis dan hafal hal-hal kecil dari kamu.",
-            "Punya manners yang bikin calon mertua luluh."
+            "Punya manners yang bikin calon mertua luluh.",
         ],
         "red_flags": [
             "Suka ngilang (ghosting) kalau lagi males bahas masalah.",
             "Ragu-ragu terus, sampai nentuin tempat makan aja susah.",
             "Kelewat sensitif, dikritik dikit langsung baper seharian.",
             "Bisa jadi manipulatif dengan wajah polosnya.",
-            "Gak tegaan sampai sering dimanfaatin orang."
+            "Gak tegaan sampai sering dimanfaatin orang.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Hati Hello Kitty", "desc": "Paling polos, baik banget dan gampang percayaan sama orang."},
-            "api": {"title": "Si Drama Queen", "desc": "Emosinya naik turun, bisa mendadak marah tapi gampang baikan."},
-            "tanah": {"title": "Si Realistis Kalem", "desc": "Lebih fokus ke stabilitas hidup, gak suka hal yang lebay."},
-            "logam": {"title": "Si Ambisius Tersembunyi", "desc": "Di luar manis tapi aslinya keras, targetnya harus tercapai."},
-            "air": {"title": "Si Super Baper", "desc": "Sensitif parah, overthinking tiap malam mikirin omongan orang."}
-        }
+            "kayu": {
+                "title": "Si Hati Hello Kitty",
+                "desc": "Paling polos, baik banget dan gampang percayaan sama orang.",
+            },
+            "api": {
+                "title": "Si Drama Queen",
+                "desc": "Emosinya naik turun, bisa mendadak marah tapi gampang baikan.",
+            },
+            "tanah": {
+                "title": "Si Realistis Kalem",
+                "desc": "Lebih fokus ke stabilitas hidup, gak suka hal yang lebay.",
+            },
+            "logam": {
+                "title": "Si Ambisius Tersembunyi",
+                "desc": "Di luar manis tapi aslinya keras, targetnya harus tercapai.",
+            },
+            "air": {
+                "title": "Si Super Baper",
+                "desc": "Sensitif parah, overthinking tiap malam mikirin omongan orang.",
+            },
+        },
     },
     "naga": {
         "name": "Naga",
@@ -187,10 +309,21 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Chen (辰)",
         "yin_yang": "Yang",
         "fixed_element": "Tanah",
-        "traits_positive": ["Penuh wibawa", "Idealis", "Percaya diri", "Energik", "Visioner"],
+        "traits_positive": [
+            "Penuh wibawa",
+            "Idealis",
+            "Percaya diri",
+            "Energik",
+            "Visioner",
+        ],
         "traits_negative": ["Arogan", "Kurang sabar", "Suka menuntut", "Ego sentris"],
         "personality_long": "Satu-satunya makhluk mitologi dalam zodiak, Naga dianggap sebagai simbol keagungan, keberuntungan, dan kekuatan. Orang bershio Naga sangat percaya diri, penuh semangat, dan berambisi tinggi. Mereka suka berpikir besar dan sering kali memiliki aura kepemimpinan yang kuat. Mereka sangat mandiri dan tidak ragu untuk merintis jalan baru demi mencapai standar kesempurnaan mereka yang tinggi.\n\nNamun, tingginya standar ini sering kali membuat Naga menuntut terlalu banyak dari diri sendiri dan orang lain. Mereka bisa terlihat arogan, kaku dalam berpendapat, dan tidak sabaran terhadap hal-hal yang bergerak terlalu lambat. Meskipun sering terlihat mendominasi, Naga sebenarnya berhati tulus, sangat loyal kepada keluarga dan memiliki keberanian untuk selalu bangkit dari kegagalan.",
-        "famous_people": ["Bruce Lee (1940)", "Martin Luther King Jr. (1929)", "John Lennon (1940)", "Vladimir Putin (1952)"],
+        "famous_people": [
+            "Bruce Lee (1940)",
+            "Martin Luther King Jr. (1929)",
+            "John Lennon (1940)",
+            "Vladimir Putin (1952)",
+        ],
         "ideal_career": ["CEO", "Pengusaha Sukses", "Arsitek", "Pengacara", "Inovator"],
         "lucky_flowers": ["Bleeding Heart", "Larkspur"],
         "lucky_colors": ["Emas", "Perak", "Abu-abu Keputihan"],
@@ -206,22 +339,37 @@ SHIO_PROFILE_BANK = {
             "Aura pede-nya bikin orang lain ngerasa aman.",
             "Banyak ide inovatif dan selalu pengen berkembang.",
             "Sangat protektif ke orang yang disayang.",
-            "Gak pelit dan suka ngasih hadiah mewah."
+            "Gak pelit dan suka ngasih hadiah mewah.",
         ],
         "red_flags": [
             "Ego selangit, susah ngaku salah kalau keliru.",
             "Suka memaksakan standar tingginya ke orang lain.",
             "Kalau marah bisa meledak bagai semburan api.",
             "Gak sabaran nunggu proses, pengennya instan.",
-            "Kadang terlalu bossy ngerasa paling tahu segalanya."
+            "Kadang terlalu bossy ngerasa paling tahu segalanya.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Kreatif Santuy", "desc": "Naga versi lebih ramah, logis dan jago kerja tim."},
-            "api": {"title": "Si Alpha Sejati", "desc": "Dominan banget, kharismanya tumpah-tumpah bikin minder."},
-            "tanah": {"title": "Si Pemimpin Bijak", "desc": "Sangat fair dan stabil, cocok jadi bos panutan."},
-            "logam": {"title": "Si Perfeksionis Keras", "desc": "Standarnya tinggi, jangan harap bisa main-main sama dia."},
-            "air": {"title": "Si Ahli Strategi", "desc": "Pintar membaca situasi, bergerak senyap tapi mematikan."}
-        }
+            "kayu": {
+                "title": "Si Kreatif Santuy",
+                "desc": "Naga versi lebih ramah, logis dan jago kerja tim.",
+            },
+            "api": {
+                "title": "Si Alpha Sejati",
+                "desc": "Dominan banget, kharismanya tumpah-tumpah bikin minder.",
+            },
+            "tanah": {
+                "title": "Si Pemimpin Bijak",
+                "desc": "Sangat fair dan stabil, cocok jadi bos panutan.",
+            },
+            "logam": {
+                "title": "Si Perfeksionis Keras",
+                "desc": "Standarnya tinggi, jangan harap bisa main-main sama dia.",
+            },
+            "air": {
+                "title": "Si Ahli Strategi",
+                "desc": "Pintar membaca situasi, bergerak senyap tapi mematikan.",
+            },
+        },
     },
     "ular": {
         "name": "Ular",
@@ -230,11 +378,28 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Si (巳)",
         "yin_yang": "Yin",
         "fixed_element": "Api",
-        "traits_positive": ["Bijaksana", "Intuitif", "Memikat", "Tenang", "Penuh teka-teki"],
+        "traits_positive": [
+            "Bijaksana",
+            "Intuitif",
+            "Memikat",
+            "Tenang",
+            "Penuh teka-teki",
+        ],
         "traits_negative": ["Pencemburu", "Posesif", "Pendendam", "Tertutup"],
         "personality_long": "Ular sering kali dianggap sebagai simbol kebijaksanaan dan teka-teki. Orang dengan shio Ular dikenal memiliki intuisi tajam dan pembawaan yang tenang serta elegan. Mereka jarang bertindak terburu-buru, lebih suka mengamati dalam diam sebelum mengambil keputusan. Gaya mereka yang misterius sering kali memikat perhatian tanpa harus banyak berusaha, dipadukan dengan selera mereka terhadap estetika dan kemewahan.\n\nDi balik ketenangannya, Ular bisa menjadi sosok yang posesif dan cemburuan dalam suatu hubungan. Mereka sangat berhati-hati dan butuh waktu lama untuk memercayai orang lain. Jika merasa dikhianati, mereka sulit melupakan dan bahkan menyimpan dendam. Meski begitu, pada orang yang sudah mendapatkan kepercayaannya, Ular akan menjadi sahabat atau pasangan yang mendalam dan protektif.",
-        "famous_people": ["Mahatma Gandhi (1869)", "Pablo Picasso (1881)", "Taylor Swift (1989)", "Muhammad Ali (1942)"],
-        "ideal_career": ["Ilmuwan", "Detektif", "Psikiater", "Seniman", "Desainer Perhiasan"],
+        "famous_people": [
+            "Mahatma Gandhi (1869)",
+            "Pablo Picasso (1881)",
+            "Taylor Swift (1989)",
+            "Muhammad Ali (1942)",
+        ],
+        "ideal_career": [
+            "Ilmuwan",
+            "Detektif",
+            "Psikiater",
+            "Seniman",
+            "Desainer Perhiasan",
+        ],
         "lucky_flowers": ["Anggrek", "Kaktus"],
         "lucky_colors": ["Hitam", "Merah", "Kuning"],
         "unlucky_colors": ["Putih", "Emas", "Cokelat"],
@@ -249,22 +414,37 @@ SHIO_PROFILE_BANK = {
             "Vibe-nya elegan dan tahu cara bersikap di depan publik.",
             "Kalau ngasih saran atau opini biasanya tepat sasaran.",
             "Pendengar yang setia dan sangat menjaga rahasia.",
-            "Bisa tenang di situasi krisis saat orang lain panik."
+            "Bisa tenang di situasi krisis saat orang lain panik.",
         ],
         "red_flags": [
             "Bisa sangat posesif kalau udah sayang sama orang.",
             "Nyimpan dendam di dalam, siap balas di momen tak terduga.",
             "Super misterius, kadang bikin pasangan overthinking.",
             "Susah memaafkan pengkhianatan kecil sekalipun.",
-            "Terkadang suka terlalu gengsi buat jujur soal perasaannya."
+            "Terkadang suka terlalu gengsi buat jujur soal perasaannya.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Seniman Estetik", "desc": "Kreativitasnya tinggi, suka hal berbau seni dan barang vintage."},
-            "api": {"title": "Si Karismatik", "desc": "Ekstrovert versi Ular, pandai memanipulasi situasi pakai senyuman."},
-            "tanah": {"title": "Si Realistis Cerdas", "desc": "Santai banget, anti-ribet tapi cuannya ngalir terus."},
-            "logam": {"title": "Si Ambisius Misterius", "desc": "Tujuannya jelas, fokus ke duit dan sukses, hati beku."},
-            "air": {"title": "Si Perasa Mendalam", "desc": "Lebih emosional dan romantis, gampang kebawa suasana."}
-        }
+            "kayu": {
+                "title": "Si Seniman Estetik",
+                "desc": "Kreativitasnya tinggi, suka hal berbau seni dan barang vintage.",
+            },
+            "api": {
+                "title": "Si Karismatik",
+                "desc": "Ekstrovert versi Ular, pandai memanipulasi situasi pakai senyuman.",
+            },
+            "tanah": {
+                "title": "Si Realistis Cerdas",
+                "desc": "Santai banget, anti-ribet tapi cuannya ngalir terus.",
+            },
+            "logam": {
+                "title": "Si Ambisius Misterius",
+                "desc": "Tujuannya jelas, fokus ke duit dan sukses, hati beku.",
+            },
+            "air": {
+                "title": "Si Perasa Mendalam",
+                "desc": "Lebih emosional dan romantis, gampang kebawa suasana.",
+            },
+        },
     },
     "kuda": {
         "name": "Kuda",
@@ -273,11 +453,28 @@ SHIO_PROFILE_BANK = {
         "earthly_branch": "Wu (午)",
         "yin_yang": "Yang",
         "fixed_element": "Api",
-        "traits_positive": ["Energik", "Independen", "Ceria", "Mudah bergaul", "Berani"],
+        "traits_positive": [
+            "Energik",
+            "Independen",
+            "Ceria",
+            "Mudah bergaul",
+            "Berani",
+        ],
         "traits_negative": ["Tidak sabar", "Egois", "Ceroboh", "Sulit komitmen"],
         "personality_long": "Orang yang lahir di tahun Kuda diibaratkan memiliki jiwa yang merdeka dan penuh semangat. Mereka sangat menyukai kebebasan, petualangan, dan cenderung memiliki kepribadian ekstrovert yang ceria. Di mana ada Kuda, di situ ada keramaian; mereka sangat mudah bergaul, hangat, dan selalu penuh dengan ide cemerlang. Stamina mereka seakan tak pernah habis, siap melompat dari satu proyek ke proyek lainnya.\n\nSifatnya yang dinamis sayangnya membuat mereka cepat bosan dan kurang konsisten. Mereka terkenal tidak sabaran dan bisa meninggalkan sesuatu di tengah jalan jika minatnya hilang. Jiwa bebas ini juga membuat Kuda sering dianggap kesulitan dalam berkomitmen secara jangka panjang. Namun, ketika mereka benar-benar menemukan gairah utamanya, dedikasi mereka tidak akan tertandingi.",
-        "famous_people": ["Nelson Mandela (1918)", "Neil Armstrong (1930)", "Jackie Chan (1954)", "Emma Watson (1990)"],
-        "ideal_career": ["Pemandu Wisata", "Atlet", "Marketing", "Event Organizer", "Jurnalis"],
+        "famous_people": [
+            "Nelson Mandela (1918)",
+            "Neil Armstrong (1930)",
+            "Jackie Chan (1954)",
+            "Emma Watson (1990)",
+        ],
+        "ideal_career": [
+            "Pemandu Wisata",
+            "Atlet",
+            "Marketing",
+            "Event Organizer",
+            "Jurnalis",
+        ],
         "lucky_flowers": ["Calla Lily", "Jasmine", "Marigold"],
         "lucky_colors": ["Hijau", "Kuning"],
         "unlucky_colors": ["Biru", "Putih"],
@@ -292,22 +489,37 @@ SHIO_PROFILE_BANK = {
             "Sangat mandiri, nggak suka ngerepotin orang.",
             "Ceria banget, bisa jadi mood booster di kala suntuk.",
             "Spontanitasnya tinggi, hidup kerasa kayak petualangan.",
-            "Kalau udah fokus sama hal yang disuka, effort-nya 100%."
+            "Kalau udah fokus sama hal yang disuka, effort-nya 100%.",
         ],
         "red_flags": [
             "Paling gampang bosan sama rutinitas dan orang.",
             "Bisa ghosting tiba-tiba karena butuh me-time berlebih.",
             "Suka ngomong ceplas-ceplos tanpa filter.",
             "Takut sama kata komitmen, agak susah diajak serius.",
-            "Tidak sabaran kalau disuruh nunggu agak lama."
+            "Tidak sabaran kalau disuruh nunggu agak lama.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Jiwa Petualang", "desc": "Nggak bisa diam di rumah, gatel pengen eksplor tempat baru."},
-            "api": {"title": "Si Berapi-api", "desc": "Semangat 45 tapi emosinya meledak-ledak dan super ngegas."},
-            "tanah": {"title": "Si Kalem Ceria", "desc": "Lebih stabil, bisa diam lama tapi tetap asyik diajak nongkrong."},
-            "logam": {"title": "Si Paling Independen", "desc": "Anti dikasih saran, jalannya lurus ke depan pantang mundur."},
-            "air": {"title": "Si Adaptif Super", "desc": "Fleksibel banget, mudah nyebrang dari satu tongkrongan ke lainnya."}
-        }
+            "kayu": {
+                "title": "Si Jiwa Petualang",
+                "desc": "Nggak bisa diam di rumah, gatel pengen eksplor tempat baru.",
+            },
+            "api": {
+                "title": "Si Berapi-api",
+                "desc": "Semangat 45 tapi emosinya meledak-ledak dan super ngegas.",
+            },
+            "tanah": {
+                "title": "Si Kalem Ceria",
+                "desc": "Lebih stabil, bisa diam lama tapi tetap asyik diajak nongkrong.",
+            },
+            "logam": {
+                "title": "Si Paling Independen",
+                "desc": "Anti dikasih saran, jalannya lurus ke depan pantang mundur.",
+            },
+            "air": {
+                "title": "Si Adaptif Super",
+                "desc": "Fleksibel banget, mudah nyebrang dari satu tongkrongan ke lainnya.",
+            },
+        },
     },
     "kambing": {
         "name": "Kambing",
@@ -317,10 +529,27 @@ SHIO_PROFILE_BANK = {
         "yin_yang": "Yin",
         "fixed_element": "Tanah",
         "traits_positive": ["Lembut", "Simpatik", "Kreatif", "Penyayang", "Sopan"],
-        "traits_negative": ["Pesimis", "Ketergantungan", "Pasif", "Pemalu", "Suka mengeluh"],
+        "traits_negative": [
+            "Pesimis",
+            "Ketergantungan",
+            "Pasif",
+            "Pemalu",
+            "Suka mengeluh",
+        ],
         "personality_long": "Kambing (atau Domba) mewakili kedamaian, kelembutan, dan kreativitas. Mereka adalah orang-orang berhati lembut, penuh kasih sayang, dan memiliki ikatan kekeluargaan yang kuat. Umumnya, seorang Kambing menyukai ketenangan alam, seni, dan selalu berusaha menghindari konfrontasi. Sifat altruistik mereka membuat mereka rela berkorban untuk kesejahteraan orang lain tanpa pamrih.\n\nMeski tampak tenang, pikiran Kambing sering kali dipenuhi kecemasan dan sikap pesimistis. Mereka cenderung membutuhkan dukungan dan afirmasi dari orang lain, sehingga bisa terlihat sangat bergantung atau clingy. Saat stres, mereka mudah mengeluh dan menarik diri dari lingkungan. Dengan dorongan dan cinta yang tepat, bakat kreatif Kambing dapat berkembang menjadi karya yang luar biasa.",
-        "famous_people": ["Bill Gates (1955)", "Steve Jobs (1955)", "Jane Austen (1775)", "Ed Sheeran (1991)"],
-        "ideal_career": ["Desainer Interior", "Perawat", "Musisi", "Seniman", "Pekerja Sosial"],
+        "famous_people": [
+            "Bill Gates (1955)",
+            "Steve Jobs (1955)",
+            "Jane Austen (1775)",
+            "Ed Sheeran (1991)",
+        ],
+        "ideal_career": [
+            "Desainer Interior",
+            "Perawat",
+            "Musisi",
+            "Seniman",
+            "Pekerja Sosial",
+        ],
         "lucky_flowers": ["Carnation", "Primrose"],
         "lucky_colors": ["Hijau", "Merah", "Ungu"],
         "unlucky_colors": ["Emas", "Cokelat", "Hitam"],
@@ -335,22 +564,37 @@ SHIO_PROFILE_BANK = {
             "Tipe yang merhatiin kenyamanan orang lain di atas segalanya.",
             "Jiwa seninya tinggi, selera musik atau fashion pasti kece.",
             "Paling asyik diajak deep talk dan curhat berjam-jam.",
-            "Lembut dan sopan santunnya nggak dibuat-buat."
+            "Lembut dan sopan santunnya nggak dibuat-buat.",
         ],
         "red_flags": [
             "Clingy parah, kadang over-dependent sama pasangan.",
             "Pikiran pesimisnya bikin mood circle ikut anjlok.",
             "Suka ngeluh dan playing victim pas ada masalah.",
             "Susah banget ngambil keputusan yang tegas.",
-            "Kalo lagi bete, pasif-agresifnya bikin pusing."
+            "Kalo lagi bete, pasif-agresifnya bikin pusing.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Paling Pengertian", "desc": "Selalu ngalah, rela berkorban asalkan suasana damai."},
-            "api": {"title": "Si Seniman Dramatis", "desc": "Berani unjuk gigi soal karya, tapi mood-nya kayak roller coaster."},
-            "tanah": {"title": "Si Kalem Setia", "desc": "Gak neko-neko, paling bisa dipercaya dan diandalkan."},
-            "logam": {"title": "Si Pemalu Ambisius", "desc": "Kelihatan pendiam tapi punya standar hidup tinggi."},
-            "air": {"title": "Si Manja Maksimal", "desc": "Manja banget, butuh validasi tiap detik dari pacar atau bestie."}
-        }
+            "kayu": {
+                "title": "Si Paling Pengertian",
+                "desc": "Selalu ngalah, rela berkorban asalkan suasana damai.",
+            },
+            "api": {
+                "title": "Si Seniman Dramatis",
+                "desc": "Berani unjuk gigi soal karya, tapi mood-nya kayak roller coaster.",
+            },
+            "tanah": {
+                "title": "Si Kalem Setia",
+                "desc": "Gak neko-neko, paling bisa dipercaya dan diandalkan.",
+            },
+            "logam": {
+                "title": "Si Pemalu Ambisius",
+                "desc": "Kelihatan pendiam tapi punya standar hidup tinggi.",
+            },
+            "air": {
+                "title": "Si Manja Maksimal",
+                "desc": "Manja banget, butuh validasi tiap detik dari pacar atau bestie.",
+            },
+        },
     },
     "monyet": {
         "name": "Monyet",
@@ -360,10 +604,27 @@ SHIO_PROFILE_BANK = {
         "yin_yang": "Yang",
         "fixed_element": "Logam",
         "traits_positive": ["Cerdas", "Inovatif", "Humoris", "Fleksibel", "Energik"],
-        "traits_negative": ["Manipulatif", "Licik", "Sombong", "Kurang serius", "Cepat bosan"],
+        "traits_negative": [
+            "Manipulatif",
+            "Licik",
+            "Sombong",
+            "Kurang serius",
+            "Cepat bosan",
+        ],
         "personality_long": "Monyet adalah bintang dalam soal kecerdasan dan kelincahan berpikir di dalam zodiak Tiongkok. Mereka sangat inovatif, cerdik, dan punya bakat alami dalam memecahkan masalah dengan cara-cara out of the box. Humor adalah senjata utama mereka; Monyet sangat pandai mencairkan suasana dan selalu dinanti kehadirannya di pesta. Rasa ingin tahu mereka yang besar mendorong mereka untuk terus belajar hal-hal baru.\n\nKecerdasan ini sayangnya kadang disalahgunakan menjadi sifat manipulatif. Mereka tahu bagaimana memainkan situasi demi keuntungannya sendiri. Sifat yang selalu menganggap hidup seperti permainan membuat mereka terlihat kurang serius atau susah berkomitmen. Apalagi mereka mudah sekali bosan, yang menuntut stimulasi intelektual secara terus-menerus agar tetap tertarik pada suatu hal atau hubungan.",
-        "famous_people": ["Leonardo da Vinci (1452)", "Julius Caesar (100 SM)", "Will Smith (1968)", "Selena Gomez (1992)"],
-        "ideal_career": ["Ilmuwan", "Sutradara", "Konsultan", "Insinyur Perangkat Lunak", "Komedian"],
+        "famous_people": [
+            "Leonardo da Vinci (1452)",
+            "Julius Caesar (100 SM)",
+            "Will Smith (1968)",
+            "Selena Gomez (1992)",
+        ],
+        "ideal_career": [
+            "Ilmuwan",
+            "Sutradara",
+            "Konsultan",
+            "Insinyur Perangkat Lunak",
+            "Komedian",
+        ],
         "lucky_flowers": ["Krisan", "Crape Myrtle"],
         "lucky_colors": ["Putih", "Biru", "Emas"],
         "unlucky_colors": ["Merah", "Pink", "Ungu"],
@@ -378,22 +639,37 @@ SHIO_PROFILE_BANK = {
             "Cerdas banget nemuin lifehack buat masalah harian.",
             "Adaptif dengan cepat di lingkungan pertemanan baru.",
             "Spontan dan seru diajak ngelakuin hal-hal gila.",
-            "Wawasannya luas, bisa diajak ngobrol topik dari A sampe Z."
+            "Wawasannya luas, bisa diajak ngobrol topik dari A sampe Z.",
         ],
         "red_flags": [
             "Pinter ngeles kalau ketahuan salah.",
             "Sering anggap enteng masalah serius.",
             "Kalo bosen, bisa tiba-tiba ilang tanpa kabar.",
             "Cenderung isengnya kelewatan sampai bikin orang baper.",
-            "Agak susah dipercaya buat megang rahasia penting."
+            "Agak susah dipercaya buat megang rahasia penting.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Kreatif Friendly", "desc": "Jago bersosialisasi, ide-ide nakalnya selalu bisa diterima circle."},
-            "api": {"title": "Si Paling Caper", "desc": "Suka jadi pusat perhatian, energinya gak habis-habis bikin onar."},
-            "tanah": {"title": "Si Jenius Kalem", "desc": "Lebih suka observasi, diam-diam otaknya muter cari celah."},
-            "logam": {"title": "Si Keras Kepala Pintar", "desc": "Pede tingkat dewa, jago debat dan gak mau kalah argumen."},
-            "air": {"title": "Si Ahli Manipulasi", "desc": "Licin banget kayak belut, pinter banget mainin emosi orang."}
-        }
+            "kayu": {
+                "title": "Si Kreatif Friendly",
+                "desc": "Jago bersosialisasi, ide-ide nakalnya selalu bisa diterima circle.",
+            },
+            "api": {
+                "title": "Si Paling Caper",
+                "desc": "Suka jadi pusat perhatian, energinya gak habis-habis bikin onar.",
+            },
+            "tanah": {
+                "title": "Si Jenius Kalem",
+                "desc": "Lebih suka observasi, diam-diam otaknya muter cari celah.",
+            },
+            "logam": {
+                "title": "Si Keras Kepala Pintar",
+                "desc": "Pede tingkat dewa, jago debat dan gak mau kalah argumen.",
+            },
+            "air": {
+                "title": "Si Ahli Manipulasi",
+                "desc": "Licin banget kayak belut, pinter banget mainin emosi orang.",
+            },
+        },
     },
     "ayam": {
         "name": "Ayam",
@@ -403,10 +679,26 @@ SHIO_PROFILE_BANK = {
         "yin_yang": "Yin",
         "fixed_element": "Logam",
         "traits_positive": ["Teliti", "Jujur", "Pekerja keras", "Percaya diri", "Rapi"],
-        "traits_negative": ["Perfeksionis ekstrim", "Kritis", "Suka pamer", "Banyak mulut"],
+        "traits_negative": [
+            "Perfeksionis ekstrim",
+            "Kritis",
+            "Suka pamer",
+            "Banyak mulut",
+        ],
         "personality_long": "Orang bershio Ayam dikenal dengan pengamatannya yang tajam dan dedikasi yang tinggi. Mereka sangat teliti, perfeksionis, dan selalu berorientasi pada detail terkecil. Berpenampilan menarik adalah suatu keharusan bagi mereka, dan mereka tidak ragu untuk menjadi sorotan. Ayam sangat jujur dan transparan; mereka akan mengatakan apa adanya tanpa basa-basi, yang sering kali dihargai karena kejujurannya di dunia kerja.\n\nNamun, lidah mereka yang tajam sering kali melukai perasaan orang lain. Kecenderungan mereka untuk selalu mengkritik dan menuntut kesempurnaan bisa membuat lelah lingkungan di sekitarnya. Terkadang sifat percaya diri yang tinggi ini berubah menjadi kesombongan dan pamer pencapaian. Di sisi lain, mereka sangat setia, protektif, dan rela berjuang habis-habisan demi keluarga dan karier.",
-        "famous_people": ["Beyonce (1981)", "Serena Williams (1981)", "Bob Marley (1945)", "Pangeran Philip (1921)"],
-        "ideal_career": ["Akuntan", "Dokter Bedah", "Editor", "Polisi", "Ahli Kecantikan"],
+        "famous_people": [
+            "Beyonce (1981)",
+            "Serena Williams (1981)",
+            "Bob Marley (1945)",
+            "Pangeran Philip (1921)",
+        ],
+        "ideal_career": [
+            "Akuntan",
+            "Dokter Bedah",
+            "Editor",
+            "Polisi",
+            "Ahli Kecantikan",
+        ],
         "lucky_flowers": ["Gladiol", "Impatiens"],
         "lucky_colors": ["Emas", "Cokelat", "Kuning"],
         "unlucky_colors": ["Merah", "Hijau", "Ungu"],
@@ -421,22 +713,37 @@ SHIO_PROFILE_BANK = {
             "Tugas apa pun pasti beres dan rapi jali di tangannya.",
             "Jujur banget, nggak akan nusuk dari belakang.",
             "Sangat protektif ke keluarga dan sahabat deketnya.",
-            "Perencana liburan atau acara yang super matang."
+            "Perencana liburan atau acara yang super matang.",
         ],
         "red_flags": [
             "Kritiknya tajem banget, bisa bikin mental down.",
             "Perfeksionis abis, ngomel kalau meja berantakan dikit.",
             "Suka cari validasi dan pamer pencapaian.",
             "Sering ngerasa dirinya selalu benar.",
-            "Susah memaafkan kesalahan sepele orang lain."
+            "Susah memaafkan kesalahan sepele orang lain.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Humble Perfeksionis", "desc": "Lebih kalem dan bisa kompromi dibanding ayam lainnya."},
-            "api": {"title": "Si Mulut Pedas", "desc": "Kritiknya setajam silet, tapi sebenernya hatinya peduli."},
-            "tanah": {"title": "Si Peneliti Handal", "desc": "Sangat teliti soal fakta, pinter banget ngerjain riset."},
-            "logam": {"title": "Si Bos Besar", "desc": "Ambisius tinggi dan gengsi gede, pengen selalu berkuasa."},
-            "air": {"title": "Si Fashionista Cerewet", "desc": "Paling stylish di circle, suka ngomentarin ootd orang."}
-        }
+            "kayu": {
+                "title": "Si Humble Perfeksionis",
+                "desc": "Lebih kalem dan bisa kompromi dibanding ayam lainnya.",
+            },
+            "api": {
+                "title": "Si Mulut Pedas",
+                "desc": "Kritiknya setajam silet, tapi sebenernya hatinya peduli.",
+            },
+            "tanah": {
+                "title": "Si Peneliti Handal",
+                "desc": "Sangat teliti soal fakta, pinter banget ngerjain riset.",
+            },
+            "logam": {
+                "title": "Si Bos Besar",
+                "desc": "Ambisius tinggi dan gengsi gede, pengen selalu berkuasa.",
+            },
+            "air": {
+                "title": "Si Fashionista Cerewet",
+                "desc": "Paling stylish di circle, suka ngomentarin ootd orang.",
+            },
+        },
     },
     "anjing": {
         "name": "Anjing",
@@ -448,7 +755,12 @@ SHIO_PROFILE_BANK = {
         "traits_positive": ["Setia", "Jujur", "Dapat diandalkan", "Berani", "Adil"],
         "traits_negative": ["Pesimis", "Keras kepala", "Kritik pedas", "Suka khawatir"],
         "personality_long": "Dalam zodiak, Anjing melambangkan kejujuran, kesetiaan, dan keadilan. Mereka adalah individu yang memiliki kompas moral yang kuat dan siap membela kebenaran. Kamu tidak akan pernah menemukan sahabat yang lebih setia dan dapat diandalkan dari seorang Anjing. Mereka protektif terhadap orang-orang terkasihnya dan tidak ragu untuk berkorban tanpa mengharapkan imbalan. Mereka bukan orang yang gila panggung; mereka lebih memilih kedamaian hidup bersama lingkaran kecil yang dipercaya.\n\nMeski loyal, mereka punya kecenderungan berpikir pesimistis dan mudah merasa cemas. Mereka selalu memikirkan skenario terburuk yang bisa terjadi. Jika mereka merasa dikhianati atau melihat ketidakadilan, sifat kalem mereka bisa berubah menjadi kritik yang tajam dan sinis. Secara umum, mereka butuh waktu untuk membuka hati kepada orang baru.",
-        "famous_people": ["Mother Teresa (1910)", "Elvis Presley (1935)", "Steven Spielberg (1946)", "Justin Bieber (1994)"],
+        "famous_people": [
+            "Mother Teresa (1910)",
+            "Elvis Presley (1935)",
+            "Steven Spielberg (1946)",
+            "Justin Bieber (1994)",
+        ],
         "ideal_career": ["Hakim", "Polisi", "Konselor", "Perawat", "Pekerja Amal"],
         "lucky_flowers": ["Mawar", "Anggrek Cymbidium"],
         "lucky_colors": ["Merah", "Hijau", "Ungu"],
@@ -464,22 +776,37 @@ SHIO_PROFILE_BANK = {
             "Bisa jadi garda terdepan buat nge-defense kamu.",
             "Jujur dan tulus, nol persen niat manipulatif.",
             "Tahu cara menjaga rahasia rapat-rapat.",
-            "Rela repot demi bantuin sahabat yang lagi susah."
+            "Rela repot demi bantuin sahabat yang lagi susah.",
         ],
         "red_flags": [
             "Overthinking-nya parah banget tiap malam.",
             "Kalau lagi cemas, bawelnya bisa bikin stres yang dengar.",
             "Kritiknya kadang pedes dan nggak disaring.",
             "Keras kepala kalau ngerasa prinsipnya paling bener.",
-            "Susah move on kalau udah ngerasa dikhianati."
+            "Susah move on kalau udah ngerasa dikhianati.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Pendengar Setia", "desc": "Sabar banget dengerin curhat, paling bijak ngasih saran."},
-            "api": {"title": "Si Pejuang Keadilan", "desc": "Gak bisa diam kalau liat ada yang gak fair, gampang ngegas."},
-            "tanah": {"title": "Si Santuy Protektif", "desc": "Diam-diam perhatiin sekitar, paling stabil secara emosi."},
-            "logam": {"title": "Si Tegas & Disiplin", "desc": "Prinsipnya kuat banget, agak kaku kalau diajak becanda."},
-            "air": {"title": "Si Paling Anxious", "desc": "Selalu mikirin skenario terburuk, kewaspadaannya level maksimal."}
-        }
+            "kayu": {
+                "title": "Si Pendengar Setia",
+                "desc": "Sabar banget dengerin curhat, paling bijak ngasih saran.",
+            },
+            "api": {
+                "title": "Si Pejuang Keadilan",
+                "desc": "Gak bisa diam kalau liat ada yang gak fair, gampang ngegas.",
+            },
+            "tanah": {
+                "title": "Si Santuy Protektif",
+                "desc": "Diam-diam perhatiin sekitar, paling stabil secara emosi.",
+            },
+            "logam": {
+                "title": "Si Tegas & Disiplin",
+                "desc": "Prinsipnya kuat banget, agak kaku kalau diajak becanda.",
+            },
+            "air": {
+                "title": "Si Paling Anxious",
+                "desc": "Selalu mikirin skenario terburuk, kewaspadaannya level maksimal.",
+            },
+        },
     },
     "babi": {
         "name": "Babi",
@@ -491,8 +818,19 @@ SHIO_PROFILE_BANK = {
         "traits_positive": ["Tulus", "Ramah", "Penyayang", "Dermawan", "Optimis"],
         "traits_negative": ["Naif", "Materialistis", "Malas", "Mudah tertipu"],
         "personality_long": "Menutup siklus dua belas shio, Babi mewakili kepolosan, keberuntungan, dan kelimpahan. Mereka memiliki hati emas, selalu melihat sisi positif dari hidup, dan sangat ramah kepada siapa pun. Shio Babi suka menikmati hidup, mencintai makanan enak, barang-barang berkualitas, dan tidak pelit mentraktir teman. Mereka memancarkan aura damai dan selalu berusaha membahagiakan orang-orang di sekitarnya.\n\nSikap baik hati dan optimisme ini sayangnya sering membuat mereka naif dan gampang dimanfaatkan oleh orang yang berniat buruk. Karena sangat menikmati kesenangan duniawi, Babi juga memiliki kecenderungan menjadi malas dan kurang ambisius dibandingkan shio lainnya. Meskipun begitu, keberuntungan seolah selalu berpihak pada mereka, sehingga jarang sekali melihat mereka kesulitan dalam jangka waktu lama.",
-        "famous_people": ["Elton John (1947)", "Chris Hemsworth (1983)", "Elon Musk (1971)", "Stephen King (1947)"],
-        "ideal_career": ["Koki", "Dokter Hewan", "Desainer Interior", "Manajer Restoran", "Seniman"],
+        "famous_people": [
+            "Elton John (1947)",
+            "Chris Hemsworth (1983)",
+            "Elon Musk (1971)",
+            "Stephen King (1947)",
+        ],
+        "ideal_career": [
+            "Koki",
+            "Dokter Hewan",
+            "Desainer Interior",
+            "Manajer Restoran",
+            "Seniman",
+        ],
         "lucky_flowers": ["Hydrangea", "Marguerite"],
         "lucky_colors": ["Kuning", "Abu-abu", "Cokelat", "Emas"],
         "unlucky_colors": ["Merah", "Biru", "Hijau"],
@@ -507,21 +845,36 @@ SHIO_PROFILE_BANK = {
             "Circle tongkrongan pasti dikasih makan enak terus.",
             "Vibe-nya selalu positif dan nggak pernah dendam.",
             "Easy going dan gampang banget diajak bahagia.",
-            "Sangat suportif walau kadang nggak ngerti masalahnya."
+            "Sangat suportif walau kadang nggak ngerti masalahnya.",
         ],
         "red_flags": [
             "Sering ditipu orang gara-gara kelamaan percaya.",
             "Malasnya kadang nggak ketulungan kalau udah mager.",
             "Boros banget kalau udah lihat barang lucu atau diskon makanan.",
             "Susah diajak mikir berat atau ngebahas rencana jangka panjang.",
-            "Naif tingkat dewa, sering denial soal niat jahat orang."
+            "Naif tingkat dewa, sering denial soal niat jahat orang.",
         ],
         "alter_ego": {
-            "kayu": {"title": "Si Dermawan Polos", "desc": "Paling sering traktir teman walau dompet lagi pas-pasan."},
-            "api": {"title": "Si Penikmat Hidup", "desc": "Motto hidupnya YOLO, paling semangat kalau diajak kulineran."},
-            "tanah": {"title": "Si Mager Santuy", "desc": "Kaum rebahan sejati, butuh effort ekstra buat ngajak jalan."},
-            "logam": {"title": "Si Paling Elite", "desc": "Selera hidupnya tinggi, barangnya branded semua, agak keras kepala."},
-            "air": {"title": "Si Baperan Manis", "desc": "Gampang tersentuh, hobi denger lagu galau sambil ngemil."}
-        }
-    }
+            "kayu": {
+                "title": "Si Dermawan Polos",
+                "desc": "Paling sering traktir teman walau dompet lagi pas-pasan.",
+            },
+            "api": {
+                "title": "Si Penikmat Hidup",
+                "desc": "Motto hidupnya YOLO, paling semangat kalau diajak kulineran.",
+            },
+            "tanah": {
+                "title": "Si Mager Santuy",
+                "desc": "Kaum rebahan sejati, butuh effort ekstra buat ngajak jalan.",
+            },
+            "logam": {
+                "title": "Si Paling Elite",
+                "desc": "Selera hidupnya tinggi, barangnya branded semua, agak keras kepala.",
+            },
+            "air": {
+                "title": "Si Baperan Manis",
+                "desc": "Gampang tersentuh, hobi denger lagu galau sambil ngemil.",
+            },
+        },
+    },
 }

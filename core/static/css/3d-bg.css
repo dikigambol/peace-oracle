@@ -1,11 +1,16 @@
 #webgl-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    height: 100dvh;
-    z-index: -10; /* Deepest layer */
-    pointer-events: auto; /* Allow interaction if needed */
-    background: radial-gradient(circle at center, #1a0505 0%, #050202 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  z-index: -10;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    #15092b 0%,
+    #080514 60%,
+    #030208 100%
+  );
 }

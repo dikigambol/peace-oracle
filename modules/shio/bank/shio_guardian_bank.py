@@ -1,16 +1,3 @@
-# ============================================================
-# 🛡️ SHIO PENJAGA BANK — Bank Data Penjaga Spiritual
-# ============================================================
-# Setiap Shio memiliki Bodhisattva/Buddha pelindung dalam
-# tradisi astrologi Tionghoa-Buddhis. Data ini berisi informasi
-# lengkap tentang pelindung, mantra, saran Feng Shui, dan
-# panduan spiritual per Shio.
-#
-# REFERENSI TRADISI:
-# Sistem "Ben Ming Fo" (本命佛) — Buddha/Bodhisattva Kelahiran
-# Setiap orang memiliki pelindung kosmik berdasarkan Shio-nya.
-# ============================================================
-
 SHIO_GUARDIAN_BANK = {
     "tikus": {
         "guardian_name": "Avalokiteśvara (Guanyin / 觀世音菩薩)",
@@ -28,10 +15,9 @@ SHIO_GUARDIAN_BANK = {
             "Gunakan elemen air kecil seperti air mancur mini atau aquarium di ruang kerja untuk mengaktifkan rezeki.",
             "Hindari meletakkan tempat tidur langsung menghadap pintu — energi Tikus butuh ruang aman untuk istirahat.",
             "Warna pelindung: Putih, Biru, dan Emas. Gunakan sebagai aksen di kamar tidur atau ruang meditasi.",
-            "Simpan kristal bening atau batu giok putih di meja kerja untuk menjernihkan pikiran saat bekerja."
-        ]
+            "Simpan kristal bening atau batu giok putih di meja kerja untuk menjernihkan pikiran saat bekerja.",
+        ],
     },
-
     "kerbau": {
         "guardian_name": "Ākāśagarbha (Xukongzang / 虛空藏菩薩)",
         "guardian_icon": "images/guardians/akasagarbha.jpg",
@@ -48,10 +34,9 @@ SHIO_GUARDIAN_BANK = {
             "Kerbau membutuhkan stabilitas — pastikan meja kerja dan tempat tidur berada di posisi yang kokoh, tidak goyah.",
             "Gunakan warna cokelat tanah, kuning emas, dan hijau tua sebagai aksen ruangan untuk memperkuat energi.",
             "Hindari terlalu banyak cermin di kamar tidur — energi Kerbau butuh ketenangan tanpa refleksi berlebihan.",
-            "Letakkan tanaman hijau berdaun tebal (seperti jade plant) di ruang keluarga untuk mengundang kemakmuran."
-        ]
+            "Letakkan tanaman hijau berdaun tebal (seperti jade plant) di ruang keluarga untuk mengundang kemakmuran.",
+        ],
     },
-
     "macan": {
         "guardian_name": "Ākāśagarbha (Xukongzang / 虛空藏菩薩)",
         "guardian_icon": "images/guardians/akasagarbha.jpg",
@@ -68,10 +53,9 @@ SHIO_GUARDIAN_BANK = {
             "Macan membutuhkan ruang gerak — jangan terlalu banyak perabot di kamar tidur, biarkan energi mengalir bebas.",
             "Gunakan warna hijau kayu dan biru langit untuk menyeimbangkan energi api bawaan Macan.",
             "Hindari menumpuk barang di belakang pintu masuk rumah — itu memblokir aliran keberuntungan Macan.",
-            "Letakkan tanaman bambu di ruang kerja sebagai simbol ketahanan dan fleksibilitas."
-        ]
+            "Letakkan tanaman bambu di ruang kerja sebagai simbol ketahanan dan fleksibilitas.",
+        ],
     },
-
     "kelinci": {
         "guardian_name": "Mañjuśrī (Wenshu / 文殊菩薩)",
         "guardian_icon": "images/guardians/manjusri.jpg",
@@ -88,10 +72,9 @@ SHIO_GUARDIAN_BANK = {
             "Gunakan warna hijau muda, lavender, dan putih susu sebagai palet ruangan untuk menenangkan batin.",
             "Kelinci butuh sanctuary — ciptakan satu sudut tenang di rumah khusus untuk membaca atau meditasi.",
             "Hindari pencahayaan yang terlalu terang dan mencolok. Kelinci lebih nyaman dengan cahaya lembut dan hangat.",
-            "Taruh kristal amethyst di dekat tempat tidur untuk meningkatkan kualitas tidur dan memperkuat intuisi."
-        ]
+            "Taruh kristal amethyst di dekat tempat tidur untuk meningkatkan kualitas tidur dan memperkuat intuisi.",
+        ],
     },
-
     "naga": {
         "guardian_name": "Samantabhadra (Puxian / 普賢菩薩)",
         "guardian_icon": "images/guardians/samantabhadra.jpg",
@@ -108,10 +91,9 @@ SHIO_GUARDIAN_BANK = {
             "Naga membutuhkan 'singgasana' — pastikan kursi kerja atau sofa utamamu berkualitas tinggi dan nyaman.",
             "Gunakan warna emas, merah tua, dan hijau zamrud sebagai aksen ruangan untuk memperkuat aura kepemimpinan.",
             "Jangan biarkan area pintu masuk rumah berantakan — itu adalah 'gerbang naga' yang harus selalu bersih dan terang.",
-            "Letakkan bola kristal di jendela yang menghadap matahari pagi untuk menangkap energi positif kosmik."
-        ]
+            "Letakkan bola kristal di jendela yang menghadap matahari pagi untuk menangkap energi positif kosmik.",
+        ],
     },
-
     "ular": {
         "guardian_name": "Samantabhadra (Puxian / 普賢菩薩)",
         "guardian_icon": "images/guardians/samantabhadra.jpg",
@@ -128,10 +110,9 @@ SHIO_GUARDIAN_BANK = {
             "Gunakan warna merah gelap, emas antik, dan hitam elegan untuk ruangan yang memperkuat aura misterius Ular.",
             "Hindari menggantung cermin tepat di depan tempat tidur — refleksi berlebihan mengganggu tidur Ular yang sensitif.",
             "Letakkan lilin aromaterapi beraroma kayu atau rempah di kamar mandi untuk ritual self-care malam hari.",
-            "Simpan batu garnet atau ruby kecil di dompet atau tas untuk menarik energi kemakmuran."
-        ]
+            "Simpan batu garnet atau ruby kecil di dompet atau tas untuk menarik energi kemakmuran.",
+        ],
     },
-
     "kuda": {
         "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
         "guardian_icon": "💪",
@@ -148,10 +129,9 @@ SHIO_GUARDIAN_BANK = {
             "Kuda butuh kebebasan — jangan terlalu banyak tirai tebal di jendela, biarkan cahaya matahari masuk maksimal.",
             "Gunakan warna merah, oranye, dan kuning cerah sebagai aksen energi di ruang kerja.",
             "Hindari meletakkan meja kerja membelakangi pintu — Kuda harus selalu bisa 'melihat' peluang yang datang.",
-            "Pasang wind chime (lonceng angin) di teras atau balkon untuk mengalirkan energi segar ke dalam rumah."
-        ]
+            "Pasang wind chime (lonceng angin) di teras atau balkon untuk mengalirkan energi segar ke dalam rumah.",
+        ],
     },
-
     "kambing": {
         "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
         "guardian_icon": "💪",
@@ -168,10 +148,9 @@ SHIO_GUARDIAN_BANK = {
             "Gunakan warna pastel — pink muda, krem, dan hijau sage — untuk menciptakan atmosfer tenang di rumah.",
             "Letakkan tanaman bunga di area Barat Daya rumah untuk memperkuat energi hubungan dan keharmonisan.",
             "Hindari suara bising di area tidur. Pertimbangkan white noise machine atau playlist alam untuk kualitas tidur.",
-            "Simpan batu rose quartz di dekat tempat tidur untuk memperkuat energi cinta dan penerimaan diri."
-        ]
+            "Simpan batu rose quartz di dekat tempat tidur untuk memperkuat energi cinta dan penerimaan diri.",
+        ],
     },
-
     "monyet": {
         "guardian_name": "Mahāvairocana (Dari Rulai / 大日如來)",
         "guardian_icon": "☀️",
@@ -188,10 +167,9 @@ SHIO_GUARDIAN_BANK = {
             "Monyet butuh stimulasi visual — tapi jangan berlebihan. Pilih 1-2 artwork berkualitas daripada banyak dekorasi murahan.",
             "Gunakan warna putih bersih, emas, dan oranye terang untuk ruang kerja kreatif.",
             "Hindari menumpuk gadget atau elektronik terlalu banyak di kamar tidur — Monyet perlu disconnect dari stimulasi.",
-            "Letakkan tanaman kecil (sukulen atau kaktus) di meja kerja untuk menyerap energi negatif dari layar."
-        ]
+            "Letakkan tanaman kecil (sukulen atau kaktus) di meja kerja untuk menyerap energi negatif dari layar.",
+        ],
     },
-
     "ayam": {
         "guardian_name": "Acala (Budong Mingwang / 不動明王)",
         "guardian_icon": "images/guardians/acala.jpg",
@@ -208,10 +186,9 @@ SHIO_GUARDIAN_BANK = {
             "Ayam sangat terpengaruh oleh kerapian — pastikan meja kerja selalu bersih dan tertata setiap malam.",
             "Gunakan warna putih, silver, dan emas sebagai dominasi ruangan untuk memperkuat elemen Logam.",
             "Hindari menggantung jam dinding yang berisik (tik-tok keras) — itu meningkatkan kecemasan perfeksionis Ayam.",
-            "Letakkan cermin kecil di area kerja untuk 'memantulkan' energi negatif dari rekan kerja yang toxic."
-        ]
+            "Letakkan cermin kecil di area kerja untuk 'memantulkan' energi negatif dari rekan kerja yang toxic.",
+        ],
     },
-
     "anjing": {
         "guardian_name": "Amitābha (Amituofo / 阿彌陀佛)",
         "guardian_icon": "images/guardians/amitabha.jpg",
@@ -228,10 +205,9 @@ SHIO_GUARDIAN_BANK = {
             "Anjing membutuhkan rasa aman — pastikan kunci dan sistem keamanan rumah berfungsi baik untuk ketenangan batin.",
             "Gunakan warna kuning hangat, cokelat madu, dan merah bata sebagai aksen yang menenangkan.",
             "Hindari menempatkan benda tajam yang terekspos (pisau, gunting) di area umum — itu meningkatkan energi kecemasan.",
-            "Taruh foto keluarga atau orang-orang tersayang di ruang keluarga untuk memperkuat energi kesetiaan dan cinta."
-        ]
+            "Taruh foto keluarga atau orang-orang tersayang di ruang keluarga untuk memperkuat energi kesetiaan dan cinta.",
+        ],
     },
-
     "babi": {
         "guardian_name": "Amitābha (Amituofo / 阿彌陀佛)",
         "guardian_icon": "images/guardians/amitabha.jpg",
@@ -248,7 +224,7 @@ SHIO_GUARDIAN_BANK = {
             "Babi menyukai kenyamanan — investasi pada kasur dan bantal berkualitas tinggi untuk tidur yang memulihkan.",
             "Gunakan warna biru laut, hijau air, dan putih mutiara untuk kamar tidur yang menenangkan.",
             "Hindari menimbun barang berlebihan di lemari — Babi cenderung menyimpan terlalu banyak hal yang tidak perlu.",
-            "Simpan batu moonstone atau pearl di kamar tidur untuk memperkuat intuisi dan koneksi spiritual."
-        ]
-    }
+            "Simpan batu moonstone atau pearl di kamar tidur untuk memperkuat intuisi dan koneksi spiritual.",
+        ],
+    },
 }

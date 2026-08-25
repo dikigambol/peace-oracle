@@ -1,7 +1,3 @@
-# ============================================================
-# ROAST MY SIGN DATA BANK (SARKASTIK & HUMOR GEN Z)
-# ============================================================
-
 import os
 import requests
 import json
@@ -14,12 +10,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Tiba-tiba emosi jam 2 siang cuma gara-gara kabel charger melilit.",
             "Nge-checkout barang 3 juta dalam 5 detik tanpa mikir besok makan apa.",
-            "Kalo debat gak mau kalah meski di lubuk hati sadar kalo dirinya yang salah."
+            "Kalo debat gak mau kalah meski di lubuk hati sadar kalo dirinya yang salah.",
         ],
         "financial_sin": "Membeli perlengkapan olahraga mahal yang cuma dipake sekali terus jadi gantungan baju.",
         "love_red_flag": "Ngejar gebetan bagaikan kesetanan, pas dapet langsung merasa bosan dalam 3 hari.",
         "catchphrase": "Gua gak marah ya, cuma nada bicara gua emang tinggi dari lahir!",
-        "survival_tip": "Coba tarik napas 5 detik sebelum melontarkan kalimat pedas yang bikin hubungan orang hancur."
+        "survival_tip": "Coba tarik napas 5 detik sebelum melontarkan kalimat pedas yang bikin hubungan orang hancur.",
     },
     "taurus": {
         "sign_name": "Taurus (♉)",
@@ -27,12 +23,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Bisa gak keluar kamar seminggu penuh asal ada kasur empuk & persediaan makanan.",
             "Kalo udah beda pendapat, malaikat pun gak bisa ngebujuk dia berubah pikiran.",
-            "Keliatan santuy padahal di kepalanya lagi ngitung daftar utang orang ke dia."
+            "Keliatan santuy padahal di kepalanya lagi ngitung daftar utang orang ke dia.",
         ],
         "financial_sin": "Transfer 500 ribu demi dapet promo gratis ongkir 10 ribu.",
         "love_red_flag": "Bertahan di hubungan toxic cuma gara-gara males nyari pasangan baru dari nol.",
         "catchphrase": "Gua bukannya males ya, gua cuma lagi mode hemat energi batin.",
-        "survival_tip": "Dunia ini luas bro, gak semua masalah bisa diselesaiin dengan makan boba di atas kasur."
+        "survival_tip": "Dunia ini luas bro, gak semua masalah bisa diselesaiin dengan makan boba di atas kasur.",
     },
     "gemini": {
         "sign_name": "Gemini (♊)",
@@ -40,12 +36,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Ngetik 'wkwkwk' panjang padahal mukanya datar tanpa ekspresi.",
             "Jam 8 malam menangis galau, jam 9 malam udah joget heboh di pesta.",
-            "Membalas chat di pikiran sendiri tapi lupa pencet kirim sampai minggu depan."
+            "Membalas chat di pikiran sendiri tapi lupa pencet kirim sampai minggu depan.",
         ],
         "financial_sin": "Ngebeli 5 buku self-development yang cuma dibaca halaman kata pengantarnya doang.",
         "love_red_flag": "Tebar pesona ke 10 orang sekaligus, pas ada yang serius malah panik terus ngilang.",
         "catchphrase": "Bukannya gua bermuka dua ya, gua cuma punya banyak opsi penyesuaian diri.",
-        "survival_tip": "Pilih satu kepribadian buat dipakai hari ini biar temen-temen lo gak bingung."
+        "survival_tip": "Pilih satu kepribadian buat dipakai hari ini biar temen-temen lo gak bingung.",
     },
     "cancer": {
         "sign_name": "Cancer (♋)",
@@ -53,12 +49,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Nge-mute grup WA terus ngambek gara-gara berasa gak dianggep.",
             "Dengerin lagu galau di kamar mandi sambil ngebayangin skenario tragis fiktif.",
-            "Ingat kata demi kata dari pertengkaran 4 tahun yang lalu lengkap dengan jamnya."
+            "Ingat kata demi kata dari pertengkaran 4 tahun yang lalu lengkap dengan jamnya.",
         ],
         "financial_sin": "Checkout barang-barang lucu karena berasa 'kasihan kalo gak ada yang beli'.",
         "love_red_flag": "Menjadikan pasangan sebagai terapi psikologis gratis untuk ketakutan masa lalunya.",
         "catchphrase": "Gua gak papa kok... (padahal di dalem hati udah bikin puisi duka 5 bait).",
-        "survival_tip": "Mantan lo udah bahagia sama orang lain, stop buka-buka folder arsip foto jadul!"
+        "survival_tip": "Mantan lo udah bahagia sama orang lain, stop buka-buka folder arsip foto jadul!",
     },
     "leo": {
         "sign_name": "Leo (♌)",
@@ -66,12 +62,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Spontan becermin di kaca spion mobil orang yang lagi berhenti di lampu merah.",
             "Cerita masalah orang lain tapi ujung-ujungnya dibelokkan ke cerita tentang dirinya.",
-            "Gak terima kalo ada orang lain yang berpakaian lebih heboh dari dia di acara yang sama."
+            "Gak terima kalo ada orang lain yang berpakaian lebih heboh dari dia di acara yang sama.",
         ],
         "financial_sin": "Membeli baju branded cuma demi foto instastory 15 detik terus gak pernah dipake lagi.",
         "love_red_flag": "Suka sama orang cuma gara-gara orang itu rajin muji-muji dia tiap hari.",
         "catchphrase": "Gua gak gila hormat ya, gua cuma tau kualitas diri gua di atas rata-rata.",
-        "survival_tip": "Dunia tidak berputar mengelilingi lo bro, sesekali biarin orang lain yang dapet panggung."
+        "survival_tip": "Dunia tidak berputar mengelilingi lo bro, sesekali biarin orang lain yang dapet panggung.",
     },
     "virgo": {
         "sign_name": "Virgo (♍)",
@@ -79,12 +75,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Ngerapiin sendok di warung makan yang susunannya miring 1 milimeter.",
             "Ngasih kritik pedas berkedok 'kan gua cuma ngomong jujur demi kebaikan lo'.",
-            "Bikin to-do list buat kegiatan liburan sampai jadwal jam demi jam."
+            "Bikin to-do list buat kegiatan liburan sampai jadwal jam demi jam.",
         ],
         "financial_sin": "Beli 10 jenis kotak penyimpanan plastik demi merapikan barang yang sebenarnya gak guna.",
         "love_red_flag": "Nge-date sama orang bukan karena cinta, tapi karena liat proyek 'perbaikan karakter'.",
         "catchphrase": "Gua gak cerewet ya, gua cuma ngebantu lo biar gak keliatan bego.",
-        "survival_tip": "Santai dikit napa! Typo satu huruf gak bakal bikin kiamat besok pagi."
+        "survival_tip": "Santai dikit napa! Typo satu huruf gak bakal bikin kiamat besok pagi.",
     },
     "libra": {
         "sign_name": "Libra (♎)",
@@ -92,12 +88,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Bisa nanya pendapat ke 8 orang berbeda cuma buat milih warna baju tidur.",
             "Setuju sama pendapat semua orang biar dianggap ramah & gak punya musuh.",
-            "Pura-pura bahagia padahal di balik senyumnya ada beban hidup seberat bumi."
+            "Pura-pura bahagia padahal di balik senyumnya ada beban hidup seberat bumi.",
         ],
         "financial_sin": "Beli barang estetik mahal yang gak ada fungsinya cuma buat dipajang di feeds Instagram.",
         "love_red_flag": "Punya 3 gebetan backup karena takut sendirian kalo gebetan utama gagal.",
         "catchphrase": "Duh gua bingung deh, menurut lo mendingan yang A atau yang B ya?",
-        "survival_tip": "Ambil keputusan sendiri tanpa nanya grup WA, lo udah gede!"
+        "survival_tip": "Ambil keputusan sendiri tanpa nanya grup WA, lo udah gede!",
     },
     "scorpio": {
         "sign_name": "Scorpio (♏)",
@@ -105,12 +101,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Nge-stalk sosmed mantan pacar gebetan sampai ke postingan tahun 2012.",
             "Kalo ditanya 'kenapa?' jawabnya 'pikir aja sendiri'.",
-            "Susah percaya sama orang sampai orang itu kudu tes kejujuran 3 kali dulu."
+            "Susah percaya sama orang sampai orang itu kudu tes kejujuran 3 kali dulu.",
         ],
         "financial_sin": "Membeli barang rahasia yang disimpan di lemari terkunci dan gak boleh ada yang tau.",
         "love_red_flag": "Menguji kesetiaan pasangan dengan jebakan akun fake di sosmed.",
         "catchphrase": "Gua bukannya pendendam ya, gua cuma gak bakalan pernah lupa apa yang udah lo perbuat.",
-        "survival_tip": "Turunin benteng pertahanan lo dikit, gak semua orang di dunia ini niat jahat ke lo."
+        "survival_tip": "Turunin benteng pertahanan lo dikit, gak semua orang di dunia ini niat jahat ke lo.",
     },
     "sagittarius": {
         "sign_name": "Sagittarius (♐)",
@@ -118,12 +114,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Bicara fakta pahit di depan orang banyak terus bilang 'santai dong, kan bercanda'.",
             "Langsung panik merasa terkekang kalo ditanya 'kita ini hubungan apa?'.",
-            "Merencanakan liburan ke luar pulau padahal tabungan tinggal 50 ribu."
+            "Merencanakan liburan ke luar pulau padahal tabungan tinggal 50 ribu.",
         ],
         "financial_sin": "Beli tiket konser/traveling spontan tanpa mikir bayar cicilan bulan depan.",
         "love_red_flag": "Jadian hari Senin, merasa terkungkung hari Rabu, nge-ghosting hari Jumat.",
         "catchphrase": "Hidup itu cuma sekali bro, gak usah dibawa serius banget lah!",
-        "survival_tip": "Belajar ngerem mulut dan mikirin perasaan orang sebelum ceplas-ceplos."
+        "survival_tip": "Belajar ngerem mulut dan mikirin perasaan orang sebelum ceplas-ceplos.",
     },
     "capricorn": {
         "sign_name": "Capricorn (♑)",
@@ -131,12 +127,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Lagi liburan di pantai pun masih sempet-sempetnya ngebalas email kerjaan.",
             "Nge-judge orang lain dari seberapa produktif orang itu di hari Minggu.",
-            "Paling antipati sama orang yang suka mengeluh tanpa ngasih solusi nyata."
+            "Paling antipati sama orang yang suka mengeluh tanpa ngasih solusi nyata.",
         ],
         "financial_sin": "Menyimpan uang di 5 rekening berbeda sampai lupa cara menikmati hidup.",
         "love_red_flag": "Memperlakukan hubungan asmara seperti wawancara kerja profesional.",
         "catchphrase": "Waktu adalah uang. Kalo gak menghasilkan cuan, mending gak usah dikerjain.",
-        "survival_tip": "Tutup laptop lo, pergi keluar, dan nikmati es krim. Lo bukan robot perusahaan!"
+        "survival_tip": "Tutup laptop lo, pergi keluar, dan nikmati es krim. Lo bukan robot perusahaan!",
     },
     "aquarius": {
         "sign_name": "Aquarius (♒)",
@@ -144,12 +140,12 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Membanggakan fakta kalau dirinya 'aneh dan gak punya temen sefrekuensi'.",
             "Kalo ada orang curhat nangis-nangis, malah dikasih ceramah teori filsafat.",
-            "Matiin notifikasi sosmed 3 hari karena butuh 'space dari kebiasaan orang awam'."
+            "Matiin notifikasi sosmed 3 hari karena butuh 'space dari kebiasaan orang awam'.",
         ],
         "financial_sin": "Beli gadget unik futuristik yang cuma berguna buat 1 hal aneh.",
         "love_red_flag": "Bilang cinta tapi respon balasan chat-nya kayak robot customer service.",
         "catchphrase": "Gua bukannya sombong ya, cara berpikir gua emang udah melompati zaman aja.",
-        "survival_tip": "Lo itu manusia bumi biasa, gak usah akting kayak alien dari planet Jupiter."
+        "survival_tip": "Lo itu manusia bumi biasa, gak usah akting kayak alien dari planet Jupiter.",
     },
     "pisces": {
         "sign_name": "Pisces (♓)",
@@ -157,14 +153,15 @@ ROASTING_DATA = {
         "toxic_traits": [
             "Bikin skenario romantis lengkap di kepala padahal baru tatap muka 2 detik di kasir.",
             "Gampang kena tipu janji manis karena terlalu percaya sama 'kebaikan manusia'.",
-            "Kalo ada masalah nyata, bukannya diselesaiin malah tidur seharian."
+            "Kalo ada masalah nyata, bukannya diselesaiin malah tidur seharian.",
         ],
         "financial_sin": "Donasi atau mentraktir orang lain padahal dompet sendiri tinggal berisi recehan.",
         "love_red_flag": "Jatuh cinta sama versi imajinasi seseorang yang dia ciptakan di kepalanya sendiri.",
         "catchphrase": "Kenapa sih dunia ini keras banget? Padahal kan kita bisa hidup damai penuh cinta...",
-        "survival_tip": "Buka mata lo, napak tanah! Realita gak seindah drama Korea kesukaan lo."
-    }
+        "survival_tip": "Buka mata lo, napak tanah! Realita gak seindah drama Korea kesukaan lo.",
+    },
 }
+
 
 def determine_zodiac(day, month):
     """Menentukan Zodiak berdasarkan hari dan bulan lahir."""
@@ -173,7 +170,6 @@ def determine_zodiac(day, month):
         month = int(month)
     except (ValueError, TypeError):
         return "aries"
-
     if (month == 3 and day >= 21) or (month == 4 and day <= 19):
         return "aries"
     elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
@@ -199,42 +195,51 @@ def determine_zodiac(day, month):
     else:
         return "pisces"
 
+
 def get_roast(sign_key, refresh=False):
     return get_ai_roast(sign_key, refresh=refresh)
 
-ZODIAC_SYMBOLS = {
-    "aries": "♈", "taurus": "♉", "gemini": "♊", "cancer": "♋",
-    "leo": "♌", "virgo": "♍", "libra": "♎", "scorpio": "♏",
-    "sagittarius": "♐", "capricorn": "♑", "aquarius": "♒", "pisces": "♓"
-}
 
+ZODIAC_SYMBOLS = {
+    "aries": "♈",
+    "taurus": "♉",
+    "gemini": "♊",
+    "cancer": "♋",
+    "leo": "♌",
+    "virgo": "♍",
+    "libra": "♎",
+    "scorpio": "♏",
+    "sagittarius": "♐",
+    "capricorn": "♑",
+    "aquarius": "♒",
+    "pisces": "♓",
+}
 AI_ROAST_CACHE = {}
 AI_PAIR_ROAST_CACHE = {}
+
 
 def get_ai_roast(sign_key, refresh=False):
     sign_key = sign_key.lower()
     sign_name = SIGN_NAMES.get(sign_key, sign_key.capitalize())
     symbol = ZODIAC_SYMBOLS.get(sign_key, "✨")
-
-    if not refresh and sign_key in AI_ROAST_CACHE:
-        return AI_ROAST_CACHE[sign_key]
-
     from .ai_limiter import check_ai_quota, increment_ai_quota
+
     is_allowed, count, limit, notice = check_ai_quota()
     if not is_allowed:
         fallback = ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"]).copy()
         fallback["ai_notice"] = notice
         fallback["is_ai_quota_exceeded"] = True
         return fallback
-
+    if not refresh and sign_key in AI_ROAST_CACHE:
+        cached = AI_ROAST_CACHE[sign_key].copy()
+        increment_ai_quota()
+        return cached
     api_key = get_openrouter_api_key()
     if not api_key:
         return ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"])
-
     prompt = f"""Eksplorasi secara bebas dan buatlah ulasan roasting humoristis Gen Z yang kreatif, lucu, dan natural tentang karakter zodiak **{sign_name}**.
-
 Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks/markdown lain):
-{{
+{{ 
   "sign_name": "{sign_name} ({symbol})",
   "headline": "1 kalimat roasting utama paling kocak, santai, dan relatable tentang keunikan {sign_name}.",
   "toxic_traits": [
@@ -246,33 +251,36 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
   "love_red_flag": "Keunikan/red flag kocak zodiak ini dalam urusan asmara.",
   "catchphrase": "Alasan ngeles paling khas yang sering diucapkan {sign_name}.",
   "survival_tip": "Tips santai dan kocak untuk teman agar bisa awet bergaul dengan {sign_name}."
-}}"""
-
+}} """
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia"
+        "X-OpenRouter-Title": "Zodiak Data Asia",
     }
-
-    models = [
-        "google/gemini-2.5-flash-lite"
-    ]
-
+    models = ["google/gemini-2.5-flash-lite"]
     for model in models:
         try:
             payload = {
                 "model": model,
                 "messages": [
-                    {"role": "system", "content": "Kamu adalah komika dan pengamat karakter Gen Z Indonesia yang cerdas, humoris, kreatif, dan menghibur. Berikan ulasan roasting zodiak yang sangat unik, bebas mengeksplorasi ide-ide kocak dan relatable ala anak muda, dengan bahasa Indonesia yang sangat natural, santai, mengalir, dan 100% bebas dari unsur SARA atau kata kasar. Kembalikan respons HANYA dalam format JSON valid."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "Kamu adalah komika dan pengamat karakter Gen Z Indonesia yang cerdas, humoris, kreatif, dan menghibur. Berikan ulasan roasting zodiak yang sangat unik, bebas mengeksplorasi ide-ide kocak dan relatable ala anak muda, dengan bahasa Indonesia yang sangat natural, santai, mengalir, dan 100% bebas dari unsur SARA atau kata kasar. Kembalikan respons HANYA dalam format JSON valid.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                "temperature": 0.85
+                "temperature": 0.85,
             }
-            resp = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=9)
+            resp = requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=9,
+            )
             if resp.status_code == 200:
                 res_data = resp.json()
-                content = res_data['choices'][0]['message']['content'].strip()
+                content = res_data["choices"][0]["message"]["content"].strip()
                 if content.startswith("```"):
                     content = content.split("\n", 1)[-1]
                     if content.endswith("```"):
@@ -280,9 +288,18 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
                     content = content.strip()
                 if content.startswith("json"):
                     content = content[4:].strip()
-
                 parsed = json.loads(content)
-                if all(k in parsed for k in ["headline", "toxic_traits", "financial_sin", "love_red_flag", "catchphrase", "survival_tip"]):
+                if all(
+                    k in parsed
+                    for k in [
+                        "headline",
+                        "toxic_traits",
+                        "financial_sin",
+                        "love_red_flag",
+                        "catchphrase",
+                        "survival_tip",
+                    ]
+                ):
                     parsed["sign_name"] = f"{sign_name} ({symbol})"
                     parsed["ai_notice"] = None
                     parsed["is_ai_quota_exceeded"] = False
@@ -291,7 +308,6 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
                     return parsed
         except Exception:
             pass
-
     return ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"])
 
 
@@ -301,62 +317,62 @@ def get_ai_relationship_roast(sign_a, sign_b, refresh=False):
     cache_key = f"{sa}_{sb}"
     name_a = SIGN_NAMES.get(sa, sa.capitalize())
     name_b = SIGN_NAMES.get(sb, sb.capitalize())
-
-    if not refresh and cache_key in AI_PAIR_ROAST_CACHE:
-        return AI_PAIR_ROAST_CACHE[cache_key]
-
     from .ai_limiter import check_ai_quota, increment_ai_quota
+
     is_allowed, count, limit, notice = check_ai_quota()
     if not is_allowed:
         fallback = get_relationship_roast(sa, sb).copy()
         fallback["ai_notice"] = notice
         fallback["is_ai_quota_exceeded"] = True
         return fallback
-
+    if not refresh and cache_key in AI_PAIR_ROAST_CACHE:
+        cached = AI_PAIR_ROAST_CACHE[cache_key].copy()
+        increment_ai_quota()
+        return cached
     api_key = get_openrouter_api_key()
     if not api_key:
         return get_relationship_roast(sa, sb)
-
     prompt = f"""Eksplorasi secara bebas dan buatlah ulasan roasting humoristis Gen Z yang kreatif, lucu, dan natural tentang dinamika perpaduan pasangan 2 zodiak berikut:
-
 - Zodiak A: **{name_a}**
 - Zodiak B: **{name_b}**
-
 Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks/markdown lain):
-{{
+{{ 
   "sign_a_name": "{name_a}",
   "sign_b_name": "{name_b}",
   "badge": "Gelar kocak unik pasangan (contoh: 💥 Dualisme Api-Air / 🗿 Kombinasi Batu-Angin / 🎪 Skuadron Halusinasi)",
   "headline": "1 kalimat headline roasting utama paling lucu & relatable tentang perpaduan {name_a} dan {name_b}.",
   "desc": "Ulasan 2-3 kalimat kocak & natural tentang benturan ego, kebiasaan lucu, atau momen konyol saat {name_a} dan {name_b} bersama.",
   "verdict": "Vonis akhir kocak dan menghibur untuk hubungan {name_a} dan {name_b}."
-}}"""
-
+}} """
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
         "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia"
+        "X-OpenRouter-Title": "Zodiak Data Asia",
     }
-
-    models = [
-        "google/gemini-2.5-flash-lite"
-    ]
-
+    models = ["google/gemini-2.5-flash-lite"]
     for model in models:
         try:
             payload = {
                 "model": model,
                 "messages": [
-                    {"role": "system", "content": "Kamu adalah komika dan pengamat dinamika hubungan Gen Z Indonesia yang cerdas, humoris, dan menggemaskan. Berikan ulasan roasting hubungan pasangan secara lucu, santai, relatable, penuh candaan hangat tanpa kata kasar, dan 100% bebas dari unsur SARA. Kembalikan respons HANYA dalam format JSON valid."},
-                    {"role": "user", "content": prompt}
+                    {
+                        "role": "system",
+                        "content": "Kamu adalah komika dan pengamat dinamika hubungan Gen Z Indonesia yang cerdas, humoris, dan menggemaskan. Berikan ulasan roasting hubungan pasangan secara lucu, santai, relatable, penuh candaan hangat tanpa kata kasar, dan 100% bebas dari unsur SARA. Kembalikan respons HANYA dalam format JSON valid.",
+                    },
+                    {"role": "user", "content": prompt},
                 ],
-                "temperature": 0.8
+                "temperature": 0.8,
             }
-            resp = requests.post("https://openrouter.ai/api/v1/chat/completions", headers=headers, json=payload, timeout=9)
+            resp = requests.post(
+                "https://openrouter.ai/api/v1/chat/completions",
+                headers=headers,
+                json=payload,
+                timeout=9,
+            )
             if resp.status_code == 200:
                 res_data = resp.json()
-                content = res_data['choices'][0]['message']['content'].strip()
+                content = res_data["choices"][0]["message"]["content"].strip()
                 if content.startswith("```"):
                     content = content.split("\n", 1)[-1]
                     if content.endswith("```"):
@@ -364,7 +380,6 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
                     content = content.strip()
                 if content.startswith("json"):
                     content = content[4:].strip()
-
                 parsed = json.loads(content)
                 if all(k in parsed for k in ["badge", "headline", "desc", "verdict"]):
                     parsed["sign_a_name"] = name_a
@@ -376,36 +391,47 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
                     return parsed
         except Exception:
             pass
-
     return get_relationship_roast(sa, sb)
 
 
-# Data Elemen Zodiak
 SIGN_ELEMENTS = {
-    "aries": "api", "leo": "api", "sagittarius": "api",
-    "taurus": "tanah", "virgo": "tanah", "capricorn": "tanah",
-    "gemini": "udara", "libra": "udara", "aquarius": "udara",
-    "cancer": "air", "scorpio": "air", "pisces": "air"
+    "aries": "api",
+    "leo": "api",
+    "sagittarius": "api",
+    "taurus": "tanah",
+    "virgo": "tanah",
+    "capricorn": "tanah",
+    "gemini": "udara",
+    "libra": "udara",
+    "aquarius": "udara",
+    "cancer": "air",
+    "scorpio": "air",
+    "pisces": "air",
+}
+SIGN_NAMES = {
+    "aries": "Aries",
+    "taurus": "Taurus",
+    "gemini": "Gemini",
+    "cancer": "Cancer",
+    "leo": "Leo",
+    "virgo": "Virgo",
+    "libra": "Libra",
+    "scorpio": "Scorpio",
+    "sagittarius": "Sagittarius",
+    "capricorn": "Capricorn",
+    "aquarius": "Aquarius",
+    "pisces": "Pisces",
 }
 
-SIGN_NAMES = {
-    "aries": "Aries", "taurus": "Taurus", "gemini": "Gemini", "cancer": "Cancer",
-    "leo": "Leo", "virgo": "Virgo", "libra": "Libra", "scorpio": "Scorpio",
-    "sagittarius": "Sagittarius", "capricorn": "Capricorn", "aquarius": "Aquarius", "pisces": "Pisces"
-}
 
 def get_relationship_roast(sign_a, sign_b):
     """Menghasilkan roasting hubungan sarkastik antara Zodiak A dan Zodiak B."""
     sa = sign_a.lower()
     sb = sign_b.lower()
-    
     name_a = SIGN_NAMES.get(sa, "Zodiak A")
     name_b = SIGN_NAMES.get(sb, "Zodiak B")
-    
     elem_a = SIGN_ELEMENTS.get(sa, "api")
     elem_b = SIGN_ELEMENTS.get(sb, "api")
-    
-    # Kategori Pasangan Khusus jika zodiaknya sama
     if sa == sb:
         res = {
             "sign_a_name": name_a,
@@ -413,12 +439,10 @@ def get_relationship_roast(sign_a, sign_b):
             "badge": "🪞 Hubungan Kaca Kembar",
             "headline": f"{name_a} ketemu {name_b}: Bagaikan becermin dan ngeliat keburukan diri sendiri dipraktekkan orang lain.",
             "desc": f"Dua {name_a} jadian/berteman itu ibarat dua koki galak di satu dapur kecil. Keduanya punya ego & kebiasaan buruk yang sama persis, jadi gak ada yang bisa ngalah.",
-            "verdict": "Vonis: Kalo gak jadi pasangan terseru abad ini, ya jadi musuh bebuyutan sampai kiamat."
+            "verdict": "Vonis: Kalo gak jadi pasangan terseru abad ini, ya jadi musuh bebuyutan sampai kiamat.",
         }
     else:
-        # Berdasarkan Kombinasi Elemen
         pair_type = tuple(sorted([elem_a, elem_b]))
-        
         if pair_type == ("api", "api"):
             res = {
                 "sign_a_name": name_a,
@@ -426,7 +450,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "💥 Kombinasi Ledakan Kosmik",
                 "headline": f"{name_a} x {name_b}: Dua kompor gas meledak jadian satu.",
                 "desc": f"Hubungan antara {name_a} dan {name_b} ini berasa kayak medan perang. Gak ada saringan kalau bicara, emosi cepat membara, dan kalau debat gorden rumah ikut terbakar.",
-                "verdict": "Vonis: Cocok buat bikin drama reality show di TikTok, tapi kasihan tetangga sebelah rumah."
+                "verdict": "Vonis: Cocok buat bikin drama reality show di TikTok, tapi kasihan tetangga sebelah rumah.",
             }
         elif pair_type == ("api", "tanah"):
             res = {
@@ -435,7 +459,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "🌋 Gunung Berapi vs Tembok Semen",
                 "headline": f"{name_a} x {name_b}: Si impulsif bertemu si pembahas cicilan.",
                 "desc": f"{name_a} pengen hura-hura liburan spontan, sedangkan {name_b} sibuk ngitung sisa saldo rekening tabungan. Yang satu mau terbang ke awan, yang satu lagi sibuk narik ke bumi.",
-                "verdict": f"Vonis: {name_a} bakal merasa terkekang, {name_b} bakal cape ngurusin kelakuan kekanak-kanakan pasangan."
+                "verdict": f"Vonis: {name_a} bakal merasa terkekang, {name_b} bakal cape ngurusin kelakuan kekanak-kanakan pasangan.",
             }
         elif pair_type == ("api", "udara"):
             res = {
@@ -444,7 +468,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "🎪 Kebakaran Hutan Berjalan",
                 "headline": f"{name_a} x {name_b}: Si Api membara dikipasi oleh si Udara provokator.",
                 "desc": f"{name_b} paling pinter ngasih ide-ide gila yang langsung dieksekusi tanpa mikir oleh {name_a}. Pasangan pemicu kerusuhan sosial yang kalo jalan bareng selalu bikin kehebohan.",
-                "verdict": "Vonis: Seru banget buat jalan bareng, tapi bahaya buat keselamatan dompet & stabilitas mental."
+                "verdict": "Vonis: Seru banget buat jalan bareng, tapi bahaya buat keselamatan dompet & stabilitas mental.",
             }
         elif pair_type == ("api", "air"):
             res = {
@@ -453,7 +477,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "💨 Uap Panas Kena Mental",
                 "headline": f"{name_a} x {name_b}: Yang satu emosi membara, yang satu lagi banjir air mata.",
                 "desc": f"Kalo ada masalah, {name_b} bakal menangis drama sesenggukan, sedangkan {name_a} bakal bingung & emosi gara-gara gak faham kenapa pasangan malah nangis bukannya nyelesaiin masalah.",
-                "verdict": "Vonis: Seperti menyiram minyak tanah ke dalam kolam renang — riuh dan penuh asap."
+                "verdict": "Vonis: Seperti menyiram minyak tanah ke dalam kolam renang — riuh dan penuh asap.",
             }
         elif pair_type == ("tanah", "tanah"):
             res = {
@@ -462,7 +486,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "🗿 Pasangan Batu Tahan Gempa",
                 "headline": f"{name_a} x {name_b}: Pasangan paling stabil sekaligus paling ngebosenin sejagad raya.",
                 "desc": f"Pertemuan antara {name_a} dan {name_b} isi agendanya cuma ngomongin deposito, kerjaan, dan rencana 10 tahun ke depan. Liburan bareng pun isinya duduk diam tanpa banyak bicara.",
-                "verdict": "Vonis: Hubungan paling awet sampai kiamat, tapi minim bumbu kehebohan kosmik."
+                "verdict": "Vonis: Hubungan paling awet sampai kiamat, tapi minim bumbu kehebohan kosmik.",
             }
         elif pair_type == ("tanah", "udara"):
             res = {
@@ -471,7 +495,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "🌪️ Badai Debu & Kepusingan",
                 "headline": f"{name_a} x {name_b}: Si kaku realistis ngurusin si plin-plan halusinasi.",
                 "desc": f"{name_a} kebingungan ngeliat {name_b} yang berubah rencana tiap 15 menit. Sementara {name_b} merasa {name_a} terlalu ngebosenin bagaikan ensiklopedia tua di perpustakaan.",
-                "verdict": f"Vonis: Kalo mau awet, {name_a} kudu sabar tingkat dewa dan {name_b} kudu belajar napak tanah."
+                "verdict": f"Vonis: Kalo mau awet, {name_a} kudu sabar tingkat dewa dan {name_b} kudu belajar napak tanah.",
             }
         elif pair_type == ("air", "tanah"):
             res = {
@@ -480,7 +504,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "🌱 Kolam Lumpur Subur",
                 "headline": f"{name_a} x {name_b}: Si Baperan dapet sandaran tembok beton.",
                 "desc": f"{name_a} dapet tempat curhat yang tenang di diri {name_b}. Tapi kalo {name_a} lagi kambuh baperan dramatisnya, {name_b} malah ngasih ceramah analisis rasional yang bikin {name_a} makin ngambek.",
-                "verdict": "Vonis: Pasangan yang saling melengkapi, asal jangan saling maksain cara berpikir."
+                "verdict": "Vonis: Pasangan yang saling melengkapi, asal jangan saling maksain cara berpikir.",
             }
         elif pair_type == ("udara", "udara"):
             res = {
@@ -489,7 +513,7 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "🛸 Skuadron UFO Tanpa Arah",
                 "headline": f"{name_a} x {name_b}: Dua manusia halu ketemu di alam gaib.",
                 "desc": f"Chat WA antara {name_a} dan {name_b} isinya 'wkwkwk' 100 baris dan stiker meme konyol. Tapi kalo disuruh milih mau makan malam di mana, bisa debat 2 jam sampai restoran tutup.",
-                "verdict": "Vonis: Teman obrolan terbaik di dunia, tapi hubungan tanpa nakhoda penentu arah."
+                "verdict": "Vonis: Teman obrolan terbaik di dunia, tapi hubungan tanpa nakhoda penentu arah.",
             }
         elif pair_type == ("air", "udara"):
             res = {
@@ -498,22 +522,18 @@ def get_relationship_roast(sign_a, sign_b):
                 "badge": "👻 Ghosting vs Tangisan Histeria",
                 "headline": f"{name_a} x {name_b}: Si Butuh Kejelasan vs Si Rajin Ghosting.",
                 "desc": f"{name_a} minta kepastian dan kejelasan emosional yang mendalam, tapi {name_b} malah panik merasa terkungkung lalu mendadak ngilang tanpa kabar selama 3 hari.",
-                "verdict": "Vonis: Resep sempurna buat dapet sesi terapi psikologis gratis di puskesmas terdekat."
+                "verdict": "Vonis: Resep sempurna buat dapet sesi terapi psikologis gratis di puskesmas terdekat.",
             }
-        else: # air + air
+        else:
             res = {
                 "sign_a_name": name_a,
                 "sign_b_name": name_b,
                 "badge": "🌊 Tsunami Emosi & Sinetron",
                 "headline": f"{name_a} x {name_b}: Banjir bandang emosi dan asumsi fiktif.",
                 "desc": f"{name_a} dan {name_b} saling stalk sosmed tanpa ngomong langsung, lalu ngambek bersamaan gara-gara prasangka fiktif yang mereka buat sendiri di kepala masing-masing.",
-                "verdict": "Vonis: Penuh kehangatan dan rasa cinta, tapi hati-hati tenggelam dalam drama buatan sendiri."
+                "verdict": "Vonis: Penuh kehangatan dan rasa cinta, tapi hati-hati tenggelam dalam drama buatan sendiri.",
             }
-
-    # Safety cleanup for string placeholders
     for k, v in res.items():
         if isinstance(v, str):
             res[k] = v.replace("{name_a}", name_a).replace("{name_b}", name_b)
-
     return res
-

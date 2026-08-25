@@ -1,10 +1,3 @@
-# ============================================================
-# 🔮 SHIO FORTUNE BANK — Bank Ramalan per Kategori
-# ============================================================
-# 12 Shio × 4 kategori × 30 ramalan = ~1.440 entri konten
-# Setiap ramalan spesifik untuk karakter Shio yang bersangkutan.
-# ============================================================
-
 SHIO_FORTUNE_BANK = {
     "tikus": {
         "karir": [

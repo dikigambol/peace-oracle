@@ -55,7 +55,7 @@ zodiac-z/
 ├── core/                 # Shared Assets, Base Templates, & Landing Page
 ├── modules/              # Core Feature Logic (Isolated per astrology system)
 │   ├── zodiak/           # Western Astrology Module
-│   ├── shio/             # Eastern/Chinese Astrology Module & Data Banks
+│   ├── shio/             # Eastern/Chinese Astrology Module
 │   ├── weton/            # (WIP) Javanese Astrology Module
 │   └── tarot/            # (WIP) Tarot Reading Module
 ├── api/                  # Serverless entry points (Vercel)

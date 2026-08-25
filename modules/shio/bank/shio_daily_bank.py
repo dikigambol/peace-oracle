@@ -1,16 +1,4 @@
-# ============================================================
-# SHIO DAILY MESSAGE BANK
-# Bank pesan harian untuk fitur Ramalan Hari Ini
-# Menggantikan pesan statis 1-per-status menjadi 20 variasi
-# ============================================================
-
-# ============================================================
-# BAGIAN 1: PESAN UMUM BERDASARKAN STATUS RELASI
-# Dipilih berdasarkan hubungan Shio user dengan Shio hari ini
-# ============================================================
-
 DAILY_CIONG_MESSAGES = [
-    # dist == 6 — Bentrokan langsung (status_code: "bad")
     "Hari ini energi kosmik berbenturan denganmu. Hindari mengambil keputusan finansial besar atau menandatangani kontrak.",
     "Energi bertentangan sedang melingkupimu. Lebih baik tunda rapat penting atau negosiasi besar jika memungkinkan.",
     "Hari yang penuh drama potensial. Tarik napas dalam-dalam sebelum membalas chat yang bikin kesel.",
@@ -30,11 +18,9 @@ DAILY_CIONG_MESSAGES = [
     "Ciong alert! Kalau bisa WFH atau diam di rumah, itu pilihan paling bijak hari ini.",
     "Jangan tergoda untuk membalas provokasi. Energi Ciong bikin lawan debatmu 2x lebih menyebalkan dari biasanya.",
     "Ini bukan hari terbaikmu, dan itu tidak apa-apa. Istirahat juga bagian dari strategi kosmik.",
-    "Peringatan kosmik: hindari memulai proyek baru, hubungan baru, atau kebiasaan baru hari ini. Tunda sampai energi membaik."
+    "Peringatan kosmik: hindari memulai proyek baru, hubungan baru, atau kebiasaan baru hari ini. Tunda sampai energi membaik.",
 ]
-
 DAILY_SAN_HE_MESSAGES = [
-    # dist == 4 — Tiga Harmoni (status_code: "good")
     "Energi kosmik sangat bersinergi denganmu hari ini! Peluang besar menantimu di karir dan asmara.",
     "San He aktif! Ini hari yang sempurna untuk memulai proyek baru, pitching ide, atau menyatakan perasaan.",
     "Tiga Harmoni memberkatimu hari ini. Keputusan yang kamu buat sekarang punya potensi mengubah hidupmu ke arah lebih baik.",
@@ -54,11 +40,9 @@ DAILY_SAN_HE_MESSAGES = [
     "Hari yang cocok untuk belajar hal baru. Otakmu menyerap informasi 3x lebih cepat berkat energi San He.",
     "Keberanian dan kebijaksanaan berjalan beriringan hari ini. Ambil langkah yang sudah lama kamu tunda!",
     "San He membawa keberuntungan berlipat! Apapun yang kamu mulai hari ini punya fondasi kosmik yang kuat.",
-    "Bintang-bintang bersekutu untukmu. Nikmati hari ini dengan penuh syukur — momen seperti ini tidak datang setiap hari."
+    "Bintang-bintang bersekutu untukmu. Nikmati hari ini dengan penuh syukur — momen seperti ini tidak datang setiap hari.",
 ]
-
 DAILY_LIU_HE_MESSAGES = [
-    # Liu He pairs — Enam Harmoni / Jodoh Kosmik (status_code: "good")
     "Hari yang luar biasa harmonis! Akan ada penolong misterius atau kelancaran dalam segala urusan.",
     "Liu He aktif — ini level keberuntungan tertinggi! Segala yang kamu sentuh hari ini berpotensi jadi emas.",
     "Harmoni Keenam membuka pintu rezeki tersembunyi. Jangan tolak undangan atau ajakan apapun hari ini!",
@@ -78,11 +62,9 @@ DAILY_LIU_HE_MESSAGES = [
     "Liu He membawa keselarasan antara pikiran, hati, dan tindakan. Kamu akan merasa utuh dan damai hari ini.",
     "Penolong datang dari arah yang paling tidak kamu sangka. Bisa jadi teman lama, stranger, atau bahkan mantan yang tiba-tiba helpful.",
     "Hari yang diberkati penuh! Energi Liu He ini hanya datang beberapa kali sebulan — manfaatkan sebaik mungkin.",
-    "Semesta sedang tersenyum padamu. Apapun yang membuatmu cemas belakangan ini, hari ini kamu akan mendapat jawaban yang melegakan."
+    "Semesta sedang tersenyum padamu. Apapun yang membuatmu cemas belakangan ini, hari ini kamu akan mendapat jawaban yang melegakan.",
 ]
-
 DAILY_WARNING_MESSAGES = [
-    # dist == 3 — Friksi / Ketegangan (status_code: "bad")
     "Ada sedikit friksi energi hari ini. Berhati-hatilah dalam berkomunikasi agar tidak memicu konflik.",
     "Gelombang ketegangan terasa samar tapi nyata. Pilih kata-katamu dengan hati-hati, terutama saat chatting.",
     "Energi hari ini membawa gesekan kecil yang bisa membesar kalau tidak diantisipasi. Stay cool!",
@@ -102,11 +84,9 @@ DAILY_WARNING_MESSAGES = [
     "Jangan buat keputusan besar saat emosi sedang tidak stabil. Tidur dulu, besok pagi pikiran lebih jernih.",
     "Friksi hari ini bisa jadi sinyal bahwa ada sesuatu yang perlu kamu evaluasi ulang dalam hidupmu.",
     "Energi gesekan membuat hubungan asmara sedikit rawan baper. Jangan over-analyze chat gebetan hari ini.",
-    "Ketegangan kecil ini akan berlalu. Hari ini cukup bertahan dan menjaga ketenangan — besok energinya jauh lebih baik."
+    "Ketegangan kecil ini akan berlalu. Hari ini cukup bertahan dan menjaga ketenangan — besok energinya jauh lebih baik.",
 ]
-
 DAILY_TAI_SUI_MESSAGES = [
-    # dist == 0 — Hari Kembar / Hari Shio sendiri (status_code: "neutral")
     "Hari ini dikuasai oleh Shio milikmu. Energi sangat kuat namun bisa fluktuatif, tetaplah membumi.",
     "Ini hari cermin kosmikmu! Energi menguat tapi juga mengamplifikasi sisi negatifmu. Sadar diri adalah kuncinya.",
     "Tai Sui hari ini — kekuatanmu di puncak, tapi begitu juga kelemahanmu. Seimbangkan keduanya.",
@@ -126,11 +106,9 @@ DAILY_TAI_SUI_MESSAGES = [
     "Ini hari di mana keputusan kecil bisa berdampak besar. Pilih dengan sadar, bukan impulsif.",
     "Energi Tai Sui mengamplifikasi segalanya. Cinta terasa lebih dalam, kemarahan terasa lebih panas. Kendalikan volumenya.",
     "Hari yang tepat untuk mengevaluasi goals dan arah hidupmu. Energi kosmik sedang menyorot 'panggung' pribadimu.",
-    "Tai Sui mengingatkan: kamu lebih kuat dari yang kamu kira, tapi juga lebih rentan dari yang kamu akui. Jaga dirimu."
+    "Tai Sui mengingatkan: kamu lebih kuat dari yang kamu kira, tapi juga lebih rentan dari yang kamu akui. Jaga dirimu.",
 ]
-
 DAILY_NEUTRAL_MESSAGES = [
-    # dist == 1, 2, 5 — Energi seimbang / netral (status_code: "neutral")
     "Energi kosmik hari ini cukup seimbang. Lakukan aktivitas rutinitasmu dengan pikiran tenang.",
     "Hari yang damai dan stabil. Tidak ada kejutan besar — nikmati ketenangan ini untuk recharge energimu.",
     "Energi netral berarti kamu punya kendali penuh atas harimu. Mau produktif atau santai, semua terserahmu.",
@@ -150,15 +128,8 @@ DAILY_NEUTRAL_MESSAGES = [
     "Energi hari ini mendukung konsistensi. Kalau kamu punya rutinitas bagus, hari ini hasilnya terasa lebih nyata.",
     "Tidak ada friksi, tidak ada drama. Hari yang sempurna untuk menata ulang kamar, meja kerja, atau bahkan pikiranmu.",
     "Hari yang damai untuk introspeksi ringan. Coba tanya pada dirimu: 'Apa satu hal yang bisa aku syukuri hari ini?'",
-    "Energi seimbang membuat semua aspek hidupmu berjalan smooth. Karir aman, asmara tenang, keuangan stabil. Nikmati!"
+    "Energi seimbang membuat semua aspek hidupmu berjalan smooth. Karir aman, asmara tenang, keuangan stabil. Nikmati!",
 ]
-
-
-# ============================================================
-# BAGIAN 2: TIPS HARIAN SPESIFIK PER SHIO
-# Ditambahkan sebagai "tips_harian" di response untuk sentuhan personal
-# ============================================================
-
 SHIO_DAILY_TIPS = {
     "tikus": [
         "Tips Tikus: Insting bisnismu tajam hari ini. Kalau ada firasat soal peluang, jangan diabaikan!",
@@ -170,7 +141,7 @@ SHIO_DAILY_TIPS = {
         "Tips Tikus: Kreativitasmu sedang tinggi! Tulis ide-ide yang muncul — salah satunya bisa jadi game changer.",
         "Tips Tikus: Jangan lupa makan teratur. Kamu sering terlalu fokus kerja sampai lupa isi perut.",
         "Tips Tikus: Hari yang cocok untuk menabung atau review keuangan. Sisi cermatmu lagi kuat!",
-        "Tips Tikus: Sesekali tunjukkan sisi vulnerablemu ke orang terdekat. Gak harus selalu keliatan kuat."
+        "Tips Tikus: Sesekali tunjukkan sisi vulnerablemu ke orang terdekat. Gak harus selalu keliatan kuat.",
     ],
     "kerbau": [
         "Tips Kerbau: Konsistensimu adalah kekuatan terbesar. Terus jalan di jalurmu meski orang lain berbelok.",
@@ -182,7 +153,7 @@ SHIO_DAILY_TIPS = {
         "Tips Kerbau: Coba masakan baru atau restoran baru hari ini. Keluar dari zona nyaman dimulai dari hal kecil.",
         "Tips Kerbau: Jangan biarkan keras kepalamu merusak hubungan. Kadang mengalah bukan berarti kalah.",
         "Tips Kerbau: Fokusmu pada detail sangat diapresiasi orang lain. Kamu mungkin gak sadar betapa diandalkannya kamu.",
-        "Tips Kerbau: Hari yang cocok untuk olahraga berat. Energi fisikmu sedang melimpah!"
+        "Tips Kerbau: Hari yang cocok untuk olahraga berat. Energi fisikmu sedang melimpah!",
     ],
     "macan": [
         "Tips Macan: Keberanianmu menginspirasi orang lain. Tapi hari ini, coba dengarkan dulu sebelum bertindak.",
@@ -194,7 +165,7 @@ SHIO_DAILY_TIPS = {
         "Tips Macan: Kamu natural born leader, tapi hari ini cobalah jadi follower yang supportive. Tim butuh itu.",
         "Tips Macan: Jangan abaikan sinyal tubuhmu. Kamu sering push diri terlalu keras sampai burnout.",
         "Tips Macan: Hari yang bagus untuk mengambil risiko yang sudah kamu perhitungkan matang.",
-        "Tips Macan: Sisi unpredictable-mu kadang bikin orang bingung. Coba konsisten di satu hal hari ini."
+        "Tips Macan: Sisi unpredictable-mu kadang bikin orang bingung. Coba konsisten di satu hal hari ini.",
     ],
     "kelinci": [
         "Tips Kelinci: Elegansi dan kelembutan adalah kekuatanmu. Jangan pernah anggap itu kelemahan.",
@@ -206,7 +177,7 @@ SHIO_DAILY_TIPS = {
         "Tips Kelinci: Hari yang bagus untuk merawat tanaman, menata rumah, atau melakukan sesuatu yang nurturing.",
         "Tips Kelinci: Jangan ragu bilang 'tidak' kalau memang kamu merasa sudah kewalahan. Itu bukan egois, itu self-respect.",
         "Tips Kelinci: Sisi diplomatismu sangat dibutuhkan hari ini. Kamu bisa jadi mediator alami untuk konflik orang lain.",
-        "Tips Kelinci: Luangkan waktu untuk dirimu sendiri. Me-time bukan kemewahan — itu kebutuhan esensial Kelinci."
+        "Tips Kelinci: Luangkan waktu untuk dirimu sendiri. Me-time bukan kemewahan — itu kebutuhan esensial Kelinci.",
     ],
     "naga": [
         "Tips Naga: Percaya dirimu menular ke orang lain. Gunakan energi itu untuk memotivasi timmu.",
@@ -218,7 +189,7 @@ SHIO_DAILY_TIPS = {
         "Tips Naga: Jangan takut menunjukkan sisi vulnerablemu. Kekuatan Naga sejati terletak pada keberanian untuk jujur.",
         "Tips Naga: Hari yang bagus untuk belajar hal baru. Otak Naga haus pengetahuan dan hari ini penyerapannya maksimal.",
         "Tips Naga: Hati-hati dengan ego. Kadang pendapat orang lain juga bisa lebih baik dari idemu.",
-        "Tips Naga: Kamu ditakdirkan untuk hal-hal besar. Tapi jangan lupa, hal-hal kecil juga punya makna."
+        "Tips Naga: Kamu ditakdirkan untuk hal-hal besar. Tapi jangan lupa, hal-hal kecil juga punya makna.",
     ],
     "ular": [
         "Tips Ular: Kebijaksanaanmu adalah aset paling berharga. Hari ini, gunakan untuk menasihati orang yang membutuhkan.",
@@ -230,7 +201,7 @@ SHIO_DAILY_TIPS = {
         "Tips Ular: Kamu punya aura magnetik alami. Gunakan untuk menarik peluang, bukan untuk memanipulasi.",
         "Tips Ular: Hari yang cocok untuk meditasi atau mindfulness. Kedalaman batinmu perlu diisi ulang secara rutin.",
         "Tips Ular: Jangan over-analyze hubunganmu hari ini. Kadang cinta itu sederhana — tidak perlu dibedah.",
-        "Tips Ular: Sisi bijaksanamu sangat dibutuhkan di situasi yang sedang kacau. Jadi penengah hari ini."
+        "Tips Ular: Sisi bijaksanamu sangat dibutuhkan di situasi yang sedang kacau. Jadi penengah hari ini.",
     ],
     "kuda": [
         "Tips Kuda: Energimu sedang meledak-ledak! Salurkan ke aktivitas produktif sebelum jadi gelisah tanpa arah.",
@@ -242,7 +213,7 @@ SHIO_DAILY_TIPS = {
         "Tips Kuda: Energi sosialmu sedang tinggi. Hari yang sempurna untuk hangout, reunian, atau kencan!",
         "Tips Kuda: Jangan tinggalkan proyek setengah jadi. Disiplin menyelesaikan adalah pelajaran terbesar untuk Kuda.",
         "Tips Kuda: Kamu adalah sumber semangat bagi orang di sekitarmu. Jangan underestimate dampak positifmu!",
-        "Tips Kuda: Hari ini hindari debat panjang — kamu mudah terpancing dan bilang hal yang kamu sesali."
+        "Tips Kuda: Hari ini hindari debat panjang — kamu mudah terpancing dan bilang hal yang kamu sesali.",
     ],
     "kambing": [
         "Tips Kambing: Kepekaan emosionalmu adalah hadiah, bukan beban. Hari ini, gunakan untuk memahami orang lain.",
@@ -254,7 +225,7 @@ SHIO_DAILY_TIPS = {
         "Tips Kambing: Jangan overthinking soal masa depan. Fokus pada hari ini — masa depan akan mengikuti langkahmu.",
         "Tips Kambing: Sisi simpatikmu sangat diapresiasi. Tapi jangan sampai kamu mengorbankan dirimu sendiri untuk orang lain terus.",
         "Tips Kambing: Coba berjemur di bawah matahari pagi 10 menit. Energi alam sangat membantu recharge batin Kambing.",
-        "Tips Kambing: Kamu lebih tangguh dari yang kamu kira. Hari ini, buktikan itu pada dirimu sendiri."
+        "Tips Kambing: Kamu lebih tangguh dari yang kamu kira. Hari ini, buktikan itu pada dirimu sendiri.",
     ],
     "monyet": [
         "Tips Monyet: Kecerdasanmu sedang bersinar hari ini. Gunakan untuk problem-solving, bukan untuk iseng nge-troll orang.",
@@ -266,7 +237,7 @@ SHIO_DAILY_TIPS = {
         "Tips Monyet: Kreativitasmu lagi overflow. Tuangkan ke proyek nyata sebelum hilang — ide Monyet datang dan pergi secepat kilat.",
         "Tips Monyet: Hari yang cocok untuk belajar skill baru. Kamu tipe yang cepat menguasai sesuatu — manfaatkan itu!",
         "Tips Monyet: Hindari bergosip hari ini. Mulut Monyet yang terlalu ramai bisa bikin masalah yang gak perlu.",
-        "Tips Monyet: Kamu adalah jiwa pesta di setiap kelompok. Tapi jangan lupa, kadang teman-temanmu butuh Monyet yang serius dan suportif."
+        "Tips Monyet: Kamu adalah jiwa pesta di setiap kelompok. Tapi jangan lupa, kadang teman-temanmu butuh Monyet yang serius dan suportif.",
     ],
     "ayam": [
         "Tips Ayam: Observasi tajammu hari ini bisa menangkap detail yang dilewatkan semua orang. Kamu detective kosmik!",
@@ -278,7 +249,7 @@ SHIO_DAILY_TIPS = {
         "Tips Ayam: Jangan terlalu sombong soal pencapaianmu. Biarkan hasilnya yang berbicara — orang akan notice sendiri.",
         "Tips Ayam: Hari yang bagus untuk financial planning. Ketelitianmu cocok untuk bikin budget atau review investasi.",
         "Tips Ayam: Bangun lebih pagi hari ini dan nikmati ketenangan sebelum dunia ramai. Itu me-time terbaik untuk Ayam.",
-        "Tips Ayam: Kamu adalah pilar kekuatan yang sering gak disadari. Hari ini, akui bahwa kamu juga boleh lemah sesekali."
+        "Tips Ayam: Kamu adalah pilar kekuatan yang sering gak disadari. Hari ini, akui bahwa kamu juga boleh lemah sesekali.",
     ],
     "anjing": [
         "Tips Anjing: Loyalitasmu sangat dihargai oleh orang-orang terpercaya. Hari ini, biarkan mereka membalas kebaikanmu.",
@@ -290,7 +261,7 @@ SHIO_DAILY_TIPS = {
         "Tips Anjing: Hari yang bagus untuk quality time dengan orang yang paling kamu percaya. Kamu butuh safe space.",
         "Tips Anjing: Jangan simpan kecemasan sendirian. Bicarakan dengan seseorang — kamu gak harus selalu jadi yang kuat.",
         "Tips Anjing: Sisi protektifmu kadang bikin orang merasa terkekang. Beri mereka ruang untuk bertumbuh sendiri.",
-        "Tips Anjing: Kamu adalah definisi 'teman sejati'. Hari ini, jangan lupa jadi teman terbaik untuk dirimu sendiri."
+        "Tips Anjing: Kamu adalah definisi 'teman sejati'. Hari ini, jangan lupa jadi teman terbaik untuk dirimu sendiri.",
     ],
     "babi": [
         "Tips Babi: Kemurahan hatimu sangat mulia. Tapi hari ini, pastikan kamu juga murah hati kepada dirimu sendiri.",
@@ -302,6 +273,6 @@ SHIO_DAILY_TIPS = {
         "Tips Babi: Hari yang bagus untuk menikmati alam — taman, pantai, atau sekadar duduk di balkon menikmati angin.",
         "Tips Babi: Welaskasihmu adalah kekuatan langka di dunia yang keras ini. Jangan pernah kehilangan sisi itu.",
         "Tips Babi: Coba evaluasi pengeluaran minggu ini. Babi yang cermat keuangannya akan menjadi Babi yang kaya raya.",
-        "Tips Babi: Kamu adalah 'comfort person' bagi banyak orang. Pastikan kamu juga punya comfort person untuk dirimu sendiri."
-    ]
+        "Tips Babi: Kamu adalah 'comfort person' bagi banyak orang. Pastikan kamu juga punya comfort person untuk dirimu sendiri.",
+    ],
 }

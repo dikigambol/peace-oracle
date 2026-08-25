@@ -1,281 +1,276 @@
-{% extends 'base.html' %}
-
-{% block title %}Zodiak Peace - Roasting (Kritik Pedas Zodiak){% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/roasting.css') }}">
-{% endblock %}
-
-{% block content %}
-
+{% extends 'base.html' %} {% block title %}Zodiak Peace - Roasting (Kritik Pedas
+Zodiak){% endblock %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('zodiak.static', filename='css/style.css') }}"
+/>
+<link
+  rel="stylesheet"
+  href="{{ url_for('zodiak.static', filename='css/roasting.css') }}"
+/>
+{% endblock %} {% block content %}
 <div class="stars-bg"></div>
-
 <header class="app-header">
-    <div class="header-container">
-        <h1 class="logo-title" id="logo-title">
-            <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
-        </h1>
-        <p class="tagline">Temukan Ketenangan Lewat Penyelarasan Kosmik & Kecocokan Zodiak</p>
-    </div>
-    <nav class="app-nav">
-        <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>
-            Ramalan</a>
-        <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-calculator "></i>
-            Kecocokan</a>
-        <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><i class="fa-solid fa-compass"></i> General</a>
-        <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"><i
-                class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
-    </nav>
+  <div class="header-container">
+    <h1 class="logo-title" id="logo-title">
+      <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
+    </h1>
+  </div>
+  <nav class="app-nav">
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item"
+      ><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a
+    >
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"
+      ><i class="fa-solid fa-calculator"></i> Kecocokan</a
+    >
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"
+      ><i class="fa-solid fa-compass"></i> General</a
+    >
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"
+      ><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a
+    >
+  </nav>
 </header>
-
 <main class="main-content">
-    <section class="portal-grid">
-        <!-- Left Side: Zodiac sign grid selector -->
-        <div class="zodiac-selector-container">
-            <h2 class="section-title"><i class="fa-solid fa-fire-flame-curved text-flame"></i> Pilih Zodiak</h2>
-            <div class="zodiac-grid" id="zodiac-grid">
-                <!-- Aries -->
-                <button class="zodiac-card" data-sign="aries" id="card-aries">
-                    <span class="zodiac-symbol">♈</span>
-                    <h3 class="zodiac-name">Aries</h3>
-                    <p class="zodiac-dates">21 Mar - 19 Apr</p>
-                    <span class="element-badge fire">Api</span>
-                </button>
-                <!-- Taurus -->
-                <button class="zodiac-card" data-sign="taurus" id="card-taurus">
-                    <span class="zodiac-symbol">♉</span>
-                    <h3 class="zodiac-name">Taurus</h3>
-                    <p class="zodiac-dates">20 Apr - 20 Mei</p>
-                    <span class="element-badge earth">Tanah</span>
-                </button>
-                <!-- Gemini -->
-                <button class="zodiac-card" data-sign="gemini" id="card-gemini">
-                    <span class="zodiac-symbol">♊</span>
-                    <h3 class="zodiac-name">Gemini</h3>
-                    <p class="zodiac-dates">21 Mei - 20 Jun</p>
-                    <span class="element-badge air">Udara</span>
-                </button>
-                <!-- Cancer -->
-                <button class="zodiac-card" data-sign="cancer" id="card-cancer">
-                    <span class="zodiac-symbol">♋</span>
-                    <h3 class="zodiac-name">Cancer</h3>
-                    <p class="zodiac-dates">21 Jun - 22 Jul</p>
-                    <span class="element-badge water">Air</span>
-                </button>
-                <!-- Leo -->
-                <button class="zodiac-card" data-sign="leo" id="card-leo">
-                    <span class="zodiac-symbol">♌</span>
-                    <h3 class="zodiac-name">Leo</h3>
-                    <p class="zodiac-dates">23 Jul - 22 Agu</p>
-                    <span class="element-badge fire">Api</span>
-                </button>
-                <!-- Virgo -->
-                <button class="zodiac-card" data-sign="virgo" id="card-virgo">
-                    <span class="zodiac-symbol">♍</span>
-                    <h3 class="zodiac-name">Virgo</h3>
-                    <p class="zodiac-dates">23 Agu - 22 Sep</p>
-                    <span class="element-badge earth">Tanah</span>
-                </button>
-                <!-- Libra -->
-                <button class="zodiac-card" data-sign="libra" id="card-libra">
-                    <span class="zodiac-symbol">♎</span>
-                    <h3 class="zodiac-name">Libra</h3>
-                    <p class="zodiac-dates">23 Sep - 22 Okt</p>
-                    <span class="element-badge air">Udara</span>
-                </button>
-                <!-- Scorpio -->
-                <button class="zodiac-card" data-sign="scorpio" id="card-scorpio">
-                    <span class="zodiac-symbol">♏</span>
-                    <h3 class="zodiac-name">Scorpio</h3>
-                    <p class="zodiac-dates">23 Okt - 21 Nov</p>
-                    <span class="element-badge water">Air</span>
-                </button>
-                <!-- Sagittarius -->
-                <button class="zodiac-card" data-sign="sagittarius" id="card-sagittarius">
-                    <span class="zodiac-symbol">♐</span>
-                    <h3 class="zodiac-name">Sagittarius</h3>
-                    <p class="zodiac-dates">22 Nov - 21 Des</p>
-                    <span class="element-badge fire">Api</span>
-                </button>
-                <!-- Capricorn -->
-                <button class="zodiac-card" data-sign="capricorn" id="card-capricorn">
-                    <span class="zodiac-symbol">♑</span>
-                    <h3 class="zodiac-name">Capricorn</h3>
-                    <p class="zodiac-dates">22 Des - 19 Jan</p>
-                    <span class="element-badge earth">Tanah</span>
-                </button>
-                <!-- Aquarius -->
-                <button class="zodiac-card" data-sign="aquarius" id="card-aquarius">
-                    <span class="zodiac-symbol">♒</span>
-                    <h3 class="zodiac-name">Aquarius</h3>
-                    <p class="zodiac-dates">20 Jan - 18 Feb</p>
-                    <span class="element-badge air">Udara</span>
-                </button>
-                <!-- Pisces -->
-                <button class="zodiac-card" data-sign="pisces" id="card-pisces">
-                    <span class="zodiac-symbol">♓</span>
-                    <h3 class="zodiac-name">Pisces</h3>
-                    <p class="zodiac-dates">19 Feb - 20 Mar</p>
-                    <span class="element-badge water">Air</span>
-                </button>
-            </div>
+  <section class="portal-grid">
+    <div class="zodiac-selector-container">
+      <h2 class="section-title">
+        <i class="fa-solid fa-fire-flame-curved text-flame"></i> Pilih Zodiak
+      </h2>
+      <div class="zodiac-grid" id="zodiac-grid">
+        <button class="zodiac-card" data-sign="aries" id="card-aries">
+          <span class="zodiac-symbol">♈</span>
+          <h3 class="zodiac-name">Aries</h3>
+          <p class="zodiac-dates">21 Mar - 19 Apr</p>
+          <span class="element-badge fire">Api</span>
+        </button>
+        <button class="zodiac-card" data-sign="taurus" id="card-taurus">
+          <span class="zodiac-symbol">♉</span>
+          <h3 class="zodiac-name">Taurus</h3>
+          <p class="zodiac-dates">20 Apr - 20 Mei</p>
+          <span class="element-badge earth">Tanah</span>
+        </button>
+        <button class="zodiac-card" data-sign="gemini" id="card-gemini">
+          <span class="zodiac-symbol">♊</span>
+          <h3 class="zodiac-name">Gemini</h3>
+          <p class="zodiac-dates">21 Mei - 20 Jun</p>
+          <span class="element-badge air">Udara</span>
+        </button>
+        <button class="zodiac-card" data-sign="cancer" id="card-cancer">
+          <span class="zodiac-symbol">♋</span>
+          <h3 class="zodiac-name">Cancer</h3>
+          <p class="zodiac-dates">21 Jun - 22 Jul</p>
+          <span class="element-badge water">Air</span>
+        </button>
+        <button class="zodiac-card" data-sign="leo" id="card-leo">
+          <span class="zodiac-symbol">♌</span>
+          <h3 class="zodiac-name">Leo</h3>
+          <p class="zodiac-dates">23 Jul - 22 Agu</p>
+          <span class="element-badge fire">Api</span>
+        </button>
+        <button class="zodiac-card" data-sign="virgo" id="card-virgo">
+          <span class="zodiac-symbol">♍</span>
+          <h3 class="zodiac-name">Virgo</h3>
+          <p class="zodiac-dates">23 Agu - 22 Sep</p>
+          <span class="element-badge earth">Tanah</span>
+        </button>
+        <button class="zodiac-card" data-sign="libra" id="card-libra">
+          <span class="zodiac-symbol">♎</span>
+          <h3 class="zodiac-name">Libra</h3>
+          <p class="zodiac-dates">23 Sep - 22 Okt</p>
+          <span class="element-badge air">Udara</span>
+        </button>
+        <button class="zodiac-card" data-sign="scorpio" id="card-scorpio">
+          <span class="zodiac-symbol">♏</span>
+          <h3 class="zodiac-name">Scorpio</h3>
+          <p class="zodiac-dates">23 Okt - 21 Nov</p>
+          <span class="element-badge water">Air</span>
+        </button>
+        <button
+          class="zodiac-card"
+          data-sign="sagittarius"
+          id="card-sagittarius"
+        >
+          <span class="zodiac-symbol">♐</span>
+          <h3 class="zodiac-name">Sagittarius</h3>
+          <p class="zodiac-dates">22 Nov - 21 Des</p>
+          <span class="element-badge fire">Api</span>
+        </button>
+        <button class="zodiac-card" data-sign="capricorn" id="card-capricorn">
+          <span class="zodiac-symbol">♑</span>
+          <h3 class="zodiac-name">Capricorn</h3>
+          <p class="zodiac-dates">22 Des - 19 Jan</p>
+          <span class="element-badge earth">Tanah</span>
+        </button>
+        <button class="zodiac-card" data-sign="aquarius" id="card-aquarius">
+          <span class="zodiac-symbol">♒</span>
+          <h3 class="zodiac-name">Aquarius</h3>
+          <p class="zodiac-dates">20 Jan - 18 Feb</p>
+          <span class="element-badge air">Udara</span>
+        </button>
+        <button class="zodiac-card" data-sign="pisces" id="card-pisces">
+          <span class="zodiac-symbol">♓</span>
+          <h3 class="zodiac-name">Pisces</h3>
+          <p class="zodiac-dates">19 Feb - 20 Mar</p>
+          <span class="element-badge water">Air</span>
+        </button>
+      </div>
+    </div>
+    <div class="details-panel-container">
+      <div class="panel glass-panel" id="roast-details-panel">
+        <div class="details-instruction" id="roast-instruction">
+          <i
+            class="fa-solid fa-pepper-hot cosmic-icon animated-float text-flame"
+          ></i>
+          <h3>Roasting</h3>
+          <p>
+            Pilih salah satu zodiak di sebelah kiri untuk membuka kritik pedas,
+            kebiasaan toxic, dosa finansial, hingga tips survival kosmiknya.
+          </p>
         </div>
-
-        <!-- Right Side: Roasting Panel -->
-        <div class="details-panel-container">
-            <div class="panel glass-panel" id="roast-details-panel">
-                <!-- Instruction state -->
-                <div class="details-instruction" id="roast-instruction">
-                    <i class="fa-solid fa-pepper-hot cosmic-icon animated-float text-flame"></i>
-                    <h3>Roasting</h3>
-                    <p>Pilih salah satu zodiak di sebelah kiri untuk membuka kritik pedas, kebiasaan toxic, dosa
-                        finansial, hingga tips survival kosmiknya.</p>
-                </div>
-
-                <!-- Loader state -->
-                <div class="details-loader hidden" id="roast-loader">
-                    <div class="cosmic-spinner-wrapper">
-                        <i class="fa-solid fa-fire-flame-curved cosmic-spinner text-flame"></i>
-                    </div>
-                    <p class="loader-text">Menyiapkan Kritik Pedas Kosmik...</p>
-                </div>
-
-                <!-- Details state (hidden by default) -->
-                <div class="details-content hidden" id="roast-content">
-                    <div class="roast-top-actions">
-                        <button class="btn-back-grid" id="btn-back-grid-roast"><i class="fa-solid fa-arrow-left"></i>
-                            Pilih Zodiak Lain</button>
-                        <button type="button" class="btn-roll-dice btn-roll-dice-glow" id="btn-roll-dice-roast"
-                            title="Acak Roasting Baru">
-                            <i class="fa-solid fa-dice dice-icon"></i>
-                            <span>Roll Dice</span>
-                        </button>
-                    </div>
-
-                    <div class="details-header">
-                        <span class="details-symbol" id="roast-symbol">♈</span>
-                        <div class="details-title-wrapper">
-                            <h3 class="details-name" id="roast-name">Aries</h3>
-                            <p class="details-dates" id="roast-dates">21 Maret - 19 April</p>
-                        </div>
-                        <span class="details-element-badge fire" id="roast-element-badge">Api</span>
-                    </div>
-
-                    <hr class="separator">
-
-                    <!-- Headline Roast -->
-                    <div class="char-section">
-                        <div class="roast-headline-card">
-                            <div class="roast-card-tag"><i class="fa-solid fa-skull"></i> ROASTING UTAMA</div>
-                            <p class="roast-headline-text" id="roast-headline-text">Gak sabaran, gampang tersulut
-                                emosi, dan ngerasa seluruh dunia ini arena balapan pacuan kuda.</p>
-                        </div>
-                    </div>
-
-                    <!-- 3 Red Flags Terbesar -->
-                    <div class="char-section">
-                        <h4 class="char-section-title text-red"><i class="fa-solid fa-flag"></i> 3 Red Flags
-                            Terbesar</h4>
-                        <ul class="habits-list roast-list" id="roast-toxic-list"></ul>
-                    </div>
-
-                    <!-- Dosa Finansial & Love Red Flag -->
-                    <div class="char-section">
-                        <div class="roast-grid-2col">
-                            <div class="feature-card pantry-card">
-                                <div class="feature-card-header text-amber"><i class="fa-solid fa-wallet"></i> Dosa
-                                    Finansial</div>
-                                <p class="feature-card-desc" id="roast-financial-text">...</p>
-                            </div>
-                            <div class="feature-card animal-card">
-                                <div class="feature-card-header text-pink"><i class="fa-solid fa-heart-crack"></i>
-                                    Love Red Flag</div>
-                                <p class="feature-card-desc" id="roast-love-text">...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slogan Khas -->
-                    <div class="char-section">
-                        <div class="roast-quote-box">
-                            <i class="fa-solid fa-quote-left quote-icon"></i>
-                            <p class="roast-quote-text" id="roast-quote-text">"..."</p>
-                            <span class="quote-author">- Pembelaan Khas Zodiak Kamu</span>
-                        </div>
-                    </div>
-
-                    <!-- Tips Survival Kosmik -->
-                    <div class="char-section">
-                        <div class="fun-fact-card">
-                            <div class="fun-fact-header"><i class="fa-solid fa-shield-halved"></i> Tips Survival
-                                Kosmik</div>
-                            <p class="fun-fact-text" id="roast-tip-text">...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Standalone Card: Roasting Hubungan Zodiak A & B -->
-            <div class="panel glass-panel pair-roast-standalone-card hidden" id="pair-roast-card-panel">
-                <div class="feature-card-header text-flame pair-header-flex">
-                    <span>🔥 Roasting Hubungan Zodiak A & B</span>
-                    <button type="button" class="btn-roll-dice btn-roll-dice-sm btn-roll-dice-glow"
-                        id="btn-roll-dice-pair" title="Acak Roasting Pasangan Baru">
-                        <i class="fa-solid fa-dice dice-icon"></i>
-                        <span>Roll Dice</span>
-                    </button>
-                </div>
-                <p class="pair-roast-desc">Lihat kekacauan apa yang terjadi jika <b id="pair-sign-a-name">Zodiak Ini</b>
-                    berpasangan / berteman dengan zodiak lain:
-                </p>
-
-                <div class="pair-select-group">
-                    <select id="pair-sign-select" class="custom-select-large">
-                        <option value="">Pilih Zodiak Pasangan / Teman</option>
-                        <option value="aries">Aries (21 Mar - 19 Apr)</option>
-                        <option value="taurus">Taurus (20 Apr - 20 Mei)</option>
-                        <option value="gemini">Gemini (21 Mei - 20 Jun)</option>
-                        <option value="cancer">Cancer (21 Jun - 22 Jul)</option>
-                        <option value="leo">Leo (23 Jul - 22 Aug)</option>
-                        <option value="virgo">Virgo (23 Aug - 22 Sep)</option>
-                        <option value="libra">Libra (23 Sep - 22 Oct)</option>
-                        <option value="scorpio">Scorpio (23 Oct - 21 Nov)</option>
-                        <option value="sagittarius">Sagittarius (22 Nov - 21 Dec)</option>
-                        <option value="capricorn">Capricorn (22 Dec - 19 Jan)</option>
-                        <option value="aquarius">Aquarius (20 Jan - 18 Feb)</option>
-                        <option value="pisces">Pisces (19 Feb - 20 Mar)</option>
-                    </select>
-                </div>
-
-                <!-- Pair Loader state (hidden by default) -->
-                <div class="pair-loader hidden" id="pair-roast-loader">
-                    <div class="cosmic-spinner-wrapper">
-                        <i class="fa-solid fa-atom cosmic-spinner text-flame"></i>
-                    </div>
-                    <p class="loader-text text-flame">Menganalisis...</p>
-                </div>
-
-                <!-- Result of Pair Roast -->
-                <div class="pair-roast-result hidden" id="pair-roast-result">
-                    <div class="pair-roast-badge" id="pair-roast-badge">🔥 Kombinasi Ledakan Kosmik</div>
-                    <h5 class="pair-roast-headline" id="pair-roast-headline">...</h5>
-                    <p class="pair-roast-dynamic-desc" id="pair-roast-desc">...</p>
-                    <div class="pair-roast-verdict" id="pair-roast-verdict">...</div>
-                </div>
-            </div>
+        <div class="details-loader hidden" id="roast-loader">
+          <div class="cosmic-spinner-wrapper">
+            <i
+              class="fa-solid fa-fire-flame-curved cosmic-spinner text-flame"
+            ></i>
+          </div>
+          <p class="loader-text">Menyiapkan Kritik Pedas Kosmik...</p>
         </div>
-    </section>
+        <div class="details-content hidden" id="roast-content">
+          <div class="roast-top-actions">
+            <button class="btn-back-grid" id="btn-back-grid-roast">
+              <i class="fa-solid fa-arrow-left"></i> Pilih Zodiak Lain
+            </button>
+            <button
+              type="button"
+              class="btn-roll-dice btn-roll-dice-glow"
+              id="btn-roll-dice-roast"
+              title="Acak Roasting Baru"
+            >
+              <i class="fa-solid fa-dice dice-icon"></i>
+              <span>Roll Dice</span>
+            </button>
+          </div>
+          <div class="details-header">
+            <span class="details-symbol" id="roast-symbol">♈</span>
+            <div class="details-title-wrapper">
+              <h3 class="details-name" id="roast-name">Aries</h3>
+              <p class="details-dates" id="roast-dates">21 Maret - 19 April</p>
+            </div>
+            <span class="details-element-badge fire" id="roast-element-badge"
+              >Api</span
+            >
+          </div>
+          <hr class="separator" />
+          <div class="char-section">
+            <div class="roast-headline-card">
+              <div class="roast-card-tag">
+                <i class="fa-solid fa-skull"></i> ROASTING UTAMA
+              </div>
+              <p class="roast-headline-text" id="roast-headline-text">
+                Gak sabaran, gampang tersulut emosi, dan ngerasa seluruh dunia
+                ini arena balapan pacuan kuda.
+              </p>
+            </div>
+          </div>
+          <div class="char-section">
+            <h4 class="char-section-title text-red">
+              <i class="fa-solid fa-flag"></i> 3 Red Flags Terbesar
+            </h4>
+            <ul class="habits-list roast-list" id="roast-toxic-list"></ul>
+          </div>
+          <div class="char-section">
+            <div class="roast-grid-2col">
+              <div class="feature-card pantry-card">
+                <div class="feature-card-header text-amber">
+                  <i class="fa-solid fa-wallet"></i> Dosa Finansial
+                </div>
+                <p class="feature-card-desc" id="roast-financial-text">...</p>
+              </div>
+              <div class="feature-card animal-card">
+                <div class="feature-card-header text-pink">
+                  <i class="fa-solid fa-heart-crack"></i> Love Red Flag
+                </div>
+                <p class="feature-card-desc" id="roast-love-text">...</p>
+              </div>
+            </div>
+          </div>
+          <div class="char-section">
+            <div class="roast-quote-box">
+              <i class="fa-solid fa-quote-left quote-icon"></i>
+              <p class="roast-quote-text" id="roast-quote-text">"..."</p>
+              <span class="quote-author">- Pembelaan Khas Zodiak Kamu</span>
+            </div>
+          </div>
+          <div class="char-section">
+            <div class="fun-fact-card">
+              <div class="fun-fact-header">
+                <i class="fa-solid fa-shield-halved"></i> Tips Survival Kosmik
+              </div>
+              <p class="fun-fact-text" id="roast-tip-text">...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="panel glass-panel pair-roast-standalone-card hidden"
+        id="pair-roast-card-panel"
+      >
+        <div class="feature-card-header text-flame pair-header-flex">
+          <span>🔥 Roasting Hubungan Zodiak A & B</span>
+          <button
+            type="button"
+            class="btn-roll-dice btn-roll-dice-sm btn-roll-dice-glow"
+            id="btn-roll-dice-pair"
+            title="Acak Roasting Pasangan Baru"
+          >
+            <i class="fa-solid fa-dice dice-icon"></i>
+            <span>Roll Dice</span>
+          </button>
+        </div>
+        <p class="pair-roast-desc">
+          Lihat kekacauan apa yang terjadi jika
+          <b id="pair-sign-a-name">Zodiak Ini</b>
+          berpasangan / berteman dengan zodiak lain:
+        </p>
+        <div class="pair-select-group">
+          <select id="pair-sign-select" class="custom-select-large">
+            <option value="">Pilih Zodiak Pasangan / Teman</option>
+            <option value="aries">Aries (21 Mar - 19 Apr)</option>
+            <option value="taurus">Taurus (20 Apr - 20 Mei)</option>
+            <option value="gemini">Gemini (21 Mei - 20 Jun)</option>
+            <option value="cancer">Cancer (21 Jun - 22 Jul)</option>
+            <option value="leo">Leo (23 Jul - 22 Aug)</option>
+            <option value="virgo">Virgo (23 Aug - 22 Sep)</option>
+            <option value="libra">Libra (23 Sep - 22 Oct)</option>
+            <option value="scorpio">Scorpio (23 Oct - 21 Nov)</option>
+            <option value="sagittarius">Sagittarius (22 Nov - 21 Dec)</option>
+            <option value="capricorn">Capricorn (22 Dec - 19 Jan)</option>
+            <option value="aquarius">Aquarius (20 Jan - 18 Feb)</option>
+            <option value="pisces">Pisces (19 Feb - 20 Mar)</option>
+          </select>
+        </div>
+        <div class="pair-loader hidden" id="pair-roast-loader">
+          <div class="cosmic-spinner-wrapper">
+            <i class="fa-solid fa-atom cosmic-spinner text-flame"></i>
+          </div>
+          <p class="loader-text text-flame">Menganalisis...</p>
+        </div>
+        <div class="pair-roast-result hidden" id="pair-roast-result">
+          <div class="pair-roast-badge" id="pair-roast-badge">
+            🔥 Kombinasi Ledakan Kosmik
+          </div>
+          <h5 class="pair-roast-headline" id="pair-roast-headline">...</h5>
+          <p class="pair-roast-dynamic-desc" id="pair-roast-desc">...</p>
+          <div class="pair-roast-verdict" id="pair-roast-verdict">...</div>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
-
 <footer class="app-footer">
-    <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
+  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
 </footer>
-
-<!-- Roasting JavaScript -->
-
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script src="{{ url_for('zodiak.static', filename='js/roasting.js') }}"></script>
 {% endblock %}

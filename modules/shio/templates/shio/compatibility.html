@@ -1,148 +1,385 @@
-{% extends 'base.html' %}
-
-{% block title %}Timbangan Jodoh Kosmik - Peace Oracle{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+{% extends 'base.html' %} {% block title %}Timbangan Jodoh Kosmik - Peace
+Oracle{% endblock %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('shio.static', filename='css/shio.css') }}"
+/>
+<link
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
+  rel="stylesheet"
+/>
 <style>
-    .compat-form { display: flex; gap: 20px; align-items: center; justify-content: center; flex-wrap: wrap; margin: 25px 0; }
-    .compat-picker { text-align: center; }
-    .compat-picker label { display: block; color: #ffd700; font-family: 'Cinzel', serif; margin-bottom: 8px; font-size: 0.9rem; }
-    .compat-picker .shio-select-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; max-width: 250px; }
-    .compat-picker .shio-pick { background: rgba(20, 5, 5, 0.8); border: 1px solid #5a0000; border-radius: 10px; padding: 10px 4px; cursor: pointer; text-align: center; transition: all 0.3s; color: #fce3b6; }
-    .compat-picker .shio-pick:hover { border-color: #ffd700; background: rgba(80, 10, 10, 0.8); transform: scale(1.05); }
-    .compat-picker .shio-pick.selected { border-color: #ffd700; background: rgba(80, 10, 10, 0.8); box-shadow: 0 0 10px rgba(255,215,0,0.3); transform: scale(1.05); }
-    .compat-picker .shio-pick .pick-icon { font-family: 'Cinzel', 'Noto Serif TC', 'Georgia', serif; font-size: 1.6rem; display: block; background: linear-gradient(135deg, #ffd700, #ff4500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(255, 215, 0, 0.3); font-weight: bold; line-height: 1; }
-    .compat-picker .shio-pick .pick-name { font-family: 'Cinzel', serif; font-weight: bold; font-size: 0.7rem; display: block; margin-top: 6px; }
-    .compat-vs { font-size: 2.5rem; color: #ffd700; font-family: 'Cinzel', serif; font-weight: 700; align-self: center; text-shadow: 0 0 15px rgba(255,215,0,0.4); }
-    .compat-submit { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #1a1a2e; border: none; padding: 12px 35px; border-radius: 25px; font-size: 1rem; font-weight: 700; cursor: pointer; font-family: 'Cinzel', serif; transition: all 0.3s; margin-top: 15px; }
-    .compat-submit:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,215,0,0.5); }
-    .compat-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-
-    .compat-result { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,215,0,0.2); border-radius: 16px; padding: 30px; margin-top: 20px; backdrop-filter: blur(10px); }
-    .compat-header { text-align: center; margin-bottom: 25px; }
-    .compat-pair { font-size: 2.5rem; margin-bottom: 5px; }
-    .compat-rel-type { color: #ffd700; font-family: 'Cinzel', serif; font-size: 1.1rem; }
-    
-    .score-bar-wrapper { max-width: 400px; margin: 20px auto; }
-    .score-label { text-align: center; color: #ffd700; font-size: 0.85rem; margin-bottom: 8px; }
-    .score-bar { background: rgba(255,255,255,0.1); border-radius: 20px; height: 24px; overflow: hidden; position: relative; }
-    .score-fill { height: 100%; border-radius: 20px; transition: width 1s ease-out; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; color: #1a1a2e; min-width: 40px; }
-    .score-fill.high { background: linear-gradient(90deg, #4caf50, #81c784); }
-    .score-fill.mid { background: linear-gradient(90deg, #ffc107, #ffca28); }
-    .score-fill.low { background: linear-gradient(90deg, #f44336, #e57373); }
-
-    .compat-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-    @media (max-width: 768px) { .compat-sections { grid-template-columns: 1fr; } }
-    .compat-box { background: rgba(0,0,0,0.3); border-radius: 12px; padding: 15px; }
-    .compat-box h4 { color: #ffd700; font-family: 'Cinzel', serif; margin: 0 0 8px; font-size: 1rem; }
-    .compat-box h4 i { margin-right: 6px; }
-    .compat-box p { color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.6; margin: 0; }
-    .compat-box.drama { grid-column: 1 / -1; border-left: 3px solid #ff6b6b; }
-    .compat-box.tips { grid-column: 1 / -1; border-left: 3px solid #ffd700; }
+  .compat-form {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 25px 0;
+  }
+  .compat-picker {
+    text-align: center;
+  }
+  .compat-picker label {
+    display: block;
+    color: #ffd700;
+    font-family: "Cinzel", serif;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+  .compat-picker .shio-select-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    max-width: 250px;
+  }
+  .compat-picker .shio-pick {
+    background: rgba(20, 5, 5, 0.8);
+    border: 1px solid #5a0000;
+    border-radius: 10px;
+    padding: 10px 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+    color: #fce3b6;
+  }
+  .compat-picker .shio-pick:hover {
+    border-color: #ffd700;
+    background: rgba(80, 10, 10, 0.8);
+    transform: scale(1.05);
+  }
+  .compat-picker .shio-pick.selected {
+    border-color: #ffd700;
+    background: rgba(80, 10, 10, 0.8);
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    transform: scale(1.05);
+  }
+  .compat-picker .shio-pick .pick-icon {
+    font-family: "Cinzel", "Noto Serif TC", "Georgia", serif;
+    font-size: 1.6rem;
+    display: block;
+    background: linear-gradient(135deg, #ffd700, #ff4500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    font-weight: bold;
+    line-height: 1;
+  }
+  .compat-picker .shio-pick .pick-name {
+    font-family: "Cinzel", serif;
+    font-weight: bold;
+    font-size: 0.7rem;
+    display: block;
+    margin-top: 6px;
+  }
+  .compat-vs {
+    font-size: 2.5rem;
+    color: #ffd700;
+    font-family: "Cinzel", serif;
+    font-weight: 700;
+    align-self: center;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+  }
+  .compat-submit {
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    color: #1a1a2e;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: "Cinzel", serif;
+    transition: all 0.3s;
+    margin-top: 15px;
+  }
+  .compat-submit:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  .compat-submit:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+  .compat-result {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .compat-header {
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .compat-pair {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+  }
+  .compat-rel-type {
+    color: #ffd700;
+    font-family: "Cinzel", serif;
+    font-size: 1.1rem;
+  }
+  .score-bar-wrapper {
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  .score-label {
+    text-align: center;
+    color: #ffd700;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .score-bar {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    height: 24px;
+    overflow: hidden;
+    position: relative;
+  }
+  .score-fill {
+    height: 100%;
+    border-radius: 20px;
+    transition: width 1s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    min-width: 40px;
+  }
+  .score-fill.high {
+    background: linear-gradient(90deg, #4caf50, #81c784);
+  }
+  .score-fill.mid {
+    background: linear-gradient(90deg, #ffc107, #ffca28);
+  }
+  .score-fill.low {
+    background: linear-gradient(90deg, #f44336, #e57373);
+  }
+  .compat-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  @media (max-width: 768px) {
+    .compat-sections {
+      grid-template-columns: 1fr;
+    }
+  }
+  .compat-box {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+  }
+  .compat-box h4 {
+    color: #ffd700;
+    font-family: "Cinzel", serif;
+    margin: 0 0 8px;
+    font-size: 1rem;
+  }
+  .compat-box h4 i {
+    margin-right: 6px;
+  }
+  .compat-box p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .compat-box.drama {
+    grid-column: 1 / -1;
+    border-left: 3px solid #ff6b6b;
+  }
+  .compat-box.tips {
+    grid-column: 1 / -1;
+    border-left: 3px solid #ffd700;
+  }
 </style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="shio-container" id="shio-bg">
-    <canvas id="particle-canvas"></canvas>
-
-    <div class="shio-content-wrapper">
-        <div class="bagua-wrapper">
-            <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
-            <div class="trigram t1">☰</div><div class="trigram t2">☴</div>
-            <div class="trigram t3">☵</div><div class="trigram t4">☶</div>
-            <div class="trigram t5">☷</div><div class="trigram t6">☳</div>
-            <div class="trigram t7">☲</div><div class="trigram t8">☱</div>
-        </div>
-        <h1 class="shio-title">Shio Oracle</h1>
-        <p class="shio-subtitle">Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai <i>inner peace</i>.</p>
-
-        <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
-
-        <!-- Shio Picker Form -->
-        <div class="compat-form">
-            <div class="compat-picker" id="picker-1">
-                <label>Shio Pertama</label>
-                <div class="shio-select-grid">
-                    <div class="shio-pick" data-shio="tikus"><span class="pick-icon hanzi">鼠</span><span class="pick-name">Tikus</span></div>
-                    <div class="shio-pick" data-shio="kerbau"><span class="pick-icon hanzi">牛</span><span class="pick-name">Kerbau</span></div>
-                    <div class="shio-pick" data-shio="macan"><span class="pick-icon hanzi">虎</span><span class="pick-name">Macan</span></div>
-                    <div class="shio-pick" data-shio="kelinci"><span class="pick-icon hanzi">兔</span><span class="pick-name">Kelinci</span></div>
-                    <div class="shio-pick" data-shio="naga"><span class="pick-icon hanzi">龍</span><span class="pick-name">Naga</span></div>
-                    <div class="shio-pick" data-shio="ular"><span class="pick-icon hanzi">蛇</span><span class="pick-name">Ular</span></div>
-                    <div class="shio-pick" data-shio="kuda"><span class="pick-icon hanzi">馬</span><span class="pick-name">Kuda</span></div>
-                    <div class="shio-pick" data-shio="kambing"><span class="pick-icon hanzi">羊</span><span class="pick-name">Kambing</span></div>
-                    <div class="shio-pick" data-shio="monyet"><span class="pick-icon hanzi">猴</span><span class="pick-name">Monyet</span></div>
-                    <div class="shio-pick" data-shio="ayam"><span class="pick-icon hanzi">雞</span><span class="pick-name">Ayam</span></div>
-                    <div class="shio-pick" data-shio="anjing"><span class="pick-icon hanzi">狗</span><span class="pick-name">Anjing</span></div>
-                    <div class="shio-pick" data-shio="babi"><span class="pick-icon hanzi">豬</span><span class="pick-name">Babi</span></div>
-                </div>
-            </div>
-
-            <div class="compat-vs"><i class="fa-solid fa-yin-yang" style="filter: drop-shadow(0 0 10px rgba(255,215,0,0.6)); font-size: 1.2em;"></i></div>
-
-            <div class="compat-picker" id="picker-2">
-                <label>Shio Kedua</label>
-                <div class="shio-select-grid">
-                    <div class="shio-pick" data-shio="tikus"><span class="pick-icon hanzi">鼠</span><span class="pick-name">Tikus</span></div>
-                    <div class="shio-pick" data-shio="kerbau"><span class="pick-icon hanzi">牛</span><span class="pick-name">Kerbau</span></div>
-                    <div class="shio-pick" data-shio="macan"><span class="pick-icon hanzi">虎</span><span class="pick-name">Macan</span></div>
-                    <div class="shio-pick" data-shio="kelinci"><span class="pick-icon hanzi">兔</span><span class="pick-name">Kelinci</span></div>
-                    <div class="shio-pick" data-shio="naga"><span class="pick-icon hanzi">龍</span><span class="pick-name">Naga</span></div>
-                    <div class="shio-pick" data-shio="ular"><span class="pick-icon hanzi">蛇</span><span class="pick-name">Ular</span></div>
-                    <div class="shio-pick" data-shio="kuda"><span class="pick-icon hanzi">馬</span><span class="pick-name">Kuda</span></div>
-                    <div class="shio-pick" data-shio="kambing"><span class="pick-icon hanzi">羊</span><span class="pick-name">Kambing</span></div>
-                    <div class="shio-pick" data-shio="monyet"><span class="pick-icon hanzi">猴</span><span class="pick-name">Monyet</span></div>
-                    <div class="shio-pick" data-shio="ayam"><span class="pick-icon hanzi">雞</span><span class="pick-name">Ayam</span></div>
-                    <div class="shio-pick" data-shio="anjing"><span class="pick-icon hanzi">狗</span><span class="pick-name">Anjing</span></div>
-                    <div class="shio-pick" data-shio="babi"><span class="pick-icon hanzi">豬</span><span class="pick-name">Babi</span></div>
-                </div>
-            </div>
-        </div>
-
-        <div style="text-align: center;">
-            <button class="compat-submit" id="btn-check" disabled>Ukur Kecocokan Kosmik</button>
-        </div>
-
-        <!-- Result -->
-        <div class="compat-result hidden" id="compat-result">
-            <div class="compat-header">
-                <div class="compat-pair" id="c-pair"></div>
-                <div class="compat-rel-type" id="c-relationship"></div>
-            </div>
-
-            <div class="score-bar-wrapper">
-                <div class="score-label">Skor Kecocokan: <strong id="c-score-text"></strong></div>
-                <div class="score-bar">
-                    <div class="score-fill" id="c-score-fill"></div>
-                </div>
-            </div>
-
-            <div class="compat-sections">
-                <div class="compat-box">
-                    <h4><i class="fa-solid fa-heart"></i> Asmara</h4>
-                    <p id="c-asmara"></p>
-                </div>
-                <div class="compat-box">
-                    <h4><i class="fa-solid fa-briefcase"></i> Bisnis</h4>
-                    <p id="c-bisnis"></p>
-                </div>
-                <div class="compat-box drama">
-                    <h4><i class="fa-solid fa-masks-theater"></i> Drama Alert</h4>
-                    <p id="c-drama"></p>
-                </div>
-                <div class="compat-box tips">
-                    <h4><i class="fa-solid fa-lightbulb"></i> Tips Keharmonisan</h4>
-                    <p id="c-tips"></p>
-                </div>
-            </div>
-        </div>
+  <canvas id="particle-canvas"></canvas>
+  <div class="shio-content-wrapper">
+    <div class="bagua-wrapper">
+      <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+      <div class="trigram t1">☰</div>
+      <div class="trigram t2">☴</div>
+      <div class="trigram t3">☵</div>
+      <div class="trigram t4">☶</div>
+      <div class="trigram t5">☷</div>
+      <div class="trigram t6">☳</div>
+      <div class="trigram t7">☲</div>
+      <div class="trigram t8">☱</div>
     </div>
+    <h1 class="shio-title">Shio Oracle</h1>
+    <p class="shio-subtitle">
+      Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai
+      <i>inner peace</i>.
+    </p>
+    <a href="{{ url_for('shio.shio_index') }}" class="back-btn"
+      ><i class="fa-solid fa-arrow-left"></i> Kembali</a
+    >
+    <div class="compat-form">
+      <div class="compat-picker" id="picker-1">
+        <label>Shio Pertama</label>
+        <div class="shio-select-grid">
+          <div class="shio-pick" data-shio="tikus">
+            <span class="pick-icon hanzi">鼠</span
+            ><span class="pick-name">Tikus</span>
+          </div>
+          <div class="shio-pick" data-shio="kerbau">
+            <span class="pick-icon hanzi">牛</span
+            ><span class="pick-name">Kerbau</span>
+          </div>
+          <div class="shio-pick" data-shio="macan">
+            <span class="pick-icon hanzi">虎</span
+            ><span class="pick-name">Macan</span>
+          </div>
+          <div class="shio-pick" data-shio="kelinci">
+            <span class="pick-icon hanzi">兔</span
+            ><span class="pick-name">Kelinci</span>
+          </div>
+          <div class="shio-pick" data-shio="naga">
+            <span class="pick-icon hanzi">龍</span
+            ><span class="pick-name">Naga</span>
+          </div>
+          <div class="shio-pick" data-shio="ular">
+            <span class="pick-icon hanzi">蛇</span
+            ><span class="pick-name">Ular</span>
+          </div>
+          <div class="shio-pick" data-shio="kuda">
+            <span class="pick-icon hanzi">馬</span
+            ><span class="pick-name">Kuda</span>
+          </div>
+          <div class="shio-pick" data-shio="kambing">
+            <span class="pick-icon hanzi">羊</span
+            ><span class="pick-name">Kambing</span>
+          </div>
+          <div class="shio-pick" data-shio="monyet">
+            <span class="pick-icon hanzi">猴</span
+            ><span class="pick-name">Monyet</span>
+          </div>
+          <div class="shio-pick" data-shio="ayam">
+            <span class="pick-icon hanzi">雞</span
+            ><span class="pick-name">Ayam</span>
+          </div>
+          <div class="shio-pick" data-shio="anjing">
+            <span class="pick-icon hanzi">狗</span
+            ><span class="pick-name">Anjing</span>
+          </div>
+          <div class="shio-pick" data-shio="babi">
+            <span class="pick-icon hanzi">豬</span
+            ><span class="pick-name">Babi</span>
+          </div>
+        </div>
+      </div>
+      <div class="compat-vs">
+        <i
+          class="fa-solid fa-yin-yang"
+          style="
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6));
+            font-size: 1.2em;
+          "
+        ></i>
+      </div>
+      <div class="compat-picker" id="picker-2">
+        <label>Shio Kedua</label>
+        <div class="shio-select-grid">
+          <div class="shio-pick" data-shio="tikus">
+            <span class="pick-icon hanzi">鼠</span
+            ><span class="pick-name">Tikus</span>
+          </div>
+          <div class="shio-pick" data-shio="kerbau">
+            <span class="pick-icon hanzi">牛</span
+            ><span class="pick-name">Kerbau</span>
+          </div>
+          <div class="shio-pick" data-shio="macan">
+            <span class="pick-icon hanzi">虎</span
+            ><span class="pick-name">Macan</span>
+          </div>
+          <div class="shio-pick" data-shio="kelinci">
+            <span class="pick-icon hanzi">兔</span
+            ><span class="pick-name">Kelinci</span>
+          </div>
+          <div class="shio-pick" data-shio="naga">
+            <span class="pick-icon hanzi">龍</span
+            ><span class="pick-name">Naga</span>
+          </div>
+          <div class="shio-pick" data-shio="ular">
+            <span class="pick-icon hanzi">蛇</span
+            ><span class="pick-name">Ular</span>
+          </div>
+          <div class="shio-pick" data-shio="kuda">
+            <span class="pick-icon hanzi">馬</span
+            ><span class="pick-name">Kuda</span>
+          </div>
+          <div class="shio-pick" data-shio="kambing">
+            <span class="pick-icon hanzi">羊</span
+            ><span class="pick-name">Kambing</span>
+          </div>
+          <div class="shio-pick" data-shio="monyet">
+            <span class="pick-icon hanzi">猴</span
+            ><span class="pick-name">Monyet</span>
+          </div>
+          <div class="shio-pick" data-shio="ayam">
+            <span class="pick-icon hanzi">雞</span
+            ><span class="pick-name">Ayam</span>
+          </div>
+          <div class="shio-pick" data-shio="anjing">
+            <span class="pick-icon hanzi">狗</span
+            ><span class="pick-name">Anjing</span>
+          </div>
+          <div class="shio-pick" data-shio="babi">
+            <span class="pick-icon hanzi">豬</span
+            ><span class="pick-name">Babi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align: center">
+      <button class="compat-submit" id="btn-check" disabled>
+        Ukur Kecocokan Kosmik
+      </button>
+    </div>
+    <div class="compat-result hidden" id="compat-result">
+      <div class="compat-header">
+        <div class="compat-pair" id="c-pair"></div>
+        <div class="compat-rel-type" id="c-relationship"></div>
+      </div>
+      <div class="score-bar-wrapper">
+        <div class="score-label">
+          Skor Kecocokan: <strong id="c-score-text"></strong>
+        </div>
+        <div class="score-bar">
+          <div class="score-fill" id="c-score-fill"></div>
+        </div>
+      </div>
+      <div class="compat-sections">
+        <div class="compat-box">
+          <h4><i class="fa-solid fa-heart"></i> Asmara</h4>
+          <p id="c-asmara"></p>
+        </div>
+        <div class="compat-box">
+          <h4><i class="fa-solid fa-briefcase"></i> Bisnis</h4>
+          <p id="c-bisnis"></p>
+        </div>
+        <div class="compat-box drama">
+          <h4><i class="fa-solid fa-masks-theater"></i> Drama Alert</h4>
+          <p id="c-drama"></p>
+        </div>
+        <div class="compat-box tips">
+          <h4><i class="fa-solid fa-lightbulb"></i> Tips Keharmonisan</h4>
+          <p id="c-tips"></p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
+{% endblock %} {% block extra_js %}
 <script src="{{ url_for('shio.static', filename='js/compatibility.js') }}"></script>
 {% endblock %}
