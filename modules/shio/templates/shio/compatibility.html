@@ -126,41 +126,61 @@ Oracle{% endblock %} {% block extra_css %}
   .score-bar-wrapper {
     max-width: 400px;
     margin: 20px auto;
+    text-align: center;
   }
   .score-label {
     text-align: center;
     color: #ffd700;
-    font-size: 0.85rem;
-    margin-bottom: 8px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    font-family: "Cinzel", serif;
   }
-  .score-bar {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    height: 24px;
-    overflow: hidden;
+  .circular-chart-wrapper {
     position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto;
   }
-  .score-fill {
+  .circular-chart {
+    display: block;
+    width: 100%;
     height: 100%;
-    border-radius: 20px;
-    transition: width 1s ease-out;
+    overflow: visible;
+  }
+  .circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 6;
+  }
+  .circle {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    transition: stroke-dasharray 1.5s ease-out, stroke 0.5s ease-out;
+    filter: drop-shadow(0 0 8px currentColor);
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  .circular-chart-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8rem;
+  }
+  .percentage {
+    color: #ffd700;
+    font-family: "Cinzel", serif;
+    font-size: 2.5rem;
     font-weight: 700;
-    color: #1a1a2e;
-    min-width: 40px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
   }
-  .score-fill.high {
-    background: linear-gradient(90deg, #4caf50, #81c784);
-  }
-  .score-fill.mid {
-    background: linear-gradient(90deg, #ffc107, #ffca28);
-  }
-  .score-fill.low {
-    background: linear-gradient(90deg, #f44336, #e57373);
-  }
+  .circle.high { stroke: #4caf50; }
+  .circle.mid { stroke: #ffca28; }
+  .circle.low { stroke: #ff6b6b; }
   .compat-sections {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -353,10 +373,16 @@ Oracle{% endblock %} {% block extra_css %}
       </div>
       <div class="score-bar-wrapper">
         <div class="score-label">
-          Skor Kecocokan: <strong id="c-score-text"></strong>
+          Skor Kecocokan Kosmik
         </div>
-        <div class="score-bar">
-          <div class="score-fill" id="c-score-fill"></div>
+        <div class="circular-chart-wrapper">
+          <svg viewBox="0 0 100 100" class="circular-chart">
+            <circle class="circle-bg" cx="50" cy="50" r="40" />
+            <circle class="circle" id="c-score-circle" cx="50" cy="50" r="40" stroke-dasharray="0, 100" pathLength="100" />
+          </svg>
+          <div class="circular-chart-text">
+            <span id="c-score-text" class="percentage">0%</span>
+          </div>
         </div>
       </div>
       <div class="compat-sections">

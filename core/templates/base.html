@@ -1,101 +1,68 @@
 <!doctype html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#0a0a1a" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-    <title>{% block title %}Peace Oracle{% endblock %}</title>
-    <meta
-      name="description"
-      content="{% block description %}Temukan ramalan kosmik dan shio Anda.{% endblock %}"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/global.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/3d-bg.css') }}"
-    />
-    <script src="{{ url_for('static', filename='js/global.js') }}"></script>
-    {% block extra_css %}{% endblock %}
-  </head>
-  <body>
-    <canvas id="webgl-bg"></canvas>
-    <div id="global-loader" class="global-loader">
-      <div class="loader-icons">
-        <i class="fa-solid fa-moon icon-zodiak"></i>
-        <i class="fa-solid fa-dragon icon-shio"></i>
-        <i class="fa-solid fa-scroll icon-weton"></i>
-        <i class="fa-solid fa-wand-magic-sparkles icon-tarot"></i>
-      </div>
-      <p class="loader-text" id="loader-text">Menyelaraskan 4 Alam Semesta</p>
-      <div class="loader-bar-container">
-        <div class="loader-bar"></div>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>{% block title %}Peace Oracle{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/web_logo.png') }}" type="image/png" />
+  <meta name="description" content="{% block description %}Temukan ramalan kosmik dan shio Anda.{% endblock %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/3d-bg.css') }}" />
+  <script src="{{ url_for('static', filename='js/global.js') }}"></script>
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+  <canvas id="webgl-bg"></canvas>
+  <div id="global-loader" class="global-loader">
+    <div class="loader-icons">
+      <i class="fa-solid fa-moon icon-zodiak"></i>
+      <i class="fa-solid fa-dragon icon-shio"></i>
+      <i class="fa-solid fa-scroll icon-weton"></i>
+      <i class="fa-solid fa-wand-magic-sparkles icon-tarot"></i>
     </div>
-    <div class="mode-switcher-container">
-      <div class="mode-switcher-btn" id="mode-switcher-toggle">
-        <i class="fa-solid fa-layer-group"></i>
-      </div>
-      <div class="mode-switcher-menu" id="mode-switcher-menu">
-        <a
-          href="{{ url_for('zodiak.home') }}"
-          class="mode-item"
-          data-mode="zodiak"
-        >
-          <i class="fa-solid fa-moon"></i>
-          <span>Zodiak</span>
-        </a>
-        <a
-          href="{{ url_for('shio.shio_index') }}"
-          class="mode-item"
-          data-mode="shio"
-        >
-          <i class="fa-solid fa-dragon"></i>
-          <span>Shio</span>
-        </a>
-        <a
-          href="#"
-          class="mode-item locked"
-          data-mode="weton"
-          title="Segera Hadir"
-        >
-          <i class="fa-solid fa-scroll"></i>
-          <span>Weton</span>
-        </a>
-        <a
-          href="#"
-          class="mode-item locked"
-          data-mode="tarot"
-          title="Segera Hadir"
-        >
-          <i class="fa-solid fa-wand-magic-sparkles"></i>
-          <span>Tarot</span>
-        </a>
-      </div>
+    <p class="loader-text" id="loader-text">Menyelaraskan 4 Alam Semesta</p>
+    <div class="loader-bar-container">
+      <div class="loader-bar"></div>
     </div>
-    {% block content %}{% endblock %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="{{ url_for('static', filename='js/3d-bg.js') }}"></script>
-    {% block extra_js %}{% endblock %}
-  </body>
+  </div>
+  <div class="mode-switcher-container">
+    <div class="mode-switcher-btn" id="mode-switcher-toggle">
+      <i class="fa-solid fa-layer-group"></i>
+    </div>
+    <div class="mode-switcher-menu" id="mode-switcher-menu">
+      <a href="{{ url_for('zodiak.home') }}" class="mode-item" data-mode="zodiak">
+        <i class="fa-solid fa-moon"></i>
+        <span>Zodiak</span>
+      </a>
+      <a href="{{ url_for('shio.shio_index') }}" class="mode-item" data-mode="shio">
+        <i class="fa-solid fa-dragon"></i>
+        <span>Shio</span>
+      </a>
+      <a href="#" class="mode-item locked" data-mode="weton" title="Segera Hadir">
+        <i class="fa-solid fa-scroll"></i>
+        <span>Weton</span>
+      </a>
+      <a href="#" class="mode-item locked" data-mode="tarot" title="Segera Hadir">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+        <span>Tarot</span>
+      </a>
+    </div>
+  </div>
+  {% block content %}{% endblock %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="{{ url_for('static', filename='js/3d-bg.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+
 </html>

@@ -57,17 +57,31 @@ document.addEventListener("DOMContentLoaded", () => {
           data.relationship || "Data belum tersedia";
         const score = data.score || 50;
         const scoreText = document.getElementById("c-score-text");
-        const scoreFill = document.getElementById("c-score-fill");
-        scoreText.textContent = `${score}/100`;
-        scoreFill.style.width = "0%";
-        scoreFill.className = "score-fill";
-        if (score >= 70) scoreFill.classList.add("high");
-        else if (score >= 45) scoreFill.classList.add("mid");
-        else scoreFill.classList.add("low");
+        const scoreCircle = document.getElementById("c-score-circle");
+        
+        scoreText.textContent = `0%`;
+        scoreCircle.setAttribute("stroke-dasharray", `0, 100`);
+        scoreCircle.className.baseVal = "circle";
+
+        if (score >= 70) scoreCircle.classList.add("high");
+        else if (score >= 45) scoreCircle.classList.add("mid");
+        else scoreCircle.classList.add("low");
+        
+        let currentScore = 0;
+        const duration = 1500;
+        const stepTime = Math.max(10, Math.floor(duration / (score || 1)));
+        const timer = setInterval(() => {
+            currentScore += 1;
+            scoreText.textContent = `${currentScore}%`;
+            if (currentScore >= score) {
+                clearInterval(timer);
+                scoreText.textContent = `${score}%`;
+            }
+        }, stepTime);
+
         setTimeout(() => {
-          scoreFill.style.width = `${score}%`;
-          scoreFill.textContent = `${score}%`;
-        }, 100);
+          scoreCircle.setAttribute("stroke-dasharray", `${score}, 100`);
+        }, 50);
         document.getElementById("c-asmara").textContent = data.asmara || "-";
         document.getElementById("c-bisnis").textContent = data.bisnis || "-";
         document.getElementById("c-drama").textContent = data.drama || "-";
