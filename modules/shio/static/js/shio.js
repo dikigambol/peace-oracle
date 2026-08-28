@@ -48,6 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
       fetchDailyAlmanak();
     });
   }
+  const dateWrapper = document.getElementById("daily-date-wrapper");
+  if (dateWrapper) {
+    dateWrapper.addEventListener("click", () => {
+      const fp = document.getElementById("daily-date-input")._flatpickr;
+      if (fp) {
+        fp.open();
+      }
+    });
+  }
   function fetchDailyAlmanak(dateStr = null) {
     const grid = document.getElementById("daily-grid");
     grid.innerHTML =

@@ -41,14 +41,13 @@
         <a
           href="javascript:void(0)"
           class="choice-card unavailable"
-          style="text-decoration: none"
         >
           <span class="badge badge-soon">SOON</span>
           <i class="fa-solid fa-calendar-days"></i>
           <span>Baca Gulungan Takdir (Ming Li)</span>
           <small>Kalkulasi Bintang Otomatis</small>
         </a>
-        <button class="choice-card" id="btn-daily" style="grid-column: 1 / -1">
+        <button class="choice-card" id="btn-daily">
           <i class="fa-solid fa-calendar-day"></i>
           <span>Almanak Harian (Tong Shu)</span>
           <small>Navigasi Energi Harian & Pemilihan Waktu</small>
@@ -56,7 +55,6 @@
         <a
           href="javascript:void(0)"
           class="choice-card unavailable"
-          style="text-decoration: none"
         >
           <span class="badge badge-soon">SOON</span>
           <i class="fa-solid fa-clock-rotate-left"></i>
@@ -66,7 +64,6 @@
         <a
           href="{{ url_for('shio.shio_compatibility') }}"
           class="choice-card"
-          style="text-decoration: none"
         >
           <i class="fa-solid fa-heart-pulse"></i>
           <span>Sinergi Jodoh Kosmik (He Hun)</span>
@@ -77,7 +74,6 @@
         <a
           href="{{ url_for('shio.shio_profile') }}"
           class="choice-card"
-          style="text-decoration: none"
         >
           <i class="fa-solid fa-id-card"></i>
           <span>Analisis Karakter Bawaan (Ben Ming Nian)</span>
@@ -86,7 +82,6 @@
         <a
           href="javascript:void(0)"
           class="choice-card unavailable"
-          style="text-decoration: none"
         >
           <span class="badge badge-soon">SOON</span>
           <i class="fa-solid fa-fire"></i>
@@ -96,7 +91,6 @@
         <a
           href="{{ url_for('shio.guardian_spiritual') }}"
           class="choice-card"
-          style="text-decoration: none"
         >
           <i class="fa-solid fa-dragon"></i>
           <span>Afinitas Penjaga Spiritual (Ben Ming Fo)</span>
@@ -110,102 +104,17 @@
       </button>
       <div class="daily-header">
         <div class="daily-icon"><span id="daily-master-icon">✨</span></div>
-        <h2 class="view-title" style="margin-bottom: 5px">
+        <h2 class="view-title daily-view-title">
           Almanak Kosmik: <span id="daily-master-name">...</span>
         </h2>
-        <p id="daily-date-str" style="display: none">...</p>
-        <style>
-          /* Force flatpickr altInput to be transparent and golden */
-          .daily-date-wrapper input {
-            background: transparent !important;
-            border: none !important;
-            color: #ffd700 !important;
-            font-family: "Cinzel", serif !important;
-            font-size: 1.1rem !important;
-            font-weight: bold !important;
-            text-align: center !important;
-            cursor: pointer !important;
-            outline: none !important;
-            box-shadow: none !important;
-            width: 190px !important;
-            padding: 0 !important;
-            margin-top: 3px !important;
-            /* Vertical alignment fix for Cinzel */
-            line-height: 1 !important;
-          }
-          @keyframes cardFadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-              filter: blur(5px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-              filter: blur(0);
-            }
-          }
-          .daily-card.animate-in {
-            animation: cardFadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            opacity: 0;
-          }
-          @keyframes pulseGlow {
-            0% {
-              opacity: 0.5;
-              filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.2));
-              transform: scale(0.98);
-            }
-            50% {
-              opacity: 1;
-              filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-              transform: scale(1);
-            }
-            100% {
-              opacity: 0.5;
-              filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.2));
-              transform: scale(0.98);
-            }
-          }
-          .loading-cosmic {
-            grid-column: 1 / -1;
-            text-align: center;
-            color: #ffd700;
-            padding: 80px 0;
-            animation: pulseGlow 2s infinite ease-in-out;
-          }
-        </style>
-        <div
-          style="
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 0 auto 20px;
-          "
-        >
+        <p id="daily-date-str">...</p>
+<div class="daily-date-controls">
           <div
             class="daily-date-wrapper"
-            style="
-              display: inline-flex;
-              align-items: center;
-              justify-content: center;
-              gap: 10px;
-              padding: 8px 20px;
-              border: 1px solid rgba(255, 215, 0, 0.3);
-              border-radius: 30px;
-              background: rgba(0, 0, 0, 0.4);
-              cursor: pointer;
-              transition: all 0.3s ease;
-            "
-            onclick="
-              document.getElementById('daily-date-input')._flatpickr.open()
-            "
-            onmouseover="this.style.background = 'rgba(255,215,0,0.1)'"
-            onmouseout="this.style.background = 'rgba(0,0,0,0.4)'"
+            id="daily-date-wrapper"
           >
             <i
-              class="fa-solid fa-calendar-day"
-              style="color: #ffd700; margin-top: -1px"
+              class="fa-solid fa-calendar-day daily-date-icon"
             ></i>
             <input
               type="text"
@@ -213,33 +122,17 @@
               placeholder="Pilih Tanggal..."
             />
             <i
-              class="fa-solid fa-chevron-down"
-              style="color: #ffd700; font-size: 0.8rem; margin-top: -1px"
+              class="fa-solid fa-chevron-down daily-date-chevron"
             ></i>
           </div>
           <button
             id="btn-today-reset"
-            style="
-              background: rgba(0, 0, 0, 0.4);
-              border: 1px solid rgba(255, 215, 0, 0.3);
-              color: #ffd700;
-              border-radius: 50%;
-              width: 40px;
-              height: 40px;
-              cursor: pointer;
-              transition: all 0.3s ease;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            "
             title="Kembali ke Hari Ini"
-            onmouseover="this.style.background = 'rgba(255,215,0,0.1)'"
-            onmouseout="this.style.background = 'rgba(0,0,0,0.4)'"
           >
             <i class="fa-solid fa-rotate-left"></i>
           </button>
         </div>
-        <p style="font-size: 0.9rem; opacity: 0.9">
+        <p class="daily-subtitle">
           Lihat bagaimana energi kosmik pada hari tersebut mempengaruhi ke-12
           Shio.
         </p>

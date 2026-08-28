@@ -1,0 +1,1 @@
+# Tarot module initialization

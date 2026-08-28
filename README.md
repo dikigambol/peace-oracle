@@ -5,9 +5,10 @@
   <p><b>✨ Temukan Ketenangan Lewat Penyelarasan Kosmik, Oriental, Primbon Nusantara, & Tarot ✨</b></p>
   
   <p>
+    <img src="https://img.shields.io/badge/Frontend-Vanilla_JS_&_CSS-orange.svg?style=for-the-badge&logo=javascript&logoColor=white" alt="Frontend">
     <img src="https://img.shields.io/badge/Python-3.9+-blue.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python">
     <img src="https://img.shields.io/badge/Framework-Flask-black.svg?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
-    <img src="https://img.shields.io/badge/Frontend-Vanilla_JS_&_CSS-orange.svg?style=for-the-badge&logo=javascript&logoColor=white" alt="Frontend">
+    <img src="https://img.shields.io/badge/Database-MySQL-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
     <br>
     <img src="https://img.shields.io/badge/Deployment-Vercel-black.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
     <img src="https://img.shields.io/badge/Status-Beta-success.svg?style=for-the-badge" alt="Status">
@@ -25,23 +26,26 @@
 ### 🌌 Landing Page (Hub Utama)
 * **Portal Nebula 3D:** Halaman beranda dilengkapi animasi CSS *Nebula* interaktif sebagai gerbang sentral untuk memilih 4 jalan takdir Anda.
 * **Mode Switcher:** Navigasi melayang (*floating mode switcher*) untuk pindah alam semesta kapan saja.
+* **Easter Eggs Kosmik:** Interaksi tersembunyi pada teks *footer* planet 🪐 dan perlindungan anti-bot (*troll routes*) yang unik.
 
 ### 🌙 Mode Zodiak (Barat)
 * **Ramalan Kosmik Harian:** Dihitung secara dinamis berdasarkan fase bulan dan metrik kosmik hari berjalan, disajikan dengan gaya bahasa *Gen Z* dan rekomendasi trek *YouTube*.
 * **Karakteristik General:** Ketahui sifat bawaan fisik, kebiasaan unik, kecocokan *soulmate* hewan, hingga selera *cosmic pantry* dari masing-masing zodiak.
 * **Kalkulator Kecocokan (Asmara, Sahabat, Rekan Kerja):** Analisis komprehensif keharmonisan dua zodiak dalam tiga dimensi sosial berbeda.
 * **Roasting Zodiak:** Butuh hiburan kasar? Terdapat mode *roasting* pedas (personal & pasangan) khusus untuk setiap zodiak!
+* **Kuis Pasangan Real-Time (Live Room):** Fitur kuis interaktif (*multiplayer*)! Buat *room* privat, undang pasangan, jawab pertanyaan sinkronisasi bersama, dan dapatkan analisis *chemistry* berbasis AI secara langsung.
 
 ### 🐉 Mode Shio (Oriental)
 * **Profil Karakter Shio:** Ketahui karakteristik bawaan, kecenderungan *green flag/red flag*, dan elemen *alter ego* dari masing-masing Shio.
-* **Almanak Harian (Tong Shu):** Dasbor harian interaktif *real-time* yang menampilkan hoki, status hari (Ciong, San He, dll) beserta *daily tip* untuk ke-12 Shio.
+* **Almanak Harian (Tong Shu):** Dasbor harian interaktif *real-time* yang menampilkan hoki, status hari astrologi BaZi resmi (Chong, San He, Xiang Xing, Ben Ming) beserta *daily tip* untuk ke-12 Shio.
 * **Pilih Penjaga Spiritual:** Eksplorasi figur Bodhisattva pelindung spiritual lengkap dengan mantra suci dan tips Feng Shui.
+* **Timbangan Jodoh Kosmik:** Kalkulator kecocokan dua shio dengan visualisasi persentase *neon circular progress bar*.
+* **Segera Hadir (SOON):** Baca Gulungan Takdir (Kalkulator Bazi), Teropong Energi Tahunan, dan Roasting Shio.
 * **Latar Belakang Interaktif:** Tampilan *partikel galaksi 3D* interaktif.
-* **Segera Hadir (SOON):** Baca Gulungan Takdir (Kalkulator Bazi), Teropong Energi Tahunan, Timbangan Jodoh Kosmik, dan Roasting Shio.
 
 ### 🔜 Mode Mendatang (Terkunci / Coming Soon)
-* **Weton (Kejawen):** Perhitungan primbon berdasarkan neptu hari dan pasaran Jawa.
-* **Tarot:** Pembacaan nasib lewat *spread* kartu Arcana.
+* **Weton (Kejawen):** Perhitungan primbon berdasarkan neptu hari dan pasaran Jawa (Kerangka dasar/Blueprint sudah aktif).
+* **Tarot:** Pembacaan nasib lewat *spread* kartu Arcana (Kerangka dasar/Blueprint sudah aktif).
 
 ---
 
@@ -50,13 +54,13 @@
 Aplikasi ini menggunakan arsitektur **Flask Blueprints** untuk memastikan skalabilitas dan kebersihan kode (*clean architecture*). Seluruh sistem ramalan dan teks ditenagai oleh **Dynamic Data Bank** yang memastikan setiap respons (*roasting*, nasib harian, hingga profil karakter) tidak repetitif dan terasa lebih personal.
 
 ```text
-zodiac-z/
+peace-oracle/
 ├── app.py                # Main Entry Point (Blueprint Registration)
 ├── core/                 # Shared Assets, Base Templates, & Landing Page
 ├── modules/              # Core Feature Logic (Isolated per astrology system)
 │   ├── zodiak/           # Western Astrology Module
-│   ├── shio/             # Eastern/Chinese Astrology Module
-│   ├── weton/            # (WIP) Javanese Astrology Module
+│   ├── shio/             # Eastern (Chinese) Astrology Module
+│   ├── weton/            # (WIP) Eastern (Javanese) Astrology Module
 │   └── tarot/            # (WIP) Tarot Reading Module
 ├── api/                  # Serverless entry points (Vercel)
 └── vercel.json           # Serverless configuration
@@ -70,28 +74,37 @@ Pastikan Anda telah menginstal **Python 3.9+**.
 
 1. **Clone repository ini:**
    ```bash
-   git clone https://github.com/username/zodiac-z.git
-   cd zodiac-z
+   git clone https://github.com/username/peace-oracle.git
+   cd peace-oracle
    ```
 
 2. **Buat Virtual Environment (Opsional tapi disarankan):**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # Untuk Linux/Mac
+   source venv/bin/activate  # Linux/Mac
    # atau
-   venv\Scripts\activate     # Untuk Windows
+   venv\Scripts\activate     # Windows
    ```
 
-3. **Install Dependensi:**
+3. **Konfigurasi Environment (`.env`):**
+   Aplikasi ini dijamin keamanannya secara dinamis. Buat file `.env` di direktori utama dan tambahkan (minimal):
+   ```env
+   FLASK_ENV=development
+   FLASK_DEBUG=True
+   SECRET_KEY=isi_dengan_teks_acak_rahasia
+   # Konfigurasi MYSQL_HOST, DB, dll ditambahkan jika menggunakan database
+   ```
+
+4. **Install Dependensi:**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Jalankan Aplikasi:**
+5. **Jalankan Aplikasi:**
    ```bash
    python app.py
    # ATAU menggunakan Flask CLI:
-   # flask --app app.py run --debug
+   # flask --app app.py run
    ```
    > Aplikasi akan berjalan di `http://127.0.0.1:5000/`
 
@@ -110,5 +123,5 @@ Proyek ini sudah dikonfigurasi sepenuhnya agar berjalan lancar sebagai **Serverl
 ---
 
 <div align="center">
-  <p><b>Peace Oracle</b> • Dibuat dengan ❤️ dan debu kosmik.</p>
+  <p><b>Peace Oracle</b> • Dibuat dengan ❤️, <i>overthinking</i> tengah malam, dan sedikit paksaan dari Merkurius Retrograde.</p>
 </div>

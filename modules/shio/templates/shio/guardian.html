@@ -79,19 +79,12 @@ Oracle{% endblock %} {% block extra_css %}
       <div class="fortune-card hidden" id="main-fortune-card">
         <h2 id="res-title" class="res-title">...</h2>
         <div class="res-body">
-          <div style="text-align: center; margin-bottom: 20px">
+          <div class="guardian-image-container">
             <img
               id="res-guardian-icon"
+              class="guardian-icon-img"
               src=""
               alt="Guardian Icon"
-              style="
-                width: 150px;
-                height: 150px;
-                border-radius: 50%;
-                box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-                object-fit: cover;
-                border: 2px solid #ffd700;
-              "
             />
           </div>
           <p id="res-guardian-desc" class="res-fortune"></p>
@@ -112,7 +105,7 @@ Oracle{% endblock %} {% block extra_css %}
             </p>
           </div>
           <div class="fortune-categories">
-            <div class="category-box" style="grid-column: 1 / -1">
+            <div class="category-box guardian-category-full">
               <h3>
                 <i class="fa-solid fa-shield-halved"></i> Nasihat Perlindungan
               </h3>
@@ -126,13 +119,7 @@ Oracle{% endblock %} {% block extra_css %}
               <h3><i class="fa-solid fa-yin-yang"></i> Tips Feng Shui</h3>
               <ul
                 id="res-feng-shui"
-                style="
-                  margin: 0;
-                  padding-left: 20px;
-                  font-size: 0.95rem;
-                  opacity: 0.9;
-                  line-height: 1.5;
-                "
+                class="guardian-feng-shui-list"
               ></ul>
             </div>
           </div>

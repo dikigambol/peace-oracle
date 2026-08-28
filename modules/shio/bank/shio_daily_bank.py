@@ -1,4 +1,4 @@
-DAILY_CIONG_MESSAGES = [
+DAILY_CHONG_MESSAGES = [
     "Hari ini energi kosmik berbenturan denganmu. Hindari mengambil keputusan finansial besar atau menandatangani kontrak.",
     "Energi bertentangan sedang melingkupimu. Lebih baik tunda rapat penting atau negosiasi besar jika memungkinkan.",
     "Hari yang penuh drama potensial. Tarik napas dalam-dalam sebelum membalas chat yang bikin kesel.",
@@ -64,7 +64,7 @@ DAILY_LIU_HE_MESSAGES = [
     "Hari yang diberkati penuh! Energi Liu He ini hanya datang beberapa kali sebulan — manfaatkan sebaik mungkin.",
     "Semesta sedang tersenyum padamu. Apapun yang membuatmu cemas belakangan ini, hari ini kamu akan mendapat jawaban yang melegakan.",
 ]
-DAILY_WARNING_MESSAGES = [
+DAILY_XIANG_XING_MESSAGES = [
     "Ada sedikit friksi energi hari ini. Berhati-hatilah dalam berkomunikasi agar tidak memicu konflik.",
     "Gelombang ketegangan terasa samar tapi nyata. Pilih kata-katamu dengan hati-hati, terutama saat chatting.",
     "Energi hari ini membawa gesekan kecil yang bisa membesar kalau tidak diantisipasi. Stay cool!",
@@ -86,7 +86,7 @@ DAILY_WARNING_MESSAGES = [
     "Energi gesekan membuat hubungan asmara sedikit rawan baper. Jangan over-analyze chat gebetan hari ini.",
     "Ketegangan kecil ini akan berlalu. Hari ini cukup bertahan dan menjaga ketenangan — besok energinya jauh lebih baik.",
 ]
-DAILY_TAI_SUI_MESSAGES = [
+DAILY_BEN_MING_MESSAGES = [
     "Hari ini dikuasai oleh Shio milikmu. Energi sangat kuat namun bisa fluktuatif, tetaplah membumi.",
     "Ini hari cermin kosmikmu! Energi menguat tapi juga mengamplifikasi sisi negatifmu. Sadar diri adalah kuncinya.",
     "Tai Sui hari ini — kekuatanmu di puncak, tapi begitu juga kelemahanmu. Seimbangkan keduanya.",
@@ -108,7 +108,7 @@ DAILY_TAI_SUI_MESSAGES = [
     "Hari yang tepat untuk mengevaluasi goals dan arah hidupmu. Energi kosmik sedang menyorot 'panggung' pribadimu.",
     "Tai Sui mengingatkan: kamu lebih kuat dari yang kamu kira, tapi juga lebih rentan dari yang kamu akui. Jaga dirimu.",
 ]
-DAILY_NEUTRAL_MESSAGES = [
+DAILY_PING_MESSAGES = [
     "Energi kosmik hari ini cukup seimbang. Lakukan aktivitas rutinitasmu dengan pikiran tenang.",
     "Hari yang damai dan stabil. Tidak ada kejutan besar — nikmati ketenangan ini untuk recharge energimu.",
     "Energi netral berarti kamu punya kendali penuh atas harimu. Mau produktif atau santai, semua terserahmu.",

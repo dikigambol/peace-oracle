@@ -23,5 +23,12 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local scripts
+# Documentation & Local Resources
 README.md
+*.md
+modules/**/*.md
+
+# Databases & Quota Stores
+*.db
+*.sqlite
+ai_quota_store.json

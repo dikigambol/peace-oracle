@@ -115,7 +115,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "kuda": {
         "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
-        "guardian_icon": "💪",
+        "guardian_icon": "images/guardians/mahasthamaprapta.jpg",
         "guardian_desc": "Mahāsthāmaprāpta adalah Bodhisattva Kekuatan Agung yang cahayanya mampu menerangi seluruh alam semesta. Sebagai pelindung Shio Kuda yang aktif dan energik, beliau memberikan kekuatan yang terarah — mengajarkan bahwa energi yang terfokus jauh lebih dahsyat dari energi yang tersebar ke segala arah tanpa tujuan.",
         "guardian_element": "Api",
         "mantra": "Oṃ Vajrapāṇi Hūṃ (嗡 金剛手 吽)",
@@ -134,7 +134,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "kambing": {
         "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
-        "guardian_icon": "💪",
+        "guardian_icon": "images/guardians/mahasthamaprapta.jpg",
         "guardian_desc": "Kambing juga dilindungi oleh Mahāsthāmaprāpta, namun dengan sentuhan yang lebih lembut. Untuk Kambing yang tenang dan simpatik, Bodhisattva ini memberikan keberanian tersembunyi — kekuatan yang muncul justru saat dibutuhkan, seperti akar pohon yang tak terlihat namun menopang seluruh batang dengan kokoh.",
         "guardian_element": "Tanah",
         "mantra": "Oṃ Vajrapāṇi Hūṃ (嗡 金剛手 吽)",
@@ -153,7 +153,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "monyet": {
         "guardian_name": "Mahāvairocana (Dari Rulai / 大日如來)",
-        "guardian_icon": "☀️",
+        "guardian_icon": "images/guardians/mahavairocana.jpg",
         "guardian_desc": "Mahāvairocana adalah Buddha Kosmik yang merupakan sumber dari semua cahaya dan kebijaksanaan. Sebagai pelindung Shio Monyet yang cerdas dan inovatif, Mahāvairocana memberikan pencerahan yang mengarahkan kecerdasan pada tujuan mulia — mengajarkan bahwa kejeniusan tanpa kebijaksanaan moral hanyalah tipu daya yang merugikan diri sendiri.",
         "guardian_element": "Logam",
         "mantra": "Oṃ Vairocana Hūṃ (嗡 縛日囉 佐曩 吽)",
