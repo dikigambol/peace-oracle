@@ -54,13 +54,15 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("p-yinyang").textContent = data.yin_yang || "";
         document.getElementById("p-element").textContent =
           `Elemen: ${data.fixed_element || ""}`;
-        const traitsEl = document.getElementById("p-traits");
-        traitsEl.innerHTML = "";
+        const traitsPosEl = document.getElementById("p-traits-pos");
+        const traitsNegEl = document.getElementById("p-traits-neg");
+        traitsPosEl.innerHTML = "";
+        traitsNegEl.innerHTML = "";
         (data.traits_positive || []).forEach((t) => {
-          traitsEl.innerHTML += `<span class="trait-tag trait-positive">✦ ${t}</span>`;
+          traitsPosEl.innerHTML += `<span class="trait-tag trait-positive">${t}</span>`;
         });
         (data.traits_negative || []).forEach((t) => {
-          traitsEl.innerHTML += `<span class="trait-tag trait-negative">✧ ${t}</span>`;
+          traitsNegEl.innerHTML += `<span class="trait-tag trait-negative">${t}</span>`;
         });
         const persEl = document.getElementById("p-personality");
         persEl.innerHTML = "";

@@ -4,6 +4,7 @@
   rel="stylesheet"
   href="{{ url_for('shio.static', filename='css/shio.css') }}"
 />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/profile.css') }}" />
 <link
   href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
   rel="stylesheet"
@@ -89,7 +90,16 @@
         </div>
         <div class="profile-section">
           <h3><i class="fa-solid fa-star"></i> Sifat Karakter</h3>
-          <div class="traits-container" id="p-traits"></div>
+          <div class="traits-split">
+            <div class="traits-col">
+              <h4 class="traits-subtitle positive">Kelebihan</h4>
+              <div class="traits-container" id="p-traits-pos"></div>
+            </div>
+            <div class="traits-col">
+              <h4 class="traits-subtitle negative">Kekurangan</h4>
+              <div class="traits-container" id="p-traits-neg"></div>
+            </div>
+          </div>
         </div>
         <div class="profile-section">
           <h3><i class="fa-solid fa-scroll"></i> Kepribadian</h3>

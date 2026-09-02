@@ -1,0 +1,390 @@
+/* Container & Card */
+.profile-card {
+  background: linear-gradient(145deg, rgba(25, 5, 10, 0.8), rgba(10, 0, 5, 0.95));
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 24px;
+  padding: 40px;
+  margin-top: 30px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(255, 215, 0, 0.05);
+  animation: fadeIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.profile-icon {
+  font-size: 5.5rem;
+  display: block;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.5));
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.profile-icon:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.profile-hanzi {
+  font-size: 1.8rem;
+  font-family: "Cinzel", serif;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0.9;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.profile-name {
+  font-family: "Cinzel", serif;
+  font-size: 2.8rem;
+  color: #ffd700;
+  margin: 10px 0 15px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.profile-meta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.profile-meta .meta-tag {
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  color: #ffd700;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+.profile-meta .meta-tag:hover {
+  background: rgba(255, 215, 0, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.8);
+}
+
+/* Sections */
+.profile-section {
+  margin-bottom: 35px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 25px 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+.profile-section:hover {
+  background: rgba(20, 5, 10, 0.4);
+  border-color: rgba(255, 215, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+}
+
+.profile-section h3 {
+  font-family: "Cinzel", serif;
+  color: #ffd700;
+  font-size: 1.3rem;
+  margin-top: 0;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.profile-section h3::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.4), transparent);
+  margin-left: 10px;
+}
+.profile-section h3 i {
+  color: #ff8c00;
+  font-size: 1.1em;
+  text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
+}
+
+.profile-section p,
+.profile-section li {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1rem;
+  line-height: 1.8;
+  font-weight: 300;
+}
+.profile-section p:last-child,
+.profile-section ul:last-child {
+  margin-bottom: 0;
+}
+.profile-section ul {
+  padding-left: 20px;
+  margin: 0;
+}
+.profile-section li {
+  margin-bottom: 10px;
+}
+.profile-section li:last-child {
+  margin-bottom: 0;
+}
+
+/* Split Traits */
+.traits-split {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.traits-subtitle {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.traits-subtitle.positive {
+  color: #81c784;
+}
+.traits-subtitle.negative {
+  color: #e57373;
+}
+
+/* Traits Tags */
+.traits-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.trait-tag {
+  padding: 8px 18px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+.trait-tag::before {
+  content: "✦";
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.trait-positive {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.15), rgba(27, 94, 32, 0.3));
+  border: 1px solid rgba(129, 199, 132, 0.3);
+  color: #a5d6a7;
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.1);
+}
+.trait-positive:hover {
+  background: linear-gradient(135deg, rgba(46, 125, 50, 0.25), rgba(27, 94, 32, 0.45));
+  border-color: rgba(129, 199, 132, 0.8);
+  color: #c8e6c9;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.2);
+}
+
+.trait-negative {
+  background: linear-gradient(135deg, rgba(198, 40, 40, 0.15), rgba(142, 0, 0, 0.3));
+  border: 1px solid rgba(229, 115, 115, 0.3);
+  color: #ef9a9a;
+  box-shadow: 0 4px 15px rgba(198, 40, 40, 0.1);
+}
+.trait-negative::before {
+  content: "✧";
+}
+.trait-negative:hover {
+  background: linear-gradient(135deg, rgba(198, 40, 40, 0.25), rgba(142, 0, 0, 0.45));
+  border-color: rgba(229, 115, 115, 0.8);
+  color: #ffcdd2;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(198, 40, 40, 0.2);
+}
+
+/* Green & Red Flags */
+.flag-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .flag-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.flag-box {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  padding: 20px 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.flag-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+.flag-box.green {
+  border-color: rgba(76, 175, 80, 0.2);
+  background: linear-gradient(135deg, rgba(27, 94, 32, 0.15), transparent);
+}
+.flag-box.green::before {
+  background: #4caf50;
+  box-shadow: 0 0 10px #4caf50;
+}
+.flag-box.green h4 {
+  color: #81c784;
+}
+.flag-box.red {
+  border-color: rgba(244, 67, 54, 0.2);
+  background: linear-gradient(135deg, rgba(183, 28, 28, 0.15), transparent);
+}
+.flag-box.red::before {
+  background: #f44336;
+  box-shadow: 0 0 10px #f44336;
+}
+.flag-box.red h4 {
+  color: #e57373;
+}
+
+.flag-box h4 {
+  margin: 0 0 15px;
+  font-size: 1.1rem;
+  font-family: "Cinzel", serif;
+  letter-spacing: 1px;
+}
+.flag-box li {
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+/* Lucky Items */
+.lucky-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+}
+.lucky-item {
+  background: linear-gradient(145deg, rgba(255, 215, 0, 0.08), rgba(255, 215, 0, 0.02));
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.lucky-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
+  background: linear-gradient(145deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+}
+.lucky-item .lucky-label {
+  font-size: 0.8rem;
+  color: #ff8c00;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.lucky-item .lucky-value {
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: bold;
+  font-family: "Cinzel", serif;
+}
+
+/* Alter Ego */
+.alter-ego-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+.alter-ego-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.alter-ego-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 10px 25px rgba(255, 215, 0, 0.2);
+  background: rgba(20, 5, 10, 0.5);
+}
+.alter-ego-card .ego-element {
+  font-size: 0.8rem;
+  color: #ff8c00;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+.alter-ego-card .ego-title {
+  font-size: 1.2rem;
+  color: #ffd700;
+  font-weight: 700;
+  margin: 5px 0 10px;
+  font-family: "Cinzel", serif;
+}
+.alter-ego-card .ego-desc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+}
+
+/* Famous Persons */
+.famous-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.famous-tag {
+  background: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.famous-tag:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.8);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
