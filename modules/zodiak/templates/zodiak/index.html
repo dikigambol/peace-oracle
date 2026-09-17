@@ -1,305 +1,257 @@
-{% extends 'base.html' %} {% block title %}Zodiak Peace - Ramalan Zodiak &
-Kecocokan Kosmik{% endblock %} {% block extra_css %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('zodiak.static', filename='css/style.css') }}"
-/>
-{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% block title %}Liber Fati - Ramalan Harian Oraculum Zodiacalis{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}?v=gothic-v2">
+{% endblock %}
+
+{% block content %}
 <div class="stars-bg"></div>
+
+<!-- Grand Gothic Oraculum Header -->
 <header class="app-header">
   <div class="header-container">
-    <h1 class="logo-title">
-      <i class="fa-solid fa-bahai logo-icon"></i>&nbsp;Zodiak Oracle
-    </h1>
+    <div class="gothic-brand">
+      <span class="gothic-sigil-mark">🜂</span>
+      <h1 class="logo-title">ORACULUM ZODIACALIS</h1>
+      <span class="gothic-subtitle">Grimoire Astrologi Esoteris &amp; Horoskop Okultisme</span>
+    </div>
   </div>
   <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item active"
-      ><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a
-    >
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"
-      ><i class="fa-solid fa-calculator"></i> Kecocokan</a
-    >
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"
-      ><i class="fa-solid fa-compass"></i> General</a
-    >
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"
-      ><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a
-    >
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item active"><span class="nav-sigil">I</span> Ramalan</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span> Keselarasan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><span class="nav-sigil">III</span> Arketipe</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Pengadilan Jiwa</a>
   </nav>
 </header>
+
 <main class="main-content">
-  <section class="portal-grid">
-    <div class="zodiac-selector-container">
-      <h2 class="section-title">
-        <i class="fa-solid fa-circle-half-stroke"></i> Pilih Zodiak Anda
-      </h2>
-      <div class="zodiac-grid" id="zodiac-grid">
-        <button class="zodiac-card" data-sign="aries">
-          <span class="zodiac-symbol">♈</span>
-          <h3 class="zodiac-name">Aries</h3>
-          <p class="zodiac-dates">21 Mar - 19 Apr</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="taurus">
-          <span class="zodiac-symbol">♉</span>
-          <h3 class="zodiac-name">Taurus</h3>
-          <p class="zodiac-dates">20 Apr - 20 Mei</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="gemini">
-          <span class="zodiac-symbol">♊</span>
-          <h3 class="zodiac-name">Gemini</h3>
-          <p class="zodiac-dates">21 Mei - 20 Jun</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="cancer">
-          <span class="zodiac-symbol">♋</span>
-          <h3 class="zodiac-name">Cancer</h3>
-          <p class="zodiac-dates">21 Jun - 22 Jul</p>
-          <span class="element-badge water">Air</span>
-        </button>
-        <button class="zodiac-card" data-sign="leo">
-          <span class="zodiac-symbol">♌</span>
-          <h3 class="zodiac-name">Leo</h3>
-          <p class="zodiac-dates">23 Jul - 22 Agu</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="virgo">
-          <span class="zodiac-symbol">♍</span>
-          <h3 class="zodiac-name">Virgo</h3>
-          <p class="zodiac-dates">23 Agu - 22 Sep</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="libra">
-          <span class="zodiac-symbol">♎</span>
-          <h3 class="zodiac-name">Libra</h3>
-          <p class="zodiac-dates">23 Sep - 22 Okt</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="scorpio">
-          <span class="zodiac-symbol">♏</span>
-          <h3 class="zodiac-name">Scorpio</h3>
-          <p class="zodiac-dates">23 Okt - 21 Nov</p>
-          <span class="element-badge water">Air</span>
-        </button>
-        <button
-          class="zodiac-card"
-          data-sign="sagittarius"
-        >
-          <span class="zodiac-symbol">♐</span>
-          <h3 class="zodiac-name">Sagittarius</h3>
-          <p class="zodiac-dates">22 Nov - 21 Des</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="capricorn">
-          <span class="zodiac-symbol">♑</span>
-          <h3 class="zodiac-name">Capricorn</h3>
-          <p class="zodiac-dates">22 Des - 19 Jan</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="aquarius">
-          <span class="zodiac-symbol">♒</span>
-          <h3 class="zodiac-name">Aquarius</h3>
-          <p class="zodiac-dates">20 Jan - 18 Feb</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="pisces">
-          <span class="zodiac-symbol">♓</span>
-          <h3 class="zodiac-name">Pisces</h3>
-          <p class="zodiac-dates">19 Feb - 20 Mar</p>
-          <span class="element-badge water">Air</span>
-        </button>
-      </div>
+  <!-- The Astrological Astrolabe Strip (No Cards, Pure Dial) -->
+  <div class="gothic-sigil-strip-wrapper" id="zodiac-grid">
+    <div class="strip-label-banner">
+      <span class="strip-label-text">Pilih Segel Falak Konstelasi</span>
     </div>
-    <div class="details-panel-container">
-      <div class="panel glass-panel" id="details-panel">
-        <div class="details-instruction" id="details-instruction">
-          <i class="fa-solid fa-moon cosmic-icon animated-float"></i>
-          <h3>Ramalan Kosmik Anda</h3>
-          <p>
-            Silakan pilih salah satu zodiak di sebelah kiri untuk melihat
-            ramalan harian, kecocokan elemen, planet pelindung, serta angka dan
-            warna keberuntungan Anda.
-          </p>
+    <div class="gothic-sigil-strip">
+      <button type="button" class="sigil-btn zodiac-card" data-sign="aries" title="Aries">
+        <span class="sigil-glyph" data-zodiac-icon="aries" data-icon-size="28"></span>
+        <span class="sigil-name">Aries</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="taurus" title="Taurus">
+        <span class="sigil-glyph" data-zodiac-icon="taurus" data-icon-size="28"></span>
+        <span class="sigil-name">Taurus</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="gemini" title="Gemini">
+        <span class="sigil-glyph" data-zodiac-icon="gemini" data-icon-size="28"></span>
+        <span class="sigil-name">Gemini</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="cancer" title="Cancer">
+        <span class="sigil-glyph" data-zodiac-icon="cancer" data-icon-size="28"></span>
+        <span class="sigil-name">Cancer</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="leo" title="Leo">
+        <span class="sigil-glyph" data-zodiac-icon="leo" data-icon-size="28"></span>
+        <span class="sigil-name">Leo</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="virgo" title="Virgo">
+        <span class="sigil-glyph" data-zodiac-icon="virgo" data-icon-size="28"></span>
+        <span class="sigil-name">Virgo</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="libra" title="Libra">
+        <span class="sigil-glyph" data-zodiac-icon="libra" data-icon-size="28"></span>
+        <span class="sigil-name">Libra</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="scorpio" title="Scorpio">
+        <span class="sigil-glyph" data-zodiac-icon="scorpio" data-icon-size="28"></span>
+        <span class="sigil-name">Scorpio</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="sagittarius" title="Sagittarius">
+        <span class="sigil-glyph" data-zodiac-icon="sagittarius" data-icon-size="28"></span>
+        <span class="sigil-name">Sagittarius</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="capricorn" title="Capricorn">
+        <span class="sigil-glyph" data-zodiac-icon="capricorn" data-icon-size="28"></span>
+        <span class="sigil-name">Capricorn</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="aquarius" title="Aquarius">
+        <span class="sigil-glyph" data-zodiac-icon="aquarius" data-icon-size="28"></span>
+        <span class="sigil-name">Aquarius</span>
+      </button>
+      <button type="button" class="sigil-btn zodiac-card" data-sign="pisces" title="Pisces">
+        <span class="sigil-glyph" data-zodiac-icon="pisces" data-icon-size="28"></span>
+        <span class="sigil-name">Pisces</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- The Grand Codex Folio (Centerstage Reading Tome) -->
+  <div class="details-panel-container">
+    <div class="grimoire-folio" id="details-panel">
+      <!-- Engraved Corner Filigrees -->
+      <div class="grimoire-filigree-corner tl">✦</div>
+      <div class="grimoire-filigree-corner tr">✦</div>
+      <div class="grimoire-filigree-corner bl">✦</div>
+      <div class="grimoire-filigree-corner br">✦</div>
+
+      <!-- Instruction Empty State -->
+      <div class="details-instruction gothic-details-empty" id="details-instruction">
+        <div class="gothic-occult-seal">
+          <span class="seal-glyph">☽ 🜂 ☾</span>
         </div>
-        <div class="details-loader hidden" id="details-loader">
-          <div class="cosmic-spinner-wrapper">
-            <i class="fa-solid fa-atom cosmic-spinner"></i>
-          </div>
-          <p class="loader-text">Menatap Bintang & Membaca Rasi Kosmik...</p>
+        <h2 class="gothic-panel-title">Kitab Falak Belum Disingkap</h2>
+        <p class="gothic-panel-desc">
+          Pilih salah satu segel zodiak pada dial falak di atas untuk membaca sabda bintang dan pergerakan nasib hari ini.
+        </p>
+      </div>
+
+      <!-- Loader State -->
+      <div class="details-loader hidden gothic-details-loader" id="details-loader">
+        <div class="gothic-rune-spinner">🜂</div>
+        <p class="loader-text gothic-loader-text">Menyelaraskan Garis Falak &amp; Membaca Takdir...</p>
+      </div>
+
+      <!-- Content State -->
+      <div class="details-content hidden" id="details-content">
+        <!-- Rubric Top Banner -->
+        <div class="grimoire-header-badge">
+          <span class="grimoire-numeral">LIBER FATI • CAPITULUM ASTRALIS</span>
         </div>
-        <div class="details-content hidden" id="details-content">
-          <button class="btn-back-grid" id="btn-back-grid-index">
-            <i class="fa-solid fa-arrow-left"></i> Pilih Zodiak Lain
-          </button>
-          <div class="details-header">
-            <span class="details-symbol" id="details-symbol">♈</span>
-            <div class="details-title-wrapper">
-              <h3 class="details-name" id="details-name">Aries</h3>
-              <p class="details-dates" id="details-dates">
-                21 Maret - 19 April
-              </p>
-            </div>
-            <span class="details-element-badge fire" id="details-element-badge"
-              >Api</span
-            >
-          </div>
-          <hr class="separator" />
-          <div class="info-grid">
-            <div class="info-box">
-              <span class="info-label"
-                ><i class="fa-solid fa-globe"></i> Planet Pelindung</span
-              >
-              <span class="info-value" id="details-ruler">Mars</span>
-            </div>
-            <div class="info-box">
-              <span class="info-label"
-                ><i class="fa-solid fa-star"></i> Angka Hoki</span
-              >
-              <span class="info-value" id="details-lucky-number">9</span>
-            </div>
-            <div class="info-box">
-              <span class="info-label"
-                ><i class="fa-solid fa-palette"></i> Warna Hoki</span
-              >
-              <span class="info-value" id="details-lucky-color">Merah</span>
+
+        <!-- Heading: Symbol, Name, Planetary Ruler -->
+        <div class="details-header">
+          <div class="details-title-container">
+            <div class="details-symbol" id="details-symbol"></div>
+            <div>
+              <h2 class="details-name" id="details-name">Nama Zodiak</h2>
+              <p class="details-dates" id="details-dates">Rentang Tanggal</p>
             </div>
           </div>
-          <div class="cosmic-context-panel">
-            <div class="cosmic-item" id="cosmic-date">
-              <i class="fa-solid fa-calendar-day"></i>
-              <span id="cosmic-date-text">Memuat...</span>
+          <div class="details-meta-right">
+            <span class="details-element-badge element-badge" id="details-element-badge">Elemen</span>
+            <div class="ruler-info">Penguasa Planet: <strong id="details-ruler">Mars</strong></div>
+          </div>
+        </div>
+
+        <!-- Lead Prophetic Summary -->
+        <p class="manuscript-lead-quote" id="details-summary">Ringkasan ramalan kosmik...</p>
+
+        <!-- Two-Column Codex Spread -->
+        <div class="codex-two-columns">
+          <!-- Left Folio Column: Narrative & Virtues -->
+          <div class="codex-column-left">
+            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Garis Asmara &amp; Hubungan Jiwa</h3>
+            <p class="gothic-narrative-text" id="genz-love-text">Pembacaan asmara...</p>
+
+            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Takdir Karir &amp; Ambisi Duniawi</h3>
+            <p class="gothic-narrative-text" id="genz-career-text">Pembacaan karir...</p>
+
+            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Vitalitas Raga &amp; Ketenangan Batin</h3>
+            <p class="gothic-narrative-text" id="genz-health-text">Pembacaan kesehatan...</p>
+
+            <hr class="separator" />
+
+            <div class="gothic-tags-block">
+              <span class="gothic-tag-label"><span class="sigil-bullet">🜚</span> Keutamaan Falak (Kekuatan)</span>
+              <div class="tags-container" id="strengths-tags"></div>
             </div>
-            <div class="cosmic-item" id="cosmic-moon">
-              <span id="cosmic-moon-emoji">🌙</span>
-              <span id="cosmic-moon-text">Memuat fase bulan...</span>
-            </div>
-            <div class="cosmic-item" id="cosmic-ruler">
-              <i class="fa-solid fa-planet-ringed"></i>
-              <span id="cosmic-ruler-text">Memuat status planet...</span>
-            </div>
-            <div class="cosmic-item" id="cosmic-weather">
-              <i class="fa-solid fa-cloud-sun"></i>
-              <span id="cosmic-weather-text">Memuat cuaca...</span>
+
+            <div class="gothic-tags-block">
+              <span class="gothic-tag-label"><span class="sigil-bullet">🜏</span> Kerentanan Jiwa (Kelemahan)</span>
+              <div class="tags-container" id="weaknesses-tags"></div>
             </div>
           </div>
-          <div class="forecast-section">
-            <h4><i class="fa-solid fa-quote-left"></i> Vibe Kosmik Hari Ini</h4>
-            <p class="forecast-text" id="details-summary">
-              Hari ini Anda akan merasakan energi...
-            </p>
-          </div>
-          <div class="music-card">
-            <div class="music-card-header">
-              <div class="music-card-badge">
-                <i class="fa-solid fa-compact-disc"></i>
-                <span>Musik Vibe Kosmik Hari Ini</span>
-              </div>
-              <span class="music-genre-badge" id="music-genre"
-                >🔥 Pop Rock</span
-              >
-            </div>
-            <div class="music-card-body">
-              <div class="music-info-main">
-                <div class="music-icon-avatar">
-                  <i class="fa-solid fa-music"></i>
+
+          <!-- Right Folio Column: Calibrated Gauges & Cosmic Ephemeris -->
+          <div class="codex-column-right">
+            <!-- Brass Rating Bars -->
+            <div class="gothic-ratings-box">
+              <h4 class="codex-section-heading"><span class="sigil-bullet">✦</span> Matriks Resonansi Bintang</h4>
+
+              <div class="stat-row">
+                <div class="stat-header">
+                  <span>Energi Asmara</span>
+                  <span class="stat-percentage" id="love-percent">0%</span>
                 </div>
-                <div class="music-details">
-                  <h4 class="music-title" id="music-title">Judul Lagu</h4>
-                  <p class="music-artist" id="music-artist">Nama Penyanyi</p>
+                <div class="progress-bar-container">
+                  <div class="progress-bar love-bar" id="love-bar"></div>
                 </div>
               </div>
-              <p class="music-vibe-reason" id="music-vibe-reason">
-                Alasan mengapa lagu ini cocok dengan energi kosmik zodiak Anda
-                hari ini.
-              </p>
+
+              <div class="stat-row">
+                <div class="stat-header">
+                  <span>Arus Karir</span>
+                  <span class="stat-percentage" id="career-percent">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar career-bar" id="career-bar"></div>
+                </div>
+              </div>
+
+              <div class="stat-row">
+                <div class="stat-header">
+                  <span>Vitalitas Hayat</span>
+                  <span class="stat-percentage" id="health-percent">0%</span>
+                </div>
+                <div class="progress-bar-container">
+                  <div class="progress-bar health-bar" id="health-bar"></div>
+                </div>
+              </div>
             </div>
-            <div class="music-card-footer">
-              <a
-                id="music-youtube-btn"
-                href="#"
-                target="_blank"
-                rel="noopener"
-                class="youtube-action-btn"
-              >
-                <i class="fa-brands fa-youtube"></i>
-                <span>Putar Musik di YouTube Music</span>
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+            <!-- Cosmic Context Ephemeris -->
+            <div class="cosmic-context-panel">
+              <h4 class="cosmic-context-title"><span class="sigil-bullet">✦</span> Efemeris Hari Ini</h4>
+              <p class="ruler-info" id="cosmic-date-text" style="margin-bottom: 0.85rem;">Ramalan Hari Ini</p>
+
+              <div class="info-grid">
+                <div class="info-box">
+                  <div class="info-icon" id="cosmic-moon-emoji">🌑</div>
+                  <span class="info-label">Fase Bulan</span>
+                  <div class="info-val" id="cosmic-moon-text">Bulan Baru</div>
+                </div>
+                <div class="info-box" id="cosmic-ruler">
+                  <div class="info-icon"><i class="fa-solid fa-planet-ringed"></i></div>
+                  <span class="info-label">Status Planet</span>
+                  <div class="info-val" id="cosmic-ruler-text">Langsung</div>
+                </div>
+                <div class="info-box">
+                  <div class="info-icon"><i class="fa-solid fa-cloud-sun"></i></div>
+                  <span class="info-label">Hawa Kosmik</span>
+                  <div class="info-val" id="cosmic-weather-text">Tenang</div>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.25rem; display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--ink-muted);">
+                <div>Angka Sakral: <strong id="details-lucky-number" style="color: var(--gold-foil);">7</strong></div>
+                <div>Warna Alkimia: <strong id="details-lucky-color" style="color: var(--gold-foil);">Emas</strong></div>
+              </div>
+            </div>
+
+            <!-- Celestial Hymn -->
+            <div class="music-track-card">
+              <div>
+                <div class="music-genre" id="music-genre">Hymn Kosmik</div>
+                <div class="music-title" id="music-title">Lagu Pengiring Jiwa</div>
+                <div class="music-artist" id="music-artist">Musisi Bintang</div>
+                <div style="font-size: 0.8rem; color: var(--ink-muted); font-style: italic; margin-top: 0.25rem;" id="music-vibe-reason"></div>
+              </div>
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn-youtube" id="music-youtube-btn">
+                Dengarkan <span class="sigil-bullet">▶</span>
               </a>
             </div>
           </div>
-          <div class="genz-vibes-container">
-            <div class="genz-card genz-love">
-              <div class="genz-header">
-                <i class="fa-solid fa-heart"></i> Vibe Cinta
-              </div>
-              <p class="genz-text" id="genz-love-text">Memuat vibe cinta...</p>
-            </div>
-            <div class="genz-card genz-career">
-              <div class="genz-header">
-                <i class="fa-solid fa-fire-flame-curved"></i> Work & Hustle Vibe
-              </div>
-              <p class="genz-text" id="genz-career-text">
-                Memuat vibe karir...
-              </p>
-            </div>
-            <div class="genz-card genz-health">
-              <div class="genz-header">
-                <i class="fa-solid fa-leaf"></i> Health & Inner Peace
-              </div>
-              <p class="genz-text" id="genz-health-text">
-                Memuat vibe kesehatan...
-              </p>
-            </div>
-          </div>
-          <div class="stats-section">
-            <h4><i class="fa-solid fa-chart-bar"></i> Energi Harian</h4>
-            <div class="stat-row">
-              <div class="stat-header">
-                <span>Cinta</span>
-                <span class="stat-percentage" id="love-percent">0%</span>
-              </div>
-              <div class="progress-bar-container">
-                <div class="progress-bar love-bar" id="love-bar"></div>
-              </div>
-            </div>
-            <div class="stat-row">
-              <div class="stat-header">
-                <span>Karir</span>
-                <span class="stat-percentage" id="career-percent">0%</span>
-              </div>
-              <div class="progress-bar-container">
-                <div class="progress-bar career-bar" id="career-bar"></div>
-              </div>
-            </div>
-            <div class="stat-row">
-              <div class="stat-header">
-                <span>Kesehatan</span>
-                <span class="stat-percentage" id="health-percent">0%</span>
-              </div>
-              <div class="progress-bar-container">
-                <div class="progress-bar health-bar" id="health-bar"></div>
-              </div>
-            </div>
-          </div>
-          <div class="traits-section">
-            <div class="trait-block">
-              <h5>Kelebihan</h5>
-              <div class="trait-tags" id="strengths-tags"></div>
-            </div>
-            <div class="trait-block">
-              <h5>Kelemahan</h5>
-              <div class="trait-tags" id="weaknesses-tags"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </main>
+
 <footer class="app-footer">
-  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
+  <div class="footer-sigil">✦ 🜂 ✦</div>
+  <p>&copy; 2026 Oraculum Zodiacalis. Termaktub dalam hukum rahasia bintang.</p>
 </footer>
-{% endblock %} {% block extra_js %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('zodiak.static', filename='js/zodiac-icons.js') }}"></script>
 <script src="{{ url_for('zodiak.static', filename='js/script.js') }}"></script>
 {% endblock %}

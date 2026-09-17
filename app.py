@@ -10,6 +10,8 @@ from modules.weton.routes import weton_bp
 from modules.tarot.routes import tarot_bp
 
 app = Flask(__name__, template_folder="core/templates", static_folder="core/static")
+app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', secrets.token_hex(32))
 

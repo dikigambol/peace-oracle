@@ -148,13 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const offsetValue = circumference - (circumference * score) / 100;
         resultCircle.style.strokeDashoffset = offsetValue;
         if (score >= 85) {
-          resultCircle.style.stroke = "#10b981";
+          resultCircle.style.stroke = "#c5a059";
         } else if (score >= 70) {
-          resultCircle.style.stroke = "#3b82f6";
+          resultCircle.style.stroke = "#e6ca65";
         } else if (score >= 55) {
-          resultCircle.style.stroke = "#f59e0b";
+          resultCircle.style.stroke = "#b45309";
         } else {
-          resultCircle.style.stroke = "#ef4444";
+          resultCircle.style.stroke = "#881337";
         }
       }, 50);
     }

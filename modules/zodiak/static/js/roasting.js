@@ -128,7 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
     contentPanel.classList.remove("hidden");
     if (pairCardPanel) pairCardPanel.classList.remove("hidden");
     const roast = data.roast;
-    if (symbolEl) symbolEl.innerText = symbols[signKey] || "✨";
+    if (symbolEl) {
+      if (typeof window.getZodiacSvg === "function") {
+        symbolEl.innerHTML = window.getZodiacSvg(signKey, 64);
+      } else {
+        symbolEl.innerText = symbols[signKey] || "";
+      }
+    }
     if (nameEl) nameEl.innerText = data.name;
     if (datesEl) datesEl.innerText = data.date_range;
     if (pairSignANameEl) pairSignANameEl.innerText = data.name;

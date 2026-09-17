@@ -135,8 +135,11 @@ document.addEventListener("DOMContentLoaded", () => {
       pisces: "♓",
     };
     const signKey = data.name.toLowerCase();
-    document.getElementById("details-symbol").innerText =
-      symbols[signKey] || "✨";
+    if (typeof window.getZodiacSvg === "function") {
+      document.getElementById("details-symbol").innerHTML = window.getZodiacSvg(signKey, 64);
+    } else {
+      document.getElementById("details-symbol").innerText = symbols[signKey] || "";
+    }
     const elementClasses = {
       api: "fire",
       tanah: "earth",
