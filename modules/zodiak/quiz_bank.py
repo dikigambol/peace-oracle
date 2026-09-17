@@ -1,5 +1,5 @@
 import json
-import requests, os
+import requests
 from .horoscope_bank import get_openrouter_api_key
 from .ai_limiter import increment_ai_quota
 

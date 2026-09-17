@@ -46,7 +46,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const resTitle = document.getElementById("res-title");
         if (resTitle) {
           resTitle.textContent = data.guardian_name;
-          resTitle.style.color = "#ffd700";
         }
         const staticBaseUrl = document
           .querySelector('link[href*="shio.css"]')
@@ -79,11 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
           data.sacred_direction;
         const resultCard = document.getElementById("main-fortune-card");
         resultCard.classList.remove("hidden");
-        setTimeout(
-          () =>
-            resultCard.scrollIntoView({ behavior: "smooth", block: "start" }),
-          100,
-        );
+        setTimeout(() => resultCard.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
       })
       .catch((err) => {
         console.error("Gagal mendapatkan data penjaga:", err);

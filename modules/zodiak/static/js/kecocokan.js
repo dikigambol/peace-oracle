@@ -1,4 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const escapeHtml = (value) =>
+    String(value ?? "").replace(
+      /[&<>"']/g,
+      (ch) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[ch],
+    );
   const btnCalc = document.getElementById("btn-calculate-compatibility-large");
   const quickViz = document.getElementById("quick-viz");
   const resultCircle = document.getElementById("result-svg-circle-large");
@@ -567,20 +579,20 @@ document.addEventListener("DOMContentLoaded", () => {
         row.className = `breakdown-item ${item.is_match ? "match" : "unique"}`;
         row.innerHTML = `
                     <div class="breakdown-item-header">
-                        <span class="breakdown-q-num">Pertanyaan #${idx + 1} (${item.category})</span>
+                        <span class="breakdown-q-num">Pertanyaan #${idx + 1} (${escapeHtml(item.category)})</span>
                         <span class="breakdown-status-badge ${item.is_match ? "match" : "unique"}">
                             ${item.is_match ? "✨ Match!" : "💡 Unik"}
                         </span>
                     </div>
-                    <p class="breakdown-q-title">${item.question}</p>
+                    <p class="breakdown-q-title">${escapeHtml(item.question)}</p>
                     <div class="breakdown-answers-grid">
                         <div class="ans-box host">
-                            <span class="ans-user">${data.host_name}:</span>
-                            <span class="ans-text">${item.host_answer}</span>
+                            <span class="ans-user">${escapeHtml(data.host_name)}:</span>
+                            <span class="ans-text">${escapeHtml(item.host_answer)}</span>
                         </div>
                         <div class="ans-box partner">
-                            <span class="ans-user">${data.partner_name}:</span>
-                            <span class="ans-text">${item.partner_answer}</span>
+                            <span class="ans-user">${escapeHtml(data.partner_name)}:</span>
+                            <span class="ans-text">${escapeHtml(item.partner_answer)}</span>
                         </div>
                     </div>
                 `;

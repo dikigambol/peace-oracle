@@ -1,15 +1,12 @@
-{% extends 'base.html' %} {% block title %}Timbangan Jodoh Kosmik - Peace
-Oracle{% endblock %} {% block extra_css %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('shio.static', filename='css/shio.css') }}"
-/>
+{% extends 'base.html' %}
+{% block title %}Timbangan Jodoh Kosmik - Peace
+Oracle{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/compatibility.css') }}" />
-<link
-  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
-  rel="stylesheet"
-/>
-{% endblock %} {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+{% endblock %}
+{% block content %}
 <div class="shio-container" id="shio-bg">
   <canvas id="particle-canvas"></canvas>
   <div class="shio-content-wrapper">
@@ -29,60 +26,46 @@ Oracle{% endblock %} {% block extra_css %}
       Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai
       <i>inner peace</i>.
     </p>
-    <a href="{{ url_for('shio.shio_index') }}" class="back-btn"
-      ><i class="fa-solid fa-arrow-left"></i> Kembali</a
-    >
+    <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
     <div class="compat-form">
       <div class="compat-picker" id="picker-1">
         <label>Shio Pertama</label>
         <div class="shio-select-grid">
           <div class="shio-pick" data-shio="tikus">
-            <span class="pick-icon hanzi">鼠</span
-            ><span class="pick-name">Tikus</span>
+            <span class="pick-icon hanzi">鼠</span><span class="pick-name">Tikus</span>
           </div>
           <div class="shio-pick" data-shio="kerbau">
-            <span class="pick-icon hanzi">牛</span
-            ><span class="pick-name">Kerbau</span>
+            <span class="pick-icon hanzi">牛</span><span class="pick-name">Kerbau</span>
           </div>
           <div class="shio-pick" data-shio="macan">
-            <span class="pick-icon hanzi">虎</span
-            ><span class="pick-name">Macan</span>
+            <span class="pick-icon hanzi">虎</span><span class="pick-name">Macan</span>
           </div>
           <div class="shio-pick" data-shio="kelinci">
-            <span class="pick-icon hanzi">兔</span
-            ><span class="pick-name">Kelinci</span>
+            <span class="pick-icon hanzi">兔</span><span class="pick-name">Kelinci</span>
           </div>
           <div class="shio-pick" data-shio="naga">
-            <span class="pick-icon hanzi">龍</span
-            ><span class="pick-name">Naga</span>
+            <span class="pick-icon hanzi">龍</span><span class="pick-name">Naga</span>
           </div>
           <div class="shio-pick" data-shio="ular">
-            <span class="pick-icon hanzi">蛇</span
-            ><span class="pick-name">Ular</span>
+            <span class="pick-icon hanzi">蛇</span><span class="pick-name">Ular</span>
           </div>
           <div class="shio-pick" data-shio="kuda">
-            <span class="pick-icon hanzi">馬</span
-            ><span class="pick-name">Kuda</span>
+            <span class="pick-icon hanzi">馬</span><span class="pick-name">Kuda</span>
           </div>
           <div class="shio-pick" data-shio="kambing">
-            <span class="pick-icon hanzi">羊</span
-            ><span class="pick-name">Kambing</span>
+            <span class="pick-icon hanzi">羊</span><span class="pick-name">Kambing</span>
           </div>
           <div class="shio-pick" data-shio="monyet">
-            <span class="pick-icon hanzi">猴</span
-            ><span class="pick-name">Monyet</span>
+            <span class="pick-icon hanzi">猴</span><span class="pick-name">Monyet</span>
           </div>
           <div class="shio-pick" data-shio="ayam">
-            <span class="pick-icon hanzi">雞</span
-            ><span class="pick-name">Ayam</span>
+            <span class="pick-icon hanzi">雞</span><span class="pick-name">Ayam</span>
           </div>
           <div class="shio-pick" data-shio="anjing">
-            <span class="pick-icon hanzi">狗</span
-            ><span class="pick-name">Anjing</span>
+            <span class="pick-icon hanzi">狗</span><span class="pick-name">Anjing</span>
           </div>
           <div class="shio-pick" data-shio="babi">
-            <span class="pick-icon hanzi">豬</span
-            ><span class="pick-name">Babi</span>
+            <span class="pick-icon hanzi">豬</span><span class="pick-name">Babi</span>
           </div>
         </div>
       </div>
@@ -93,52 +76,40 @@ Oracle{% endblock %} {% block extra_css %}
         <label>Shio Kedua</label>
         <div class="shio-select-grid">
           <div class="shio-pick" data-shio="tikus">
-            <span class="pick-icon hanzi">鼠</span
-            ><span class="pick-name">Tikus</span>
+            <span class="pick-icon hanzi">鼠</span><span class="pick-name">Tikus</span>
           </div>
           <div class="shio-pick" data-shio="kerbau">
-            <span class="pick-icon hanzi">牛</span
-            ><span class="pick-name">Kerbau</span>
+            <span class="pick-icon hanzi">牛</span><span class="pick-name">Kerbau</span>
           </div>
           <div class="shio-pick" data-shio="macan">
-            <span class="pick-icon hanzi">虎</span
-            ><span class="pick-name">Macan</span>
+            <span class="pick-icon hanzi">虎</span><span class="pick-name">Macan</span>
           </div>
           <div class="shio-pick" data-shio="kelinci">
-            <span class="pick-icon hanzi">兔</span
-            ><span class="pick-name">Kelinci</span>
+            <span class="pick-icon hanzi">兔</span><span class="pick-name">Kelinci</span>
           </div>
           <div class="shio-pick" data-shio="naga">
-            <span class="pick-icon hanzi">龍</span
-            ><span class="pick-name">Naga</span>
+            <span class="pick-icon hanzi">龍</span><span class="pick-name">Naga</span>
           </div>
           <div class="shio-pick" data-shio="ular">
-            <span class="pick-icon hanzi">蛇</span
-            ><span class="pick-name">Ular</span>
+            <span class="pick-icon hanzi">蛇</span><span class="pick-name">Ular</span>
           </div>
           <div class="shio-pick" data-shio="kuda">
-            <span class="pick-icon hanzi">馬</span
-            ><span class="pick-name">Kuda</span>
+            <span class="pick-icon hanzi">馬</span><span class="pick-name">Kuda</span>
           </div>
           <div class="shio-pick" data-shio="kambing">
-            <span class="pick-icon hanzi">羊</span
-            ><span class="pick-name">Kambing</span>
+            <span class="pick-icon hanzi">羊</span><span class="pick-name">Kambing</span>
           </div>
           <div class="shio-pick" data-shio="monyet">
-            <span class="pick-icon hanzi">猴</span
-            ><span class="pick-name">Monyet</span>
+            <span class="pick-icon hanzi">猴</span><span class="pick-name">Monyet</span>
           </div>
           <div class="shio-pick" data-shio="ayam">
-            <span class="pick-icon hanzi">雞</span
-            ><span class="pick-name">Ayam</span>
+            <span class="pick-icon hanzi">雞</span><span class="pick-name">Ayam</span>
           </div>
           <div class="shio-pick" data-shio="anjing">
-            <span class="pick-icon hanzi">狗</span
-            ><span class="pick-name">Anjing</span>
+            <span class="pick-icon hanzi">狗</span><span class="pick-name">Anjing</span>
           </div>
           <div class="shio-pick" data-shio="babi">
-            <span class="pick-icon hanzi">豬</span
-            ><span class="pick-name">Babi</span>
+            <span class="pick-icon hanzi">豬</span><span class="pick-name">Babi</span>
           </div>
         </div>
       </div>
@@ -188,6 +159,7 @@ Oracle{% endblock %} {% block extra_css %}
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_js %}
+{% endblock %}
+{% block extra_js %}
 <script src="{{ url_for('shio.static', filename='js/compatibility.js') }}"></script>
 {% endblock %}

@@ -1,5 +1,17 @@
 from flask import Blueprint, render_template, jsonify, request
-from .data import *
+from .data import (
+    ELEMENT_COMPATIBILITY,
+    GENERAL_CHARACTERISTICS,
+    ZODIAC_DATA,
+    determine_zodiac,
+    generate_dynamic_ratings,
+    get_ai_compatibility_modes,
+    get_ai_relationship_roast,
+    get_ai_roast,
+    get_cosmic_context,
+    get_daily_horoscope,
+    get_daily_youtube_track,
+)
 
 zodiak_bp = Blueprint(
     "zodiak",

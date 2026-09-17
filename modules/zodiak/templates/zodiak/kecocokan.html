@@ -8,7 +8,7 @@ Kosmik{% endblock %} {% block extra_css %}
 <div class="stars-bg"></div>
 <header class="app-header">
   <div class="header-container">
-    <h1 class="logo-title" id="logo-title">
+    <h1 class="logo-title">
       <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
     </h1>
   </div>
@@ -218,9 +218,8 @@ Kosmik{% endblock %} {% block extra_css %}
               </div>
               <div class="progress-bar-container">
                 <div
-                  class="progress-bar love-bar"
+                  class="progress-bar future-bar"
                   id="param-future-bar"
-                  style="background: linear-gradient(90deg, #a78bfa, #c084fc)"
                 ></div>
               </div>
             </div>
@@ -290,7 +289,7 @@ Kosmik{% endblock %} {% block extra_css %}
               <i class="fa-solid fa-hashtag field-icon"></i>
             </div>
           </div>
-          <div class="form-row-2" style="margin-top: 15px">
+          <div class="form-row-2 quiz-form-gap">
             <div class="form-field">
               <label for="quiz-input-name"
                 ><i class="fa-solid fa-user-large"></i> Nama Panggilan
@@ -342,9 +341,8 @@ Kosmik{% endblock %} {% block extra_css %}
           </div>
           <div class="quiz-progress-track">
             <div
-              class="quiz-progress-fill"
+              class="quiz-progress-fill quiz-fill-start"
               id="quiz-progress-fill"
-              style="width: 10%"
             ></div>
           </div>
         </div>
@@ -365,14 +363,13 @@ Kosmik{% endblock %} {% block extra_css %}
         </div>
       </div>
       <div class="quiz-step hidden" id="quiz-step-loader">
-        <div class="waiting-box" style="padding: 40px 20px">
+        <div class="waiting-box quiz-waiting-lg">
           <div class="pulse-heart-wrapper">
             <i
-              class="fa-solid fa-atom cosmic-spinner"
-              style="font-size: 3.5rem; color: #ec4899"
+              class="fa-solid fa-atom cosmic-spinner quiz-loader-icon"
             ></i>
           </div>
-          <h3 class="waiting-title" style="margin-top: 15px">
+          <h3 class="waiting-title quiz-waiting-title-gap">
             Menyimpan Jawaban &amp; Menganalisis...
           </h3>
           <p class="waiting-desc" id="quiz-loader-desc">
@@ -380,23 +377,10 @@ Kosmik{% endblock %} {% block extra_css %}
             jawaban &amp; menyusun ulasan chemistry pasangan kalian ✨
           </p>
           <div
-            class="quiz-progress-track"
-            style="
-              margin: 25px auto 10px;
-              max-width: 260px;
-              height: 8px;
-              border-radius: 10px;
-              overflow: hidden;
-              background: rgba(255, 255, 255, 0.1);
-            "
+            class="quiz-progress-track quiz-loader-track"
           >
             <div
-              class="quiz-progress-fill"
-              style="
-                width: 100%;
-                background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
-                animation: pulse 1.5s infinite ease-in-out;
-              "
+              class="quiz-progress-fill quiz-loader-fill"
             ></div>
           </div>
         </div>

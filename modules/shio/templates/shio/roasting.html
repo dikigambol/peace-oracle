@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Pilih Penjaga Spiritual - Peace
-Oracle{% endblock %}
+{% block title %}Roasting Shio - Peace Oracle{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
-<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/guardian.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/roasting.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
 {% endblock %}
 {% block content %}
@@ -26,9 +25,14 @@ Oracle{% endblock %}
       Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai
       <i>inner peace</i>.
     </p>
+
     <div id="view-shio-list" class="shio-view active">
       <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
-      <h2 class="view-title">Siapa Penjaga Spiritual Anda?</h2>
+      <h2 class="view-title">Roasting Shio (Tu Cao)</h2>
+      <p class="roast-warning">
+        <i class="fa-solid fa-triangle-exclamation"></i> Peringatan: kenyataan
+        pahit di depan. Siapkan mental, jangan baper.
+      </p>
       <div class="shio-grid">
         <button class="shio-item" data-shio="tikus">
           <span class="icon hanzi">鼠</span><span class="name">Tikus</span>
@@ -68,63 +72,73 @@ Oracle{% endblock %}
         </button>
       </div>
     </div>
+
     <div id="view-result" class="shio-view hidden">
       <button class="back-btn" id="back-to-start">
-        <i class="fa-solid fa-rotate-right"></i> Ulangi Pilihan
+        <i class="fa-solid fa-rotate-right"></i> Roasting Shio Lain
       </button>
-      <div class="fortune-card hidden" id="main-fortune-card">
-        <h2 id="res-title" class="res-title">...</h2>
-        <div class="res-body">
-          <div class="guardian-image-container">
-            <img id="res-guardian-icon" class="guardian-icon-img" src="" alt="Guardian Icon" />
+      <div class="roast-card hidden" id="roast-card">
+        <div class="roast-header">
+          <div class="roast-hanzi" id="r-hanzi"></div>
+          <h2 class="roast-shio-name" id="r-shio-name"></h2>
+          <span class="roast-stamp"><i class="fa-solid fa-fire"></i> DIBAKAR HABIS</span>
+        </div>
+
+        <div class="roast-headline">
+          <div class="roast-quote-mark"><i class="fa-solid fa-skull"></i></div>
+          <p id="r-headline"></p>
+        </div>
+
+        <div class="roast-section">
+          <h3 class="roast-section-title">
+            <i class="fa-solid fa-biohazard"></i> Toxic Traits
+          </h3>
+          <ul class="roast-traits" id="r-toxic-traits"></ul>
+        </div>
+
+        <div class="roast-sins">
+          <div class="roast-sin-box sin-money">
+            <div class="sin-icon"><i class="fa-solid fa-sack-xmark"></i></div>
+            <h3>Dosa Finansial</h3>
+            <p id="r-financial-sin"></p>
           </div>
-          <p id="res-guardian-desc" class="res-fortune"></p>
-          <div class="fortune-highlights">
-            <p class="highlight-item">
-              <strong><i class="fa-solid fa-om"></i> Mantra:</strong>
-              <span id="res-mantra"></span>
-            </p>
-            <p class="highlight-item">
-              <strong><i class="fa-solid fa-book-open"></i> Makna Mantra:</strong>
-              <span id="res-mantra-meaning"></span>
-            </p>
-            <p class="highlight-item">
-              <strong><i class="fa-solid fa-leaf"></i> Elemen:</strong>
-              <span id="res-guardian-element"></span>
-            </p>
-          </div>
-          <div class="fortune-categories">
-            <div class="category-box guardian-category-full">
-              <h3>
-                <i class="fa-solid fa-shield-halved"></i> Nasihat Perlindungan
-              </h3>
-              <p id="res-protection"></p>
-            </div>
-            <div class="category-box">
-              <h3><i class="fa-solid fa-gift"></i> Saran Persembahan</h3>
-              <p id="res-offering"></p>
-            </div>
-            <div class="category-box">
-              <h3><i class="fa-solid fa-yin-yang"></i> Tips Feng Shui</h3>
-              <ul id="res-feng-shui" class="guardian-feng-shui-list"></ul>
-            </div>
-          </div>
-          <div class="res-meta">
-            <div class="meta-box">
-              <i class="fa-solid fa-clock"></i> Jam Terbaik:
-              <span id="res-pray-time"></span>
-            </div>
-            <div class="meta-box">
-              <i class="fa-regular fa-compass"></i> Arah Sakral:
-              <span id="res-sacred-dir"></span>
-            </div>
+          <div class="roast-sin-box sin-love">
+            <div class="sin-icon"><i class="fa-solid fa-heart-crack"></i></div>
+            <h3>Red Flag Asmara</h3>
+            <p id="r-love-red-flag"></p>
           </div>
         </div>
+
+        <div class="roast-catchphrase">
+          <i class="fa-solid fa-quote-left"></i>
+          <p id="r-catchphrase"></p>
+        </div>
+
+        <div class="roast-weakness">
+          <div class="weakness-icon"><i class="fa-solid fa-user-secret"></i></div>
+          <div class="weakness-body">
+            <h3>Kelemahan Rahasia</h3>
+            <p id="r-secret-weakness"></p>
+          </div>
+        </div>
+
+        <div class="roast-tip">
+          <div class="tip-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+          <div class="tip-body">
+            <h3>Survival Tip</h3>
+            <p id="r-survival-tip"></p>
+          </div>
+        </div>
+
+        <p class="roast-disclaimer">
+          Semua ini cuma candaan berdasarkan stereotip shio. Jangan dibawa ke
+          hati, bestie.
+        </p>
       </div>
     </div>
   </div>
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="{{ url_for('shio.static', filename='js/guardian.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/roasting.js') }}"></script>
 {% endblock %}

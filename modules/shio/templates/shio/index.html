@@ -1,22 +1,12 @@
-{% extends 'base.html' %} {% block title %}Mode Shio - Peace Oracle{% endblock
-%} {% block extra_css %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('shio.static', filename='css/shio.css') }}"
-/>
-<link
-  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap"
-  rel="stylesheet"
-/>
-{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% block title %}Mode Shio - Peace Oracle{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+{% endblock %}
+{% block content %}
 <div class="shio-container" id="shio-bg">
   <canvas id="particle-canvas"></canvas>
   <div class="shio-content-wrapper">
@@ -38,10 +28,7 @@
     </p>
     <div id="view-selection" class="shio-view active">
       <div class="choice-cards">
-        <a
-          href="javascript:void(0)"
-          class="choice-card unavailable"
-        >
+        <a href="javascript:void(0)" class="choice-card unavailable">
           <span class="badge badge-soon">SOON</span>
           <i class="fa-solid fa-calendar-days"></i>
           <span>Baca Gulungan Takdir (Ming Li)</span>
@@ -52,49 +39,30 @@
           <span>Almanak Harian (Tong Shu)</span>
           <small>Navigasi Energi Harian & Pemilihan Waktu</small>
         </button>
-        <a
-          href="javascript:void(0)"
-          class="choice-card unavailable"
-        >
-          <span class="badge badge-soon">SOON</span>
+        <a href="{{ url_for('shio.shio_yearly_page') }}" class="choice-card">
           <i class="fa-solid fa-clock-rotate-left"></i>
           <span>Teropong Energi Tahunan (Liu Nian)</span>
-          <small id="yearly-subtitle">Proyeksi Keberuntungan</small>
+          <small>Proyeksi Keberuntungan</small>
         </a>
-        <a
-          href="{{ url_for('shio.shio_compatibility') }}"
-          class="choice-card"
-        >
+        <a href="{{ url_for('shio.shio_compatibility') }}" class="choice-card">
           <i class="fa-solid fa-heart-pulse"></i>
           <span>Sinergi Jodoh Kosmik (He Hun)</span>
-          <small
-            >Kalkulasi Kompatibilitas Asmara &amp; Kemitraan Profesional</small
-          >
+          <small>Kalkulasi Kompatibilitas Asmara &amp; Kemitraan Profesional</small>
         </a>
-        <a
-          href="{{ url_for('shio.shio_profile') }}"
-          class="choice-card"
-        >
-          <i class="fa-solid fa-id-card"></i>
-          <span>Analisis Karakter Bawaan (Ben Ming Nian)</span>
-          <small>Pemetaan Watak, Potensi &amp; Dinamika Psikologis</small>
-        </a>
-        <a
-          href="javascript:void(0)"
-          class="choice-card unavailable"
-        >
-          <span class="badge badge-soon">SOON</span>
+        <a href="{{ url_for('shio.shio_roasting_page') }}" class="choice-card">
           <i class="fa-solid fa-fire"></i>
           <span>Roasting Shio (Tu Cao)</span>
           <small>Kenyataan Pahit Karakter Anda</small>
         </a>
-        <a
-          href="{{ url_for('shio.guardian_spiritual') }}"
-          class="choice-card"
-        >
+        <a href="{{ url_for('shio.guardian_spiritual') }}" class="choice-card">
           <i class="fa-solid fa-dragon"></i>
           <span>Afinitas Penjaga Spiritual (Ben Ming Fo)</span>
           <small>Temukan Entitas Pelindung Berdasarkan Konstelasi Anda</small>
+        </a>
+        <a href="{{ url_for('shio.shio_fortune_cookie_page') }}" class="choice-card">
+          <i class="fa-solid fa-cookie-bite"></i>
+          <span>Kue Keberuntungan (Xing Yun Bing)</span>
+          <small>Pesan Harian &amp; Benda Hoki dari Balik Kue</small>
         </a>
       </div>
     </div>
@@ -109,26 +77,12 @@
         </h2>
         <p id="daily-date-str">...</p>
 <div class="daily-date-controls">
-          <div
-            class="daily-date-wrapper"
-            id="daily-date-wrapper"
-          >
-            <i
-              class="fa-solid fa-calendar-day daily-date-icon"
-            ></i>
-            <input
-              type="text"
-              id="daily-date-input"
-              placeholder="Pilih Tanggal..."
-            />
-            <i
-              class="fa-solid fa-chevron-down daily-date-chevron"
-            ></i>
+          <div class="daily-date-wrapper" id="daily-date-wrapper">
+            <i class="fa-solid fa-calendar-day daily-date-icon"></i>
+            <input type="text" id="daily-date-input" placeholder="Pilih Tanggal..." />
+            <i class="fa-solid fa-chevron-down daily-date-chevron"></i>
           </div>
-          <button
-            id="btn-today-reset"
-            title="Kembali ke Hari Ini"
-          >
+          <button id="btn-today-reset" title="Kembali ke Hari Ini">
             <i class="fa-solid fa-rotate-left"></i>
           </button>
         </div>
@@ -137,11 +91,13 @@
           Shio.
         </p>
       </div>
+      <div id="daily-pillar" class="daily-pillar hidden"></div>
       <div id="daily-grid" class="daily-grid"></div>
     </div>
   </div>
 </div>
-{% endblock %} {% block extra_js %}
+{% endblock %}
+{% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 <script src="{{ url_for('shio.static', filename='js/shio.js') }}"></script>

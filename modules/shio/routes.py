@@ -1,11 +1,8 @@
 from flask import Blueprint, render_template, jsonify, request
 from .data import (
-    SHIO_DATA,
     get_all_daily_fortunes,
     get_shio_guardian,
-    get_shio_profile,
     get_shio_compatibility,
-    get_shio_fortune,
     get_shio_yearly,
     get_shio_roasting,
     get_fortune_cookie,
@@ -27,13 +24,21 @@ def shio_index():
 def guardian_spiritual():
     return render_template("shio/guardian.html")
 
-@shio_bp.route("/shio/profile")
-def shio_profile():
-    return render_template("shio/profile.html")
-
 @shio_bp.route("/shio/compatibility")
 def shio_compatibility():
     return render_template("shio/compatibility.html")
+
+@shio_bp.route("/shio/yearly")
+def shio_yearly_page():
+    return render_template("shio/yearly.html")
+
+@shio_bp.route("/shio/roasting")
+def shio_roasting_page():
+    return render_template("shio/roasting.html")
+
+@shio_bp.route("/shio/fortune-cookie")
+def shio_fortune_cookie_page():
+    return render_template("shio/fortune-cookie.html")
 
 @shio_bp.route("/api/shio/daily", methods=["GET"])
 def get_shio_daily():
@@ -50,15 +55,6 @@ def get_shio_guardian_endpoint():
     result = get_shio_guardian(shio_key)
     return jsonify(result)
 
-@shio_bp.route("/api/shio/profile", methods=["POST"])
-def get_shio_profile_endpoint():
-    data = request.get_json()
-    shio_key = data.get("shio")
-    if not shio_key:
-        return jsonify({"error": "Missing shio"}), 400
-    result = get_shio_profile(shio_key)
-    return jsonify(result)
-
 @shio_bp.route("/api/shio/compatibility", methods=["POST"])
 def get_shio_compatibility_endpoint():
     data = request.get_json()
@@ -69,21 +65,12 @@ def get_shio_compatibility_endpoint():
     result = get_shio_compatibility(shio1, shio2)
     return jsonify(result)
 
-@shio_bp.route("/api/shio/fortune", methods=["POST"])
-def get_shio_fortune_endpoint():
-    data = request.get_json()
-    shio_key = data.get("shio")
-    if not shio_key:
-        return jsonify({"error": "Missing shio"}), 400
-    result = get_shio_fortune(shio_key)
-    return jsonify(result)
-
 @shio_bp.route("/api/shio/yearly", methods=["POST"])
 def get_shio_yearly_endpoint():
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     shio_key = data.get("shio")
     year = data.get("year")
-    if not shio_key or not year:
+    if not shio_key or year is None:
         return jsonify({"error": "Missing shio or year"}), 400
     result = get_shio_yearly(shio_key, year)
     return jsonify(result)

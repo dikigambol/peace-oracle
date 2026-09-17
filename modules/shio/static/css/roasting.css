@@ -1,0 +1,399 @@
+.roast-warning {
+  color: rgba(255, 107, 53, 0.85);
+  font-size: 0.85rem;
+  text-align: center;
+  margin: -5px 0 20px;
+  font-style: italic;
+}
+
+.roast-warning i {
+  margin-right: 5px;
+}
+
+.roast-card {
+  background: linear-gradient(145deg, rgba(30, 8, 4, 0.75), rgba(0, 0, 0, 0.85));
+  border: 1px solid rgba(255, 69, 0, 0.35);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6),
+    inset 0 0 25px rgba(255, 69, 0, 0.06);
+  border-radius: 16px;
+  padding: 30px;
+  backdrop-filter: blur(12px);
+  animation: rFadeIn 0.5s ease-out;
+}
+
+.roast-header {
+  text-align: center;
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.roast-hanzi {
+  font-size: 3.2rem;
+  line-height: 1;
+  color: #ff6b35;
+  text-shadow: 0 0 25px rgba(255, 69, 0, 0.5);
+  animation: rFlicker 3s ease-in-out infinite;
+}
+
+.roast-shio-name {
+  font-family: "Cinzel", serif;
+  font-size: 1.5rem;
+  color: #ffd700;
+  margin: 10px 0 12px;
+  letter-spacing: 1px;
+}
+
+.roast-stamp {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.2), rgba(255, 0, 0, 0.1));
+  border: 1px dashed rgba(255, 69, 0, 0.6);
+  color: #ff6b35;
+  font-family: "Cinzel", serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  transform: rotate(-3deg);
+}
+
+.roast-stamp i {
+  margin-right: 5px;
+}
+
+.roast-headline {
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.16), rgba(255, 140, 0, 0.04));
+  border: 1px solid rgba(255, 69, 0, 0.4);
+  box-shadow: inset 0 0 20px rgba(255, 69, 0, 0.06);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.roast-quote-mark {
+  color: #ff6b35;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.roast-headline p {
+  color: #fff;
+  font-family: "Cinzel", serif;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.roast-section {
+  margin-bottom: 25px;
+}
+
+.roast-section-title {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  color: #ff6b35;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 69, 0, 0.2);
+}
+
+.roast-section-title i {
+  margin-right: 8px;
+}
+
+.roast-traits {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .roast-traits {
+    grid-template-columns: 1fr;
+  }
+}
+
+.roast-traits li {
+  background: rgba(20, 20, 20, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 3px solid rgba(255, 69, 0, 0.6);
+  border-radius: 10px;
+  padding: 12px 15px 12px 38px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  position: relative;
+  opacity: 0;
+  animation: rFadeIn 0.4s ease-out forwards;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.roast-traits li:hover {
+  transform: translateX(4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+}
+
+.roast-traits li::before {
+  content: "\f06d";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  color: rgba(255, 107, 53, 0.8);
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font-size: 0.85rem;
+}
+
+.roast-traits li:nth-child(1) { animation-delay: 0.05s; }
+.roast-traits li:nth-child(2) { animation-delay: 0.1s; }
+.roast-traits li:nth-child(3) { animation-delay: 0.15s; }
+.roast-traits li:nth-child(4) { animation-delay: 0.2s; }
+.roast-traits li:nth-child(5) { animation-delay: 0.25s; }
+.roast-traits li:nth-child(6) { animation-delay: 0.3s; }
+.roast-traits li:nth-child(7) { animation-delay: 0.35s; }
+.roast-traits li:nth-child(8) { animation-delay: 0.4s; }
+
+.roast-sins {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+  .roast-sins {
+    grid-template-columns: 1fr;
+  }
+}
+
+.roast-sin-box {
+  background: rgba(20, 20, 20, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 3px solid transparent;
+  border-radius: 16px;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.roast-sin-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+.roast-sin-box.sin-money {
+  border-top-color: #ffd700;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(10, 10, 10, 0.8));
+}
+
+.roast-sin-box.sin-love {
+  border-top-color: #ff6b9d;
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(10, 10, 10, 0.8));
+}
+
+.roast-sin-box .sin-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sin-money .sin-icon {
+  background: rgba(255, 215, 0, 0.15);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.sin-love .sin-icon {
+  background: rgba(255, 107, 157, 0.15);
+  color: #ff6b9d;
+  border: 1px solid rgba(255, 107, 157, 0.3);
+}
+
+.roast-sin-box h3 {
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  margin: 0 0 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+  width: 80%;
+}
+
+.sin-money h3 { color: #ffd700; }
+.sin-love h3 { color: #ff6b9d; }
+
+.roast-sin-box p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.roast-catchphrase {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(30, 10, 5, 0.4));
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 12px;
+  padding: 22px 25px;
+  margin-bottom: 25px;
+  text-align: center;
+  position: relative;
+}
+
+.roast-catchphrase > i {
+  color: rgba(255, 215, 0, 0.4);
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.roast-catchphrase p {
+  color: #ffd700;
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.roast-weakness,
+.roast-tip {
+  border-radius: 12px;
+  border-top: 3px solid transparent;
+  padding: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.roast-weakness:hover,
+.roast-tip:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+}
+
+.roast-weakness {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1), rgba(10, 10, 10, 0.8));
+  border-color: #ba68ff;
+}
+
+.roast-tip {
+  background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(10, 10, 10, 0.8));
+  border-color: #4ecdc4;
+}
+
+.weakness-icon,
+.tip-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.weakness-icon {
+  background: rgba(186, 104, 255, 0.15);
+  color: #ba68ff;
+  border: 1px solid rgba(186, 104, 255, 0.3);
+}
+
+.tip-icon {
+  background: rgba(78, 205, 196, 0.15);
+  color: #4ecdc4;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.weakness-body,
+.tip-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.weakness-body h3,
+.tip-body h3 {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.weakness-body h3 { color: #ba68ff; }
+.tip-body h3 { color: #4ecdc4; }
+
+.weakness-body p,
+.tip-body p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 500px) {
+  .roast-weakness,
+  .roast-tip {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.roast-disclaimer {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.78rem;
+  font-style: italic;
+  text-align: center;
+  margin: 22px 0 0;
+}
+
+@media (max-width: 600px) {
+  .roast-card {
+    padding: 20px 16px;
+  }
+
+  .roast-headline p {
+    font-size: 1rem;
+  }
+
+  .roast-hanzi {
+    font-size: 2.6rem;
+  }
+}
+
+@keyframes rFadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rFlicker {
+  0%, 100% { text-shadow: 0 0 25px rgba(255, 69, 0, 0.5); }
+  50% { text-shadow: 0 0 40px rgba(255, 69, 0, 0.8), 0 0 60px rgba(255, 140, 0, 0.3); }
+}

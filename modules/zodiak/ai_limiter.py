@@ -10,9 +10,16 @@ try:
     HAS_PYMYSQL = True
 except ImportError:
     HAS_PYMYSQL = False
-DAILY_AI_LIMIT = int(os.environ.get("DAILY_AI_LIMIT", 10))
+def _env_int(name, fallback):
+    try:
+        return int(os.environ.get(name, fallback))
+    except (TypeError, ValueError):
+        return fallback
+
+
+DAILY_AI_LIMIT = _env_int("DAILY_AI_LIMIT", 10)
 MYSQL_HOST = os.environ.get("MYSQL_HOST")
-MYSQL_PORT = int(os.environ.get("MYSQL_PORT"))
+MYSQL_PORT = _env_int("MYSQL_PORT", 3306)
 MYSQL_DB = os.environ.get("MYSQL_DB")
 MYSQL_USER = os.environ.get("MYSQL_USER")
 MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
@@ -22,18 +29,21 @@ _MEMORY_STORE = {}
 def _get_mysql_connection():
     if not HAS_PYMYSQL:
         return None
-    return pymysql.connect(
-        host=MYSQL_HOST,
-        port=MYSQL_PORT,
-        user=MYSQL_USER,
-        password=MYSQL_PASSWORD,
-        database=MYSQL_DB,
-        cursorclass=pymysql.cursors.DictCursor,
-        connect_timeout=2,
-        read_timeout=3,
-        write_timeout=3,
-        autocommit=True,
-    )
+    try:
+        return pymysql.connect(
+            host=MYSQL_HOST,
+            port=MYSQL_PORT,
+            user=MYSQL_USER,
+            password=MYSQL_PASSWORD,
+            database=MYSQL_DB,
+            cursorclass=pymysql.cursors.DictCursor,
+            connect_timeout=2,
+            read_timeout=3,
+            write_timeout=3,
+            autocommit=True,
+        )
+    except (pymysql.MySQLError, OSError):
+        return None
 
 
 def init_db():

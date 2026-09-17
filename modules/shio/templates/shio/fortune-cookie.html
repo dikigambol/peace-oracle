@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-{% block title %}Pilih Penjaga Spiritual - Peace
-Oracle{% endblock %}
+{% block title %}Kue Keberuntungan - Peace Oracle{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
-<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/guardian.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/fortune-cookie.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
 {% endblock %}
 {% block content %}
@@ -26,9 +25,13 @@ Oracle{% endblock %}
       Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai
       <i>inner peace</i>.
     </p>
+
     <div id="view-shio-list" class="shio-view active">
       <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
-      <h2 class="view-title">Siapa Penjaga Spiritual Anda?</h2>
+      <h2 class="view-title">Kue Keberuntungan (Xing Yun Bing)</h2>
+      <p class="cookie-intro">
+        Pilih shio-mu, lalu belah kuenya. Satu pesan untuk satu hari.
+      </p>
       <div class="shio-grid">
         <button class="shio-item" data-shio="tikus">
           <span class="icon hanzi">鼠</span><span class="name">Tikus</span>
@@ -68,57 +71,42 @@ Oracle{% endblock %}
         </button>
       </div>
     </div>
-    <div id="view-result" class="shio-view hidden">
+
+    <div id="view-cookie" class="shio-view hidden">
       <button class="back-btn" id="back-to-start">
-        <i class="fa-solid fa-rotate-right"></i> Ulangi Pilihan
+        <i class="fa-solid fa-rotate-right"></i> Pilih Shio Lain
       </button>
-      <div class="fortune-card hidden" id="main-fortune-card">
-        <h2 id="res-title" class="res-title">...</h2>
-        <div class="res-body">
-          <div class="guardian-image-container">
-            <img id="res-guardian-icon" class="guardian-icon-img" src="" alt="Guardian Icon" />
+
+      <div class="cookie-stage" id="cookie-stage">
+        <div class="cookie-shio" id="cookie-shio">
+          <span class="cookie-shio-hanzi" id="c-hanzi"></span>
+          <span class="cookie-shio-name" id="c-shio-name"></span>
+        </div>
+        <button class="cookie" id="cookie" aria-label="Belah kue keberuntungan">
+          <span class="cookie-half cookie-half-left">🥠</span>
+          <span class="cookie-half cookie-half-right">🥠</span>
+          <span class="cookie-glow"></span>
+        </button>
+        <p class="cookie-hint" id="cookie-hint">
+          <i class="fa-solid fa-hand-pointer"></i> Ketuk kuenya untuk membelah
+        </p>
+      </div>
+
+      <div class="cookie-slip hidden" id="cookie-slip">
+        <div class="slip-tear"></div>
+        <div class="slip-body">
+          <div class="slip-seal"><i class="fa-solid fa-cookie-bite"></i></div>
+          <p class="slip-message" id="c-message"></p>
+          <div class="slip-lucky">
+            <span class="slip-lucky-label">
+              <i class="fa-solid fa-clover"></i> Lucky Item
+            </span>
+            <p class="slip-lucky-text" id="c-lucky-item"></p>
           </div>
-          <p id="res-guardian-desc" class="res-fortune"></p>
-          <div class="fortune-highlights">
-            <p class="highlight-item">
-              <strong><i class="fa-solid fa-om"></i> Mantra:</strong>
-              <span id="res-mantra"></span>
-            </p>
-            <p class="highlight-item">
-              <strong><i class="fa-solid fa-book-open"></i> Makna Mantra:</strong>
-              <span id="res-mantra-meaning"></span>
-            </p>
-            <p class="highlight-item">
-              <strong><i class="fa-solid fa-leaf"></i> Elemen:</strong>
-              <span id="res-guardian-element"></span>
-            </p>
-          </div>
-          <div class="fortune-categories">
-            <div class="category-box guardian-category-full">
-              <h3>
-                <i class="fa-solid fa-shield-halved"></i> Nasihat Perlindungan
-              </h3>
-              <p id="res-protection"></p>
-            </div>
-            <div class="category-box">
-              <h3><i class="fa-solid fa-gift"></i> Saran Persembahan</h3>
-              <p id="res-offering"></p>
-            </div>
-            <div class="category-box">
-              <h3><i class="fa-solid fa-yin-yang"></i> Tips Feng Shui</h3>
-              <ul id="res-feng-shui" class="guardian-feng-shui-list"></ul>
-            </div>
-          </div>
-          <div class="res-meta">
-            <div class="meta-box">
-              <i class="fa-solid fa-clock"></i> Jam Terbaik:
-              <span id="res-pray-time"></span>
-            </div>
-            <div class="meta-box">
-              <i class="fa-regular fa-compass"></i> Arah Sakral:
-              <span id="res-sacred-dir"></span>
-            </div>
-          </div>
+          <p class="slip-note">
+            <i class="fa-regular fa-clock"></i> Kue ini berlaku untuk hari ini.
+            Balik lagi besok buat pesan baru.
+          </p>
         </div>
       </div>
     </div>
@@ -126,5 +114,5 @@ Oracle{% endblock %}
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="{{ url_for('shio.static', filename='js/guardian.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/fortune-cookie.js') }}"></script>
 {% endblock %}

@@ -1,7 +1,6 @@
 import ephem
 import requests
 import datetime
-import math
 import hashlib
 from .horoscope_bank import (
     get_daily_horoscope,
@@ -10,8 +9,6 @@ from .horoscope_bank import (
 )
 from .roasting_bank import (
     determine_zodiac,
-    get_roast,
-    get_relationship_roast,
     get_ai_roast,
     get_ai_relationship_roast,
 )

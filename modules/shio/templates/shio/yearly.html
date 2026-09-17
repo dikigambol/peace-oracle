@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}Teropong Energi Tahunan - Peace Oracle{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/yearly.css') }}" />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+<div class="shio-container" id="shio-bg">
+  <canvas id="particle-canvas"></canvas>
+  <div class="shio-content-wrapper">
+    <div class="bagua-wrapper">
+      <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+      <div class="trigram t1">☰</div>
+      <div class="trigram t2">☴</div>
+      <div class="trigram t3">☵</div>
+      <div class="trigram t4">☶</div>
+      <div class="trigram t5">☷</div>
+      <div class="trigram t6">☳</div>
+      <div class="trigram t7">☲</div>
+      <div class="trigram t8">☱</div>
+    </div>
+    <h1 class="shio-title">Shio Oracle</h1>
+    <p class="shio-subtitle">
+      Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai
+      <i>inner peace</i>.
+    </p>
+
+    <div id="view-select" class="shio-view active">
+      <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+      <h2 class="view-title">Teropong Energi Tahunan</h2>
+
+      <div class="yearly-form">
+        <div class="yearly-section">
+          <div class="shio-grid shio-grid-compact">
+            <button class="shio-item" data-shio="tikus">
+              <span class="icon hanzi">鼠</span><span class="name">Tikus</span>
+            </button>
+            <button class="shio-item" data-shio="kerbau">
+              <span class="icon hanzi">牛</span><span class="name">Kerbau</span>
+            </button>
+            <button class="shio-item" data-shio="macan">
+              <span class="icon hanzi">虎</span><span class="name">Macan</span>
+            </button>
+            <button class="shio-item" data-shio="kelinci">
+              <span class="icon hanzi">兔</span><span class="name">Kelinci</span>
+            </button>
+            <button class="shio-item" data-shio="naga">
+              <span class="icon hanzi">龍</span><span class="name">Naga</span>
+            </button>
+            <button class="shio-item" data-shio="ular">
+              <span class="icon hanzi">蛇</span><span class="name">Ular</span>
+            </button>
+            <button class="shio-item" data-shio="kuda">
+              <span class="icon hanzi">馬</span><span class="name">Kuda</span>
+            </button>
+            <button class="shio-item" data-shio="kambing">
+              <span class="icon hanzi">羊</span><span class="name">Kambing</span>
+            </button>
+            <button class="shio-item" data-shio="monyet">
+              <span class="icon hanzi">猴</span><span class="name">Monyet</span>
+            </button>
+            <button class="shio-item" data-shio="ayam">
+              <span class="icon hanzi">雞</span><span class="name">Ayam</span>
+            </button>
+            <button class="shio-item" data-shio="anjing">
+              <span class="icon hanzi">狗</span><span class="name">Anjing</span>
+            </button>
+            <button class="shio-item" data-shio="babi">
+              <span class="icon hanzi">豬</span><span class="name">Babi</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="yearly-section">
+          <label class="yearly-label">Pilih Tahun</label>
+          <div class="year-picker">
+            <button class="year-nav" id="year-prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="year-display">
+              <span class="year-number" id="year-number"></span>
+              <span class="year-shio" id="year-shio-label"></span>
+            </div>
+            <button class="year-nav" id="year-next"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <button class="yearly-submit" id="btn-check" disabled>
+          <i class="fa-solid fa-telescope"></i> Lihat Proyeksi Tahunan
+        </button>
+      </div>
+    </div>
+
+    <div id="view-result" class="shio-view hidden">
+      <button class="back-btn" id="back-to-select">
+        <i class="fa-solid fa-arrow-left"></i> Kembali
+      </button>
+      <div class="yearly-card hidden" id="yearly-card">
+        <div class="yearly-header">
+          <div class="yearly-pair">
+            <div class="yearly-shio-box">
+              <span class="yearly-hanzi" id="y-user-hanzi"></span>
+              <span class="yearly-shio-name" id="y-user-name"></span>
+            </div>
+            <div class="yearly-arrow">di</div>
+            <div class="yearly-shio-box year-box">
+              <span class="yearly-hanzi" id="y-year-hanzi"></span>
+              <span class="yearly-shio-name">Tahun <span id="y-year-name"></span></span>
+              <span class="yearly-year-num" id="y-year-num"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="yearly-advice" id="y-saran-box">
+          <div class="advice-icon"><i class="fa-solid fa-scroll"></i></div>
+          <p id="y-saran"></p>
+        </div>
+
+        <div class="yearly-categories">
+          <div class="yearly-cat">
+            <div class="cat-icon"><i class="fa-solid fa-briefcase"></i></div>
+            <h3>Karir</h3>
+            <p id="y-karir"></p>
+          </div>
+          <div class="yearly-cat">
+            <div class="cat-icon"><i class="fa-solid fa-coins"></i></div>
+            <h3>Keuangan</h3>
+            <p id="y-keuangan"></p>
+          </div>
+          <div class="yearly-cat">
+            <div class="cat-icon"><i class="fa-solid fa-heart"></i></div>
+            <h3>Asmara</h3>
+            <p id="y-asmara"></p>
+          </div>
+          <div class="yearly-cat">
+            <div class="cat-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h3>Kesehatan</h3>
+            <p id="y-kesehatan"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('shio.static', filename='js/yearly.js') }}"></script>
+{% endblock %}

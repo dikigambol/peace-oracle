@@ -9,9 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (dateStr) fetchDailyAlmanak(dateStr);
     },
   });
-  const currentYear = new Date().getFullYear();
-  document.getElementById("yearly-subtitle").textContent =
-    `Proyeksi Kosmik ${currentYear}`;
+
   const views = {
     selection: document.getElementById("view-selection"),
     daily: document.getElementById("view-daily"),
@@ -57,10 +55,55 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  function renderPillarPanel(data) {
+    const panel = document.getElementById("daily-pillar");
+    if (!panel) return;
+    const yi = (data.officer_yi || [])
+      .map((v) => `<li>${v}</li>`)
+      .join("");
+    const ji = (data.officer_ji || [])
+      .map((v) => `<li>${v}</li>`)
+      .join("");
+    panel.innerHTML = `
+      <div class="pillar-row">
+        <div class="pillar-box">
+          <span class="pillar-label">Pilar Hari</span>
+          <span class="pillar-hanzi">${data.day_pillar_hanzi}</span>
+          <span class="pillar-value">${data.day_pillar}</span>
+        </div>
+        <div class="pillar-box">
+          <span class="pillar-label">Elemen Hari</span>
+          <span class="pillar-hanzi">${data.day_element_hanzi}</span>
+          <span class="pillar-value">${data.day_element}</span>
+        </div>
+        <div class="pillar-box officer-${data.officer_code}">
+          <span class="pillar-label">Dewa Harian</span>
+          <span class="pillar-hanzi">${data.officer_hanzi}</span>
+          <span class="pillar-value">${data.officer_name}</span>
+        </div>
+        <div class="pillar-box">
+          <span class="pillar-label">Bulan Imlek</span>
+          <span class="pillar-hanzi">${data.month_branch_hanzi}</span>
+          <span class="pillar-value">${data.month_branch}</span>
+        </div>
+      </div>
+      <p class="pillar-meaning">${data.officer_meaning}</p>
+      <div class="yiji-row">
+        <div class="yiji-col yiji-yi">
+          <h4><i class="fa-solid fa-circle-check"></i> Cocok Untuk</h4>
+          <ul>${yi}</ul>
+        </div>
+        <div class="yiji-col yiji-ji">
+          <h4><i class="fa-solid fa-circle-xmark"></i> Sebaiknya Hindari</h4>
+          <ul>${ji}</ul>
+        </div>
+      </div>`;
+    panel.classList.remove("hidden");
+  }
   function fetchDailyAlmanak(dateStr = null) {
     const grid = document.getElementById("daily-grid");
     grid.innerHTML =
-      '<div class="loading-cosmic"><i class="fa-solid fa-compass fa-spin-pulse fa-3x"></i><p style="margin-top: 20px; font-family: \'Cinzel\', serif; font-size: 1.2rem; letter-spacing: 2px;">Menyelaraskan Garis Waktu...</p></div>';
+      '<div class="loading-cosmic"><i class="fa-solid fa-compass fa-spin-pulse fa-3x"></i><p>Menyelaraskan Garis Waktu...</p></div>';
     if (!dateStr) {
       const now = new Date();
       dateStr = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")}`;
@@ -74,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("daily-master-icon").innerHTML =
             `<span class="icon-hanzi">${data.today_shio_hanzi}</span>`;
           document.getElementById("daily-date-str").textContent = data.date_str;
+          renderPillarPanel(data);
           grid.innerHTML = "";
           data.fortunes.forEach((item, index) => {
             const card = document.createElement("div");
@@ -85,6 +129,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                 <h3 class="daily-card-name">${item.name}</h3>
                             </div>
                             <div class="daily-card-status">${item.status}</div>
+                            <div class="daily-card-element element-${item.element_relation_code}" title="${item.element_desc}">
+                                <span class="element-badge">${item.element_hanzi} ${item.element}</span>
+                                <span class="element-arrow">${item.element_symbol}</span>
+                                <span class="element-rel">${item.element_relation}</span>
+                            </div>
                             <p class="daily-card-message">${item.message}</p>
                             ${item.daily_tip ? `<div class="daily-card-tip"><i class="fa-solid fa-lightbulb"></i> <span>${item.daily_tip}</span></div>` : ""}
                         `;
@@ -94,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((err) => {
         grid.innerHTML =
-          '<p style="color:red; text-align:center;">Gagal memuat ramalan harian.</p>';
+          '<p class="daily-error">Gagal memuat ramalan harian.</p>';
       });
   }
   const canvas = document.getElementById("particle-canvas");

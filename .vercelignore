@@ -1,34 +1,24 @@
 # Environments
 .env
-.venv/
+.env.example
 venv/
-ENV/
-env/
+.venv/
 
 # Python artifacts
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-*.egg-info/
-*.egg
 
-# Git & OS
+# Git & local tooling
 .git/
 .gitignore
+.vercelignore
+.vercel/
+.vscode/
+
+# Documentation & planning
+*.md
+
+# OS shell artifacts
 .DS_Store
 Thumbs.db
-
-# IDEs
-.vscode/
-.idea/
-
-# Documentation & Local Resources
-README.md
-*.md
-modules/**/*.md
-
-# Databases & Quota Stores
-*.db
-*.sqlite
-ai_quota_store.json
+Desktop.ini

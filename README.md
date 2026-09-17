@@ -36,11 +36,13 @@
 * **Kuis Pasangan Real-Time (Live Room):** Fitur kuis interaktif (*multiplayer*)! Buat *room* privat, undang pasangan, jawab pertanyaan sinkronisasi bersama, dan dapatkan analisis *chemistry* berbasis AI secara langsung.
 
 ### 🐉 Mode Shio (Oriental)
-* **Profil Karakter Shio:** Ketahui karakteristik bawaan, kecenderungan *green flag/red flag*, dan elemen *alter ego* dari masing-masing Shio.
-* **Almanak Harian (Tong Shu):** Dasbor harian interaktif *real-time* yang menampilkan hoki, status hari astrologi BaZi resmi (Chong, San He, Xiang Xing, Ben Ming) beserta *daily tip* untuk ke-12 Shio.
-* **Pilih Penjaga Spiritual:** Eksplorasi figur Bodhisattva pelindung spiritual lengkap dengan mantra suci dan tips Feng Shui.
-* **Timbangan Jodoh Kosmik:** Kalkulator kecocokan dua shio dengan visualisasi persentase *neon circular progress bar*.
-* **Segera Hadir (SOON):** Baca Gulungan Takdir (Kalkulator Bazi), Teropong Energi Tahunan, dan Roasting Shio.
+* **Almanak Harian (Tong Shu):** Dasbor harian *real-time* yang menghitung pilar hari (siklus 60 batang-cabang), elemen hari, dan **Dua Belas Dewa Harian** (建除十二神) lengkap dengan daftar *Cocok Untuk* / *Sebaiknya Hindari*. Relasi tiap Shio terhadap hari dipetakan ke sembilan kategori klasik (Chong, San He, Liu He, Ben Ming, Zi Xing, Xiang Xing, Liu Hai, Liu Po, Ping) beserta interaksi lima elemen dan *daily tip*.
+* **Sinergi Jodoh Kosmik (He Hun):** Kalkulator kecocokan dua shio dengan visualisasi persentase *neon circular progress bar*, berbasis tabel relasi cabang bumi.
+* **Teropong Energi Tahunan (Liu Nian):** Proyeksi karir, keuangan, asmara, dan kesehatan untuk kombinasi shio-mu dengan shio tahun mana pun.
+* **Roasting Shio (Tu Cao):** Butuh ditampar realita? Sindiran pedas soal *toxic traits*, dosa finansial, dan *red flag* asmara tiap Shio.
+* **Kue Keberuntungan (Xing Yun Bing):** Belah kue digitalnya untuk satu pesan harian dan *lucky item*, dengan rotasi yang dijamin tidak mengulang sebelum semua pesan habis.
+* **Afinitas Penjaga Spiritual (Ben Ming Fo):** Eksplorasi delapan figur pelindung — Bodhisattva, Buddha, dan Raja Kebijaksanaan — lengkap dengan mantra, arah sakral, dan tips Feng Shui.
+* **Segera Hadir (SOON):** Baca Gulungan Takdir (Ming Li / Kalkulator Ba Zi).
 * **Latar Belakang Interaktif:** Tampilan *partikel galaksi 3D* interaktif.
 
 ### 🔜 Mode Mendatang (Terkunci / Coming Soon)
@@ -74,30 +76,28 @@ Pastikan Anda telah menginstal **Python 3.9+**.
 
 1. **Clone repository ini:**
    ```bash
-   git clone https://github.com/username/peace-oracle.git
+   git clone https://github.com/dikigambol/peace-oracle.git
    cd peace-oracle
    ```
 
 2. **Buat Virtual Environment (Opsional tapi disarankan):**
    ```bash
    python -m venv venv
-   source venv/bin/activate  # Linux/Mac
-   # atau
-   venv\Scripts\activate     # Windows
+
+   source venv/bin/activate      # Linux / Mac
+   source venv/Scripts/activate  # Windows + Git Bash
+   venv\Scripts\activate         # Windows + CMD / PowerShell
    ```
 
-3. **Konfigurasi Environment (`.env`):**
-   Aplikasi ini dijamin keamanannya secara dinamis. Buat file `.env` di direktori utama dan tambahkan (minimal):
-   ```env
-   FLASK_ENV=development
-   FLASK_DEBUG=True
-   SECRET_KEY=isi_dengan_teks_acak_rahasia
-   # Konfigurasi MYSQL_HOST, DB, dll ditambahkan jika menggunakan database
-   ```
-
-4. **Install Dependensi:**
+3. **Install Dependensi:**
    ```bash
    pip install -r requirements.txt
+   ```
+
+4. **Konfigurasi Environment (`.env`):**
+   Salin berkas contoh yang sudah disediakan, lalu isi nilainya:
+   ```bash
+   cp .env.example .env
    ```
 
 5. **Jalankan Aplikasi:**
@@ -119,6 +119,21 @@ Proyek ini sudah dikonfigurasi sepenuhnya agar berjalan lancar sebagai **Serverl
 3. Vercel akan secara otomatis mendeteksi konfigurasi dari file `vercel.json` dan menjadikan `api/index.py` sebagai *entry point*.
 4. Biarkan pengaturan *Framework Preset* pada opsi default (Vercel akan mendeteksinya sebagai Python Serverless).
 5. Klik **Deploy**! Aplikasi Anda kini *live*.
+
+---
+
+---
+
+## 📄 Hak Cipta
+
+**© 2026 Peace Oracle — Seluruh hak dilindungi.**
+
+Repositori ini dibuka agar bisa dibaca dan dipelajari. Isinya **tidak
+dilisensikan untuk penggunaan ulang**: dilarang menyalin, memodifikasi,
+mendistribusikan, atau menayangkan ulang sebagian maupun seluruhnya tanpa
+izin tertulis dari pemilik.
+
+> Gambar ikonografi pada mode Shio dihasilkan dengan bantuan AI generatif.
 
 ---
 

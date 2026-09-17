@@ -2,48 +2,8 @@
 Kosmik{% endblock %} {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
-<style>
-  .mode-switcher-container {
-    display: none !important;
-  }
-
-  .planet-trigger {
-    cursor: help;
-    display: inline-flex;
-    align-items: center;
-    vertical-align: middle;
-  }
-
-  .planet-emoji {
-    display: inline-block;
-    transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  }
-
-  .planet-trigger:hover .planet-emoji {
-    transform: rotate(360deg) scale(1.3);
-  }
-
-  .secret-copyright {
-    display: inline-block;
-    max-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    transition:
-      max-width 0.8s ease-in-out,
-      opacity 0.5s ease-in-out,
-      margin-left 0.5s;
-    opacity: 0;
-    font-size: 0.85em;
-    color: rgba(255, 255, 255, 0.6);
-  }
-
-  .planet-trigger:hover .secret-copyright {
-    max-width: 300px;
-    opacity: 1;
-    margin-left: 8px;
-  }
-</style>
-{% endblock %} {% block content %}
+{% endblock %}
+{% block content %}
 <div class="home-container">
   <div class="home-header">
     <h1>Peace Oracle</h1>

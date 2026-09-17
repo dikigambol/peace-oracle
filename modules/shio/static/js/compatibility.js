@@ -47,10 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const name1 = data.shio1 ? data.shio1.name : "";
         const name2 = data.shio2 ? data.shio2.name : "";
         document.getElementById("c-pair").innerHTML = `
-                <span style="display:inline-flex; align-items:center; gap:12px; font-family:'Cinzel', serif; font-size:1.8rem; font-weight:bold;">
-                    <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border:2px solid #ffd700; border-radius:50%; font-size:1.6rem; color:#ffd700; box-shadow:0 0 10px rgba(255,215,0,0.5), inset 0 0 8px rgba(255,215,0,0.3); font-family: 'Noto Serif TC', serif; background: rgba(0,0,0,0.3); text-shadow: 0 0 5px rgba(255,215,0,0.8);">${hanzi1}</span>
-                    <span style="color:#fff; text-shadow: 0 0 10px rgba(255,255,255,0.3);">${name1} &times; ${name2}</span>
-                    <span style="display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border:2px solid #ffd700; border-radius:50%; font-size:1.6rem; color:#ffd700; box-shadow:0 0 10px rgba(255,215,0,0.5), inset 0 0 8px rgba(255,215,0,0.3); font-family: 'Noto Serif TC', serif; background: rgba(0,0,0,0.3); text-shadow: 0 0 5px rgba(255,215,0,0.8);">${hanzi2}</span>
+                <span class="compat-pair">
+                    <span class="compat-pair-hanzi">${hanzi1}</span>
+                    <span class="compat-pair-names">${name1} &times; ${name2}</span>
+                    <span class="compat-pair-hanzi">${hanzi2}</span>
                 </span>
             `;
         document.getElementById("c-relationship").textContent =

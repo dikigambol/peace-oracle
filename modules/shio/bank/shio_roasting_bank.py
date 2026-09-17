@@ -6,14 +6,14 @@ SHIO_ROASTING_BANK = {
             "Paling gercep balas chat kalau ada untungnya, tapi ngeread doang kalau dimintain tolong.",
             "Always punya backup plan A sampai Z, termasuk backup pacar.",
             "Pelitnya mendarah daging, diskon Rp500 Perak aja diperjuangin sampai berdarah-darah.",
-            "Oportunis sejati, lu nangis di pundaknya malah dijadiin konten TikTok.",
+            "Oportunis sejati, kamu nangis di pundaknya malah dijadiin konten TikTok.",
             "Master ghosting, tau-tau lenyap kayak ditelan bumi pas ditagih janji.",
             "Manipulatif berkedok 'aku cuma peduli sama kamu'.",
             "Survival skillnya ngeri, pinter cari kambing hitam pas bikin salah.",
             "Hobi banget stalking mantan pake akun fake."
         ],
         "financial_sin": "Nabung mulu tapi pelit ngopi, giliran FOMO barang hype langsung jebol ATM-nya.",
-        "love_red_flag": "Kalau ngomong manis banget, tapi diem-diem swipe Tinder pas lu ke toilet.",
+        "love_red_flag": "Kalau ngomong manis banget, tapi diem-diem swipe Tinder pas kamu ke toilet.",
         "catchphrase": "'Gue sih bukannya pelit ya, cuma realistis aja.'",
         "survival_tip": "Berhenti cari untung dari temen sendiri, bestie. Karma is real.",
         "secret_weakness": "Takut banget kalau sampai bokek dan gak bisa pamer."
@@ -53,7 +53,7 @@ SHIO_ROASTING_BANK = {
         "financial_sin": "Beli barang branded demi validasi sosial, padahal besoknya makan indomie.",
         "love_red_flag": "Kalau pacaran maunya disembah, tapi sendirinya nggak mau effort.",
         "catchphrase": "'Ya ampun, lu tau nggak sih betapa capeknya jadi gue?'",
-        "survival_tip": "Dunia nggak berpusat di elu, turunin ego dikit biar orang nggak males temenan.",
+        "survival_tip": "Dunia nggak berpusat di kamu, turunin ego dikit biar orang nggak males temenan.",
         "secret_weakness": "Butuh banget validasi dan pujian dari orang lain 24/7."
     },
     "kelinci": {
@@ -110,7 +110,7 @@ SHIO_ROASTING_BANK = {
         "financial_sin": "Pelit buat kebutuhan diri sendiri, tapi boros buat pamer ke orang yang dibenci.",
         "love_red_flag": "Cemburuan ekstrem dan posesif, hp pacar diabsen tiap jam.",
         "catchphrase": "'Gue nggak pernah marah kok, gue cuma inget.'",
-        "survival_tip": "Turunin benteng pertahanan sesekali, nggak semua orang mau nyakitin lu.",
+        "survival_tip": "Turunin benteng pertahanan sesekali, nggak semua orang mau nyakitin kamu.",
         "secret_weakness": "Sangat takut dikhianati, makanya milih buat ninggalin duluan."
     },
     "kuda": {
@@ -129,7 +129,7 @@ SHIO_ROASTING_BANK = {
         "financial_sin": "Duitnya habis buat jalan-jalan dan nyobain kafe hits, nabung urusan belakangan.",
         "love_red_flag": "Suka flirting sana-sini padahal udah punya pacar, red flag berjalan.",
         "catchphrase": "'Wah ada acara apaan nih? Gue ikut dong!'",
-        "survival_tip": "Fokus satu-satu bisa nggak sih? Nggak semua hal harus lu cobain sekarang juga.",
+        "survival_tip": "Fokus satu-satu bisa nggak sih? Nggak semua hal harus kamu cobain sekarang juga.",
         "secret_weakness": "Takut banget dilupain orang dan merasa kesepian."
     },
     "kambing": {
@@ -148,7 +148,7 @@ SHIO_ROASTING_BANK = {
         "financial_sin": "Impulsive buying barang-barang lucu gak guna pas lagi sedih (retail therapy toxic).",
         "love_red_flag": "Nuntut pasangan buat selalu jadi cenayang yang ngerti perasaannya tanpa diomongin.",
         "catchphrase": "'Kenapa sih hal buruk selalu menimpa aku?'",
-        "survival_tip": "Stop ngasih beban ke orang lain buat ngebahagiain lu, get a grip!",
+        "survival_tip": "Stop ngasih beban ke orang lain buat ngebahagiain kamu, get a grip!",
         "secret_weakness": "Nggak bisa hidup mandiri dan selalu butuh validasi buat tiap keputusan."
     },
     "monyet": {
@@ -167,7 +167,7 @@ SHIO_ROASTING_BANK = {
         "financial_sin": "Hamburin duit buat mentraktir circle biar dibilang asik dan sukses.",
         "love_red_flag": "Susah banget setia, matanya jelalatan walau gandeng pacar.",
         "catchphrase": "'Santai aja kali, gue cuma becanda, gitu aja marah.'",
-        "survival_tip": "Dunia ini bukan panggung stand-up comedy lu, cobalah untuk lebih empati.",
+        "survival_tip": "Dunia ini bukan panggung stand-up comedy-mu, cobalah untuk lebih empati.",
         "secret_weakness": "Takut dianggap bodoh dan nggak relevan lagi."
     },
     "ayam": {
@@ -205,7 +205,7 @@ SHIO_ROASTING_BANK = {
         "financial_sin": "Nabung terus karena takut miskin, tapi giliran dipinjem temen dikasih aja gara-gara ga enakan.",
         "love_red_flag": "Butuh validasi berlebihan dari pasangan, kalau nggak dibilang sayang ngerasa dunia kiamat.",
         "catchphrase": "'Lu berubah deh, udah nggak peduli lagi ya sama gue?'",
-        "survival_tip": "Berhenti bikin skenario horor di kepala lu sendiri, dunia nggak seburuk itu.",
+        "survival_tip": "Berhenti bikin skenario horor di kepalamu sendiri, dunia nggak seburuk itu.",
         "secret_weakness": "Takut banget ditinggalin dan sendirian."
     },
     "babi": {
