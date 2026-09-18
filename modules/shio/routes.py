@@ -4,8 +4,12 @@ from .data import (
     get_shio_guardian,
     get_shio_compatibility,
     get_shio_yearly,
+    get_current_imlek_year,
     get_shio_roasting,
     get_fortune_cookie,
+    get_shio_destiny,
+    DESTINY_CITIES,
+    DESTINY_SCHOOL,
 )
 
 shio_bp = Blueprint(
@@ -16,9 +20,27 @@ shio_bp = Blueprint(
     static_url_path="/shio-static",
 )
 
+def read_payload():
+    data = request.get_json(silent=True)
+    return data if isinstance(data, dict) else {}
+
+
+def read_text(data, field):
+    value = data.get(field)
+    if isinstance(value, str) and value.strip():
+        return value.strip()
+    return None
+
+
 @shio_bp.route("/shio")
 def shio_index():
     return render_template("shio/index.html")
+
+@shio_bp.route("/shio/destiny")
+def shio_destiny_page():
+    return render_template(
+        "shio/destiny.html", cities=DESTINY_CITIES, school=DESTINY_SCHOOL
+    )
 
 @shio_bp.route("/shio/guardian")
 def guardian_spiritual():
@@ -30,7 +52,9 @@ def shio_compatibility():
 
 @shio_bp.route("/shio/yearly")
 def shio_yearly_page():
-    return render_template("shio/yearly.html")
+    return render_template(
+        "shio/yearly.html", current_year=get_current_imlek_year()
+    )
 
 @shio_bp.route("/shio/roasting")
 def shio_roasting_page():
@@ -48,8 +72,8 @@ def get_shio_daily():
 
 @shio_bp.route("/api/shio/guardian", methods=["POST"])
 def get_shio_guardian_endpoint():
-    data = request.get_json()
-    shio_key = data.get("shio")
+    data = read_payload()
+    shio_key = read_text(data, "shio")
     if not shio_key:
         return jsonify({"error": "Missing shio"}), 400
     result = get_shio_guardian(shio_key)
@@ -57,18 +81,22 @@ def get_shio_guardian_endpoint():
 
 @shio_bp.route("/api/shio/compatibility", methods=["POST"])
 def get_shio_compatibility_endpoint():
-    data = request.get_json()
-    shio1 = data.get("shio1")
-    shio2 = data.get("shio2")
+    data = read_payload()
+    shio1 = read_text(data, "shio1")
+    shio2 = read_text(data, "shio2")
     if not shio1 or not shio2:
         return jsonify({"error": "Missing shio1 or shio2"}), 400
-    result = get_shio_compatibility(shio1, shio2)
+    result = get_shio_compatibility(
+        shio1, shio2, read_text(data, "tanggal1"), read_text(data, "tanggal2")
+    )
+    if "error" in result:
+        return jsonify(result), 400
     return jsonify(result)
 
 @shio_bp.route("/api/shio/yearly", methods=["POST"])
 def get_shio_yearly_endpoint():
-    data = request.get_json(silent=True) or {}
-    shio_key = data.get("shio")
+    data = read_payload()
+    shio_key = read_text(data, "shio")
     year = data.get("year")
     if not shio_key or year is None:
         return jsonify({"error": "Missing shio or year"}), 400
@@ -77,8 +105,8 @@ def get_shio_yearly_endpoint():
 
 @shio_bp.route("/api/shio/roasting", methods=["POST"])
 def get_shio_roasting_endpoint():
-    data = request.get_json()
-    shio_key = data.get("shio")
+    data = read_payload()
+    shio_key = read_text(data, "shio")
     if not shio_key:
         return jsonify({"error": "Missing shio"}), 400
     result = get_shio_roasting(shio_key)
@@ -86,9 +114,23 @@ def get_shio_roasting_endpoint():
 
 @shio_bp.route("/api/shio/fortune-cookie", methods=["POST"])
 def get_fortune_cookie_endpoint():
-    data = request.get_json()
-    shio_key = data.get("shio")
+    data = read_payload()
+    shio_key = read_text(data, "shio")
     if not shio_key:
         return jsonify({"error": "Missing shio"}), 400
-    result = get_fortune_cookie(shio_key)
+    result = get_fortune_cookie(shio_key, read_text(data, "date"))
+    return jsonify(result)
+
+@shio_bp.route("/api/shio/destiny", methods=["POST"])
+def get_shio_destiny_endpoint():
+    data = read_payload()
+    result = get_shio_destiny(
+        read_text(data, "tanggal"),
+        data.get("jam"),
+        data.get("menit"),
+        read_text(data, "kota"),
+        read_text(data, "gender"),
+    )
+    if "error" in result:
+        return jsonify(result), 400
     return jsonify(result)

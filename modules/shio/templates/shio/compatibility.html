@@ -2,6 +2,8 @@
 {% block title %}Timbangan Jodoh Kosmik - Peace
 Oracle{% endblock %}
 {% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/compatibility.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -114,6 +116,37 @@ Oracle{% endblock %}
         </div>
       </div>
     </div>
+    <div class="compat-birth">
+      <button type="button" class="compat-birth-toggle open" id="birth-toggle">
+        <i class="fa-solid fa-plus"></i>
+        <span id="birth-toggle-label">Tanggal lahir</span>
+        <span class="compat-birth-optional">opsional</span>
+      </button>
+      <div class="compat-birth-body" id="birth-body">
+        <p class="compat-birth-note">
+          Tanpa tanggal lahir, yang terbaca cuma relasi cabang tahun &mdash;
+          versi ringkasnya. Dengan tanggal, terbuka pilar hari (日柱) yang jadi
+          istana pasangan, kecocokan 用神, bintang 神煞, batang langit (天干),
+          dan Nayin (納音). Skor tidak berubah &mdash; angkanya tetap murni dari
+          relasi cabang.
+        </p>
+        <div class="compat-birth-fields">
+          <div class="compat-birth-field">
+            <label for="birth-1">Tanggal Lahir Pertama</label>
+            <input type="text" id="birth-1" placeholder="Pilih tanggal..." readonly />
+          </div>
+          <div class="compat-birth-field">
+            <label for="birth-2">Tanggal Lahir Kedua</label>
+            <input type="text" id="birth-2" placeholder="Pilih tanggal..." readonly />
+          </div>
+        </div>
+        <p class="compat-birth-hint">
+          Isi keduanya supaya lapisan ini bisa dihitung. Kalau tanggalnya diisi,
+          shio diambil dari tanggal itu &mdash; batas 立春 sering bikin kelahiran
+          Januari salah shio.
+        </p>
+      </div>
+    </div>
     <div class="compat-submit-container">
       <button class="compat-submit" id="btn-check" disabled>
         Ukur Kecocokan Kosmik
@@ -124,9 +157,19 @@ Oracle{% endblock %}
         <div class="compat-pair" id="c-pair"></div>
         <div class="compat-rel-type" id="c-relationship"></div>
       </div>
+      <div class="compat-relation-badge hidden" id="c-relation-badge">
+        <span class="relation-hanzi" id="c-relation-hanzi"></span>
+        <div class="relation-body">
+          <span class="relation-title" id="c-relation-title"></span>
+          <p class="relation-note" id="c-relation-note"></p>
+        </div>
+      </div>
       <div class="score-bar-wrapper">
         <div class="score-label">
-          Skor Kecocokan Kosmik
+          Skor Relasi Shio
+          <span class="score-label-sub">
+            Dihitung murni dari relasi cabang tahun (地支)
+          </span>
         </div>
         <div class="circular-chart-wrapper">
           <svg viewBox="0 0 100 100" class="circular-chart">
@@ -137,6 +180,41 @@ Oracle{% endblock %}
             <span id="c-score-text" class="percentage">0%</span>
           </div>
         </div>
+      </div>
+      <div class="compat-dynamic hidden" id="c-dynamic">
+        <h4 class="compat-dynamic-title">
+          <i class="fa-solid fa-right-left"></i> Dinamika Elemen
+        </h4>
+        <p class="compat-dynamic-note">
+          Skor di atas simetris karena relasi cabang memang simetris. Lapisan
+          elemen ini tidak &mdash; yang satu memberi, yang satu menerima.
+        </p>
+        <div class="compat-dynamic-pair">
+          <div class="compat-dynamic-card" id="c-dyn-1"></div>
+          <div class="compat-dynamic-arrow" id="c-dyn-arrow"></div>
+          <div class="compat-dynamic-card" id="c-dyn-2"></div>
+        </div>
+      </div>
+      <div class="compat-year hidden" id="c-year">
+        <h4 class="compat-dynamic-title">
+          <i class="fa-solid fa-scroll"></i> Lapisan Tahun Lahir
+        </h4>
+        <p class="compat-dynamic-note" id="c-year-lichun"></p>
+        <div class="compat-year-correction hidden" id="c-year-correction"></div>
+        <div class="compat-year-stem" id="c-year-stem"></div>
+        <div class="compat-year-pair">
+          <div class="compat-year-card" id="c-year-1"></div>
+          <div class="compat-year-card" id="c-year-2"></div>
+        </div>
+      </div>
+      <div class="compat-bazi hidden" id="c-bazi">
+        <h4 class="compat-dynamic-title">
+          <i class="fa-solid fa-user-group"></i> Lapisan Pilar Hari (合婚)
+        </h4>
+        <p class="compat-dynamic-note" id="c-bazi-note"></p>
+        <div class="compat-day-pillar" id="c-day-pillar"></div>
+        <div class="compat-useful" id="c-useful"></div>
+        <div class="compat-stars hidden" id="c-stars"></div>
       </div>
       <div class="compat-sections">
         <div class="compat-box">
@@ -161,5 +239,7 @@ Oracle{% endblock %}
 </div>
 {% endblock %}
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 <script src="{{ url_for('shio.static', filename='js/compatibility.js') }}"></script>
 {% endblock %}

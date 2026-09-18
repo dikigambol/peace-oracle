@@ -43,53 +43,51 @@ def roasting_page():
     return render_template("zodiak/roasting.html")
 
 
+def read_sign(value):
+    if isinstance(value, str) and value.strip():
+        return value.strip().lower()
+    return None
+
+
+def resolve_sign_from_birthdate(value):
+    if not isinstance(value, str):
+        return None
+    try:
+        parts = value.split("-")
+        if len(parts) != 3:
+            return None
+        day = int(parts[2])
+        month = int(parts[1])
+    except (ValueError, TypeError):
+        return None
+    if not 1 <= month <= 12 or not 1 <= day <= 31:
+        return None
+    return determine_zodiac(day, month)
+
+
 @zodiak_bp.route("/api/zodiak/roast", methods=["GET", "POST"])
 def get_roasting_data():
-    sign_key = None
     refresh = request.args.get("refresh") == "1" or request.args.get("roll") == "1"
     if request.method == "POST":
-        data = request.get_json() or {}
-        sign_key = data.get("sign")
-        birthdate = data.get("birthdate")
-        if not refresh:
-            refresh = data.get("refresh") == 1 or data.get("roll") == 1
-        if birthdate:
-            try:
-                parts = birthdate.split("-")
-                if len(parts) == 3:
-                    day = int(parts[2])
-                    month = int(parts[1])
-                    sign_key = determine_zodiac(day, month)
-            except Exception:
-                pass
+        payload = request.get_json(silent=True)
+        data = payload if isinstance(payload, dict) else {}
     else:
-        sign_key = request.args.get("sign")
-        birthdate = request.args.get("birthdate")
-        if birthdate:
-            try:
-                parts = birthdate.split("-")
-                if len(parts) == 3:
-                    day = int(parts[2])
-                    month = int(parts[1])
-                    sign_key = determine_zodiac(day, month)
-            except Exception:
-                pass
-        elif sign_key:
-            sign_key = sign_key.lower()
+        data = request.args
+    sign_key = read_sign(data.get("sign"))
+    sign_b = read_sign(data.get("sign_b"))
+    birthdate = data.get("birthdate")
+    if request.method == "POST" and not refresh:
+        refresh = data.get("refresh") == 1 or data.get("roll") == 1
+    if birthdate:
+        sign_key = resolve_sign_from_birthdate(birthdate) or sign_key
     if not sign_key or sign_key not in ZODIAC_DATA:
         sign_key = "aries"
     z = ZODIAC_DATA[sign_key]
     roast_info = get_ai_roast(sign_key, refresh=refresh)
-    sign_b = None
-    if request.method == "POST":
-        data = request.get_json() or {}
-        sign_b = data.get("sign_b")
-    else:
-        sign_b = request.args.get("sign_b")
     relationship_roast = None
-    if sign_b and sign_b.lower() in ZODIAC_DATA:
+    if sign_b and sign_b in ZODIAC_DATA:
         relationship_roast = get_ai_relationship_roast(
-            sign_key, sign_b.lower(), refresh=refresh
+            sign_key, sign_b, refresh=refresh
         )
     return jsonify(
         {
@@ -414,11 +412,43 @@ def get_quiz_questions():
     return jsonify({"questions": PARTNER_QUIZ_QUESTIONS})
 
 
+MAX_QUIZ_NAME_LENGTH = 60
+
+
+def clean_quiz_name(value):
+    if not isinstance(value, str):
+        return None
+    name = " ".join(value.split())[:MAX_QUIZ_NAME_LENGTH]
+    return name or None
+
+
+def clean_quiz_sign(value):
+    if not isinstance(value, str):
+        return None
+    sign = value.strip().lower()
+    return sign if sign in ZODIAC_DATA else None
+
+
+def clean_quiz_answers(value):
+    if not isinstance(value, list) or len(value) != len(PARTNER_QUIZ_QUESTIONS):
+        return None
+    cleaned = []
+    for index, picked in enumerate(value):
+        try:
+            choice = int(picked)
+        except (TypeError, ValueError):
+            return None
+        if not 0 <= choice < len(PARTNER_QUIZ_QUESTIONS[index]["options"]):
+            return None
+        cleaned.append(choice)
+    return cleaned
+
+
 @zodiak_bp.route("/api/zodiak/quiz/create_room", methods=["POST"])
 def create_quiz_room():
     data = request.get_json(silent=True) or {}
-    host_name = str(data.get("host_name", "")).strip()
-    host_sign = str(data.get("host_sign", "")).strip().lower()
+    host_name = clean_quiz_name(data.get("host_name"))
+    host_sign = clean_quiz_sign(data.get("host_sign"))
     if not host_name or not host_sign:
         return jsonify({"error": "Nama dan Zodiak Host wajib diisi."}), 400
     code_chars = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
@@ -435,10 +465,10 @@ def create_quiz_room():
                     (room_code, host_name, host_sign),
                 )
             conn.close()
-        except Exception as e:
+        except Exception:
             if conn:
                 conn.close()
-            return jsonify({"error": f"Gagal membuat room di database: {str(e)}"}), 500
+            return jsonify({"error": "Gagal membuat room di database."}), 500
     else:
         return jsonify({"error": "Database tidak terhubung."}), 500
     share_url = f"{request.host_url}zodiak/kecocokan?room={room_code}"
@@ -456,9 +486,9 @@ def create_quiz_room():
 @zodiak_bp.route("/api/zodiak/quiz/join_room", methods=["POST"])
 def join_quiz_room():
     data = request.get_json(silent=True) or {}
-    room_code = str(data.get("room_code", "")).strip().upper()
-    partner_name = str(data.get("partner_name", "")).strip()
-    partner_sign = str(data.get("partner_sign", "")).strip().lower()
+    room_code = str(data.get("room_code", "")).strip().upper()[:32]
+    partner_name = clean_quiz_name(data.get("partner_name"))
+    partner_sign = clean_quiz_sign(data.get("partner_sign"))
     if not room_code or not partner_name or not partner_sign:
         return (
             jsonify({"error": "Kode room, nama, dan zodiak partner wajib diisi."}),
@@ -544,10 +574,10 @@ def join_quiz_room():
 @zodiak_bp.route("/api/zodiak/quiz/submit_answers", methods=["POST"])
 def submit_quiz_answers():
     data = request.get_json(silent=True) or {}
-    room_code = str(data.get("room_code", "")).strip().upper()
+    room_code = str(data.get("room_code", "")).strip().upper()[:32]
     role = str(data.get("role", "host")).strip().lower()
-    answers = data.get("answers", [])
-    if not room_code or not isinstance(answers, list) or len(answers) < 10:
+    answers = clean_quiz_answers(data.get("answers"))
+    if not room_code or answers is None:
         return jsonify({"error": "Data jawaban 10 pertanyaan tidak lengkap."}), 400
     conn = _get_mysql_connection()
     if not conn:
@@ -610,10 +640,10 @@ def submit_quiz_answers():
     try:
         with conn.cursor() as cursor:
             cursor.execute(sql_update, (json.dumps(answers), room_code))
-    except Exception as e:
+    except Exception:
         if conn:
             conn.close()
-        return jsonify({"error": f"Gagal menyimpan jawaban: {str(e)}"}), 500
+        return jsonify({"error": "Gagal menyimpan jawaban."}), 500
     is_both_completed = (
         host_answers is not None
         and isinstance(host_answers, list)

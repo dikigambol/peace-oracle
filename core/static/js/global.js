@@ -45,15 +45,26 @@ window.showAiQuotaToast = function (message) {
   if (toast) toast.remove();
   toast = document.createElement("div");
   toast.id = "ai-quota-toast";
-  toast.innerHTML = `
-        <div class="ai-quota-toast-card">
-            <div class="ai-quota-toast-icon">
-                <i class="fa-solid fa-lock"></i>
-            </div>
-            <div class="ai-quota-toast-msg">${message}</div>
-            <button type="button" class="ai-quota-toast-close" onclick="this.closest('#ai-quota-toast').remove()" aria-label="Tutup">&times;</button>
-        </div>
-    `;
+  const card = document.createElement("div");
+  card.className = "ai-quota-toast-card";
+  const icon = document.createElement("div");
+  icon.className = "ai-quota-toast-icon";
+  const lock = document.createElement("i");
+  lock.className = "fa-solid fa-lock";
+  icon.appendChild(lock);
+  const msg = document.createElement("div");
+  msg.className = "ai-quota-toast-msg";
+  msg.textContent = message;
+  const close = document.createElement("button");
+  close.type = "button";
+  close.className = "ai-quota-toast-close";
+  close.setAttribute("aria-label", "Tutup");
+  close.textContent = "\u00d7";
+  close.addEventListener("click", () => toast.remove());
+  card.appendChild(icon);
+  card.appendChild(msg);
+  card.appendChild(close);
+  toast.appendChild(card);
   document.body.appendChild(toast);
   setTimeout(() => {
     if (toast && toast.parentElement) {

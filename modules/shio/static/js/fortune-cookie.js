@@ -123,12 +123,50 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       document.getElementById("c-message").textContent =
         pendingCookie.message || "";
+      renderDayEnergy(pendingCookie.day_energy, pendingCookie.tone);
       document.getElementById("c-lucky-item").textContent =
         pendingCookie.lucky_item || "-";
       slipEl.classList.remove("hidden");
       setTimeout(() => slipEl.scrollIntoView({ behavior: "smooth", block: "center" }), 150);
     }, 950);
   });
+  function renderDayEnergy(energy, tone) {
+    const box = document.getElementById("c-energy");
+    if (!energy) {
+      box.classList.add("hidden");
+      return;
+    }
+    box.classList.remove("hidden");
+
+    document.getElementById("c-day-pillar").textContent = energy.pillar_hanzi;
+
+    const branch = document.getElementById("c-day-branch");
+    branch.textContent = energy.branch.label;
+    branch.className = "slip-energy-badge code-" + energy.branch.code;
+
+    const element = document.getElementById("c-day-element");
+    element.textContent = energy.element.symbol + " " + energy.element.name;
+    element.className = "slip-energy-badge code-" + energy.element.code;
+
+    document.getElementById("c-day-desc").textContent = energy.element.desc;
+
+    const TONE_NOTE = {
+      good: "Pesanmu hari ini diambil dari kumpulan untuk hari yang mendukung.",
+      bad: "Pesanmu hari ini diambil dari kumpulan untuk hari yang menekan.",
+      neutral: "Pesanmu hari ini diambil dari kumpulan untuk hari yang netral.",
+    };
+    document.getElementById("c-tone-note").textContent = TONE_NOTE[tone] || "";
+
+    const lucky = energy.lucky;
+    document.getElementById("c-hoki-reason").textContent = lucky.reason;
+    document.getElementById("c-hoki-element").textContent = lucky.element;
+    document.getElementById("c-hoki-colors").textContent = lucky.colors.join(", ");
+    document.getElementById("c-hoki-directions").textContent =
+      lucky.directions.join(", ");
+    document.getElementById("c-hoki-numbers").textContent =
+      lucky.numbers.join(", ");
+  }
+
   const canvas = document.getElementById("particle-canvas");
   if (canvas) {
     const ctx = canvas.getContext("2d");

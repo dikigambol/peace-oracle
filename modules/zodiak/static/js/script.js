@@ -1,27 +1,3 @@
-if (!window.showAiQuotaToast) {
-  window.showAiQuotaToast = function (message) {
-    if (!message) return;
-    let toast = document.getElementById("ai-quota-toast");
-    if (toast) toast.remove();
-    toast = document.createElement("div");
-    toast.id = "ai-quota-toast";
-    toast.innerHTML = `
-            <div class="ai-quota-toast-card">
-                <div class="ai-quota-toast-icon">
-                    <i class="fa-solid fa-lock"></i>
-                </div>
-                <div class="ai-quota-toast-msg">${message}</div>
-                <button type="button" class="ai-quota-toast-close" onclick="this.closest('#ai-quota-toast').remove()" aria-label="Tutup">&times;</button>
-            </div>
-        `;
-    document.body.appendChild(toast);
-    setTimeout(() => {
-      if (toast && toast.parentElement) {
-        toast.remove();
-      }
-    }, 7000);
-  };
-}
 document.addEventListener("DOMContentLoaded", () => {
   const cards = document.querySelectorAll(".zodiac-card");
   cards.forEach((card) => {

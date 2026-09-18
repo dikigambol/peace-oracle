@@ -1,7 +1,23 @@
 SHIO_ROASTING_BANK = {
     "tikus": {
         "shio_name": "Tikus (🐀)",
-        "headline": "CEO of ngilang pas disuruh bayar patungan.",
+        "variants": [
+            {
+                "headline": "CEO of ngilang pas disuruh bayar patungan.",
+                "catchphrase": "'Gue sih bukannya pelit ya, cuma realistis aja.'",
+                "survival_tip": "Berhenti cari untung dari temen sendiri, bestie. Karma is real.",
+            },
+            {
+                "headline": "Hitungannya rapi banget, sampai utang lu dari 2019 masih kecatet.",
+                "catchphrase": "'Bukan gue perhitungan, gue cuma inget aja.'",
+                "survival_tip": "Sekali-sekali bayarin tanpa ngitung balik, gak bakal bikin lu bangkrut.",
+            },
+            {
+                "headline": "Sedia payung sebelum hujan, sedia alasan sebelum ditagih.",
+                "catchphrase": "'Nanti gue transfer ya' — dikirim tiga minggu yang lalu.",
+                "survival_tip": "Simpen energi buat hal yang beneran penting, bukan buat ngejar diskon receh.",
+            },
+        ],
         "toxic_traits": [
             "Paling gercep balas chat kalau ada untungnya, tapi ngeread doang kalau dimintain tolong.",
             "Always punya backup plan A sampai Z, termasuk backup pacar.",
@@ -10,36 +26,74 @@ SHIO_ROASTING_BANK = {
             "Master ghosting, tau-tau lenyap kayak ditelan bumi pas ditagih janji.",
             "Manipulatif berkedok 'aku cuma peduli sama kamu'.",
             "Survival skillnya ngeri, pinter cari kambing hitam pas bikin salah.",
-            "Hobi banget stalking mantan pake akun fake."
+            "Hobi banget stalking mantan pake akun fake.",
+            "Inget banget siapa ngutang berapa, tapi lupa siapa yang pernah nolongin.",
+            "Dateng pas makanan udah siap, pamit pas piring numpuk.",
+            "Punya grup chat terpisah tiap lingkaran, isinya beda-beda semua.",
+            "Bilang 'nanti kita atur' buat hal yang emang gak mau dia kerjain.",
+            "Nabung buat masa depan, tapi masa depannya gak pernah dateng-dateng.",
         ],
         "financial_sin": "Nabung mulu tapi pelit ngopi, giliran FOMO barang hype langsung jebol ATM-nya.",
         "love_red_flag": "Kalau ngomong manis banget, tapi diem-diem swipe Tinder pas kamu ke toilet.",
-        "catchphrase": "'Gue sih bukannya pelit ya, cuma realistis aja.'",
-        "survival_tip": "Berhenti cari untung dari temen sendiri, bestie. Karma is real.",
-        "secret_weakness": "Takut banget kalau sampai bokek dan gak bisa pamer."
+        "secret_weakness": "Takut banget kalau sampai bokek dan gak bisa pamer.",
     },
     "kerbau": {
         "shio_name": "Kerbau (🐂)",
-        "headline": "Batu banget, dikasih saran malah ngajak debat Kusir.",
+        "variants": [
+            {
+                "headline": "Batu banget, dikasih saran malah ngajak debat Kusir.",
+                "catchphrase": "'Dari dulu juga cara gue begini kok, ngapain diubah?'",
+                "survival_tip": "Dunia ini terus berputar, jangan stuck di situ-situ aja. Coba healing kek sesekali.",
+            },
+            {
+                "headline": "Dikasih jalan pintas malah tersinggung, ngerasa diremehin.",
+                "catchphrase": "'Dari dulu juga caranya begini, aman-aman aja tuh.'",
+                "survival_tip": "Coba satu cara baru bulan ini, satu aja. Langitnya gak bakal runtuh.",
+            },
+            {
+                "headline": "Sabar sih sabar, tapi sabarnya sambil nyimpen daftar kesalahan lu.",
+                "catchphrase": "'Gue gak marah kok' — diucapkan sambil banting pintu pelan.",
+                "survival_tip": "Ngomong pas masih kesel dikit, jangan nunggu numpuk tiga bulan.",
+            },
+        ],
         "toxic_traits": [
             "Keras kepalanya ngalahin beton, udah dibilangin salah tetep aja nyeruduk.",
             "Kerja mulu sampe lupa cara senyum, workaholic berkedok 'hustle culture'.",
             "Lambat banget mutusin sesuatu, keburu gebetan nikah sama orang lain.",
             "Membosankan as fuck, rutinitasnya gitu-gitu aja dari jaman batu.",
-            "Suka playing victim kalau rencananya gagal, padahal emang karena keras kepala aja.",
+            "Rencananya gagal, yang disalahin keadaan — padahal dari awal udah dibilangin.",
             "Paling anti perubahan, disuruh update aplikasi aja marah-marah.",
             "Ngambeknya awet banget, bisa disimpen sampai lebaran monyet.",
-            "Terlalu jujur sampai nyakitin hati, tactless abis."
+            "Terlalu jujur sampai nyakitin hati, tactless abis.",
+            "Diajak diskusi malah ngerasa dites, ujungnya jadi debat.",
+            "Nolak bantuan terus ngeluh ngerjain sendirian.",
+            "Hafal semua janji orang ke dia, tapi gak pernah nagih langsung.",
+            "Mindahin posisi barang di mejanya aja bisa bikin dia ngomel seharian.",
+            "Ngerasa paling capek sedunia padahal porsinya dia sendiri yang nambahin.",
         ],
         "financial_sin": "Terlalu konservatif nyimpen duit, takut investasi tapi ngeluh miskin mulu.",
         "love_red_flag": "Pacaran sama kerbau rasanya kayak pacaran sama kanebo kering, kaku banget.",
-        "catchphrase": "'Dari dulu juga cara gue begini kok, ngapain diubah?'",
-        "survival_tip": "Dunia ini terus berputar, jangan stuck di situ-situ aja. Coba healing kek sesekali.",
-        "secret_weakness": "Panik attack kalau rutinitasnya tiba-tiba berubah dikit aja."
+        "secret_weakness": "Jadwal digeser satu jam aja langsung ngedumel seharian.",
     },
     "macan": {
         "shio_name": "Macan (🐅)",
-        "headline": "Main character syndrome stadium akhir yang berisik banget.",
+        "variants": [
+            {
+                "headline": "Main character syndrome stadium akhir yang berisik banget.",
+                "catchphrase": "'Ya ampun, lu tau nggak sih betapa capeknya jadi gue?'",
+                "survival_tip": "Dunia nggak berpusat di kamu, turunin ego dikit biar orang nggak males temenan.",
+            },
+            {
+                "headline": "Berani ambil keputusan, gak berani ngakuin pas keputusannya ngaco.",
+                "catchphrase": "'Gue tuh tipe yang to the point, kalau tersinggung ya maaf.'",
+                "survival_tip": "Tarik napas sekali sebelum bales chat yang bikin lu panas.",
+            },
+            {
+                "headline": "Suaranya paling kenceng di grup, kerjaannya paling telat dikumpulin.",
+                "catchphrase": "'Serahin ke gue' — terus ilang tiga hari.",
+                "survival_tip": "Selesaiin satu hal sampai tuntas sebelum ngumumin proyek baru.",
+            },
+        ],
         "toxic_traits": [
             "Impulsif parah, beli barang nggak penting jam 3 pagi gara-gara nonton live TikTok.",
             "Egoisnya nggak ketulungan, semua obrolan harus tentang dia.",
@@ -48,17 +102,36 @@ SHIO_ROASTING_BANK = {
             "Selalu merasa paling benar, kalau debat harus menang walaupun argumennya ngaco.",
             "Gampang kepancing emosi, disenggol dikit langsung mau ngajak ribut.",
             "FOMO kronis, nggak bisa lihat orang lain lebih sukses dikit.",
-            "Suka ngeluh capek tapi sendirinya yang nyari-nyari masalah."
+            "Suka ngeluh capek tapi sendirinya yang nyari-nyari masalah.",
+            "Mulai lima hal sekaligus, yang kelar nol.",
+            "Dikoreksi di depan orang, mukanya langsung berubah satu ruangan tau semua.",
+            "Ngasih saran keras ke orang, giliran dia yang disaranin langsung baper.",
+            "Bosen sama hal yang udah jalan lancar, terus diacak-acak sendiri.",
+            "Ngaku gak butuh siapa-siapa, padahal paling gak tahan didiemin.",
         ],
         "financial_sin": "Beli barang branded demi validasi sosial, padahal besoknya makan indomie.",
         "love_red_flag": "Kalau pacaran maunya disembah, tapi sendirinya nggak mau effort.",
-        "catchphrase": "'Ya ampun, lu tau nggak sih betapa capeknya jadi gue?'",
-        "survival_tip": "Dunia nggak berpusat di kamu, turunin ego dikit biar orang nggak males temenan.",
-        "secret_weakness": "Butuh banget validasi dan pujian dari orang lain 24/7."
+        "secret_weakness": "Butuh banget validasi dan pujian dari orang lain 24/7.",
     },
     "kelinci": {
         "shio_name": "Kelinci (🐇)",
-        "headline": "Fake nice champion yang sukanya ngomongin orang di belakang.",
+        "variants": [
+            {
+                "headline": "Fake nice champion yang sukanya ngomongin orang di belakang.",
+                "catchphrase": "'Aku sih terserah aja, asal kalian seneng.'",
+                "survival_tip": "Belajar bilang 'TIDAK'. Nggak usah sok malaikat kalau akhirnya capek sendiri.",
+            },
+            {
+                "headline": "Ngiyain siapa pun yang minta, terus kabur pas harus nepatin.",
+                "catchphrase": "'Aku sih ngikut aja, yang penting gak ada yang berantem.'",
+                "survival_tip": "Bilang keberatanmu di hari kejadian, bukan enam bulan kemudian.",
+            },
+            {
+                "headline": "Ahli bikin suasana adem, ahli juga bikin masalah ngendap bertahun-tahun.",
+                "catchphrase": "'Nggak papa kok, beneran' — padahal udah dicatet rapi di hati.",
+                "survival_tip": "Nolak sekali minggu ini. Cuma sekali, buat latihan.",
+            },
+        ],
         "toxic_traits": [
             "Di depan manis banget, di belakang hobi nyebarin gosip.",
             "Passive-aggressive tingkat dewa, marah tapi bilangnya 'aku gapapa kok'.",
@@ -67,17 +140,36 @@ SHIO_ROASTING_BANK = {
             "Penakut banget nyoba hal baru, maunya di zona nyaman terus.",
             "Diam-diam suka julid pas ngeliat story IG temen.",
             "Manipulasi lewat air mata, senjata andalan kalau lagi kepepet.",
-            "Terlalu sensitif, dikasih kritik membangun malah baper berhari-hari."
+            "Terlalu sensitif, dikasih kritik membangun malah baper berhari-hari.",
+            "Ngilang pas ada konflik, balik lagi pas udah aman.",
+            "Senyum di depan, curhatin orangnya di belakang.",
+            "Ditanya maunya apa, jawabnya muter-muter sampai lawan bicaranya nyerah.",
+            "Janji dateng ke tiga acara di jam yang sama, gak dateng ke satu pun.",
+            "Ngerasa paling ngalah, padahal ngalahnya gak pernah dikasih tau siapa-siapa.",
         ],
         "financial_sin": "Sering ngeluarin duit buat nraktir orang demi disukai, padahal dompet lagi nangis.",
         "love_red_flag": "Susah banget ditanyain maunya apa, ujung-ujungnya ngambek karena pacar gak peka.",
-        "catchphrase": "'Aku sih terserah aja, asal kalian seneng.'",
-        "survival_tip": "Belajar bilang 'TIDAK'. Nggak usah sok malaikat kalau akhirnya capek sendiri.",
-        "secret_weakness": "Takut banget nggak disukai orang, sampai rela kehilangan jati diri."
+        "secret_weakness": "Takut banget nggak disukai orang, sampai rela kehilangan jati diri.",
     },
     "naga": {
         "shio_name": "Naga (🐉)",
-        "headline": "Superiority complex berjalan yang ngerasa dirinya dewa turun ke bumi.",
+        "variants": [
+            {
+                "headline": "Superiority complex berjalan yang ngerasa dirinya dewa turun ke bumi.",
+                "catchphrase": "'Gue sih dari lahir udah beda level sama mereka.'",
+                "survival_tip": "Lu bukan naga beneran, cuma kadal kebesaran. Humble dikit napa.",
+            },
+            {
+                "headline": "Ngomongin rencana besar terus, yang jalan baru slide pertamanya.",
+                "catchphrase": "'Gue tuh emang standarnya tinggi, bukan sombong.'",
+                "survival_tip": "Kerjain bagian yang gak kelihatan juga, bukan cuma yang bisa dipamerin.",
+            },
+            {
+                "headline": "Butuh panggung, tapi gak mau ngakuin butuh penonton.",
+                "catchphrase": "'Nanti kalau udah gede, lu pada inget gue.'",
+                "survival_tip": "Sekali-sekali kasih panggungnya ke orang lain, gak bikin lu mengecil.",
+            },
+        ],
         "toxic_traits": [
             "Narsisnya bikin mual, kaca spion motor orang aja dipake buat ngaca.",
             "Egonya setinggi langit, kalau salah gengsi minta maaf duluan.",
@@ -86,36 +178,74 @@ SHIO_ROASTING_BANK = {
             "Maunya dikasih treatment VIP di mana aja, padahal bukan siapa-siapa.",
             "Nggak terima kritikan, dikritik dikit langsung ngamuk ngerasa diserang.",
             "Terlalu ambisius sampai kadang ngehalalkan segala cara.",
-            "Banyak maunya, bossy, dan super demanding."
+            "Banyak maunya, bossy, dan super demanding.",
+            "Ngajak kolaborasi, ujungnya semua ide orang lain ditempelin namanya.",
+            "Gak bisa dikritik di depan umum, tapi hobi ngritik orang di depan umum.",
+            "Punya rencana lima tahun, gak punya rencana minggu ini.",
+            "Nge-post pencapaian kecil kayak baru menang lomba tingkat nasional.",
+            "Nawarin bantuan besar-besaran, pas ditagih bilang lagi sibuk.",
         ],
         "financial_sin": "Gaya selangit pengeluaran elit, padahal rekening lagi menjerit.",
         "love_red_flag": "Suka gaslight pasangan buat nutupin kesalahan sendiri.",
-        "catchphrase": "'Gue sih dari lahir udah beda level sama mereka.'",
-        "survival_tip": "Lu bukan naga beneran, cuma kadal kebesaran. Humble dikit napa.",
-        "secret_weakness": "Insecure parah kalau ketemu orang yang lebih sukses dan lebih cakep."
+        "secret_weakness": "Ketemu orang yang lebih sukses, senyumnya tetep lebar tapi diem-diem ngecek follower-nya.",
     },
     "ular": {
         "shio_name": "Ular (🐍)",
-        "headline": "Master manipulator yang dinginnya ngalahin es batu.",
+        "variants": [
+            {
+                "headline": "Master manipulator yang dinginnya ngalahin es batu.",
+                "catchphrase": "'Gue nggak pernah marah kok, gue cuma inget.'",
+                "survival_tip": "Turunin benteng pertahanan sesekali, nggak semua orang mau nyakitin kamu.",
+            },
+            {
+                "headline": "Diem bukan berarti gak ngapa-ngapain, diem sambil nyusun daftar.",
+                "catchphrase": "'Gue gak masalah kok' — diucapkan enam bulan sebelum lu tau ada masalah.",
+                "survival_tip": "Ceritain satu hal yang biasanya lu simpen, ke satu orang aja.",
+            },
+            {
+                "headline": "Bisa baca semua orang, dirinya sendiri gak bisa dibaca balik.",
+                "catchphrase": "'Lu duluan aja cerita, gue dengerin.'",
+                "survival_tip": "Berhenti nunggu momen sempurna, keburu orangnya pergi.",
+            },
+        ],
         "toxic_traits": [
             "Manipulatif abis, bisa memutarbalikkan fakta tanpa rasa bersalah.",
             "Misteriusnya lebay, ditanya 'lagi apa' jawabannya malah bikin nebak-nebak.",
             "Cold-hearted, mutusin orang lewat chat doang tanpa ekspresi.",
             "Materialistis, liat cowok/cewek pertama dari merek sepatunya.",
-            "Trust issues parah, curigaan mulu sama temen atau pacar.",
+            "Curiga duluan sebelum nanya, terus ngumpulin bukti sendirian kayak detektif.",
             "Dendamnya awet banget, kesalahan 5 tahun lalu masih diungkit.",
             "Pinter banget pura-pura polos padahal otaknya lagi nyusun rencana licik.",
-            "Suka ghosting kalau ngerasa orang itu udah nggak bawa keuntungan."
+            "Suka ghosting kalau ngerasa orang itu udah nggak bawa keuntungan.",
+            "Nyimpen kesalahan orang bertahun-tahun, dikeluarin pas paling nyakitin.",
+            "Nanya banyak tentang orang, gak ngasih apa-apa tentang dirinya.",
+            "Mutusin hubungan tanpa penjelasan, tinggal ilang aja gitu.",
+            "Sopan banget di depan, penilaiannya udah selesai dari menit pertama.",
+            "Nunggu orang salah duluan biar posisinya aman.",
         ],
         "financial_sin": "Pelit buat kebutuhan diri sendiri, tapi boros buat pamer ke orang yang dibenci.",
         "love_red_flag": "Cemburuan ekstrem dan posesif, hp pacar diabsen tiap jam.",
-        "catchphrase": "'Gue nggak pernah marah kok, gue cuma inget.'",
-        "survival_tip": "Turunin benteng pertahanan sesekali, nggak semua orang mau nyakitin kamu.",
-        "secret_weakness": "Sangat takut dikhianati, makanya milih buat ninggalin duluan."
+        "secret_weakness": "Sangat takut dikhianati, makanya milih buat ninggalin duluan.",
     },
     "kuda": {
         "shio_name": "Kuda (🐎)",
-        "headline": "Tukang FOMO yang gak bisa diam di satu tempat lebih dari 5 menit.",
+        "variants": [
+            {
+                "headline": "Tukang FOMO yang gak bisa diam di satu tempat lebih dari 5 menit.",
+                "catchphrase": "'Wah ada acara apaan nih? Gue ikut dong!'",
+                "survival_tip": "Fokus satu-satu bisa nggak sih? Nggak semua hal harus kamu cobain sekarang juga.",
+            },
+            {
+                "headline": "Semangat di tiga hari pertama, sisanya cuma cerita ke orang.",
+                "catchphrase": "'Gas aja dulu, mikirnya belakangan.'",
+                "survival_tip": "Tutup dulu yang masih kebuka sebelum mulai lagi dari nol.",
+            },
+            {
+                "headline": "Janjinya banyak banget, kalendernya kosong melompong.",
+                "catchphrase": "'Besok gue kabarin' — besok yang gak pernah dateng.",
+                "survival_tip": "Kurangin janji, bukan kurangin niat.",
+            },
+        ],
         "toxic_traits": [
             "Nggak sabaran banget, nunggu ojol 2 menit aja udah cancel.",
             "Commitment phobic, jangankan nikah, ditanya mau makan apa aja bingung.",
@@ -124,36 +254,74 @@ SHIO_ROASTING_BANK = {
             "Gampang bosenan, hobi baru bertahan seminggu abis itu ditinggal.",
             "Egois dan sering lupa daratan kalau lagi heboh sendiri.",
             "Mulutnya ceplas-ceplos gak difilter, sering bikin orang sakit hati tanpa sadar.",
-            "Susah ditebak dan kabur-kaburan kalau ditagih komitmen."
+            "Susah ditebak dan kabur-kaburan kalau ditagih komitmen.",
+            "Ngajak rame-rame, pas hari H dia yang paling telat atau gak dateng.",
+            "Cerita rencana ke sepuluh orang, nge-chat satu pun enggak buat mulai.",
+            "Bosen sama orang yang udah nyaman, tertarik lagi pas orangnya menjauh.",
+            "Ngomong dulu, minta maaf belakangan, ulangi minggu depan.",
+            "Ngerasa dikekang tiap ditanya 'kapan selesai'.",
         ],
         "financial_sin": "Duitnya habis buat jalan-jalan dan nyobain kafe hits, nabung urusan belakangan.",
         "love_red_flag": "Suka flirting sana-sini padahal udah punya pacar, red flag berjalan.",
-        "catchphrase": "'Wah ada acara apaan nih? Gue ikut dong!'",
-        "survival_tip": "Fokus satu-satu bisa nggak sih? Nggak semua hal harus kamu cobain sekarang juga.",
-        "secret_weakness": "Takut banget dilupain orang dan merasa kesepian."
+        "secret_weakness": "Takut banget dilupain orang dan merasa kesepian.",
     },
     "kambing": {
         "shio_name": "Kambing (🐐)",
-        "headline": "Si paling overthinking yang hobi playing victim.",
+        "variants": [
+            {
+                "headline": "Ditanya maunya apa jawabnya 'terserah', terus ngambek pas dipilihin.",
+                "catchphrase": "'Kenapa sih hal buruk selalu menimpa aku?'",
+                "survival_tip": "Stop ngasih beban ke orang lain buat ngebahagiain kamu, get a grip!",
+            },
+            {
+                "headline": "Butuh dimengerti terus, giliran ngertiin orang bilang capek.",
+                "catchphrase": "'Aku nggak enak ngomongnya' — sambil ngomong ke semua orang kecuali yang bersangkutan.",
+                "survival_tip": "Pilih satu hal hari ini tanpa nanya siapa-siapa.",
+            },
+            {
+                "headline": "Keputusan kecil aja diserahin ke orang, hasilnya tetep disalahin.",
+                "catchphrase": "'Terserah kamu aja' — jebakan, jangan dijawab.",
+                "survival_tip": "Sampaikan maumu pakai kalimat lurus, bukan lewat kode.",
+            },
+        ],
         "toxic_traits": [
             "Manja banget, apa-apa maunya disuapin dan diurusin orang lain.",
             "Indecisive parah, disuruh milih baju aja bisa mikir 3 hari 3 malam.",
-            "Overthinking sampai bikin kepala sendiri pusing mikirin hal yang belum terjadi.",
-            "Victim mentality juara 1, kalau ada salah selalu ngerasa dunia gak adil ke dia.",
+            "Milih tempat makan aja bisa satu jam, ujungnya balik ke pilihan pertama.",
+            "Maunya dimengerti tanpa perlu ngomong, terus kecewa pas gak ada yang nebak.",
             "Gampang banget baper, becanda dikit langsung nangis di pojokan.",
             "Suka ngeluh tapi nggak ada action buat ngerubah nasib.",
             "Moody banget, pagi ketawa ketiwi sorenya udah kayak mendung kelabu.",
-            "Terlalu naif dan gampang diboongin sama janji manis."
+            "Terlalu naif dan gampang diboongin sama janji manis.",
+            "Minta pendapat lima orang, ujungnya nurutin yang paling dia suka dengar.",
+            "Ngambek tanpa bilang kenapa, terus kesel pas orangnya nyerah nebak.",
+            "Nempel sama siapa pun yang lagi baik, pindah pas ada yang lebih baik.",
+            "Nangis duluan pas diajak ngomong serius, pembicaraannya jadi batal.",
+            "Ngerasa paling gak dihargai di ruangan yang isinya lagi muji dia.",
         ],
         "financial_sin": "Impulsive buying barang-barang lucu gak guna pas lagi sedih (retail therapy toxic).",
         "love_red_flag": "Nuntut pasangan buat selalu jadi cenayang yang ngerti perasaannya tanpa diomongin.",
-        "catchphrase": "'Kenapa sih hal buruk selalu menimpa aku?'",
-        "survival_tip": "Stop ngasih beban ke orang lain buat ngebahagiain kamu, get a grip!",
-        "secret_weakness": "Nggak bisa hidup mandiri dan selalu butuh validasi buat tiap keputusan."
+        "secret_weakness": "Nggak bisa hidup mandiri dan selalu butuh validasi buat tiap keputusan.",
     },
     "monyet": {
         "shio_name": "Monyet (🐒)",
-        "headline": "Badut sirkus yang nggak bisa bedain mana saatnya serius.",
+        "variants": [
+            {
+                "headline": "Badut sirkus yang nggak bisa bedain mana saatnya serius.",
+                "catchphrase": "'Santai aja kali, gue cuma becanda, gitu aja marah.'",
+                "survival_tip": "Dunia ini bukan panggung stand-up comedy-mu, cobalah untuk lebih empati.",
+            },
+            {
+                "headline": "Pinter banget nyari jalan pintas, termasuk jalan pintas dari tanggung jawab.",
+                "catchphrase": "'Santai, gue udah ada caranya kok.'",
+                "survival_tip": "Selesaiin satu perkara dengan cara paling lurus, tanpa akal-akalan.",
+            },
+            {
+                "headline": "Semua obrolan serius bisa dia belokin jadi bahan ketawa.",
+                "catchphrase": "'Becanda doang' — pembelaan andalan pasca kelewatan.",
+                "survival_tip": "Jawab dulu pertanyaannya, baru ngelawak.",
+            },
+        ],
         "toxic_traits": [
             "Tukang tipu tipis-tipis, ngelesnya pinter banget kalau lagi ketahuan bohong.",
             "Penjilat ulung ke atasan atau orang yang ngasih dia keuntungan.",
@@ -162,17 +330,36 @@ SHIO_ROASTING_BANK = {
             "Suka jahil tapi kelewatan batas, kalau temennya marah malah dibilang baperan.",
             "Suka caper, selalu cari cara biar jadi pusat perhatian di tongkrongan.",
             "Licik, suka manfaatin temen yang lagi lengah.",
-            "Komitmennya sebatas angin lalu, janji hari ini besok udah lupa."
+            "Komitmennya sebatas angin lalu, janji hari ini besok udah lupa.",
+            "Janji cepat, kerja belakangan, alasan paling kreatif se-Indonesia.",
+            "Bikin orang ketawa buat ngindarin pembicaraan yang gak enak.",
+            "Bosen sama proyek yang udah gak ada tantangannya, ditinggal gitu aja.",
+            "Tau celah aturan lebih hafal daripada aturannya sendiri.",
+            "Deket sama banyak orang, gak ada satu pun yang beneran kenal dia.",
         ],
         "financial_sin": "Hamburin duit buat mentraktir circle biar dibilang asik dan sukses.",
         "love_red_flag": "Susah banget setia, matanya jelalatan walau gandeng pacar.",
-        "catchphrase": "'Santai aja kali, gue cuma becanda, gitu aja marah.'",
-        "survival_tip": "Dunia ini bukan panggung stand-up comedy-mu, cobalah untuk lebih empati.",
-        "secret_weakness": "Takut dianggap bodoh dan nggak relevan lagi."
+        "secret_weakness": "Takut dianggap bodoh dan nggak relevan lagi.",
     },
     "ayam": {
         "shio_name": "Ayam (🐓)",
-        "headline": "Si paling perfeksionis toxic yang hobinya nyeramahin orang.",
+        "variants": [
+            {
+                "headline": "Si paling perfeksionis toxic yang hobinya nyeramahin orang.",
+                "catchphrase": "'Gue bilang juga apa, harusnya lu tuh dengerin gue.'",
+                "survival_tip": "Kurang-kurangin nyinyir dan judge orang, hiduplah lebih santai bestie.",
+            },
+            {
+                "headline": "Rapi banget ngurus hidup orang, hidupnya sendiri belum kelar.",
+                "catchphrase": "'Gue cuma ngasih tau yang bener, kok jadi baper.'",
+                "survival_tip": "Sebut dulu yang bener, baru masuk ke koreksinya.",
+            },
+            {
+                "headline": "Jujur katanya, padahal cuma gak mau nahan komentar.",
+                "catchphrase": "'Kalau gue gak ngomong, siapa lagi?'",
+                "survival_tip": "Biarin satu hal berantakan minggu ini. Dunia tetep muter.",
+            },
+        ],
         "toxic_traits": [
             "Sombongnya kebangetan, merasa standar hidupnya paling tinggi.",
             "Perfeksionis toxic, nggak ngasih ruang buat orang lain (bahkan dirinya) bikin salah.",
@@ -181,36 +368,74 @@ SHIO_ROASTING_BANK = {
             "Judgmental parah, liat orang dikit langsung di-scan dari atas ke bawah.",
             "Suka nyari kesalahan orang lain buat nutupin kekurangan sendiri.",
             "Over-sharing pencapaian di LinkedIn sampai bikin eneg.",
-            "Keras kepala kalau berdebat, pantang nyerah sebelum lawan nangis."
+            "Keras kepala kalau berdebat, pantang nyerah sebelum lawan nangis.",
+            "Ngoreksi hal sepele di waktu yang paling gak tepat.",
+            "Hafal kesalahan orang lengkap sama tanggalnya.",
+            "Nge-list kekurangan orang atas nama sayang.",
+            "Rencana geser dikit langsung ngedumel sepanjang hari.",
+            "Nuntut standar yang dia sendiri gak selalu penuhin.",
         ],
         "financial_sin": "Beli barang branded demi gengsi dan status sosial doang.",
-        "love_red_flag": "Nuntut pacarnya buat jadi sempurna kayak di film-film, bikin capek mental.",
-        "catchphrase": "'Gue bilang juga apa, harusnya lu tuh dengerin gue.'",
-        "survival_tip": "Kurang-kurangin nyinyir dan judge orang, hiduplah lebih santai bestie.",
-        "secret_weakness": "Insecure kalau ada orang yang kelihatan lebih pintar atau sukses dari dia."
+        "love_red_flag": "Nuntut pacarnya sempurna kayak di film, capeknya baru kerasa setelah dijalanin.",
+        "secret_weakness": "Ada yang kelihatan lebih pintar, langsung dicari-cari celah buat dikoreksi.",
     },
     "anjing": {
         "shio_name": "Anjing (🐕)",
-        "headline": "Overthinker paranoid yang hobinya ngasih guilt-trip ke orang lain.",
+        "variants": [
+            {
+                "headline": "Spesialis bikin orang merasa bersalah tanpa pernah naik satu oktaf pun.",
+                "catchphrase": "'Lu berubah deh, udah nggak peduli lagi ya sama gue?'",
+                "survival_tip": "Berhenti bikin skenario horor di kepalamu sendiri, dunia nggak seburuk itu.",
+            },
+            {
+                "headline": "Setia banget, sampai lupa nanya orangnya mau atau enggak.",
+                "catchphrase": "'Gue kan udah selalu ada buat lu.'",
+                "survival_tip": "Tanya langsung daripada nyimpulin sendiri seminggu penuh.",
+            },
+            {
+                "headline": "Ngasih terus, terus nagihnya pakai kalimat yang bikin nyesek.",
+                "catchphrase": "'Terserah lu deh' — kalimat pembuka perang dingin tiga hari.",
+                "survival_tip": "Kasih tanpa nyatet. Kalau gak bisa, jangan kasih dulu.",
+            },
+        ],
         "toxic_traits": [
             "Overprotective yang bikin engap, nanya 'di mana' dan 'sama siapa' tiap 5 menit.",
-            "Paranoid abis, temen telat bales chat langsung mikir dijauhin.",
-            "Anxiety-nya tinggi banget, dikit-dikit overthinking mikirin skenario terburuk.",
+            "Nanya 'lagi sama siapa' tiga kali, terus bilang cuma basa-basi.",
+            "Chat belum dibales sejam, skenario di kepalanya udah sampai episode 12.",
             "Pesimis kronis, belum nyoba udah mikir bakal gagal.",
             "Guilt-tripper andal, pinter bikin orang ngerasa bersalah kalau nggak nurutin dia.",
             "Suka terjebak di masa lalu, susah banget move on dari mantan atau kesalahan lama.",
             "Moody banget dan gampang cemas tanpa alasan jelas.",
-            "Terlalu loyal sampai rela dimanfaatin sama teman toxic."
+            "Terlalu loyal sampai rela dimanfaatin sama teman toxic.",
+            "Ngitung semua kebaikannya, dikeluarin pas lagi berantem.",
+            "Nanya kabar tiga kali sehari, bilangnya cuma perhatian.",
+            "Nge-tes kesetiaan orang lewat ujian yang gak pernah diumumin.",
+            "Susah move on dari orang yang jelas-jelas udah nyakitin.",
+            "Bikin orang ngerasa berutang budi tanpa pernah minta langsung.",
         ],
         "financial_sin": "Nabung terus karena takut miskin, tapi giliran dipinjem temen dikasih aja gara-gara ga enakan.",
         "love_red_flag": "Butuh validasi berlebihan dari pasangan, kalau nggak dibilang sayang ngerasa dunia kiamat.",
-        "catchphrase": "'Lu berubah deh, udah nggak peduli lagi ya sama gue?'",
-        "survival_tip": "Berhenti bikin skenario horor di kepalamu sendiri, dunia nggak seburuk itu.",
-        "secret_weakness": "Takut banget ditinggalin dan sendirian."
+        "secret_weakness": "Takut banget ditinggalin dan sendirian.",
     },
     "babi": {
         "shio_name": "Babi (🐖)",
-        "headline": "Hedonist malas yang gampang banget dikadalin orang.",
+        "variants": [
+            {
+                "headline": "Hedonist malas yang gampang banget dikadalin orang.",
+                "catchphrase": "'Yaudahlah santai aja, besok juga masih ada waktu.'",
+                "survival_tip": "Bangun woy! Jangan cuma rebahan nunggu keajaiban, dan kurang-kurangin naifnya.",
+            },
+            {
+                "headline": "Baiknya beneran, sayangnya dipakein orang buat kepentingan mereka.",
+                "catchphrase": "'Nggak apa-apa, aku ikhlas kok.'",
+                "survival_tip": "Cek dulu sebelum percaya, itu bukan berarti kamu jadi jahat.",
+            },
+            {
+                "headline": "Ditipu orang yang sama dua kali, masih dicariin alasan pembelaannya.",
+                "catchphrase": "'Kasihan dia' — diucapkan tentang orang yang baru aja ngerugiin dia.",
+                "survival_tip": "Tetapkan berapa maksimal yang boleh kamu kasih bulan ini.",
+            },
+        ],
         "toxic_traits": [
             "Hedon abis, duit gajian lewat doang buat makan enak dan foya-foya.",
             "Malasnya minta ampun, disuruh gerak dikit aja alasannya 'capek ah'.",
@@ -218,13 +443,16 @@ SHIO_ROASTING_BANK = {
             "Self-indulgent, selalu bilang 'aku pantas mendapatkannya' padahal kerjaan belum kelar.",
             "Gampang percaya sama orang, ditipu pinjol aja masih husnudzon.",
             "Kurang punya ambisi, dikasih challenge malah lari ke rebahan.",
-            "Suka overeating atau kalap jajan kalau lagi stres.",
-            "Terlalu pemaaf, disakitin berkali-kali tetep aja dimaafin."
+            "Lagi banyak pikiran, larinya ke checkout dan makan sekaligus.",
+            "Terlalu pemaaf, disakitin berkali-kali tetep aja dimaafin.",
+            "Nerima semua ajakan, ujungnya kecapekan sendiri dan ngambek.",
+            "Ditagih janji malah minta maaf panjang lebar tanpa nepatin.",
+            "Beli barang yang gak dibutuhin cuma karena kasihan sama penjualnya.",
+            "Nunda urusan yang gak enak sampai jadi masalah beneran.",
+            "Ngasih kesempatan kelima ke orang yang gagal di kesempatan pertama.",
         ],
         "financial_sin": "Gajian numpang lewat doang buat GoFood dan check out Shopee tengah malam.",
         "love_red_flag": "Nggak bisa menetapkan batasan yang jelas, pacar toxic tetep aja dibelain.",
-        "catchphrase": "'Yaudahlah santai aja, besok juga masih ada waktu.'",
-        "survival_tip": "Bangun woy! Jangan cuma rebahan nunggu keajaiban, dan kurang-kurangin naifnya.",
-        "secret_weakness": "Nggak tahan lihat makanan enak dan nggak tegaan lihat orang susah."
-    }
+        "secret_weakness": "Nggak tahan lihat makanan enak dan nggak tegaan lihat orang susah.",
+    },
 }

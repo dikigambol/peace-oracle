@@ -17,7 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnNext = document.getElementById('year-next');
 
     let selectedShio = null;
-    let currentYear = new Date().getFullYear();
+    const picker = document.querySelector('.year-picker');
+    const seededYear = picker ? parseInt(picker.dataset.currentYear, 10) : NaN;
+    let currentYear = Number.isFinite(seededYear)
+        ? seededYear
+        : new Date().getFullYear();
 
     function getYearShio(year) {
         const idx = ((year - 4) % 12 + 12) % 12;
@@ -82,6 +86,24 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('y-year-hanzi').textContent = data.year_shio ? data.year_shio.hanzi : '';
             document.getElementById('y-year-name').textContent = data.year_shio ? data.year_shio.name : '';
             document.getElementById('y-year-num').textContent = data.year !== undefined ? data.year : '';
+
+            const relation = data.relation || {};
+            const badge = document.getElementById('y-relation-badge');
+            badge.textContent = relation.tai_sui
+                ? relation.hanzi + ' ' + relation.tai_sui
+                : relation.hanzi + ' ' + relation.label;
+            badge.className = 'yearly-badge code-' + (relation.code || 'neutral');
+            document.getElementById('y-relation-note').textContent = relation.note || '';
+
+            const stem = data.stem_layer || {};
+            document.getElementById('y-stem-pillar').textContent = stem.year_pillar || '';
+            document.getElementById('y-stem-summary').textContent = stem.summary || '';
+            document.getElementById('y-stem-advice').textContent = stem.advice || '';
+            document.getElementById('y-stem').className =
+                'yearly-stem role-' + (stem.role || 'setara');
+
+            document.getElementById('yearly-lichun').textContent =
+                data.lichun_note || '';
 
             document.getElementById('y-saran').textContent = data.saran_utama || '';
             document.getElementById('y-saran-box').style.display = data.saran_utama ? 'flex' : 'none';

@@ -98,7 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
           <ul>${ji}</ul>
         </div>
       </div>`;
-    panel.classList.remove("hidden");
+    panel.classList.remove("hidden", "animate-in");
+    void panel.offsetWidth;
+    panel.classList.add("animate-in");
   }
   function fetchDailyAlmanak(dateStr = null) {
     const grid = document.getElementById("daily-grid");
@@ -122,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
           data.fortunes.forEach((item, index) => {
             const card = document.createElement("div");
             card.className = `daily-card status-${item.status_code} animate-in`;
-            card.style.animationDelay = `${index * 0.08}s`;
+            card.style.animationDelay = `${0.24 + index * 0.06}s`;
             card.innerHTML = `
                             <div class="daily-card-header">
                                 <span class="daily-card-icon icon-hanzi">${item.hanzi}</span>

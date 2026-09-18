@@ -20,3 +20,30 @@
   opacity: 0.9;
   line-height: 1.5;
 }
+
+
+.guardian-tradition {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(252, 227, 182, 0.55);
+  font-style: italic;
+  text-align: center;
+  margin: -6px 0 18px;
+}
+
+.guardian-side-note {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: rgba(252, 227, 182, 0.5);
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(255, 215, 0, 0.15);
+}
+
+.guardian-meta-note {
+  display: block;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: rgba(252, 227, 182, 0.45);
+  margin-top: 4px;
+}

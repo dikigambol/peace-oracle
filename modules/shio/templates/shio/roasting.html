@@ -74,9 +74,17 @@
     </div>
 
     <div id="view-result" class="shio-view hidden">
-      <button class="back-btn" id="back-to-start">
-        <i class="fa-solid fa-rotate-right"></i> Roasting Shio Lain
-      </button>
+      <div class="roast-toolbar">
+        <button class="back-btn roast-back" id="back-to-start">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Roasting Shio Lain</span>
+        </button>
+        <button class="roast-reroll hidden" id="roast-reroll">
+          <i class="fa-solid fa-fire"></i>
+          <span>Roasting Lagi</span>
+          <span class="roast-reroll-count" id="roast-reroll-count"></span>
+        </button>
+      </div>
       <div class="roast-card hidden" id="roast-card">
         <div class="roast-header">
           <div class="roast-hanzi" id="r-hanzi"></div>

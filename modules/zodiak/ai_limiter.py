@@ -1,4 +1,5 @@
 import os
+import time
 import hashlib
 from datetime import date
 from flask import request
@@ -18,16 +19,33 @@ def _env_int(name, fallback):
 
 
 DAILY_AI_LIMIT = _env_int("DAILY_AI_LIMIT", 10)
+FINGERPRINT_AI_LIMIT = _env_int(
+    "FINGERPRINT_AI_LIMIT", max(DAILY_AI_LIMIT * 3, DAILY_AI_LIMIT)
+)
+MEMORY_STORE_MAX = _env_int("MEMORY_STORE_MAX", 5000)
+DB_OFFLINE_COOLDOWN = _env_int("DB_OFFLINE_COOLDOWN", 60)
 MYSQL_HOST = os.environ.get("MYSQL_HOST")
 MYSQL_PORT = _env_int("MYSQL_PORT", 3306)
 MYSQL_DB = os.environ.get("MYSQL_DB")
 MYSQL_USER = os.environ.get("MYSQL_USER")
 MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
 _MEMORY_STORE = {}
+_DB_OFFLINE_UNTIL = 0.0
+
+
+def _db_available():
+    return bool(HAS_PYMYSQL and MYSQL_HOST and MYSQL_DB and MYSQL_USER)
+
+
+def _mark_db_offline():
+    global _DB_OFFLINE_UNTIL
+    _DB_OFFLINE_UNTIL = time.monotonic() + DB_OFFLINE_COOLDOWN
 
 
 def _get_mysql_connection():
-    if not HAS_PYMYSQL:
+    if not _db_available():
+        return None
+    if time.monotonic() < _DB_OFFLINE_UNTIL:
         return None
     try:
         return pymysql.connect(
@@ -43,10 +61,13 @@ def _get_mysql_connection():
             autocommit=True,
         )
     except (pymysql.MySQLError, OSError):
+        _mark_db_offline()
         return None
 
 
 def init_db():
+    if not _db_available():
+        return
     try:
         conn = _get_mysql_connection()
         if conn:
@@ -86,13 +107,27 @@ def init_db():
 init_db()
 
 
+def _hash(value):
+    return hashlib.sha256(value.encode("utf-8")).hexdigest()[:40]
+
+
+def get_fingerprint_id():
+    try:
+        forwarded = request.headers.get("X-Forwarded-For")
+        ip = (
+            forwarded.split(",")[0].strip()
+            if forwarded
+            else (request.remote_addr or "127.0.0.1")
+        )
+        user_agent = request.headers.get("User-Agent", "unknown_ua")
+        accept_lang = request.headers.get("Accept-Language", "")
+        sec_ua = request.headers.get("Sec-Ch-Ua", "")
+        return "fp_" + _hash(f"{ip}_{user_agent}_{accept_lang}_{sec_ua}")
+    except Exception:
+        return "fp_default"
+
+
 def get_device_id():
-    """
-    SATU INDIKATOR TUNGGAL PERANGKAT (Single Device Indicator):
-    Mengambil Device ID dari header X-Device-Id, cookie, atau payload JSON.
-    Jika tidak ada, fallback ke Fingerprint Perangkat yang presisi.
-    Menghasilkan SATU string identifier unik per perangkat.
-    """
     try:
         raw_id = None
         dev_header = request.headers.get("X-Device-Id")
@@ -117,19 +152,8 @@ def get_device_id():
                 if raw_id.startswith(prefix):
                     raw_id = raw_id[len(prefix) :]
                     break
-            return f"device_{raw_id}"
-        forwarded = request.headers.get("X-Forwarded-For")
-        ip = (
-            forwarded.split(",")[0].strip()
-            if forwarded
-            else (request.remote_addr or "127.0.0.1")
-        )
-        user_agent = request.headers.get("User-Agent", "unknown_ua")
-        accept_lang = request.headers.get("Accept-Language", "")
-        sec_ua = request.headers.get("Sec-Ch-Ua", "")
-        fp_raw = f"{ip}_{user_agent}_{accept_lang}_{sec_ua}"
-        fp_hash = hashlib.md5(fp_raw.encode("utf-8")).hexdigest()
-        return f"device_fp_{fp_hash}"
+            return "device_" + _hash(raw_id)
+        return get_fingerprint_id()
     except Exception:
         return "device_default"
 
@@ -137,10 +161,18 @@ def get_device_id():
 get_client_id = get_device_id
 
 
+def _prune_memory(today_str):
+    global _MEMORY_STORE
+    if len(_MEMORY_STORE) <= MEMORY_STORE_MAX:
+        return
+    _MEMORY_STORE = {
+        k: v for k, v in _MEMORY_STORE.items() if v.get("date") == today_str
+    }
+    if len(_MEMORY_STORE) > MEMORY_STORE_MAX:
+        _MEMORY_STORE = dict(list(_MEMORY_STORE.items())[-MEMORY_STORE_MAX:])
+
+
 def _db_get_count(device_id, today_str):
-    """
-    Mendapatkan jumlah kuota terpakai untuk SATU indikator device_id.
-    """
     global _MEMORY_STORE
     if not device_id:
         return 0
@@ -164,13 +196,11 @@ def _db_get_count(device_id, today_str):
 
 
 def _db_set_count(device_id, today_str, count):
-    """
-    Menyimpan jumlah kuota terpakai untuk SATU indikator device_id.
-    """
     global _MEMORY_STORE
     if not device_id:
         return
     _MEMORY_STORE[device_id] = {"date": today_str, "count": count}
+    _prune_memory(today_str)
     try:
         conn = _get_mysql_connection()
         if conn:
@@ -190,36 +220,43 @@ def _db_set_count(device_id, today_str, count):
         pass
 
 
+def _quota_buckets(device_id):
+    fingerprint_id = get_fingerprint_id()
+    buckets = [(device_id, DAILY_AI_LIMIT)]
+    if fingerprint_id != device_id:
+        buckets.append((fingerprint_id, FINGERPRINT_AI_LIMIT))
+    return buckets
+
+
 def check_ai_quota(device_id=None):
-    """
-    SINGLE INDICATOR AI RATE LIMITER:
-    Hanya menggunakan SATU Indikator Perangkat (Device ID).
-    (Maksimal 2x / hari per perangkat).
-    """
     try:
         if not device_id:
             device_id = get_device_id()
         today_str = date.today().isoformat()
-        used_count = _db_get_count(device_id, today_str)
-        if used_count >= DAILY_AI_LIMIT:
-            notice = f"AI Mode Limited. Switching to Standard Prediction."
-            return False, used_count, DAILY_AI_LIMIT, notice
+        used_count = 0
+        for bucket_id, bucket_limit in _quota_buckets(device_id):
+            bucket_count = _db_get_count(bucket_id, today_str)
+            if bucket_id == device_id:
+                used_count = bucket_count
+            if bucket_count >= bucket_limit:
+                notice = "AI Mode Limited. Switching to Standard Prediction."
+                return False, used_count, DAILY_AI_LIMIT, notice
         return True, used_count, DAILY_AI_LIMIT, None
     except Exception:
         return True, 0, DAILY_AI_LIMIT, None
 
 
 def increment_ai_quota(device_id=None):
-    """
-    Menambah hitungan penggunaan AI harian per perangkat untuk SATU indikator device_id.
-    """
     try:
         if not device_id:
             device_id = get_device_id()
         today_str = date.today().isoformat()
-        is_allowed, current_count, limit, notice = check_ai_quota(device_id)
-        new_count = current_count + 1
-        _db_set_count(device_id, today_str, new_count)
+        new_count = 1
+        for bucket_id, bucket_limit in _quota_buckets(device_id):
+            bucket_count = _db_get_count(bucket_id, today_str) + 1
+            _db_set_count(bucket_id, today_str, bucket_count)
+            if bucket_id == device_id:
+                new_count = bucket_count
         return new_count
     except Exception:
         return 1

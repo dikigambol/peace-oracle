@@ -1,7 +1,7 @@
 import json
 import requests
 from .horoscope_bank import get_openrouter_api_key
-from .ai_limiter import increment_ai_quota
+from .ai_limiter import check_ai_quota, increment_ai_quota
 
 PARTNER_QUIZ_QUESTIONS = [
     {
@@ -117,23 +117,30 @@ PARTNER_QUIZ_QUESTIONS = [
 ]
 
 
+def clean_answer_index(value):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def calculate_quiz_match(host_answers, partner_answers):
     """
     Menghitung persentase kecocokan jawaban antara Host & Partner (0-100%)
     """
     if (
-        not host_answers
-        or not partner_answers
+        not isinstance(host_answers, list)
+        or not isinstance(partner_answers, list)
         or len(host_answers) != len(partner_answers)
     ):
         return 50, []
     exact_matches = 0
     breakdown = []
-    for i in range(len(host_answers)):
+    for i in range(min(len(host_answers), len(PARTNER_QUIZ_QUESTIONS))):
         q = PARTNER_QUIZ_QUESTIONS[i]
-        h_idx = int(host_answers[i])
-        p_idx = int(partner_answers[i])
-        is_match = h_idx == p_idx
+        h_idx = clean_answer_index(host_answers[i])
+        p_idx = clean_answer_index(partner_answers[i])
+        is_match = h_idx is not None and h_idx == p_idx
         if is_match:
             exact_matches += 1
         breakdown.append(
@@ -142,10 +149,14 @@ def calculate_quiz_match(host_answers, partner_answers):
                 "category": q["category"],
                 "question": q["question"],
                 "host_answer": (
-                    q["options"][h_idx] if 0 <= h_idx < len(q["options"]) else "-"
+                    q["options"][h_idx]
+                    if h_idx is not None and 0 <= h_idx < len(q["options"])
+                    else "-"
                 ),
                 "partner_answer": (
-                    q["options"][p_idx] if 0 <= p_idx < len(q["options"]) else "-"
+                    q["options"][p_idx]
+                    if p_idx is not None and 0 <= p_idx < len(q["options"])
+                    else "-"
                 ),
                 "is_match": is_match,
             }
@@ -193,7 +204,8 @@ def get_ai_couple_quiz_analysis(
         )
         or "Saling melengkapi perbedaan"
     )
-    api_key = get_openrouter_api_key()
+    is_allowed, count, limit, notice = check_ai_quota()
+    api_key = get_openrouter_api_key() if is_allowed else None
     if not api_key:
         return {
             "verdict": f"Pasangan {h_sign_name} & {p_sign_name} ini punya chemistry yang unik banget!",

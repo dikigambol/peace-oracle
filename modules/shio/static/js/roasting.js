@@ -18,6 +18,75 @@ document.addEventListener("DOMContentLoaded", () => {
     result: document.getElementById("view-result"),
   };
   const roastCard = document.getElementById("roast-card");
+  const rerollBtn = document.getElementById("roast-reroll");
+  const rerollCount = document.getElementById("roast-reroll-count");
+  let current = null;
+  let lastVariant = -1;
+
+  function pickVariant(total) {
+    if (total < 2) return 0;
+    let index = lastVariant;
+    while (index === lastVariant) {
+      index = Math.floor(Math.random() * total);
+    }
+    lastVariant = index;
+    return index;
+  }
+
+  function drawTraits(pool, count) {
+    const copy = pool.slice();
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy.slice(0, Math.min(count, copy.length));
+  }
+
+  function renderRoast(shioKey) {
+    const data = current;
+    const variants = data.variants || [];
+    const variant = variants[pickVariant(variants.length)] || {};
+    const pool = Array.isArray(data.toxic_traits) ? data.toxic_traits : [];
+    const traits = drawTraits(pool, data.traits_per_draw || 8);
+
+    document.getElementById("r-hanzi").textContent = SHIO_HANZI[shioKey] || "";
+    document.getElementById("r-shio-name").textContent = data.shio_name || "";
+    document.getElementById("r-headline").textContent = variant.headline || "";
+
+    const traitsList = document.getElementById("r-toxic-traits");
+    while (traitsList.firstChild) traitsList.removeChild(traitsList.firstChild);
+    traits.forEach((trait) => {
+      const li = document.createElement("li");
+      li.textContent = trait;
+      traitsList.appendChild(li);
+    });
+
+    document.getElementById("r-financial-sin").textContent =
+      data.financial_sin || "-";
+    document.getElementById("r-love-red-flag").textContent =
+      data.love_red_flag || "-";
+    document.getElementById("r-catchphrase").textContent =
+      variant.catchphrase || "";
+    document.getElementById("r-secret-weakness").textContent =
+      data.secret_weakness || "-";
+    document.getElementById("r-survival-tip").textContent =
+      variant.survival_tip || "-";
+
+    rerollCount.textContent = variants.length
+      ? "versi " + (lastVariant + 1) + " dari " + variants.length
+      : "";
+    rerollBtn.classList.toggle("hidden", variants.length < 2 && pool.length <= (data.traits_per_draw || 8));
+  }
+
+  if (rerollBtn) {
+    rerollBtn.addEventListener("click", () => {
+      if (!current || !current.shioKey) return;
+      renderRoast(current.shioKey);
+      roastCard.classList.remove("roast-flash");
+      void roastCard.offsetWidth;
+      roastCard.classList.add("roast-flash");
+    });
+  }
   function switchView(viewName) {
     Object.values(views).forEach((v) => {
       if (v) {
@@ -50,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   function fetchRoasting(shioKey) {
     roastCard.classList.add("hidden");
+    rerollBtn.classList.add("hidden");
     switchView("result");
     fetch("/api/shio/roasting", {
       method: "POST",
@@ -63,30 +133,10 @@ document.addEventListener("DOMContentLoaded", () => {
           switchView("shioList");
           return;
         }
-        document.getElementById("r-hanzi").textContent =
-          SHIO_HANZI[shioKey] || "";
-        document.getElementById("r-shio-name").textContent =
-          data.shio_name || "";
-        document.getElementById("r-headline").textContent = data.headline || "";
-        const traitsList = document.getElementById("r-toxic-traits");
-        traitsList.innerHTML = "";
-        if (Array.isArray(data.toxic_traits)) {
-          data.toxic_traits.forEach((trait) => {
-            const li = document.createElement("li");
-            li.textContent = trait;
-            traitsList.appendChild(li);
-          });
-        }
-        document.getElementById("r-financial-sin").textContent =
-          data.financial_sin || "-";
-        document.getElementById("r-love-red-flag").textContent =
-          data.love_red_flag || "-";
-        document.getElementById("r-catchphrase").textContent =
-          data.catchphrase || "";
-        document.getElementById("r-secret-weakness").textContent =
-          data.secret_weakness || "-";
-        document.getElementById("r-survival-tip").textContent =
-          data.survival_tip || "-";
+        current = data;
+        current.shioKey = shioKey;
+        lastVariant = -1;
+        renderRoast(shioKey);
         roastCard.classList.remove("hidden");
         setTimeout(() => roastCard.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
       })

@@ -283,3 +283,106 @@
   60% { transform: translateX(-5px) rotate(-3deg); }
   80% { transform: translateX(5px) rotate(3deg); }
 }
+
+
+.slip-energy {
+  border-top: 1px dashed rgba(139, 105, 20, 0.35);
+  margin-top: 18px;
+  padding-top: 16px;
+  text-align: left;
+}
+
+.slip-energy-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin: 0 0 10px;
+}
+
+.slip-energy-pillar {
+  font-family: "Cinzel", serif;
+  font-size: 1.2rem;
+  color: #8b6914;
+  letter-spacing: 1px;
+}
+
+.slip-energy-badge {
+  font-size: 0.68rem;
+  letter-spacing: 0.3px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(139, 105, 20, 0.4);
+  background: rgba(255, 252, 240, 0.55);
+  color: #5c4a2a;
+}
+
+.slip-energy-badge.code-good {
+  border-color: rgba(45, 106, 58, 0.45);
+  background: rgba(45, 106, 58, 0.1);
+  color: #2d6a3a;
+}
+
+.slip-energy-badge.code-bad {
+  border-color: rgba(163, 51, 38, 0.45);
+  background: rgba(163, 51, 38, 0.1);
+  color: #a33326;
+}
+
+.slip-energy-desc {
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: rgba(59, 47, 28, 0.88);
+  margin: 0 0 8px;
+}
+
+.slip-energy-pick {
+  font-size: 0.74rem;
+  line-height: 1.6;
+  color: #755810;
+  font-style: italic;
+  margin: 0 0 14px;
+}
+
+.slip-hoki {
+  background: rgba(139, 105, 20, 0.07);
+  border: 1px solid rgba(139, 105, 20, 0.22);
+  border-radius: 10px;
+  padding: 13px 15px;
+}
+
+.slip-hoki-reason {
+  font-size: 0.76rem;
+  line-height: 1.6;
+  color: rgba(92, 74, 42, 0.85);
+  margin: 7px 0 11px;
+}
+
+.slip-hoki-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px 16px;
+}
+
+.slip-hoki-list li {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+}
+
+.slip-hoki-list strong {
+  font-family: "Cinzel", serif;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #755810;
+  margin-bottom: 3px;
+}
+
+.slip-hoki-list span {
+  color: #3b2f1c;
+  line-height: 1.5;
+}

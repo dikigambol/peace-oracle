@@ -74,7 +74,7 @@
 
         <div class="yearly-section">
           <label class="yearly-label">Pilih Tahun</label>
-          <div class="year-picker">
+          <div class="year-picker" data-current-year="{{ current_year }}">
             <button class="year-nav" id="year-prev"><i class="fa-solid fa-chevron-left"></i></button>
             <div class="year-display">
               <span class="year-number" id="year-number"></span>
@@ -83,6 +83,10 @@
             <button class="year-nav" id="year-next"><i class="fa-solid fa-chevron-right"></i></button>
           </div>
         </div>
+
+        <p class="yearly-lichun" id="yearly-lichun">
+          Tahun Imlek berganti di 立春, sekitar 4 Februari &mdash; bukan 1 Januari.
+        </p>
 
         <button class="yearly-submit" id="btn-check" disabled>
           <i class="fa-solid fa-telescope"></i> Lihat Proyeksi Tahunan
@@ -108,6 +112,20 @@
               <span class="yearly-year-num" id="y-year-num"></span>
             </div>
           </div>
+        </div>
+
+        <div class="yearly-relation" id="y-relation">
+          <span class="yearly-badge" id="y-relation-badge"></span>
+          <p class="yearly-relation-note" id="y-relation-note"></p>
+        </div>
+
+        <div class="yearly-stem" id="y-stem">
+          <h4 class="yearly-stem-title">
+            <i class="fa-solid fa-palette"></i> Warna Energi Tahun Ini
+            <span class="yearly-stem-pillar" id="y-stem-pillar"></span>
+          </h4>
+          <p class="yearly-stem-summary" id="y-stem-summary"></p>
+          <p class="yearly-stem-advice" id="y-stem-advice"></p>
         </div>
 
         <div class="yearly-advice" id="y-saran-box">

@@ -58,7 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("res-mantra-meaning").textContent =
           data.mantra_meaning;
         document.getElementById("res-guardian-element").textContent =
-          data.guardian_element;
+          data.shio_element + " " + data.shio_element_hanzi;
+        document.getElementById("res-tradition").textContent = data.tradition;
         document.getElementById("res-protection").textContent =
           data.protection_advice;
         document.getElementById("res-offering").textContent =
@@ -76,6 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
           data.best_pray_time;
         document.getElementById("res-sacred-dir").textContent =
           data.sacred_direction;
+        document.getElementById("res-dir-note").textContent = data.direction_note;
+        document.getElementById("res-pray-time-note").textContent =
+          data.pray_time_note;
+        document.getElementById("res-feng-shui-note").textContent =
+          data.feng_shui_note;
         const resultCard = document.getElementById("main-fortune-card");
         resultCard.classList.remove("hidden");
         setTimeout(() => resultCard.scrollIntoView({ behavior: "smooth", block: "start" }), 100);

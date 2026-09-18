@@ -183,8 +183,7 @@
 .mode-card.locked:hover i {
   transform: none;
 }
-.coming-soon-badge,
-.beta-badge {
+.coming-soon-badge {
   position: absolute;
   top: 20px;
   right: 20px;
@@ -202,11 +201,6 @@
   background: rgba(80, 80, 80, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #e0e0e0;
-}
-.beta-badge {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 @keyframes fadeInDown {
   from {
@@ -271,8 +265,7 @@
   .mode-card p {
     font-size: 0.8rem;
   }
-  .coming-soon-badge,
-  .beta-badge {
+  .coming-soon-badge {
     top: 10px;
     right: 10px;
     font-size: 0.6rem;
