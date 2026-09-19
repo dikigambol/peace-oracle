@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateInput = document.getElementById('destiny-date');
     const hourSelect = document.getElementById('destiny-hour');
     const minuteSelect = document.getElementById('destiny-minute');
-    const citySelect = document.getElementById('destiny-city');
+    const cityInput = document.getElementById('destiny-city');
     const submitBtn = document.getElementById('destiny-submit');
     const errorBox = document.getElementById('destiny-error');
     const backBtn = document.getElementById('destiny-back');
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectedGender = null;
     let selectedDate = null;
     let loading = false;
+    let datePicker = null;
 
     function el(tag, className, text) {
         const node = document.createElement(tag);
@@ -54,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (window.flatpickr) {
-        flatpickr(dateInput, {
+        datePicker = flatpickr(dateInput, {
             dateFormat: 'Y-m-d',
             altInput: true,
             altFormat: 'j F Y',
@@ -86,8 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     hourSelect.addEventListener('change', () => {
         minuteSelect.disabled = hourSelect.value === '';
-        if (minuteSelect.disabled) minuteSelect.value = '0';
+        if (minuteSelect.disabled) {
+            minuteSelect.value = '';
+        } else if (minuteSelect.value === '') {
+            minuteSelect.value = '0';
+        }
     });
+
+    function resetForm() {
+        selectedDate = null;
+        selectedGender = null;
+        if (datePicker) {
+            datePicker.clear();
+        } else {
+            dateInput.value = '';
+        }
+        document.querySelectorAll('.destiny-gender-btn').forEach(b => b.classList.remove('selected'));
+        hourSelect.value = '';
+        minuteSelect.value = '';
+        minuteSelect.disabled = true;
+        cityInput.value = '';
+        errorBox.classList.add('hidden');
+        updateSubmitState();
+    }
 
     backBtn.addEventListener('click', () => {
         viewResult.classList.add('hidden');
@@ -119,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({
                 tanggal: selectedDate,
                 jam: hourSelect.value === '' ? null : hourSelect.value,
-                menit: hourSelect.value === '' ? null : minuteSelect.value,
-                kota: citySelect.value || null,
+                menit: hourSelect.value === '' ? null : minuteSelect.value || '0',
+                kota: cityInput.value || null,
                 gender: selectedGender
             })
         })
@@ -136,6 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 viewResult.classList.remove('hidden');
                 viewResult.classList.add('active');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
+                resetForm();
             })
             .catch(err => {
                 console.error('Gagal memuat gulungan:', err);
@@ -155,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         school.appendChild(el('span', 'destiny-notice-icon', '☯'));
         const schoolBody = el('div');
         schoolBody.appendChild(el('strong', null, 'Aliran ' + meta.school));
-        paragraph(schoolBody, 'Perhitungan memakai batas 立春 untuk pilar tahun dan batas 23:00 untuk pilar hari.', 'destiny-notice-text');
+        paragraph(schoolBody, 'Perhitungan memakai batas awal musim semi (立春) untuk pilar tahun dan batas 23:00 untuk pilar hari.', 'destiny-notice-text');
         school.appendChild(schoolBody);
         box.appendChild(school);
 
@@ -166,11 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
             body.appendChild(el('strong', null, 'Koreksi waktu matahari sejati'));
             const offset = meta.true_solar_offset_minutes;
             const sign = offset >= 0 ? '+' : '';
-            paragraph(body, 'Jam lahirmu digeser ' + sign + offset.toFixed(1) +
-                ' menit menurut bujur ' + meta.city.name + ' (' + meta.city.longitude + '°BT).',
+            paragraph(body, 'Jam lahirmu dibaca sebagai waktu ' + meta.city.zone +
+                ' lalu digeser ' + sign + offset.toFixed(1) + ' menit menurut bujur ' +
+                meta.city.name + ' (' + meta.city.longitude + '°BT) terhadap meridian ' +
+                meta.city.zone_meridian + '°BT.',
                 'destiny-notice-text');
             if (meta.city.assumed) {
-                paragraph(body, 'Kota lahir tidak dipilih atau tidak dikenali, jadi dipakai ' + meta.city.name + ' sebagai asumsi.', 'destiny-notice-text');
+                paragraph(body, 'Kota lahir tidak dipilih atau tidak dikenali, jadi dipakai ' + meta.city.name + ' sebagai asumsi. Ketik ulang lalu pilih dari daftar supaya tepat.', 'destiny-notice-text');
             }
             solar.appendChild(body);
             box.appendChild(solar);
@@ -217,8 +242,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const body = el('tbody');
 
+        const rowHead = (hanzi, label) => {
+            const cell = el('th', 'destiny-chart-rowhead');
+            cell.appendChild(el('span', 'destiny-chart-rowhead-hanzi', hanzi));
+            cell.appendChild(el('span', 'destiny-chart-rowhead-label', label));
+            return cell;
+        };
+
         const stemRow = el('tr');
-        stemRow.appendChild(el('th', 'destiny-chart-rowhead', '天干'));
+        stemRow.appendChild(rowHead('天干', 'Batang Langit'));
         available.forEach(p => {
             const cell = el('td');
             cell.appendChild(el('span', 'destiny-chart-hanzi', p.stem_hanzi));
@@ -229,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         body.appendChild(stemRow);
 
         const branchRow = el('tr');
-        branchRow.appendChild(el('th', 'destiny-chart-rowhead', '地支'));
+        branchRow.appendChild(rowHead('地支', 'Cabang Bumi'));
         available.forEach(p => {
             const cell = el('td');
             cell.appendChild(el('span', 'destiny-chart-hanzi', p.branch_hanzi));
@@ -239,13 +271,13 @@ document.addEventListener('DOMContentLoaded', () => {
         body.appendChild(branchRow);
 
         const hiddenRow = el('tr');
-        hiddenRow.appendChild(el('th', 'destiny-chart-rowhead', '藏干'));
+        hiddenRow.appendChild(rowHead('藏干', 'Batang Tersembunyi'));
         available.forEach(p => {
             const cell = el('td');
             p.hidden_stems.forEach(h => {
                 const item = el('span', 'destiny-hidden');
                 item.appendChild(el('span', 'destiny-hidden-hanzi', h.hanzi));
-                item.appendChild(el('span', 'destiny-hidden-god', h.god.hanzi));
+                item.appendChild(el('span', 'destiny-hidden-god', h.god.hanzi + ' ' + h.god.meaning));
                 cell.appendChild(item);
             });
             hiddenRow.appendChild(cell);
@@ -565,16 +597,92 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('destiny-disclaimer').textContent = data.meta.disclaimer;
     }
 
-    const canvas = document.getElementById('particle-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        for (let i = 0; i < 100; i++) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
-            ctx.beginPath();
-            ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
-            ctx.fill();
-        }
+  const canvas = document.getElementById('particle-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 5 + 2;
+        this.speedX = Math.random() * 6 - 3;
+        this.speedY = Math.random() * 6 - 3;
+        this.color = Math.random() > 0.5 ? '#ffd700' : '#ff4500';
+        this.life = 1.0;
+        this.decay = Math.random() * 0.02 + 0.02;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= this.decay;
+      }
+      draw() {
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+    }
+    function createParticles(x, y) {
+      for (let i = 0; i < 30; i++) {
+        particles.push(new Particle(x, y));
+      }
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+    let isDragging = false;
+    const shioBg = document.getElementById('shio-bg');
+    if (shioBg) {
+      shioBg.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        createParticles(e.clientX, e.clientY);
+      });
+      shioBg.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          for (let i = 0; i < 5; i++) {
+            particles.push(new Particle(e.clientX, e.clientY));
+          }
+        }
+      });
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+      shioBg.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        createParticles(touch.clientX, touch.clientY);
+      });
+      shioBg.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          const touch = e.touches[0];
+          for (let i = 0; i < 5; i++) {
+            particles.push(new Particle(touch.clientX, touch.clientY));
+          }
+        }
+      });
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    }
+  }
 });

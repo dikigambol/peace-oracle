@@ -1,26 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  let shio1 = null;
-  let shio2 = null;
   const btnCheck = document.getElementById("btn-check");
   const resultEl = document.getElementById("compat-result");
   let birth1 = null;
   let birth2 = null;
-
-  const birthToggle = document.getElementById("birth-toggle");
-  const birthBody = document.getElementById("birth-body");
-  const birthToggleLabel = document.getElementById("birth-toggle-label");
-  function syncBirthToggle() {
-    const isOpen = !birthBody.classList.contains("hidden");
-    birthToggle.classList.toggle("open", isOpen);
-    birthToggleLabel.textContent = isOpen
-      ? "Tanggal lahir"
-      : "Tambah tanggal lahir";
-  }
-  birthToggle.addEventListener("click", () => {
-    birthBody.classList.toggle("hidden");
-    syncBirthToggle();
-  });
-  syncBirthToggle();
 
   function setupBirthInput(id, onPick) {
     const input = document.getElementById(id);
@@ -41,35 +23,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   setupBirthInput("birth-1", (value) => {
     birth1 = value;
+    updateButton();
   });
   setupBirthInput("birth-2", (value) => {
     birth2 = value;
-  });
-  function setupPicker(pickerId, callback) {
-    const picker = document.getElementById(pickerId);
-    picker.querySelectorAll(".shio-pick").forEach((el) => {
-      el.addEventListener("click", () => {
-        picker
-          .querySelectorAll(".shio-pick")
-          .forEach((p) => p.classList.remove("selected"));
-        el.classList.add("selected");
-        callback(el.dataset.shio);
-        updateButton();
-      });
-    });
-  }
-  setupPicker("picker-1", (key) => {
-    shio1 = key;
-  });
-  setupPicker("picker-2", (key) => {
-    shio2 = key;
+    updateButton();
   });
   function updateButton() {
-    btnCheck.disabled = !(shio1 && shio2);
+    btnCheck.disabled = !(birth1 && birth2);
   }
   btnCheck.addEventListener("click", () => {
-    if (!shio1 || !shio2) return;
-    fetchCompatibility(shio1, shio2);
+    if (!birth1 || !birth2) return;
+    fetchCompatibility();
   });
   function buildYearCard(card, side) {
     while (card.firstChild) card.removeChild(card.firstChild);
@@ -118,25 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
     stemText.textContent = layer.stem_relation.text;
     stem.appendChild(badge);
     stem.appendChild(stemText);
-
-    const warn = document.getElementById("c-year-correction");
-    while (warn.firstChild) warn.removeChild(warn.firstChild);
-    if (layer.corrections.length) {
-      const title = document.createElement("strong");
-      title.textContent = "Shio disesuaikan dengan tanggal lahir";
-      warn.appendChild(title);
-      layer.corrections.forEach((item) => {
-        const line = document.createElement("p");
-        line.className = "dyn-summary";
-        line.textContent =
-          item.date + " jatuh di pilar " + item.pillar + ", jadi shionya " +
-          item.actual + ", bukan " + item.picked + ".";
-        warn.appendChild(line);
-      });
-      warn.classList.remove("hidden");
-    } else {
-      warn.classList.add("hidden");
-    }
 
     buildYearCard(document.getElementById("c-year-1"), layer.shio1);
     buildYearCard(document.getElementById("c-year-2"), layer.shio2);
@@ -378,16 +324,11 @@ document.addEventListener("DOMContentLoaded", () => {
     box.classList.remove("hidden");
   }
 
-  function fetchCompatibility(s1, s2) {
+  function fetchCompatibility() {
     fetch("/api/shio/compatibility", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        shio1: s1,
-        shio2: s2,
-        tanggal1: birth1,
-        tanggal2: birth2,
-      }),
+      body: JSON.stringify({ tanggal1: birth1, tanggal2: birth2 }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -396,6 +337,9 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         resultEl.classList.remove("hidden");
+        resultEl.classList.remove("animate-in");
+        void resultEl.offsetWidth;
+        resultEl.classList.add("animate-in");
         const hanzi1 = data.shio1 ? data.shio1.hanzi : "";
         const hanzi2 = data.shio2 ? data.shio2.hanzi : "";
         const name1 = data.shio1 ? data.shio1.name : "";

@@ -67,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.getElementById("back-to-start").addEventListener("click", () => {
     resetCookie();
+    document
+      .querySelectorAll(".shio-item")
+      .forEach((b) => b.classList.remove("selected"));
     switchView("shioList");
     setTimeout(() => {
       const container = document.querySelector(".shio-content-wrapper");
@@ -177,31 +180,56 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
+    const CRUMB_TONES = ["#e8c47a", "#d9a441", "#c2883a", "#a86f28", "#8d5a20"];
     class Crumb {
       constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.size = Math.random() * 4 + 1.5;
-        this.speedX = Math.random() * 8 - 4;
-        this.speedY = Math.random() * -5 - 1;
-        this.color = Math.random() > 0.45 ? "#ffd700" : "#d9a441";
+        this.size = Math.random() * 3.5 + 1.8;
+        this.speedX = Math.random() * 7 - 3.5;
+        this.speedY = -(Math.random() * 4.5 + 1);
+        this.color = CRUMB_TONES[Math.floor(Math.random() * CRUMB_TONES.length)];
         this.life = 1.0;
-        this.decay = Math.random() * 0.015 + 0.01;
+        this.decay = Math.random() * 0.012 + 0.008;
+        this.rot = Math.random() * Math.PI * 2;
+        this.spin = (Math.random() - 0.5) * 0.22;
+        this.sisi = 5 + Math.floor(Math.random() * 3);
+        this.takik = [];
+        for (let i = 0; i < this.sisi; i++) {
+          this.takik.push(0.55 + Math.random() * 0.7);
+        }
       }
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.speedY += 0.18;
-        this.speedX *= 0.99;
+        this.speedY += 0.2;
+        this.speedX *= 0.985;
+        this.rot += this.spin;
+        this.spin *= 0.995;
         this.life -= this.decay;
       }
       draw() {
-        ctx.globalAlpha = Math.max(this.life, 0);
+        const hidup = Math.max(this.life, 0);
+        ctx.save();
+        ctx.globalAlpha = hidup;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rot);
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        for (let i = 0; i < this.sisi; i++) {
+          const sudut = (i / this.sisi) * Math.PI * 2;
+          const jari = this.size * this.takik[i];
+          const px = Math.cos(sudut) * jari;
+          const py = Math.sin(sudut) * jari * 0.78;
+          if (i === 0) {
+            ctx.moveTo(px, py);
+          } else {
+            ctx.lineTo(px, py);
+          }
+        }
+        ctx.closePath();
         ctx.fill();
-        ctx.globalAlpha = 1.0;
+        ctx.restore();
       }
     }
     burstCrumbs = (x, y) => {
@@ -222,5 +250,43 @@ document.addEventListener("DOMContentLoaded", () => {
       requestAnimationFrame(animate);
     }
     animate();
+    let isDragging = false;
+    const shioBg = document.getElementById("shio-bg");
+    if (shioBg) {
+      shioBg.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        for (let i = 0; i < 18; i++) {
+          particles.push(new Crumb(e.clientX, e.clientY));
+        }
+      });
+      shioBg.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+          for (let i = 0; i < 3; i++) {
+            particles.push(new Crumb(e.clientX, e.clientY));
+          }
+        }
+      });
+      window.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+      shioBg.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        for (let i = 0; i < 18; i++) {
+          particles.push(new Crumb(touch.clientX, touch.clientY));
+        }
+      });
+      shioBg.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+          const touch = e.touches[0];
+          for (let i = 0; i < 3; i++) {
+            particles.push(new Crumb(touch.clientX, touch.clientY));
+          }
+        }
+      });
+      window.addEventListener("touchend", () => {
+        isDragging = false;
+      });
+    }
   }
 });

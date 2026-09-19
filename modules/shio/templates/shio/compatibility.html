@@ -2,8 +2,8 @@
 {% block title %}Timbangan Jodoh Kosmik - Peace
 Oracle{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='vendor/flatpickr/flatpickr.min.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='vendor/flatpickr/dark.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/compatibility.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -29,106 +29,16 @@ Oracle{% endblock %}
       <i>inner peace</i>.
     </p>
     <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
-    <div class="compat-form">
-      <div class="compat-picker" id="picker-1">
-        <label>Shio Pertama</label>
-        <div class="shio-select-grid">
-          <div class="shio-pick" data-shio="tikus">
-            <span class="pick-icon hanzi">鼠</span><span class="pick-name">Tikus</span>
-          </div>
-          <div class="shio-pick" data-shio="kerbau">
-            <span class="pick-icon hanzi">牛</span><span class="pick-name">Kerbau</span>
-          </div>
-          <div class="shio-pick" data-shio="macan">
-            <span class="pick-icon hanzi">虎</span><span class="pick-name">Macan</span>
-          </div>
-          <div class="shio-pick" data-shio="kelinci">
-            <span class="pick-icon hanzi">兔</span><span class="pick-name">Kelinci</span>
-          </div>
-          <div class="shio-pick" data-shio="naga">
-            <span class="pick-icon hanzi">龍</span><span class="pick-name">Naga</span>
-          </div>
-          <div class="shio-pick" data-shio="ular">
-            <span class="pick-icon hanzi">蛇</span><span class="pick-name">Ular</span>
-          </div>
-          <div class="shio-pick" data-shio="kuda">
-            <span class="pick-icon hanzi">馬</span><span class="pick-name">Kuda</span>
-          </div>
-          <div class="shio-pick" data-shio="kambing">
-            <span class="pick-icon hanzi">羊</span><span class="pick-name">Kambing</span>
-          </div>
-          <div class="shio-pick" data-shio="monyet">
-            <span class="pick-icon hanzi">猴</span><span class="pick-name">Monyet</span>
-          </div>
-          <div class="shio-pick" data-shio="ayam">
-            <span class="pick-icon hanzi">雞</span><span class="pick-name">Ayam</span>
-          </div>
-          <div class="shio-pick" data-shio="anjing">
-            <span class="pick-icon hanzi">狗</span><span class="pick-name">Anjing</span>
-          </div>
-          <div class="shio-pick" data-shio="babi">
-            <span class="pick-icon hanzi">豬</span><span class="pick-name">Babi</span>
-          </div>
-        </div>
-      </div>
-      <div class="compat-vs">
-        <i class="fa-solid fa-yin-yang compat-vs-icon"></i>
-      </div>
-      <div class="compat-picker" id="picker-2">
-        <label>Shio Kedua</label>
-        <div class="shio-select-grid">
-          <div class="shio-pick" data-shio="tikus">
-            <span class="pick-icon hanzi">鼠</span><span class="pick-name">Tikus</span>
-          </div>
-          <div class="shio-pick" data-shio="kerbau">
-            <span class="pick-icon hanzi">牛</span><span class="pick-name">Kerbau</span>
-          </div>
-          <div class="shio-pick" data-shio="macan">
-            <span class="pick-icon hanzi">虎</span><span class="pick-name">Macan</span>
-          </div>
-          <div class="shio-pick" data-shio="kelinci">
-            <span class="pick-icon hanzi">兔</span><span class="pick-name">Kelinci</span>
-          </div>
-          <div class="shio-pick" data-shio="naga">
-            <span class="pick-icon hanzi">龍</span><span class="pick-name">Naga</span>
-          </div>
-          <div class="shio-pick" data-shio="ular">
-            <span class="pick-icon hanzi">蛇</span><span class="pick-name">Ular</span>
-          </div>
-          <div class="shio-pick" data-shio="kuda">
-            <span class="pick-icon hanzi">馬</span><span class="pick-name">Kuda</span>
-          </div>
-          <div class="shio-pick" data-shio="kambing">
-            <span class="pick-icon hanzi">羊</span><span class="pick-name">Kambing</span>
-          </div>
-          <div class="shio-pick" data-shio="monyet">
-            <span class="pick-icon hanzi">猴</span><span class="pick-name">Monyet</span>
-          </div>
-          <div class="shio-pick" data-shio="ayam">
-            <span class="pick-icon hanzi">雞</span><span class="pick-name">Ayam</span>
-          </div>
-          <div class="shio-pick" data-shio="anjing">
-            <span class="pick-icon hanzi">狗</span><span class="pick-name">Anjing</span>
-          </div>
-          <div class="shio-pick" data-shio="babi">
-            <span class="pick-icon hanzi">豬</span><span class="pick-name">Babi</span>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="compat-birth">
-      <button type="button" class="compat-birth-toggle open" id="birth-toggle">
-        <i class="fa-solid fa-plus"></i>
-        <span id="birth-toggle-label">Tanggal lahir</span>
-        <span class="compat-birth-optional">opsional</span>
-      </button>
-      <div class="compat-birth-body" id="birth-body">
+      <div class="compat-birth-body">
+        <h4 class="compat-birth-title">
+          <i class="fa-solid fa-calendar-days"></i> Tanggal Lahir Kalian Berdua
+        </h4>
         <p class="compat-birth-note">
-          Tanpa tanggal lahir, yang terbaca cuma relasi cabang tahun &mdash;
-          versi ringkasnya. Dengan tanggal, terbuka pilar hari (日柱) yang jadi
-          istana pasangan, kecocokan 用神, bintang 神煞, batang langit (天干),
-          dan Nayin (納音). Skor tidak berubah &mdash; angkanya tetap murni dari
-          relasi cabang.
+          Shio kalian dihitung dari tanggal ini, termasuk batas awal musim semi (立春)
+          yang sering bikin kelahiran Januari salah shio. Dari sini terbuka
+          pilar hari (日柱) yang jadi istana pasangan, kecocokan elemen penolong
+          (用神), bintang nasib (神煞), batang langit (天干), dan elemen nada (納音).
         </p>
         <div class="compat-birth-fields">
           <div class="compat-birth-field">
@@ -141,9 +51,8 @@ Oracle{% endblock %}
           </div>
         </div>
         <p class="compat-birth-hint">
-          Isi keduanya supaya lapisan ini bisa dihitung. Kalau tanggalnya diisi,
-          shio diambil dari tanggal itu &mdash; batas 立春 sering bikin kelahiran
-          Januari salah shio.
+          Keduanya wajib diisi. Skor relasi shio tetap murni dari cabang tahun,
+          tidak digeser oleh lapisan mana pun.
         </p>
       </div>
     </div>
@@ -200,8 +109,7 @@ Oracle{% endblock %}
           <i class="fa-solid fa-scroll"></i> Lapisan Tahun Lahir
         </h4>
         <p class="compat-dynamic-note" id="c-year-lichun"></p>
-        <div class="compat-year-correction hidden" id="c-year-correction"></div>
-        <div class="compat-year-stem" id="c-year-stem"></div>
+          <div class="compat-year-stem" id="c-year-stem"></div>
         <div class="compat-year-pair">
           <div class="compat-year-card" id="c-year-1"></div>
           <div class="compat-year-card" id="c-year-2"></div>
@@ -209,7 +117,8 @@ Oracle{% endblock %}
       </div>
       <div class="compat-bazi hidden" id="c-bazi">
         <h4 class="compat-dynamic-title">
-          <i class="fa-solid fa-user-group"></i> Lapisan Pilar Hari (合婚)
+          <i class="fa-solid fa-user-group"></i> Lapisan Pilar Hari &mdash;
+        Pencocokan Jodoh (合婚)
         </h4>
         <p class="compat-dynamic-note" id="c-bazi-note"></p>
         <div class="compat-day-pillar" id="c-day-pillar"></div>
@@ -239,7 +148,7 @@ Oracle{% endblock %}
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+<script src="{{ url_for('shio.static', filename='vendor/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='vendor/flatpickr/id.js') }}"></script>
 <script src="{{ url_for('shio.static', filename='js/compatibility.js') }}"></script>
 {% endblock %}

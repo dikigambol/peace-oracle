@@ -75,9 +75,17 @@
   box-sizing: border-box;
 }
 
-.destiny-form input[type="text"] {
+.destiny-date-wrapper input[type="text"] {
   padding-left: 40px;
   cursor: pointer;
+}
+
+#destiny-city {
+  cursor: text;
+}
+
+#destiny-city::placeholder {
+  color: rgba(252, 227, 182, 0.4);
 }
 
 .destiny-form input[type="text"]:focus,
@@ -382,7 +390,20 @@
   font-family: "Cinzel", serif;
   color: rgba(255, 215, 0, 0.7);
   font-size: 0.85rem;
-  width: 60px;
+  width: 104px;
+}
+
+.destiny-chart-rowhead-hanzi {
+  display: block;
+  line-height: 1.2;
+}
+
+.destiny-chart-rowhead-label {
+  display: block;
+  font-family: inherit;
+  font-size: 0.72rem;
+  letter-spacing: 0.2px;
+  color: rgba(252, 227, 182, 0.6);
 }
 
 .destiny-chart-hanzi {
@@ -468,7 +489,7 @@
 
 .destiny-position-age {
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: rgba(252, 227, 182, 0.55);
 }
 
@@ -556,7 +577,7 @@
 }
 
 .destiny-tag {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   padding: 3px 10px;
@@ -714,4 +735,28 @@
   .destiny-kv-value {
     text-align: left;
   }
+}
+
+.destiny-block {
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.destiny-block:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.destiny-block:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.destiny-block:nth-child(3) {
+  animation-delay: 0.19s;
+}
+
+.destiny-block:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+.destiny-block:nth-child(n + 5) {
+  animation-delay: 0.33s;
 }

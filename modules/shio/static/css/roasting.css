@@ -486,3 +486,486 @@
     flex: 1 1 100%;
   }
 }
+
+.roast-pair {
+  margin: 26px 0 0;
+  padding-top: 22px;
+  border-top: 1px dashed rgba(255, 69, 0, 0.22);
+  text-align: center;
+}
+
+.roast-pair-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 42px;
+  padding: 0 20px;
+  border-radius: 12px;
+  background: rgba(20, 5, 3, 0.75);
+  border: 1px dashed rgba(255, 107, 53, 0.45);
+  color: rgba(255, 217, 194, 0.85);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.3s, background 0.3s, color 0.3s;
+}
+
+.roast-pair-cta:hover {
+  border-color: #ff6b35;
+  color: #ffd9c2;
+}
+
+.roast-pair-cta.open {
+  border-style: solid;
+  border-color: #ff6b35;
+  background: rgba(139, 0, 0, 0.45);
+  color: #ffd9c2;
+}
+
+.roast-pair-cta i {
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+.roast-pair-cta.open i {
+  transform: scale(1.15);
+}
+
+.roast-toolbar-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.roast-extra {
+  background: rgba(20, 5, 3, 0.75);
+  border: 1px dashed rgba(255, 107, 53, 0.45);
+  color: rgba(255, 217, 194, 0.85);
+}
+
+.roast-extra:hover {
+  border-color: #ff6b35;
+  color: #ffd9c2;
+}
+
+.roast-extra.open {
+  border-style: solid;
+  border-color: #ff6b35;
+  background: rgba(139, 0, 0, 0.45);
+  color: #ffd9c2;
+}
+
+.roast-extra i {
+  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.5, 1);
+}
+
+.roast-extra.open i {
+  transform: scale(1.15);
+}
+
+.roast-pair-body {
+  margin-top: 16px;
+  padding: 18px;
+  box-sizing: border-box;
+  text-align: left;
+  background: linear-gradient(145deg, rgba(30, 8, 4, 0.7), rgba(0, 0, 0, 0.8));
+  border: 1px solid rgba(255, 69, 0, 0.25);
+  border-radius: 14px;
+}
+
+.roast-pair-note {
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(255, 217, 194, 0.55);
+  margin: 0 0 14px;
+}
+
+.roast-pair-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.pair-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 4px;
+  min-width: 0;
+  box-sizing: border-box;
+  background: rgba(20, 5, 3, 0.8);
+  border: 1px solid rgba(255, 69, 0, 0.28);
+  border-radius: 10px;
+  color: rgba(255, 217, 194, 0.85);
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s, background 0.25s;
+}
+
+.pair-pick:hover {
+  border-color: #ff6b35;
+  transform: translateY(-3px);
+}
+
+.pair-pick.selected {
+  background: rgba(139, 0, 0, 0.55);
+  border-color: #ff6b35;
+  box-shadow: 0 0 16px rgba(255, 69, 0, 0.3);
+}
+
+.pair-pick-hanzi {
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #ff8c42;
+}
+
+.pair-pick-name {
+  font-size: 0.6rem;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.roast-pair-card {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 3px solid rgba(255, 107, 53, 0.5);
+}
+
+.roast-pair-card.code-good {
+  border-left-color: rgba(255, 196, 0, 0.7);
+}
+
+.roast-pair-card.code-bad {
+  border-left-color: rgba(255, 69, 0, 0.8);
+}
+
+.roast-pair-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.pair-hanzi {
+  font-size: 1.6rem;
+  line-height: 1;
+  color: #ff8c42;
+}
+
+.pair-rel {
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  padding: 4px 11px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 107, 53, 0.4);
+  color: rgba(255, 217, 194, 0.9);
+}
+
+.pair-verdict {
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  color: #ff8c42;
+  margin: 0 0 8px;
+}
+
+.pair-roast {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255, 217, 194, 0.9);
+  margin: 0 0 10px;
+}
+
+.pair-tip {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: rgba(255, 196, 0, 0.75);
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .roast-pair-body {
+    padding: 14px 12px;
+  }
+
+  .roast-pair-grid {
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  }
+}
+
+.roast-birth {
+  max-width: 420px;
+  margin: 0 auto 26px;
+  text-align: left;
+}
+
+.roast-birth label {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  color: #ff8c42;
+  margin-bottom: 7px;
+}
+
+.roast-birth-optional {
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: rgba(255, 217, 194, 0.45);
+  border: 1px solid rgba(255, 217, 194, 0.2);
+  border-radius: 20px;
+  padding: 2px 9px;
+  margin-left: 6px;
+}
+
+.roast-birth-wrapper {
+  position: relative;
+  margin-bottom: 18px;
+}
+
+.roast-birth-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 140, 66, 0.75);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.roast-birth input {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(20, 5, 3, 0.8);
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  border-radius: 10px;
+  color: #ffd9c2;
+  padding: 12px 14px 12px 40px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.roast-birth input:hover {
+  border-color: rgba(255, 107, 53, 0.6);
+}
+
+.roast-birth input:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.12);
+}
+
+.roast-birth input::placeholder {
+  color: rgba(255, 217, 194, 0.4);
+}
+
+.roast-birth-hint {
+  display: block;
+  margin-top: 14px;
+  font-size: 0.73rem;
+  line-height: 1.6;
+  color: rgba(255, 217, 194, 0.5);
+}
+
+.roast-dm-card {
+  margin: 0 0 22px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.42);
+  border-left: 3px solid rgba(255, 196, 0, 0.6);
+}
+
+.roast-dm-head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 11px;
+}
+
+.dm-hanzi {
+  font-size: 2rem;
+  line-height: 1;
+  color: #ffc400;
+  text-shadow: 0 0 18px rgba(255, 196, 0, 0.3);
+}
+
+.dm-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(255, 217, 194, 0.45);
+}
+
+.dm-title {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 0.88rem;
+  color: #ff8c42;
+}
+
+.dm-headline {
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
+  color: #ffc400;
+  margin: 0 0 8px;
+}
+
+.dm-roast {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: rgba(255, 217, 194, 0.9);
+  margin: 0 0 10px;
+}
+
+.dm-tip {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: rgba(255, 196, 0, 0.75);
+  margin: 0;
+}
+
+.roast-gender {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.roast-gender-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 10px;
+  box-sizing: border-box;
+  background: rgba(20, 5, 3, 0.8);
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  border-radius: 10px;
+  color: rgba(255, 217, 194, 0.85);
+  font-family: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.25s, background 0.25s, color 0.25s;
+}
+
+.roast-gender-btn:hover {
+  border-color: rgba(255, 107, 53, 0.65);
+}
+
+.roast-gender-btn.selected {
+  background: rgba(139, 0, 0, 0.5);
+  border-color: #ff6b35;
+  color: #ffd9c2;
+  box-shadow: 0 0 16px rgba(255, 69, 0, 0.25);
+}
+
+.roast-chart {
+  margin-bottom: 22px;
+}
+
+.chart-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.chart-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 11px 8px;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 69, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.chart-value {
+  font-family: "Cinzel", serif;
+  font-size: 1.05rem;
+  color: #ffc400;
+}
+
+.chart-label {
+  font-size: 0.63rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 217, 194, 0.45);
+}
+
+.chart-correction {
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  background: rgba(60, 22, 0, 0.45);
+  border: 1px solid rgba(255, 140, 0, 0.35);
+}
+
+.chart-correction p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #ffab70;
+}
+
+.roast-chart .roast-dm-card + .roast-dm-card {
+  margin-top: 12px;
+}
+
+.roast-birth-wajib {
+  font-family: inherit;
+  font-size: 0.68rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: rgba(255, 107, 53, 0.85);
+  border: 1px solid rgba(255, 107, 53, 0.45);
+  border-radius: 20px;
+  padding: 2px 9px;
+  margin-left: 6px;
+}
+
+.roast-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 26px auto 0;
+  padding: 14px 34px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b0000, #ff6b35);
+  color: #fff5ec;
+  font-family: "Cinzel", serif;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 69, 0, 0.25);
+  transition: transform 0.25s, box-shadow 0.25s, opacity 0.25s;
+}
+
+.roast-submit:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(255, 69, 0, 0.4);
+}
+
+.roast-submit:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}

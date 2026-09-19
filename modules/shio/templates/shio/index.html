@@ -31,38 +31,38 @@
         <a href="{{ url_for('shio.shio_destiny_page') }}" class="choice-card">
           <span class="choice-beta-badge">BETA</span>
           <i class="fa-solid fa-calendar-days"></i>
-          <span>Baca Gulungan Takdir (Ming Li)</span>
-          <small>Kalkulasi Empat Pilar dari Tanggal &amp; Jam Lahir</small>
+          <span>Baca Gulungan Takdir (Ba Zi)</span>
+          <small>Empat pilar, satu cetak biru hidupmu</small>
         </a>
         <button class="choice-card" id="btn-daily">
           <i class="fa-solid fa-calendar-day"></i>
           <span>Almanak Harian (Tong Shu)</span>
-          <small>Navigasi Energi Harian & Pemilihan Waktu</small>
+          <small>Hari ini cocok buat apa, dan buat apa jangan</small>
         </button>
         <a href="{{ url_for('shio.shio_yearly_page') }}" class="choice-card">
           <i class="fa-solid fa-clock-rotate-left"></i>
           <span>Teropong Energi Tahunan (Liu Nian)</span>
-          <small>Proyeksi Keberuntungan</small>
+          <small>Tahun ini menopangmu, atau menantangmu?</small>
         </a>
         <a href="{{ url_for('shio.shio_compatibility') }}" class="choice-card">
           <i class="fa-solid fa-heart-pulse"></i>
           <span>Sinergi Jodoh Kosmik (He Hun)</span>
-          <small>Kalkulasi Kompatibilitas Asmara &amp; Kemitraan Profesional</small>
+          <small>Cocok di permukaan, atau sampai pilar hari?</small>
         </a>
         <a href="{{ url_for('shio.shio_roasting_page') }}" class="choice-card">
           <i class="fa-solid fa-fire"></i>
           <span>Roasting Shio (Tu Cao)</span>
-          <small>Kenyataan Pahit Karakter Anda</small>
+          <small>Tanggal lahir masuk, harga diri keluar</small>
         </a>
         <a href="{{ url_for('shio.guardian_spiritual') }}" class="choice-card">
           <i class="fa-solid fa-dragon"></i>
           <span>Afinitas Penjaga Spiritual (Ben Ming Fo)</span>
-          <small>Temukan Entitas Pelindung Berdasarkan Konstelasi Anda</small>
+          <small>Ada yang menjagamu, kenalan dulu</small>
         </a>
         <a href="{{ url_for('shio.shio_fortune_cookie_page') }}" class="choice-card">
           <i class="fa-solid fa-cookie-bite"></i>
           <span>Kue Keberuntungan (Xing Yun Bing)</span>
-          <small>Pesan Harian &amp; Benda Hoki dari Balik Kue</small>
+          <small>Retakkan kuenya, terima pesannya</small>
         </a>
       </div>
     </div>
@@ -92,6 +92,15 @@
         </p>
       </div>
       <div id="daily-pillar" class="daily-pillar hidden"></div>
+      <div id="daily-board-overlay" class="board-overlay hidden">
+        <div class="board-modal" role="dialog" aria-modal="true" aria-label="Papan Peringkat Shio Hari Ini">
+          <button type="button" id="daily-board-close" class="board-close" aria-label="Tutup papan peringkat">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <div id="daily-board" class="daily-board"></div>
+          <div class="board-countdown"><span id="daily-board-countdown" class="board-countdown-bar"></span></div>
+        </div>
+      </div>
       <div id="daily-grid" class="daily-grid"></div>
     </div>
   </div>

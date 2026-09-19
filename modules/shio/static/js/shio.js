@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDaily = document.getElementById("btn-daily");
   if (btnDaily) {
     btnDaily.addEventListener("click", () => {
+      const fp = document.getElementById("daily-date-input")._flatpickr;
+      if (fp) {
+        fp.setDate(new Date());
+      }
       switchView("daily");
       fetchDailyAlmanak();
     });
@@ -102,6 +106,184 @@ document.addEventListener("DOMContentLoaded", () => {
     void panel.offsetWidth;
     panel.classList.add("animate-in");
   }
+  const BOARD_TAPS_NEEDED = 5;
+  const BOARD_AUTO_CLOSE_MS = 5000;
+  const BOARD_EXIT_MS = 480;
+  let boardTaps = 0;
+  let boardUnlocked = false;
+  let pendingBoard = null;
+  let boardCloseTimer = null;
+  let boardExitTimer = null;
+
+  function pulseIcon(icon) {
+    icon.classList.remove("tap-pulse");
+    void icon.offsetWidth;
+    icon.classList.add("tap-pulse");
+  }
+
+  function hideBoardNow(overlay) {
+    overlay.classList.add("hidden");
+    overlay.classList.remove("board-open", "board-closing");
+    document.body.classList.remove("board-locked");
+  }
+
+  function closeBoard() {
+    const overlay = document.getElementById("daily-board-overlay");
+    if (
+      !overlay ||
+      overlay.classList.contains("hidden") ||
+      overlay.classList.contains("board-closing")
+    )
+      return;
+    if (boardCloseTimer) {
+      clearTimeout(boardCloseTimer);
+      boardCloseTimer = null;
+    }
+    overlay.classList.remove("board-open");
+    overlay.classList.add("board-closing");
+    boardExitTimer = setTimeout(() => {
+      boardExitTimer = null;
+      hideBoardNow(overlay);
+    }, BOARD_EXIT_MS);
+  }
+
+  function openBoard() {
+    if (!pendingBoard || !pendingBoard.board || !pendingBoard.board.length)
+      return;
+    const overlay = document.getElementById("daily-board-overlay");
+    if (!overlay) return;
+    if (boardExitTimer) {
+      clearTimeout(boardExitTimer);
+      boardExitTimer = null;
+    }
+    overlay.classList.remove("board-closing");
+    renderLeaderboard(pendingBoard.board, pendingBoard.note);
+    const bar = document.getElementById("daily-board-countdown");
+    if (bar) {
+      bar.classList.remove("counting");
+      void bar.offsetWidth;
+      bar.style.animationDuration = BOARD_AUTO_CLOSE_MS + "ms";
+      bar.classList.add("counting");
+    }
+    const box = document.getElementById("daily-board");
+    overlay.classList.remove("hidden");
+    void box.offsetWidth;
+    overlay.classList.add("board-open");
+    document.body.classList.add("board-locked");
+    if (boardCloseTimer) clearTimeout(boardCloseTimer);
+    boardCloseTimer = setTimeout(closeBoard, BOARD_AUTO_CLOSE_MS);
+  }
+
+  function unlockBoard() {
+    boardUnlocked = true;
+    openBoard();
+  }
+
+  function setupBoardEasterEgg() {
+    const icon = document.getElementById("daily-master-icon");
+    if (!icon) return;
+    icon.classList.add("daily-icon-tappable");
+    icon.addEventListener("click", () => {
+      pulseIcon(icon);
+      if (boardUnlocked) {
+        openBoard();
+        return;
+      }
+      boardTaps += 1;
+      if (boardTaps >= BOARD_TAPS_NEEDED) unlockBoard();
+    });
+  }
+
+  function setupBoardDismiss() {
+    const overlay = document.getElementById("daily-board-overlay");
+    const closeBtn = document.getElementById("daily-board-close");
+    if (closeBtn) closeBtn.addEventListener("click", closeBoard);
+    if (overlay) {
+      overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) closeBoard();
+      });
+    }
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeBoard();
+    });
+  }
+
+  setupBoardEasterEgg();
+  setupBoardDismiss();
+
+  function renderLeaderboard(board, note) {
+    const box = document.getElementById("daily-board");
+    while (box.firstChild) box.removeChild(box.firstChild);
+    if (!board || !board.length) return;
+
+    const head = document.createElement("h3");
+    head.className = "board-title";
+    head.textContent = "Papan Peringkat Shio Hari Ini";
+    box.appendChild(head);
+
+    const podium = document.createElement("div");
+    podium.className = "board-podium";
+    board.slice(0, 3).forEach((item) => {
+      const card = document.createElement("div");
+      card.className = "podium-card place-" + item.rank;
+      const medal = document.createElement("span");
+      medal.className = "podium-medal";
+      medal.textContent = ["\ud83e\udd47", "\ud83e\udd48", "\ud83e\udd49"][item.rank - 1];
+      const glyph = document.createElement("span");
+      glyph.className = "podium-hanzi";
+      glyph.textContent = item.hanzi;
+      const name = document.createElement("span");
+      name.className = "podium-name";
+      name.textContent = item.name;
+      const status = document.createElement("span");
+      status.className = "podium-status";
+      status.textContent = item.status;
+      card.appendChild(medal);
+      card.appendChild(glyph);
+      card.appendChild(name);
+      card.appendChild(status);
+      podium.appendChild(card);
+    });
+    box.appendChild(podium);
+
+    const list = document.createElement("ol");
+    list.className = "board-list";
+    board.slice(3).forEach((item, index) => {
+      const row = document.createElement("li");
+      row.className = "board-row tier-" + item.tier;
+      row.style.setProperty("--row-index", index);
+      row.title = item.status;
+      const rank = document.createElement("span");
+      rank.className = "board-rank";
+      rank.textContent = item.rank;
+      const glyph = document.createElement("span");
+      glyph.className = "board-hanzi";
+      glyph.textContent = item.hanzi;
+      const info = document.createElement("span");
+      info.className = "board-info";
+      const name = document.createElement("span");
+      name.className = "board-name";
+      name.textContent = item.name;
+      const status = document.createElement("span");
+      status.className = "board-status";
+      status.textContent = item.status;
+      info.appendChild(name);
+      info.appendChild(status);
+      row.appendChild(rank);
+      row.appendChild(glyph);
+      row.appendChild(info);
+      list.appendChild(row);
+    });
+    box.appendChild(list);
+
+    if (note) {
+      const caption = document.createElement("p");
+      caption.className = "board-note";
+      caption.textContent = note;
+      box.appendChild(caption);
+    }
+  }
+
   function fetchDailyAlmanak(dateStr = null) {
     const grid = document.getElementById("daily-grid");
     grid.innerHTML =
@@ -120,6 +302,11 @@ document.addEventListener("DOMContentLoaded", () => {
             `<span class="icon-hanzi">${data.today_shio_hanzi}</span>`;
           document.getElementById("daily-date-str").textContent = data.date_str;
           renderPillarPanel(data);
+          pendingBoard = {
+            board: data.leaderboard,
+            note: data.leaderboard_note,
+          };
+          closeBoard();
           grid.innerHTML = "";
           data.fortunes.forEach((item, index) => {
             const card = document.createElement("div");

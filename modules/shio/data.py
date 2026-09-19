@@ -1,8 +1,6 @@
 import random
 import datetime
-import math
 import zlib
-import ephem
 from .bank import (
     HEAVENLY_STEMS,
     EARTHLY_BRANCHES,
@@ -13,17 +11,18 @@ from .bank import (
     ELEMENT_GENERATES,
     ELEMENT_CONTROLS,
     HIDDEN_STEMS,
-    HIDDEN_STEM_WEIGHTS,
-    TEN_GODS_TABLE,
     LIU_HE_PAIRS,
     LIU_PO_PAIRS,
     LIU_HAI_PAIRS,
     XIANG_XING_PAIRS,
     ZI_XING_BRANCHES,
     BRANCH_RELATION_META,
-    JULIAN_DAY_OFFSET,
     DAY_OFFICER_BANK,
     ELEMENT_RELATION_BANK,
+    DAILY_RANK_STATUS_WEIGHT,
+    DAILY_RANK_ELEMENT_WEIGHT,
+    DAILY_RANK_TIERS,
+    DAILY_RANK_NOTE,
     DAILY_CHONG_MESSAGES,
     DAILY_SAN_HE_MESSAGES,
     DAILY_LIU_HE_MESSAGES,
@@ -50,6 +49,9 @@ from .bank import (
     YEARLY_RELATION_BANK,
     YEAR_STEM_LAYER_BANK,
     SHIO_ROASTING_BANK,
+    ROAST_PAIR_BANK,
+    ROAST_DAY_MASTER_BANK,
+    ROAST_DIRECTION_BANK,
     SHIO_FORTUNE_COOKIE_BANK,
     DAY_MASTER_BANK,
     CHART_STRENGTH_BANK,
@@ -72,7 +74,6 @@ from .bazi import (
     BIRTH_CITIES,
     get_year_pillar,
     get_month_branch,
-    get_solar_longitude,
     get_day_pillar,
     build_four_pillars,
     classify_element_status,
@@ -184,6 +185,51 @@ def resolve_almanac_date(client_date_str=None):
         target += datetime.timedelta(days=1)
     return target
 
+def score_daily_fortune(fortune):
+    return (
+        DAILY_RANK_STATUS_WEIGHT[fortune["branch_relation_key"]]
+        + DAILY_RANK_ELEMENT_WEIGHT[fortune["element_relation_key"]]
+    )
+
+
+def resolve_rank_tier(rank):
+    if rank <= 3:
+        return DAILY_RANK_TIERS[0]
+    if rank <= 9:
+        return DAILY_RANK_TIERS[1]
+    return DAILY_RANK_TIERS[2]
+
+
+def build_daily_leaderboard(fortunes):
+    ranked = sorted(
+        fortunes,
+        key=lambda item: (-score_daily_fortune(item),
+                          SHIOS_LIST.index(item["shio_key"])),
+    )
+
+    board = []
+    for position, item in enumerate(ranked, 1):
+        tier = resolve_rank_tier(position)
+        item["rank"] = position
+        item["rank_tier"] = tier["key"]
+        board.append({
+            "rank": position,
+            "shio_key": item["shio_key"],
+            "name": item["name"],
+            "hanzi": item["hanzi"],
+            "score": score_daily_fortune(item),
+            "status": item["status"],
+            "status_code": item["status_code"],
+            "element_relation": item["element_relation"],
+            "element_hanzi": item["element_hanzi"],
+            "tier": tier["key"],
+            "tier_label": tier["label"],
+            "tier_code": tier["code"],
+            "tier_note": tier["note"],
+        })
+    return board
+
+
 def get_all_daily_fortunes(client_date_str=None):
     target_date = resolve_almanac_date(client_date_str)
 
@@ -203,9 +249,9 @@ def get_all_daily_fortunes(client_date_str=None):
         msg_seed = build_stable_seed("daily", target_date.toordinal(), shio_key)
         msg_rng = random.Random(msg_seed)
 
-        relation_key = get_branch_relation(today_idx, idx)
-        status, pool = DAILY_RELATION_VIEW[relation_key]
-        status_code = BRANCH_RELATION_META[relation_key]["code"]
+        branch_relation_key = get_branch_relation(today_idx, idx)
+        status, pool = DAILY_RELATION_VIEW[branch_relation_key]
+        status_code = BRANCH_RELATION_META[branch_relation_key]["code"]
         message = msg_rng.choice(pool)
 
         tips_list = SHIO_DAILY_TIPS.get(shio_key, [])
@@ -222,6 +268,7 @@ def get_all_daily_fortunes(client_date_str=None):
                 "hanzi": shio_data["hanzi"],
                 "status": status,
                 "status_code": status_code,
+                "branch_relation_key": branch_relation_key,
                 "message": message,
                 "daily_tip": daily_tip,
                 "element": element_name,
@@ -235,6 +282,8 @@ def get_all_daily_fortunes(client_date_str=None):
             }
         )
 
+    leaderboard = build_daily_leaderboard(results)
+
     formatted_date = target_date.strftime("%d %B %Y")
     stem_name, stem_hanzi = HEAVENLY_STEMS[stem_idx]
     branch_name, branch_hanzi = EARTHLY_BRANCHES[shio_index]
@@ -242,6 +291,8 @@ def get_all_daily_fortunes(client_date_str=None):
     day_element_name, day_element_hanzi = ELEMENT_LABELS[day_element]
 
     return {
+        "leaderboard": leaderboard,
+        "leaderboard_note": DAILY_RANK_NOTE,
         "date_str": formatted_date,
         "today_shio_name": today_shio_data["name"],
         "today_shio_hanzi": today_shio_data["hanzi"],
@@ -271,8 +322,8 @@ GUARDIAN_FENGSHUI_NOTE = (
 )
 
 GUARDIAN_PRAY_TIME_NOTE = (
-    "Jam ini selaras dengan 時辰 shio-mu. Ini konvensi penanggalan Tionghoa, "
-    "bukan ketentuan dalam praktik 本命佛."
+    "Jam ini selaras dengan jam tradisional (時辰) shio-mu. Ini konvensi penanggalan Tionghoa, "
+    "bukan ketentuan dalam praktik Buddha pelindung kelahiran (本命佛)."
 )
 
 
@@ -373,7 +424,7 @@ def describe_nayin_side(self_pillar, other_pillar):
     return {"role": role, "text": text}
 
 
-def get_year_layer(date1, date2, picked1, picked2):
+def get_year_layer(date1, date2):
     if date1 is None or date2 is None:
         return None
 
@@ -383,24 +434,12 @@ def get_year_layer(date1, date2, picked1, picked2):
     stem_pair = tuple(sorted((pillar1["stem_index"], pillar2["stem_index"])))
     stem_relation = dict(STEM_RELATION_BANK.get(stem_pair, STEM_NEUTRAL))
 
-    corrections = [
-        {
-            "picked": SHIO_DATA[picked]["name"],
-            "actual": pillar["shio_name"],
-            "pillar": pillar["pillar_hanzi"],
-            "date": pillar["date"],
-        }
-        for picked, pillar in ((picked1, pillar1), (picked2, pillar2))
-        if picked != pillar["shio_key"]
-    ]
-
     return {
         "shio1": {**pillar1, "nayin_relation": describe_nayin_side(pillar1, pillar2)},
         "shio2": {**pillar2, "nayin_relation": describe_nayin_side(pillar2, pillar1)},
         "stem_relation": stem_relation,
-        "corrections": corrections,
         "lichun_note": (
-            "Tahun Imlek berganti di 立春 (sekitar 4 Februari), bukan 1 Januari. "
+            "Tahun Imlek berganti di awal musim semi (立春, sekitar 4 Februari), bukan 1 Januari. "
             "Kelahiran Januari sampai awal Februari masuk pilar tahun sebelumnya."
         ),
     }
@@ -410,7 +449,7 @@ SOLITUDE_STARS = ("gu_chen", "gua_su")
 
 BAZI_LAYER_NOTE = (
     "Lapisan ini dihitung dari pilar hari (日柱) kedua tanggal, bukan dari "
-    "shionya. Di 合婚 klasik justru pilar hari inilah yang dibaca lebih dulu, "
+    "shionya. Di pencocokan jodoh (合婚) klasik justru pilar hari inilah yang dibaca lebih dulu, "
     "karena cabang hari adalah istana pasangan (夫妻宮). Halaman ini cuma "
     "meminta tanggal, jadi hitungannya memakai tiga pilar — sah dibaca, tapi "
     "lapisan jam tidak ikut."
@@ -565,7 +604,7 @@ def get_bazi_layer(date1, date2, name1, name2):
     }
 
 
-def get_shio_compatibility(shio1_key, shio2_key,
+def get_shio_compatibility(shio1_key=None, shio2_key=None,
                            birth1=None, birth2=None):
     date1 = parse_birth_date(birth1) if birth1 else None
     date2 = parse_birth_date(birth2) if birth2 else None
@@ -574,10 +613,11 @@ def get_shio_compatibility(shio1_key, shio2_key,
     if birth2 and date2 is None:
         return {"error": "Tanggal lahir kedua tidak valid."}
 
-    picked1, picked2 = shio1_key, shio2_key
     if date1 is not None and date2 is not None:
         shio1_key = SHIOS_LIST[get_year_pillar(date1)[1]]
         shio2_key = SHIOS_LIST[get_year_pillar(date2)[1]]
+    if not shio1_key or not shio2_key:
+        return {"error": "Isi kedua tanggal lahir dulu."}
 
     s1_data = SHIO_DATA.get(shio1_key)
     s2_data = SHIO_DATA.get(shio2_key)
@@ -617,14 +657,14 @@ def get_shio_compatibility(shio1_key, shio2_key,
         "tips": compat.get("tips", ""),
         "pair_relation": dict(PAIR_RELATION_BANK[relation_key]),
         "element_dynamic": get_pair_element_dynamic(shio1_key, shio2_key),
-        "year_layer": get_year_layer(date1, date2, picked1, picked2),
+        "year_layer": get_year_layer(date1, date2),
         "bazi_layer": get_bazi_layer(
             date1, date2, s1_data["name"], s2_data["name"]
         ),
     }
 
 YEARLY_LICHUN_NOTE = (
-    "Tahun Imlek berganti di 立春, sekitar 4 Februari — bukan 1 Januari. "
+    "Tahun Imlek berganti di awal musim semi (立春), sekitar 4 Februari — bukan 1 Januari. "
     "Kelahiran maupun peristiwa di awal Januari masih masuk hitungan tahun sebelumnya."
 )
 
@@ -708,13 +748,113 @@ def get_shio_yearly(user_shio_key, year):
 ROAST_TRAITS_PER_DRAW = 8
 
 
-def get_shio_roasting(shio_key):
+def resolve_luck_direction(stem_index, gender_key):
+    yang = STEM_POLARITY[stem_index] == "yang"
+    maju = (yang and gender_key == "pria") or (not yang and gender_key == "wanita")
+    return "maju" if maju else "mundur"
+
+
+def describe_chart_roast(birth_date_str, gender):
+    birth_date = parse_birth_date(birth_date_str)
+    if birth_date is None:
+        return None
+
+    year_stem, year_branch = get_year_pillar(birth_date)
+    day_stem, day_branch = get_day_pillar(birth_date)
+    actual_shio = SHIOS_LIST[year_branch]
+    year_element = STEM_ELEMENTS[year_stem]
+
+    stem_id = DAY_MASTER_BANK_KEYS[day_stem]
+    pool = ROAST_DAY_MASTER_BANK[stem_id]
+    seed = build_stable_seed("dm_roast", birth_date.toordinal(), stem_id)
+    pick = random.Random(seed).choice(pool)
+    master = DAY_MASTER_BANK[stem_id]
+
+    gender_key = normalise_gender(gender)
+    arah = None
+    if gender_key is not None:
+        key = resolve_luck_direction(year_stem, gender_key)
+        arah_pool = ROAST_DIRECTION_BANK[key]
+        arah_seed = build_stable_seed("dir_roast", birth_date.toordinal(), gender_key)
+        arah_pick = random.Random(arah_seed).choice(arah_pool)
+        arah = {
+            "direction": key,
+            "direction_hanzi": "順行" if key == "maju" else "逆行",
+            "direction_label": "Searah Arus" if key == "maju" else "Melawan Arus",
+            "gender": gender_key,
+            "polarity": STEM_POLARITY[year_stem],
+            **arah_pick,
+        }
+
+    return {
+        "year_pillar": HEAVENLY_STEMS[year_stem][1] + EARTHLY_BRANCHES[year_branch][1],
+        "year_element": ELEMENT_LABELS[year_element][0],
+        "year_element_hanzi": ELEMENT_LABELS[year_element][1],
+        "year_polarity": STEM_POLARITY[year_stem],
+        "shio_name": SHIO_DATA[actual_shio]["name"],
+        "shio_key": actual_shio,
+        "shio_hanzi": SHIO_DATA[actual_shio]["hanzi"],
+        "day_master": {
+            "stem_id": stem_id,
+            "stem_hanzi": HEAVENLY_STEMS[day_stem][1],
+            "stem_name": HEAVENLY_STEMS[day_stem][0],
+            "pillar_hanzi": HEAVENLY_STEMS[day_stem][1] + EARTHLY_BRANCHES[day_branch][1],
+            "title": master["title"],
+            "element": master["element"],
+            "polarity": master["polarity"],
+            **pick,
+        },
+        "direction": arah,
+    }
+
+
+def describe_pair_roast(shio1_key, shio2_key):
+    idx1 = SHIOS_LIST.index(shio1_key)
+    idx2 = SHIOS_LIST.index(shio2_key)
+    relation_key = get_branch_relation(idx1, idx2)
+    meta = PAIR_RELATION_BANK[relation_key]
+    seed = build_stable_seed("pair_roast", shio1_key, shio2_key)
+    pool = ROAST_PAIR_BANK[relation_key]
+    pick = random.Random(seed).choice(pool)
+    return {
+        "shio1": {"key": shio1_key, "name": SHIO_DATA[shio1_key]["name"],
+                  "hanzi": SHIO_DATA[shio1_key]["hanzi"]},
+        "shio2": {"key": shio2_key, "name": SHIO_DATA[shio2_key]["name"],
+                  "hanzi": SHIO_DATA[shio2_key]["hanzi"]},
+        "relation_key": relation_key,
+        "relation_label": meta["label"],
+        "relation_hanzi": meta["hanzi"],
+        "relation_title": meta["title"],
+        "code": meta["code"],
+        "variants": len(pool),
+        **pick,
+    }
+
+
+DAY_MASTER_BANK_KEYS = [
+    "jia", "yi", "bing", "ding", "wu", "ji", "geng", "xin", "ren", "gui",
+]
+
+
+def get_shio_roasting(shio_key=None, partner_key=None, birth_date_str=None,
+                      gender=None):
+    birth_date = parse_birth_date(birth_date_str) if birth_date_str else None
+    if birth_date is not None:
+        shio_key = SHIOS_LIST[get_year_pillar(birth_date)[1]]
+    if not shio_key:
+        return {"error": "Isi tanggal lahir dulu."}
     roast = SHIO_ROASTING_BANK.get(shio_key)
     if not roast:
         return {"error": f"Shio '{shio_key}' tidak ditemukan."}
+    partner_roast = None
+    if partner_key and partner_key in SHIO_ROASTING_BANK:
+        partner_roast = describe_pair_roast(shio_key, partner_key)
+
     return {
         **roast,
         "traits_per_draw": ROAST_TRAITS_PER_DRAW,
+        "pair_roast": partner_roast,
+        "chart_roast": describe_chart_roast(birth_date_str, gender),
     }
 
 COOKIE_ELEMENT_RULE = {
@@ -837,8 +977,8 @@ DESTINY_SCHOOL = "子平 (Zi Ping)"
 DESTINY_EARLIEST_YEAR = 1900
 
 DESTINY_CITIES = [
-    {"key": key, "name": name}
-    for key, (name, _longitude) in sorted(
+    {"key": key, "name": name, "zone": zone, "province": province}
+    for key, (name, _longitude, zone, province) in sorted(
         BIRTH_CITIES.items(), key=lambda item: item[1][0]
     )
 ]

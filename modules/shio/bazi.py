@@ -1,7 +1,13 @@
 import datetime
+import collections
 import math
+import re
 import ephem
 from .bank import (
+    BIRTH_CITIES,
+    TIME_ZONE_MERIDIANS,
+    DEFAULT_CITY,
+    CITY_ALIASES,
     HEAVENLY_STEMS,
     EARTHLY_BRANCHES,
     STEM_ELEMENTS,
@@ -69,26 +75,6 @@ STRENGTH_THRESHOLDS = [
 
 WIB = datetime.timezone(datetime.timedelta(hours=7), "WIB")
 
-STANDARD_MERIDIAN = 105.0
-
-BIRTH_CITIES = {
-    "medan": ("Medan", 98.67),
-    "padang": ("Padang", 100.35),
-    "palembang": ("Palembang", 104.76),
-    "jakarta": ("Jakarta", 106.85),
-    "bandung": ("Bandung", 107.62),
-    "semarang": ("Semarang", 110.42),
-    "yogyakarta": ("Yogyakarta", 110.37),
-    "surabaya": ("Surabaya", 112.75),
-    "denpasar": ("Denpasar", 115.22),
-    "banjarmasin": ("Banjarmasin", 114.59),
-    "makassar": ("Makassar", 119.41),
-    "manado": ("Manado", 124.85),
-    "jayapura": ("Jayapura", 140.70),
-}
-
-DEFAULT_CITY = "jakarta"
-
 LICHUN_LONGITUDE = 315.0
 
 MONTH_BRANCH_YIN = 2
@@ -150,8 +136,34 @@ def get_equation_of_time(moment):
     )
 
 
-def get_true_solar_offset(moment, city_longitude):
-    longitude_minutes = (city_longitude - STANDARD_MERIDIAN) * 4
+def normalise_city_text(value):
+    return re.sub(r"[^a-z0-9]+", " ", str(value).lower()).strip()
+
+
+BARE_NAME_COUNT = collections.Counter(
+    normalise_city_text(_row[0].split(",")[0]) for _row in BIRTH_CITIES.values()
+)
+
+CITY_LOOKUP = {}
+for _key, _row in BIRTH_CITIES.items():
+    CITY_LOOKUP[normalise_city_text(_key)] = _key
+    CITY_LOOKUP.setdefault(normalise_city_text(_row[0]), _key)
+    _bare = normalise_city_text(_row[0].split(",")[0])
+    if BARE_NAME_COUNT[_bare] == 1:
+        CITY_LOOKUP.setdefault(_bare, _key)
+
+for _alias, _target in CITY_ALIASES.items():
+    CITY_LOOKUP[normalise_city_text(_alias)] = _target
+
+
+def resolve_city(value):
+    if not value:
+        return None
+    return CITY_LOOKUP.get(normalise_city_text(value))
+
+
+def get_true_solar_offset(moment, city_longitude, zone_meridian):
+    longitude_minutes = (city_longitude - zone_meridian) * 4
     return longitude_minutes + get_equation_of_time(moment)
 
 
@@ -393,17 +405,22 @@ def build_four_pillars(birth_date, birth_hour=None, birth_minute=0,
     hour_branch = None
 
     if birth_hour is not None:
-        city = city_key if city_key in BIRTH_CITIES else DEFAULT_CITY
-        city_name, city_longitude = BIRTH_CITIES[city]
+        matched = resolve_city(city_key)
+        city = matched or DEFAULT_CITY
+        city_name, city_longitude, city_zone, city_province = BIRTH_CITIES[city]
+        zone_meridian = TIME_ZONE_MERIDIANS[city_zone]
         resolved_city = {"key": city, "name": city_name,
+                         "province": city_province,
                          "longitude": city_longitude,
-                         "assumed": city_key not in BIRTH_CITIES}
+                         "zone": city_zone,
+                         "zone_meridian": zone_meridian,
+                         "assumed": matched is None}
 
         clock = datetime.datetime(
             birth_date.year, birth_date.month, birth_date.day,
             birth_hour, birth_minute,
         )
-        solar_offset = get_true_solar_offset(clock, city_longitude)
+        solar_offset = get_true_solar_offset(clock, city_longitude, zone_meridian)
         solar_moment = clock + datetime.timedelta(minutes=solar_offset)
 
         hour_branch = get_hour_branch(solar_moment.hour)

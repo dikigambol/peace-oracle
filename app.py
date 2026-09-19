@@ -1,5 +1,16 @@
 import os
 import secrets
+import sys
+
+MINIMUM_PYTHON = (3, 13)
+
+if sys.version_info < MINIMUM_PYTHON:
+    raise RuntimeError(
+        "Peace Oracle membutuhkan Python "
+        f"{MINIMUM_PYTHON[0]}.{MINIMUM_PYTHON[1]} atau lebih baru, "
+        f"terpasang {sys.version.split()[0]}."
+    )
+
 from dotenv import load_dotenv
 
 load_dotenv()

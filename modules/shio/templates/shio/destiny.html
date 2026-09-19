@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Baca Gulungan Takdir - Peace Oracle{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='vendor/flatpickr/flatpickr.min.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='vendor/flatpickr/dark.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/destiny.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
@@ -59,30 +59,32 @@
           <label for="destiny-hour">Jam Lahir <span class="destiny-optional">opsional</span></label>
           <div class="destiny-clock">
             <select id="destiny-hour">
-              <option value="">Tidak tahu</option>
+              <option value="">---</option>
               {% for hour in range(24) %}
               <option value="{{ hour }}">{{ '%02d' % hour }}</option>
               {% endfor %}
             </select>
             <span class="destiny-colon">:</span>
             <select id="destiny-minute" disabled>
-              {% for minute in range(0, 60, 5) %}
+              <option value="">---</option>
+              {% for minute in range(60) %}
               <option value="{{ minute }}">{{ '%02d' % minute }}</option>
               {% endfor %}
             </select>
           </div>
-          <small class="destiny-hint">Kosongkan kalau tidak ingat. Bacaan tetap jalan dengan tiga pilar.</small>
+          <small class="destiny-hint">Pakai jam dinding yang berlaku di kota lahir (WIB, WITA, atau WIT) &mdash; jangan dikonversi sendiri. Kosongkan kalau tidak ingat; bacaan tetap jalan dengan tiga pilar.</small>
         </div>
 
         <div class="destiny-field">
           <label for="destiny-city">Kota Lahir <span class="destiny-optional">opsional</span></label>
-          <select id="destiny-city">
-            <option value="">Tidak disebutkan</option>
+          <input type="text" id="destiny-city" list="destiny-city-options"
+                 placeholder="Ketik nama kota..." autocomplete="off" />
+          <datalist id="destiny-city-options">
             {% for city in cities %}
-            <option value="{{ city.key }}">{{ city.name }}</option>
+            <option value="{{ city.name }}">{{ city.province }} &middot; {{ city.zone }}</option>
             {% endfor %}
-          </select>
-          <small class="destiny-hint">Dipakai untuk koreksi waktu matahari sejati.</small>
+          </datalist>
+          <small class="destiny-hint">Ketik lalu pilih dari daftar. Menentukan zona waktu dan koreksi waktu matahari sejati &mdash; pilih kota terdekat kalau kotamu belum ada.</small>
         </div>
 
         <button class="destiny-submit" id="destiny-submit" disabled>
@@ -166,7 +168,7 @@
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+<script src="{{ url_for('shio.static', filename='vendor/flatpickr/flatpickr.min.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='vendor/flatpickr/id.js') }}"></script>
 <script src="{{ url_for('shio.static', filename='js/destiny.js') }}"></script>
 {% endblock %}

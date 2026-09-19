@@ -101,15 +101,15 @@ XIANG_XING_PAIRS = frozenset(
 ZI_XING_BRANCHES = frozenset([4, 6, 9, 11])
 
 BRANCH_RELATION_META = {
-    "liu_he": {"label": "Liu He (Jodoh Kosmik Sejati)", "code": "good", "band": (95, 99)},
-    "san_he": {"label": "San He (Tiga Harmoni)", "code": "good", "band": (85, 90)},
-    "ben_ming": {"label": "Ben Ming (Kembar Kosmik)", "code": "neutral", "band": (72, 78)},
-    "netral": {"label": "Ping (Netral & Stabil)", "code": "neutral", "band": (58, 68)},
-    "liu_po": {"label": "Liu Po (Perusakan)", "code": "bad", "band": (50, 57)},
-    "zi_xing": {"label": "Zi Xing (Hukuman Diri)", "code": "bad", "band": (44, 49)},
-    "liu_hai": {"label": "Liu Hai (Saling Menyakiti)", "code": "bad", "band": (37, 43)},
-    "xiang_xing": {"label": "Xiang Xing (Hukuman)", "code": "bad", "band": (30, 36)},
-    "chong": {"label": "Chong (Bentrokan Ekstrem)", "code": "bad", "band": (23, 29)},
+    "liu_he": {"label": "Liu He (Jodoh Kosmik Sejati)", "code": "good"},
+    "san_he": {"label": "San He (Tiga Harmoni)", "code": "good"},
+    "ben_ming": {"label": "Ben Ming (Kembar Kosmik)", "code": "neutral"},
+    "netral": {"label": "Ping (Netral & Stabil)", "code": "neutral"},
+    "liu_po": {"label": "Liu Po (Perusakan)", "code": "bad"},
+    "zi_xing": {"label": "Zi Xing (Hukuman Diri)", "code": "bad"},
+    "liu_hai": {"label": "Liu Hai (Saling Menyakiti)", "code": "bad"},
+    "xiang_xing": {"label": "Xiang Xing (Hukuman)", "code": "bad"},
+    "chong": {"label": "Chong (Bentrokan Ekstrem)", "code": "bad"},
 }
 
 JULIAN_DAY_OFFSET = 1721425
@@ -117,8 +117,6 @@ JULIAN_DAY_OFFSET = 1721425
 
 DAY_MASTER_BANK = {
     "jia": {
-        "stem_cn": "甲",
-        "stem_id": "Jia",
         "element": "kayu",
         "polarity": "yang",
         "title": "Pohon Besar yang Tumbuh Lurus",
@@ -146,8 +144,6 @@ DAY_MASTER_BANK = {
         },
     },
     "yi": {
-        "stem_cn": "乙",
-        "stem_id": "Yi",
         "element": "kayu",
         "polarity": "yin",
         "title": "Sulur yang Selalu Menemukan Jalan",
@@ -175,8 +171,6 @@ DAY_MASTER_BANK = {
         },
     },
     "bing": {
-        "stem_cn": "丙",
-        "stem_id": "Bing",
         "element": "api",
         "polarity": "yang",
         "title": "Matahari yang Tidak Bisa Setengah Bersinar",
@@ -204,8 +198,6 @@ DAY_MASTER_BANK = {
         },
     },
     "ding": {
-        "stem_cn": "丁",
-        "stem_id": "Ding",
         "element": "api",
         "polarity": "yin",
         "title": "Lilin yang Menyala di Ruang yang Tepat",
@@ -233,8 +225,6 @@ DAY_MASTER_BANK = {
         },
     },
     "wu": {
-        "stem_cn": "戊",
-        "stem_id": "Wu",
         "element": "tanah",
         "polarity": "yang",
         "title": "Gunung yang Tidak Diminta Bergeser",
@@ -262,8 +252,6 @@ DAY_MASTER_BANK = {
         },
     },
     "ji": {
-        "stem_cn": "己",
-        "stem_id": "Ji",
         "element": "tanah",
         "polarity": "yin",
         "title": "Tanah Kebun yang Menumbuhkan Diam-diam",
@@ -291,8 +279,6 @@ DAY_MASTER_BANK = {
         },
     },
     "geng": {
-        "stem_cn": "庚",
-        "stem_id": "Geng",
         "element": "logam",
         "polarity": "yang",
         "title": "Logam Mentah yang Ditempa Jadi Alat",
@@ -320,8 +306,6 @@ DAY_MASTER_BANK = {
         },
     },
     "xin": {
-        "stem_cn": "辛",
-        "stem_id": "Xin",
         "element": "logam",
         "polarity": "yin",
         "title": "Permata yang Menuntut Dipoles Benar",
@@ -349,8 +333,6 @@ DAY_MASTER_BANK = {
         },
     },
     "ren": {
-        "stem_cn": "壬",
-        "stem_id": "Ren",
         "element": "air",
         "polarity": "yang",
         "title": "Arus Besar yang Tidak Berhenti",
@@ -378,8 +360,6 @@ DAY_MASTER_BANK = {
         },
     },
     "gui": {
-        "stem_cn": "癸",
-        "stem_id": "Gui",
         "element": "air",
         "polarity": "yin",
         "title": "Embun yang Meresap Tanpa Suara",
@@ -431,7 +411,7 @@ CHART_STRENGTH_BANK = {
         "hanzi": "中和",
         "title": "Timbangan yang Nyaris Rata",
         "summary": "Tidak ada sisi yang terlalu berat di chart-mu. Kamu bisa menyesuaikan diri di banyak situasi tanpa harus banyak berubah. Keuntungannya nyata: kamu jarang hancur oleh satu peristiwa.",
-        "advice": "Karena tidak ada elemen yang wajib dikejar, yang menentukan hidupmu adalah pilihan sadar, bukan bawaan chart. Manfaatkan tiap periode 大運 untuk mengambil arah, karena kamu cukup lentur untuk mengikutinya.",
+        "advice": "Karena tidak ada elemen yang wajib dikejar, yang menentukan hidupmu adalah pilihan sadar, bukan bawaan chart. Manfaatkan tiap periode besar (大運) untuk mengambil arah, karena kamu cukup lentur untuk mengikutinya.",
         "caution": "Lentur bisa berubah jadi tidak punya pendirian kalau kamu tidak pernah memilih. Kemudahan menyesuaikan diri bikin kamu gampang menunda keputusan besar.",
     },
     "shen_ruo": {
@@ -458,101 +438,71 @@ TEN_GODS_BANK = {
         "name_cn": "比肩",
         "name_id": "Saudara Sebaya",
         "essence": "Kamu tumbuh dengan prinsip berdiri di kaki sendiri. Bantuan orang lain kamu terima seperlunya, tapi keputusan akhir hampir selalu kamu pegang sendiri. Sisi lainnya: kamu susah mengakui saat sedang butuh ditolong.",
-        "in_career": "Kamu paling produktif kalau punya wilayah kerja sendiri yang jelas batasnya. Struktur dengan terlalu banyak lapisan persetujuan bikin gairahmu cepat habis.",
-        "in_wealth": "Uangmu tumbuh dari tenaga dan waktumu sendiri, bukan dari titipan siapa pun. Hati-hati pada patungan yang porsinya dibagi rata tapi kerjanya tidak.",
-        "in_love": "Kamu butuh pasangan yang punya dunianya sendiri, bukan yang menempel terus. Yang sering jadi masalah bukan rasa sayangnya, tapi soal siapa yang mengalah.",
-        "when_strong": "比肩 yang menumpuk bikin kamu keras kepala dan gampang merasa tersaingi oleh orang yang sebenarnya satu tim denganmu. Latih diri membagi kerja, bukan memborongnya.",
-        "when_weak": "比肩 yang tipis bikin kamu gampang ikut arus dan kesulitan bilang tidak. Cari satu lingkaran kecil sebagai tempat berlatih bersikap.",
+        "when_strong": "Saudara Sebaya (比肩) yang menumpuk bikin kamu keras kepala dan gampang merasa tersaingi oleh orang yang sebenarnya satu tim denganmu. Latih diri membagi kerja, bukan memborongnya.",
+        "when_weak": "Saudara Sebaya (比肩) yang tipis bikin kamu gampang ikut arus dan kesulitan bilang tidak. Cari satu lingkaran kecil sebagai tempat berlatih bersikap.",
     },
     "jie_cai": {
         "name_cn": "劫財",
         "name_id": "Perampas Harta",
         "essence": "Kamu punya keberanian yang bikin orang betah di dekatmu, sekaligus kebiasaan melepas apa yang kamu punya terlalu cepat. Murah hati dan boros tumbuh dari akar yang sama. Kamu jarang menyesal, tapi sering kehabisan.",
-        "in_career": "Kamu bersinar di pekerjaan yang butuh keberanian ambil risiko, dan orang sekitarmu ikut terbakar semangatnya. Yang rawan: kamu ambil alih tugas orang lain lalu kewalahan sendiri.",
-        "in_wealth": "Pemasukanmu bisa besar, tapi bocornya lewat orang terdekat — pinjaman, traktiran, patungan yang tak pernah kembali. Pisahkan mana rekening yang boleh dipakai bersama dan mana yang tidak.",
-        "in_love": "Kamu memberi banyak di awal hubungan, kadang lebih banyak dari yang diminta. Kalau tidak dibalas, kamu bisa berubah dingin mendadak tanpa menjelaskan apa-apa.",
-        "when_strong": "劫財 berlimpah menarik persaingan dari lingkaran terdekat, bukan dari orang asing. Buat perjanjian tertulis justru untuk hal yang kamu anggap sepele karena sudah kenal.",
-        "when_weak": "劫財 yang tipis bikin kamu terlalu berhitung sampai melewatkan kesempatan yang sebenarnya layak diambil. Sesekali putuskan tanpa menunggu semua datanya lengkap.",
+        "when_strong": "Perampas Harta (劫財) berlimpah menarik persaingan dari lingkaran terdekat, bukan dari orang asing. Buat perjanjian tertulis justru untuk hal yang kamu anggap sepele karena sudah kenal.",
+        "when_weak": "Perampas Harta (劫財) yang tipis bikin kamu terlalu berhitung sampai melewatkan kesempatan yang sebenarnya layak diambil. Sesekali putuskan tanpa menunggu semua datanya lengkap.",
     },
     "shi_shen": {
         "name_cn": "食神",
         "name_id": "Dewa Penikmat",
         "essence": "Kamu mengolah isi kepalamu jadi sesuatu yang bisa dinikmati orang lain — tulisan, masakan, rancangan, obrolan. Prosesnya kamu nikmati, bukan cuma hasilnya. Energi ini yang bikin hidupmu terasa lapang meski isinya biasa saja.",
-        "in_career": "Bidang yang menuntut rasa dan kesabaran cocok denganmu: kuliner, desain, perawatan, apa pun yang hasilnya dirasakan langsung. Target yang dikejar tergesa justru menurunkan mutu kerjamu.",
-        "in_wealth": "Rezekimu datang dari keahlian yang kamu asah pelan-pelan, bukan dari lompatan besar. Makin kamu dikenal karena satu hal spesifik, makin stabil pemasukanmu.",
-        "in_love": "Kamu menunjukkan sayang lewat hal kecil yang dikerjakan konsisten, bukan lewat kata-kata besar. Pasangan yang tidak peka pada detail akan merasa kamu datar.",
-        "when_strong": "食神 yang berlimpah bikin kamu terlalu betah di zona nyaman dan menunda apa pun yang tidak menyenangkan. Pasang tenggat dari luar, jangan dari dirimu sendiri.",
-        "when_weak": "食神 yang tipis bikin kamu sulit menyalurkan apa yang kamu rasakan sampai menumpuk di dalam. Pilih satu saluran — apa pun bentuknya — lalu pakai rutin.",
+        "when_strong": "Dewa Penikmat (食神) yang berlimpah bikin kamu terlalu betah di zona nyaman dan menunda apa pun yang tidak menyenangkan. Pasang tenggat dari luar, jangan dari dirimu sendiri.",
+        "when_weak": "Dewa Penikmat (食神) yang tipis bikin kamu sulit menyalurkan apa yang kamu rasakan sampai menumpuk di dalam. Pilih satu saluran — apa pun bentuknya — lalu pakai rutin.",
     },
     "shang_guan": {
         "name_cn": "傷官",
         "name_id": "Pelukai Pejabat",
         "essence": "Kamu melihat celah yang orang lain lewatkan dan sulit menahan diri untuk tidak menyebutkannya. Bakatmu nyata, begitu juga gesekan yang kamu timbulkan. Aturan yang tidak masuk akal terasa seperti penghinaan pribadi buatmu.",
-        "in_career": "Kamu cocok di tempat yang menghargai hasil di atas prosedur: kreatif, riset, analisis, apa pun yang dinilai dari mutunya. Atasan yang butuh dihormati tanpa alasan akan jadi sumber masalahmu.",
-        "in_wealth": "Uangmu mengalir deras saat kemampuanmu diakui, dan berhenti mendadak saat kamu bertengkar dengan pemegang keputusan. Jaga hubungan dengan pintunya, bukan cuma dengan pekerjaannya.",
-        "in_love": "Kamu jujur sampai ke titik yang menyakitkan dan menganggap itu bentuk penghormatan. Tidak semua orang membacanya begitu.",
-        "when_strong": "傷官 berlebih bikin kamu membakar jembatan yang masih kamu butuhkan. Tahan satu hari sebelum mengirim kritik yang sudah tersusun rapi di kepalamu.",
-        "when_weak": "傷官 yang tipis bikin kamu menelan pendapat sendiri demi suasana yang aman. Mulai dari menyampaikan satu ketidaksetujuan kecil tiap minggu.",
+        "when_strong": "Pelukai Pejabat (傷官) berlebih bikin kamu membakar jembatan yang masih kamu butuhkan. Tahan satu hari sebelum mengirim kritik yang sudah tersusun rapi di kepalamu.",
+        "when_weak": "Pelukai Pejabat (傷官) yang tipis bikin kamu menelan pendapat sendiri demi suasana yang aman. Mulai dari menyampaikan satu ketidaksetujuan kecil tiap minggu.",
     },
     "pian_cai": {
         "name_cn": "偏財",
         "name_id": "Harta Tak Terduga",
         "essence": "Kamu punya penciuman tajam untuk peluang dan jaringan yang meluas tanpa perlu diusahakan keras. Uang datang dari arah yang tidak direncanakan. Yang sulit buatmu bukan mencarinya, tapi menahannya.",
-        "in_career": "Penjualan, kemitraan, usaha sampingan — apa pun yang hasilnya diukur dari gerak, di situ kamu hidup. Meja yang sama selama bertahun-tahun akan mematikan sebagian dirimu.",
-        "in_wealth": "Kamu bisa membaca kapan sesuatu sedang naik, tapi sering lupa kapan harus keluar. Tetapkan angka jual sebelum masuk, bukan sesudah.",
-        "in_love": "Kamu murah hati dan gampang disukai, kadang lebih dari yang kamu sadari. Batas antara ramah dan memberi harapan perlu kamu gambar sendiri.",
-        "when_strong": "偏財 berlimpah bikin kamu mengejar banyak hal sekaligus sampai tidak ada satu pun yang selesai. Pilih dua, lepaskan sisanya tanpa menyimpan penyesalan.",
-        "when_weak": "偏財 yang tipis bikin peluang lewat karena kamu menunggu kepastian yang tidak pernah datang. Sediakan dana kecil yang memang disiapkan untuk dicoba dan boleh hilang.",
+        "when_strong": "Harta Tak Terduga (偏財) berlimpah bikin kamu mengejar banyak hal sekaligus sampai tidak ada satu pun yang selesai. Pilih dua, lepaskan sisanya tanpa menyimpan penyesalan.",
+        "when_weak": "Harta Tak Terduga (偏財) yang tipis bikin peluang lewat karena kamu menunggu kepastian yang tidak pernah datang. Sediakan dana kecil yang memang disiapkan untuk dicoba dan boleh hilang.",
     },
     "zheng_cai": {
         "name_cn": "正財",
         "name_id": "Harta Sah",
         "essence": "Kamu percaya uang adalah hasil yang bisa dihitung dari kerja yang bisa dihitung. Kamu tidak silau pada jalan pintas, dan itu menyelamatkanmu berkali-kali. Sisi beratnya: kamu bisa terlalu lama bertahan di tempat yang aman tapi sudah habis.",
-        "in_career": "Peran yang menuntut ketelitian dan tanggung jawab jangka panjang cocok denganmu — keuangan, operasional, apa pun yang salahnya mahal. Kamu dipercaya karena jarang meleset.",
-        "in_wealth": "Kekayaanmu bertumpuk dari selisih kecil yang konsisten, bukan dari satu kemenangan besar. Itu lambat, dan justru di situ kekuatannya.",
-        "in_love": "Kamu menunjukkan komitmen lewat hal yang bisa diandalkan: hadir tepat waktu, ingat janji, ikut menanggung. Hubungan yang menuntut kejutan terus-menerus bikin kamu kurang nyaman.",
-        "when_strong": "正財 yang menumpuk bikin kamu menghitung segala sesuatu, termasuk yang seharusnya diberikan tanpa dihitung. Sediakan pos pengeluaran yang memang tidak perlu dipertanggungjawabkan.",
-        "when_weak": "正財 yang tipis bikin pemasukanmu naik turun tanpa pola. Bangun satu sumber tetap dulu, sekecil apa pun, sebelum mengejar yang besar.",
+        "when_strong": "Harta Sah (正財) yang menumpuk bikin kamu menghitung segala sesuatu, termasuk yang seharusnya diberikan tanpa dihitung. Sediakan pos pengeluaran yang memang tidak perlu dipertanggungjawabkan.",
+        "when_weak": "Harta Sah (正財) yang tipis bikin pemasukanmu naik turun tanpa pola. Bangun satu sumber tetap dulu, sekecil apa pun, sebelum mengejar yang besar.",
     },
     "qi_sha": {
         "name_cn": "七殺",
         "name_id": "Tujuh Pembunuh",
         "essence": "Kamu tumbuh paling cepat saat sedang ditekan. Situasi yang bikin orang lain beku justru menajamkan caramu berpikir. Masalahnya, kamu jadi terbiasa mencari tekanan itu bahkan saat tidak diperlukan.",
-        "in_career": "Kamu berguna di tempat yang sedang berantakan: pembenahan, penanganan krisis, tim yang perlu dirapikan. Di situasi yang sudah tenang, kamu bisa tanpa sadar menciptakan keributannya sendiri.",
-        "in_wealth": "Pemasukan besarmu biasanya datang dari pekerjaan yang orang lain hindari karena berat. Pastikan risikonya kamu ambil dengan sadar, bukan karena dorongan adrenalin.",
-        "in_love": "Kamu intens dan protektif. Itu bisa terasa seperti dilindungi atau seperti dikurung, tergantung siapa yang menerimanya — tanyakan yang mana yang dirasakan pasanganmu.",
-        "when_strong": "七殺 berlebih membuat hidupmu berjalan dari satu keadaan darurat ke darurat berikutnya sampai badanmu yang menagih. Jadwalkan istirahat sebagai kewajiban, bukan hadiah.",
-        "when_weak": "七殺 yang tipis bikin kamu menghindari konfrontasi sampai masalah kecil membesar sendiri. Selesaikan satu hal yang sudah kamu tunda, minggu ini juga.",
+        "when_strong": "Tujuh Pembunuh (七殺) berlebih membuat hidupmu berjalan dari satu keadaan darurat ke darurat berikutnya sampai badanmu yang menagih. Jadwalkan istirahat sebagai kewajiban, bukan hadiah.",
+        "when_weak": "Tujuh Pembunuh (七殺) yang tipis bikin kamu menghindari konfrontasi sampai masalah kecil membesar sendiri. Selesaikan satu hal yang sudah kamu tunda, minggu ini juga.",
     },
     "zheng_guan": {
         "name_cn": "正官",
         "name_id": "Pejabat Sah",
         "essence": "Kamu nyaman di dalam aturan yang jelas dan terganggu saat ada yang menyerobot. Nama baik buatmu bukan gengsi, tapi modal kerja. Kamu menahan diri di banyak hal karena memikirkan bagaimana itu akan terbaca orang.",
-        "in_career": "Jalur berjenjang cocok denganmu: institusi, pemerintahan, korporasi, profesi berlisensi. Kamu naik pelan tapi jarang turun.",
-        "in_wealth": "Uangmu terikat pada posisi dan reputasi, jadi menjaga keduanya sama dengan menjaga pemasukan. Jangan taruh seluruh masa depanmu di satu jabatan.",
-        "in_love": "Kamu serius sejak awal dan tidak suka hubungan yang statusnya menggantung. Pasangan yang santai soal kepastian bikin kamu diam-diam gelisah.",
-        "when_strong": "正官 yang menumpuk bikin kamu mengikat diri pada standar yang bahkan tidak ada yang menuntut. Periksa mana aturan yang nyata dan mana yang kamu buat sendiri.",
-        "when_weak": "正官 yang tipis bikin kamu sulit konsisten pada komitmen yang sudah kamu buat. Kurangi jumlah janjinya, bukan mutu menepatinya.",
+        "when_strong": "Pejabat Sah (正官) yang menumpuk bikin kamu mengikat diri pada standar yang bahkan tidak ada yang menuntut. Periksa mana aturan yang nyata dan mana yang kamu buat sendiri.",
+        "when_weak": "Pejabat Sah (正官) yang tipis bikin kamu sulit konsisten pada komitmen yang sudah kamu buat. Kurangi jumlah janjinya, bukan mutu menepatinya.",
     },
     "pian_yin": {
         "name_cn": "偏印",
         "name_id": "Penopang Miring",
         "essence": "Kamu belajar dengan cara yang tidak biasa dan sering paham sebelum bisa menjelaskan kenapa. Ketertarikanmu jatuh ke hal yang orang lain anggap terlalu dalam atau terlalu aneh. Kamu betah sendirian jauh lebih lama dari kebanyakan orang.",
-        "in_career": "Riset, spesialisasi sempit, bidang teknis atau spiritual — di situ caramu berpikir jadi nilai lebih. Pekerjaan yang menuntut basa-basi terus-menerus menguras energimu.",
-        "in_wealth": "Rezekimu datang dari pengetahuan yang sedikit orang punya, bukan dari banyaknya pelanggan. Beranikan diri memasang harga sesuai kelangkaannya.",
-        "in_love": "Kamu butuh ruang, dan orang sering salah membacanya sebagai tidak tertarik. Sampaikan kebutuhan itu di awal, sebelum jadi salah paham yang panjang.",
-        "when_strong": "偏印 berlebih bikin kamu berpikir terus tanpa pernah masuk ke tindakan, dan makin lama makin menjauh dari orang. Tetapkan satu hal yang harus keluar dari kepalamu jadi nyata minggu ini.",
-        "when_weak": "偏印 yang tipis bikin kamu mudah percaya penjelasan pertama yang kamu dengar. Biasakan mencari satu sumber pembanding sebelum mengambil sikap.",
+        "when_strong": "Penopang Miring (偏印) berlebih bikin kamu berpikir terus tanpa pernah masuk ke tindakan, dan makin lama makin menjauh dari orang. Tetapkan satu hal yang harus keluar dari kepalamu jadi nyata minggu ini.",
+        "when_weak": "Penopang Miring (偏印) yang tipis bikin kamu mudah percaya penjelasan pertama yang kamu dengar. Biasakan mencari satu sumber pembanding sebelum mengambil sikap.",
     },
     "zheng_yin": {
         "name_cn": "正印",
         "name_id": "Penopang Sah",
         "essence": "Kamu punya sandaran — orang, ilmu, atau keyakinan — yang bikin kamu tidak gampang goyah. Merawat sesuatu terasa alami buatmu. Yang perlu diwaspadai: sandaran yang terlalu nyaman bisa jadi alasan untuk tidak pernah berangkat.",
-        "in_career": "Pendidikan, kesehatan, penelitian, pendampingan — bidang yang inti kerjanya menumbuhkan orang lain. Pengakuan datang lambat tapi bertahan lama.",
-        "in_wealth": "Kamu jarang kekurangan karena selalu ada yang menopang, dan justru itu yang bikin kamu menunda mandiri secara finansial. Hitung berapa lama kamu sanggup bertahan tanpa bantuan siapa pun.",
-        "in_love": "Kamu merawat pasangan seperti merawat rumah: telaten dan tanpa banyak diminta. Hati-hati memposisikan diri sebagai orang tua, bukan sebagai pasangan.",
-        "when_strong": "正印 yang menumpuk bikin kamu terlalu lama bersiap dan tidak pernah merasa cukup ilmu untuk mulai. Tetapkan tanggal mulai sebelum merasa siap.",
-        "when_weak": "正印 yang tipis bikin kamu berjalan tanpa penopang dan cepat habis. Cari satu orang yang bisa kamu hubungi saat buntu, lalu benar-benar hubungi.",
+        "when_strong": "Penopang Sah (正印) yang menumpuk bikin kamu terlalu lama bersiap dan tidak pernah merasa cukup ilmu untuk mulai. Tetapkan tanggal mulai sebelum merasa siap.",
+        "when_weak": "Penopang Sah (正印) yang tipis bikin kamu berjalan tanpa penopang dan cepat habis. Cari satu orang yang bisa kamu hubungi saat buntu, lalu benar-benar hubungi.",
     },
 }
 
@@ -680,7 +630,7 @@ WUXING_ROLE_BANK = {
     },
     ("kosong", "menguntungkan"): {
         "verdict": "Elemen yang kamu butuhkan sama sekali tidak muncul di empat pilarmu.",
-        "action": "Inilah yang paling menentukan: bangun dari luar chart — lingkungan, pasangan, bidang kerja, kebiasaan harian. Periode 大運 yang membawa elemen ini biasanya jadi titik balik hidupmu.",
+        "action": "Inilah yang paling menentukan: bangun dari luar chart — lingkungan, pasangan, bidang kerja, kebiasaan harian. Periode besar (大運) yang membawa elemen ini biasanya jadi titik balik hidupmu.",
     },
     ("kosong", "merugikan"): {
         "verdict": "Elemen ini tidak ada sama sekali, dan itu justru melegakan — dia bukan sekutumu.",
@@ -692,7 +642,7 @@ WUXING_ROLE_BANK = {
     },
     ("seimbang", "merugikan"): {
         "verdict": "Elemen ini termasuk yang membebanimu, tapi jumlahnya masih terkendali.",
-        "action": "Belum perlu tindakan khusus. Cukup awasi supaya tidak menumpuk, terutama saat periode 大運 kebetulan menambah elemen ini.",
+        "action": "Belum perlu tindakan khusus. Cukup awasi supaya tidak menumpuk, terutama saat periode besar (大運) kebetulan menambah elemen ini.",
     },
     ("seimbang", "netral"): {
         "verdict": "Elemen ini ada secukupnya dan tidak menarik chart-mu ke arah mana pun.",
@@ -708,7 +658,7 @@ WUXING_ROLE_BANK = {
     },
     ("kosong", "netral"): {
         "verdict": "Elemen ini tidak muncul sama sekali, dan ketiadaannya tidak menguntungkan maupun merugikanmu.",
-        "action": "Tidak ada yang perlu dikejar di sini. Kalau suatu saat elemen ini datang lewat 大運 atau lingkungan baru, terima sebagai warna tambahan, bukan sebagai perbaikan.",
+        "action": "Tidak ada yang perlu dikejar di sini. Kalau suatu saat elemen ini datang lewat periode besar (大運) atau lingkungan baru, terima sebagai warna tambahan, bukan sebagai perbaikan.",
     },
 }
 
@@ -852,7 +802,7 @@ DESTINY_WEALTH_BANK = {
         "wealth_type": "Rezeki Hasil Keringat Sendiri",
         "investment_advice": "Taruh uangmu di hal yang kamu pahami dan bisa kamu kendalikan sendiri — alat kerja, keahlian, usaha yang kamu jalankan. Produk yang pengelolaannya diserahkan penuh ke orang lain jarang cocok dengan caramu.",
         "financial_trap": "Patungan dengan teman yang porsinya dibagi sama rata tapi kerjanya tidak. Itu yang paling sering menguras uang sekaligus hubungannya.",
-        "lucky_period": "Periode 大運 yang membawa elemen penyalur — tenagamu akhirnya menemukan muaranya jadi uang.",
+        "lucky_period": "Periode besar (大運) yang membawa elemen penyalur — tenagamu akhirnya menemukan muaranya jadi uang.",
     },
     "jie_cai": {
         "wealth_type": "Rezeki Deras yang Bocor Halus",
@@ -1063,7 +1013,7 @@ SHEN_SHA_BANK = {
         "name_id": "Bintang Penolong Mulia",
         "icon": "⭐",
         "category": "auspicious",
-        "description": "Bintang paling dihormati di seluruh 神煞. Menandakan ada orang yang datang membantu di saat paling genting, sering tanpa kamu minta dan tanpa sempat kamu balas setimpal.",
+        "description": "Bintang paling dihormati di seluruh jajaran bintang nasib (神煞). Menandakan ada orang yang datang membantu di saat paling genting, sering tanpa kamu minta dan tanpa sempat kamu balas setimpal.",
         "life_impact": "Masalah besarmu cenderung selesai lewat perantara, bukan lewat perjuangan sendirian. Rawat hubungan dengan orang yang lebih senior — di situ pintunya.",
     },
     "wen_chang": {
@@ -1127,7 +1077,7 @@ SHEN_SHA_BANK = {
         "name_id": "Bintang Kebajikan Bulan",
         "icon": "🌙",
         "category": "auspicious",
-        "description": "Sepasang dengan 天德 tapi bekerja dari dalam: menandakan watak yang cenderung tidak tega dan sulit berbuat curang.",
+        "description": "Sepasang dengan Bintang Kebajikan Langit (天德) tapi bekerja dari dalam: menandakan watak yang cenderung tidak tega dan sulit berbuat curang.",
         "life_impact": "Orang mempercayaimu lebih cepat dari rata-rata, dan itu modal yang lebih mahal daripada uang. Waspadai orang yang justru memanfaatkan sifat ini.",
     },
     "jin_yu": {
@@ -1317,7 +1267,7 @@ PILLAR_POSITION_BANK = {
         "label": "Pilar Hari",
         "domain": "Diri sendiri di batangnya, pasangan di cabangnya.",
         "age_range": "30–45 tahun",
-        "reading_note": "Batang hari adalah Day Master, titik acuan seluruh pembacaan. Cabangnya disebut 日支 dan dibaca sebagai ruang paling pribadimu: siapa yang kamu pilih dan bagaimana kamu saat sedang berdua.",
+        "reading_note": "Batang hari adalah Day Master, titik acuan seluruh pembacaan. Cabangnya disebut cabang hari (日支) dan dibaca sebagai ruang paling pribadimu: siapa yang kamu pilih dan bagaimana kamu saat sedang berdua.",
     },
     "hour": {
         "hanzi": "時柱",
@@ -1333,7 +1283,7 @@ NO_BIRTH_TIME_BANK = {
     "notice": "Kamu tidak mengisi jam lahir, jadi bacaan ini disusun dari tiga pilar: tahun, bulan, dan hari. Tiga pilar tetap sah dibaca dan sudah dipakai berabad-abad saat jam lahir tidak tercatat. Yang hilang bukan ketepatannya, melainkan satu lapisan terakhirnya.",
     "still_valid": [
         "Day Master beserta seluruh watak dasarmu",
-        "Kekuatan diri 身強/身弱 dan elemen yang menguntungkanmu",
+        "Kekuatan diri, kuat atau lemah (身強/身弱), beserta elemen yang menguntungkanmu",
         "Dewa dominan, jadi bacaan karir, rezeki, dan asmara tetap utuh",
         "Hubunganmu dengan latar keluarga lewat cabang tahun",
         "Sebagian besar bintang nasib yang dipicu batang hari dan cabang tahun",
@@ -1342,7 +1292,7 @@ NO_BIRTH_TIME_BANK = {
         "Pilar jam beserta dewa yang ada di dalamnya",
         "Bacaan soal anak dan masa tua",
         "Bintang nasib yang kebetulan hanya menempel di cabang jam",
-        "Usia mulai 大運 dengan ketepatan penuh",
+        "Usia mulai periode besar (大運) dengan ketepatan penuh",
     ],
     "invitation": "Kalau suatu saat kamu menemukan jam lahirmu di akta atau catatan keluarga, isi ulang — lapisan terakhirnya akan langsung terbuka.",
 }

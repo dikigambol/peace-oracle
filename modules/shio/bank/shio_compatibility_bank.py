@@ -654,15 +654,15 @@ PAIR_RELATION_BANK = {
 }
 
 DAY_PILLAR_RELATION_BANK = {
-    "liu_he": "Cabang hari kalian berpasangan 六合. Di 合婚 ini bacaan paling kuat: istana pasangan kalian saling mengunci, bukan sekadar shionya cocok.",
-    "san_he": "Cabang hari kalian satu kelompok 三合. Istana pasangan kalian menarik ke arah yang sama, jadi hidup bersama terasa searah.",
+    "liu_he": "Cabang hari kalian berpasangan enam harmoni (六合). Di pencocokan jodoh (合婚) ini bacaan paling kuat: istana pasangan kalian saling mengunci, bukan sekadar shionya cocok.",
+    "san_he": "Cabang hari kalian satu kelompok tiga harmoni (三合). Istana pasangan kalian menarik ke arah yang sama, jadi hidup bersama terasa searah.",
     "ben_ming": "Cabang hari kalian sama. Kalian mengenali diri sendiri di pasangan — nyaman, tapi jarang ada yang menantang.",
     "zi_xing": "Cabang hari kalian sama dan termasuk yang menghukum diri. Pola yang sama berulang di dua orang sekaligus.",
     "netral": "Cabang hari kalian tidak berelasi khusus. Istana pasangan kalian netral: tidak menarik, tidak menolak.",
-    "liu_po": "Cabang hari kalian 六破. Kesepakatan rumah tangga gampang berubah bentuk; tulis yang penting, jangan andalkan ingatan.",
-    "liu_hai": "Cabang hari kalian 六害. Yang melukai biasanya hal kecil yang dianggap sepele oleh yang melakukannya.",
-    "xiang_xing": "Cabang hari kalian 相刑. Istana pasangan saling menggerus — biasanya soal siapa yang mengalah dan seberapa sering.",
-    "chong": "Cabang hari kalian 六冲. Ini yang paling diperhatikan di 合婚 klasik: istana pasangan berhadapan langsung, jadi hubungan ini butuh aturan main yang jelas sejak awal.",
+    "liu_po": "Cabang hari kalian saling merusak (六破). Kesepakatan rumah tangga gampang berubah bentuk; tulis yang penting, jangan andalkan ingatan.",
+    "liu_hai": "Cabang hari kalian saling menyakiti (六害). Yang melukai biasanya hal kecil yang dianggap sepele oleh yang melakukannya.",
+    "xiang_xing": "Cabang hari kalian saling menghukum (相刑). Istana pasangan saling menggerus — biasanya soal siapa yang mengalah dan seberapa sering.",
+    "chong": "Cabang hari kalian berseberangan lurus (六冲). Ini yang paling diperhatikan di pencocokan jodoh (合婚) klasik: istana pasangan berhadapan langsung, jadi hubungan ini butuh aturan main yang jelas sejak awal.",
 }
 
 DAY_STEM_CONTEXT = {
@@ -675,7 +675,7 @@ USEFUL_GOD_MATCH_BANK = {
     "saling_memasok": {
         "title": "Saling Memasok",
         "code": "good",
-        "note": "Elemen inti {a} termasuk yang dibutuhkan {b}, dan sebaliknya. Ini hasil terbaik di 合婚 modern — kalian saling menambal kekurangan, bukan cuma cocok di permukaan.",
+        "note": "Elemen inti {a} termasuk yang dibutuhkan {b}, dan sebaliknya. Ini hasil terbaik di pencocokan jodoh (合婚) modern — kalian saling menambal kekurangan, bukan cuma cocok di permukaan.",
         "advice": "Hubungan seperti ini biasanya bikin keduanya naik. Jangan sia-siakan dengan menunda hal yang perlu diputuskan bersama.",
     },
     "sepihak": {
@@ -707,13 +707,13 @@ USEFUL_GOD_MATCH_BANK = {
 COUPLE_STAR_BANK = {
     "tao_hua_both": {
         "icon": "🌸",
-        "title": "Dua-duanya Bawa 桃花",
+        "title": "Dua-duanya Bawa Bintang Pesona (桃花)",
         "code": "neutral",
         "note": "Kalian berdua punya Bintang Pesona di chart. Mudah saling tertarik, tapi juga sama-sama mudah menarik perhatian dari luar. Batasnya perlu disepakati, bukan diasumsikan.",
     },
     "tao_hua_one": {
         "icon": "🌸",
-        "title": "Satu Pihak Bawa 桃花",
+        "title": "Satu Pihak Bawa Bintang Pesona (桃花)",
         "code": "neutral",
         "note": "Satu dari kalian punya Bintang Pesona. Perhatian dari luar lebih sering datang ke pihak itu — bukan salahnya, tapi perlu dibicarakan sebelum jadi curiga.",
     },
@@ -721,7 +721,7 @@ COUPLE_STAR_BANK = {
         "icon": "🌑",
         "title": "Dua-duanya Bawa Bintang Kesendirian",
         "code": "bad",
-        "note": "孤辰 atau 寡宿 muncul di kedua chart. Kalian berdua sama-sama butuh ruang sendiri, dan itu bisa terbaca sebagai dingin kalau tidak dijelaskan.",
+        "note": "Bintang Kesendirian (孤辰) atau Bintang Ruang Sunyi (寡宿) muncul di kedua chart. Kalian berdua sama-sama butuh ruang sendiri, dan itu bisa terbaca sebagai dingin kalau tidak dijelaskan.",
     },
     "solitude_one": {
         "icon": "🌑",
@@ -731,7 +731,7 @@ COUPLE_STAR_BANK = {
     },
     "tian_yi": {
         "icon": "⭐",
-        "title": "Ada 天乙貴人 di Hubungan Ini",
+        "title": "Ada Bintang Penolong Mulia (天乙貴人) di Hubungan Ini",
         "code": "good",
         "note": "Setidaknya satu dari kalian membawa Bintang Penolong Mulia. Saat hubungan ini kesulitan, pertolongan cenderung datang lewat perantara.",
     },

@@ -42,8 +42,45 @@
 
 .guardian-meta-note {
   display: block;
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   line-height: 1.5;
   color: rgba(252, 227, 182, 0.45);
   margin-top: 4px;
+}
+
+.fortune-card {
+  animation: cardFadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.meta-box {
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.14s;
+}
+
+.category-box {
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.category-box:nth-child(1) {
+  animation-delay: 0.22s;
+}
+
+.category-box:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.category-box:nth-child(3) {
+  animation-delay: 0.38s;
+}
+
+.category-box:nth-child(n + 4) {
+  animation-delay: 0.46s;
+}
+
+.shio-item {
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.shio-item:hover {
+  transform: translateY(-4px);
 }

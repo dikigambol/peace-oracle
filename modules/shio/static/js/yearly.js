@@ -59,6 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
         viewSelect.classList.remove('hidden');
         viewSelect.classList.add('active');
         yearlyCard.classList.add('hidden');
+        document
+            .querySelectorAll('.shio-item')
+            .forEach((b) => b.classList.remove('selected'));
+        selectedShio = null;
+        if (btnCheck) btnCheck.disabled = true;
     });
 
     function fetchYearly(shio, year) {
@@ -89,10 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const relation = data.relation || {};
             const badge = document.getElementById('y-relation-badge');
-            badge.textContent = relation.tai_sui
-                ? relation.hanzi + ' ' + relation.tai_sui
-                : relation.hanzi + ' ' + relation.label;
+            badge.textContent = relation.hanzi
+                ? relation.hanzi + ' \u00b7 ' + (relation.name_id || relation.label || '')
+                : relation.name_id || relation.label || '';
             badge.className = 'yearly-badge code-' + (relation.code || 'neutral');
+            const taiSui = document.getElementById('y-relation-taisui');
+            taiSui.textContent = relation.tai_sui || '';
+            taiSui.classList.toggle('hidden', !relation.tai_sui);
             document.getElementById('y-relation-note').textContent = relation.note || '';
 
             const stem = data.stem_layer || {};
@@ -132,16 +140,92 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const canvas = document.getElementById('particle-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        for (let i = 0; i < 100; i++) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.random()})`;
-            ctx.beginPath();
-            ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 2, 0, Math.PI * 2);
-            ctx.fill();
-        }
+  const canvas = document.getElementById('particle-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 5 + 2;
+        this.speedX = Math.random() * 6 - 3;
+        this.speedY = Math.random() * 6 - 3;
+        this.color = Math.random() > 0.5 ? '#ffd700' : '#ff4500';
+        this.life = 1.0;
+        this.decay = Math.random() * 0.02 + 0.02;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.life -= this.decay;
+      }
+      draw() {
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+    }
+    function createParticles(x, y) {
+      for (let i = 0; i < 30; i++) {
+        particles.push(new Particle(x, y));
+      }
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].life <= 0) {
+          particles.splice(i, 1);
+          i--;
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+    let isDragging = false;
+    const shioBg = document.getElementById('shio-bg');
+    if (shioBg) {
+      shioBg.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        createParticles(e.clientX, e.clientY);
+      });
+      shioBg.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          for (let i = 0; i < 5; i++) {
+            particles.push(new Particle(e.clientX, e.clientY));
+          }
+        }
+      });
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+      });
+      shioBg.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        createParticles(touch.clientX, touch.clientY);
+      });
+      shioBg.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          const touch = e.touches[0];
+          for (let i = 0; i < 5; i++) {
+            particles.push(new Particle(touch.clientX, touch.clientY));
+          }
+        }
+      });
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    }
+  }
 });

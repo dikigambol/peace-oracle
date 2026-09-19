@@ -82,12 +82,11 @@ def get_shio_guardian_endpoint():
 @shio_bp.route("/api/shio/compatibility", methods=["POST"])
 def get_shio_compatibility_endpoint():
     data = read_payload()
-    shio1 = read_text(data, "shio1")
-    shio2 = read_text(data, "shio2")
-    if not shio1 or not shio2:
-        return jsonify({"error": "Missing shio1 or shio2"}), 400
     result = get_shio_compatibility(
-        shio1, shio2, read_text(data, "tanggal1"), read_text(data, "tanggal2")
+        read_text(data, "shio1"),
+        read_text(data, "shio2"),
+        read_text(data, "tanggal1"),
+        read_text(data, "tanggal2"),
     )
     if "error" in result:
         return jsonify(result), 400
@@ -106,10 +105,14 @@ def get_shio_yearly_endpoint():
 @shio_bp.route("/api/shio/roasting", methods=["POST"])
 def get_shio_roasting_endpoint():
     data = read_payload()
-    shio_key = read_text(data, "shio")
-    if not shio_key:
-        return jsonify({"error": "Missing shio"}), 400
-    result = get_shio_roasting(shio_key)
+    result = get_shio_roasting(
+        read_text(data, "shio"),
+        read_text(data, "pasangan"),
+        read_text(data, "tanggal"),
+        read_text(data, "gender"),
+    )
+    if "error" in result:
+        return jsonify(result), 400
     return jsonify(result)
 
 @shio_bp.route("/api/shio/fortune-cookie", methods=["POST"])

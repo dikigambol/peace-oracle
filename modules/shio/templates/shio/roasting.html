@@ -2,6 +2,8 @@
 {% block title %}Roasting Shio - Peace Oracle{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/roasting.css') }}" />
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
 {% endblock %}
@@ -33,57 +35,48 @@
         <i class="fa-solid fa-triangle-exclamation"></i> Peringatan: kenyataan
         pahit di depan. Siapkan mental, jangan baper.
       </p>
-      <div class="shio-grid">
-        <button class="shio-item" data-shio="tikus">
-          <span class="icon hanzi">鼠</span><span class="name">Tikus</span>
-        </button>
-        <button class="shio-item" data-shio="kerbau">
-          <span class="icon hanzi">牛</span><span class="name">Kerbau</span>
-        </button>
-        <button class="shio-item" data-shio="macan">
-          <span class="icon hanzi">虎</span><span class="name">Macan</span>
-        </button>
-        <button class="shio-item" data-shio="kelinci">
-          <span class="icon hanzi">兔</span><span class="name">Kelinci</span>
-        </button>
-        <button class="shio-item" data-shio="naga">
-          <span class="icon hanzi">龍</span><span class="name">Naga</span>
-        </button>
-        <button class="shio-item" data-shio="ular">
-          <span class="icon hanzi">蛇</span><span class="name">Ular</span>
-        </button>
-        <button class="shio-item" data-shio="kuda">
-          <span class="icon hanzi">馬</span><span class="name">Kuda</span>
-        </button>
-        <button class="shio-item" data-shio="kambing">
-          <span class="icon hanzi">羊</span><span class="name">Kambing</span>
-        </button>
-        <button class="shio-item" data-shio="monyet">
-          <span class="icon hanzi">猴</span><span class="name">Monyet</span>
-        </button>
-        <button class="shio-item" data-shio="ayam">
-          <span class="icon hanzi">雞</span><span class="name">Ayam</span>
-        </button>
-        <button class="shio-item" data-shio="anjing">
-          <span class="icon hanzi">狗</span><span class="name">Anjing</span>
-        </button>
-        <button class="shio-item" data-shio="babi">
-          <span class="icon hanzi">豬</span><span class="name">Babi</span>
-        </button>
+      <div class="roast-birth">
+        <label>
+          Tanggal Lahir <span class="roast-birth-wajib">wajib</span>
+        </label>
+        <div class="roast-birth-wrapper">
+          <i class="fa-solid fa-calendar-days roast-birth-icon"></i>
+          <input type="text" id="dm-date" placeholder="Pilih tanggal lahir..." readonly />
+        </div>
+        <label>
+          Jenis Kelamin <span class="roast-birth-optional">opsional</span>
+        </label>
+        <div class="roast-gender">
+          <button type="button" class="roast-gender-btn" data-gender="pria">
+            <i class="fa-solid fa-mars"></i> Pria
+          </button>
+          <button type="button" class="roast-gender-btn" data-gender="wanita">
+            <i class="fa-solid fa-venus"></i> Wanita
+          </button>
+        </div>
+        <small class="roast-birth-hint">
+          Shio kamu diitung dari tanggal ini &mdash; termasuk batas awal musim semi (立春) yang
+          sering bikin kelahiran Januari salah shio. Jenis kelamin cuma buat
+          nentuin arah periode besarmu (大運).
+        </small>
       </div>
+      <button class="roast-submit" id="roast-submit" disabled>
+        <i class="fa-solid fa-fire"></i> Gas, Bakar Gue
+      </button>
     </div>
-
     <div id="view-result" class="shio-view hidden">
       <div class="roast-toolbar">
         <button class="back-btn roast-back" id="back-to-start">
           <i class="fa-solid fa-rotate-right"></i>
           <span>Roasting Shio Lain</span>
         </button>
-        <button class="roast-reroll hidden" id="roast-reroll">
-          <i class="fa-solid fa-fire"></i>
-          <span>Roasting Lagi</span>
-          <span class="roast-reroll-count" id="roast-reroll-count"></span>
-        </button>
+        <div class="roast-toolbar-actions">
+          <button class="roast-reroll hidden" id="roast-reroll">
+            <i class="fa-solid fa-fire"></i>
+            <span>Roasting Lagi</span>
+            <span class="roast-reroll-count" id="roast-reroll-count"></span>
+          </button>
+        </div>
       </div>
       <div class="roast-card hidden" id="roast-card">
         <div class="roast-header">
@@ -97,6 +90,34 @@
           <p id="r-headline"></p>
         </div>
 
+        <div class="roast-chart hidden" id="chart-roast">
+          <div class="chart-summary" id="chart-summary"></div>
+          <div class="chart-correction hidden" id="chart-correction"></div>
+          <div class="roast-dm-card">
+            <div class="roast-dm-head">
+              <span class="dm-hanzi" id="dm-hanzi"></span>
+              <div>
+                <span class="dm-label">Pilar harimu sendiri (日主)</span>
+                <span class="dm-title" id="dm-title"></span>
+              </div>
+            </div>
+            <p class="dm-headline" id="dm-headline"></p>
+            <p class="dm-roast" id="dm-roast"></p>
+            <p class="dm-tip" id="dm-tip"></p>
+          </div>
+          <div class="roast-dm-card hidden" id="dir-card">
+            <div class="roast-dm-head">
+              <span class="dm-hanzi" id="dir-hanzi"></span>
+              <div>
+                <span class="dm-label">Arah periode besar (大運)</span>
+                <span class="dm-title" id="dir-title"></span>
+              </div>
+            </div>
+            <p class="dm-headline" id="dir-headline"></p>
+            <p class="dm-roast" id="dir-roast"></p>
+            <p class="dm-tip" id="dir-tip"></p>
+          </div>
+        </div>
         <div class="roast-section">
           <h3 class="roast-section-title">
             <i class="fa-solid fa-biohazard"></i> Toxic Traits
@@ -138,6 +159,30 @@
           </div>
         </div>
 
+        <div class="roast-pair" id="roast-pair">
+          <button type="button" class="roast-pair-cta" id="pair-toggle">
+            <i class="fa-solid fa-user-group"></i>
+            <span>Bakar Bareng Pasangan</span>
+          </button>
+    <div class="roast-pair-body hidden" id="pair-body">
+    <p class="roast-pair-note">
+    Pilih shio orang kedua. Roasting hubungan diambil dari relasi cabang
+    tahun kalian &mdash; bukan dari pasangan shio satu per satu.
+    </p>
+    <div class="roast-pair-grid" id="pair-picker"></div>
+    <div class="roast-pair-card hidden" id="pair-card">
+    <div class="roast-pair-head">
+    <span class="pair-hanzi" id="p-hanzi-1"></span>
+    <span class="pair-rel" id="p-rel"></span>
+    <span class="pair-hanzi" id="p-hanzi-2"></span>
+    </div>
+    <p class="pair-verdict" id="p-verdict"></p>
+    <p class="pair-roast" id="p-roast"></p>
+    <p class="pair-tip" id="p-tip"></p>
+    </div>
+    </div>
+        </div>
+
         <p class="roast-disclaimer">
           Semua ini cuma candaan berdasarkan stereotip shio. Jangan dibawa ke
           hati, bestie.
@@ -148,5 +193,7 @@
 </div>
 {% endblock %}
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
 <script src="{{ url_for('shio.static', filename='js/roasting.js') }}"></script>
 {% endblock %}

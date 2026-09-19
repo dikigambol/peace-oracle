@@ -5,13 +5,14 @@
   <p><b>✨ Temukan Ketenangan Lewat Penyelarasan Kosmik, Oriental, Primbon Nusantara, & Tarot ✨</b></p>
   
   <p>
-    <img src="https://img.shields.io/badge/Frontend-Vanilla_JS_&_CSS-orange.svg?style=for-the-badge&logo=javascript&logoColor=white" alt="Frontend">
-    <img src="https://img.shields.io/badge/Python-3.9+-blue.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-    <img src="https://img.shields.io/badge/Framework-Flask-black.svg?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
-    <img src="https://img.shields.io/badge/Database-MySQL-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
+    <img src="https://img.shields.io/badge/Frontend-Vanilla_JS_&_CSS-F7DF1E?style=flat-square&labelColor=30363D&logo=javascript&logoColor=F7DF1E" alt="Frontend: Vanilla JS & CSS">
+    <img src="https://img.shields.io/badge/Backend-Python_3.13+-3776AB?style=flat-square&labelColor=30363D&logo=python&logoColor=FFD43B" alt="Backend: Python 3.13+">
+    <img src="https://img.shields.io/badge/Framework-Flask-009688?style=flat-square&labelColor=30363D&logo=flask&logoColor=white" alt="Framework: Flask">
+    <img src="https://img.shields.io/badge/AI-OpenRouter-8B5CF6?style=flat-square&labelColor=30363D&logo=openai&logoColor=white" alt="AI: OpenRouter">
     <br>
-    <img src="https://img.shields.io/badge/Deployment-Vercel-black.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
-    <img src="https://img.shields.io/badge/Status-Beta-success.svg?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/Database-MySQL_(opsional)-4479A1?style=flat-square&labelColor=30363D&logo=mysql&logoColor=white" alt="Database: MySQL (opsional)">
+    <img src="https://img.shields.io/badge/Deployment-Vercel-7B5CFF?style=flat-square&labelColor=30363D&logo=vercel&logoColor=white" alt="Deployment: Vercel">
+    <img src="https://img.shields.io/badge/Status-Beta-FF8C42?style=flat-square&labelColor=30363D" alt="Status: Beta">
   </p>
 </div>
 
@@ -26,24 +27,22 @@
 ### 🌌 Landing Page (Hub Utama)
 * **Portal Nebula 3D:** Halaman beranda dilengkapi animasi CSS *Nebula* interaktif sebagai gerbang sentral untuk memilih 4 jalan takdir Anda.
 * **Mode Switcher:** Navigasi melayang (*floating mode switcher*) untuk pindah alam semesta kapan saja.
-* **Easter Eggs Kosmik:** Interaksi tersembunyi pada teks *footer* planet 🪐 dan perlindungan anti-bot (*troll routes*) yang unik.
+* **Easter Eggs Kosmik:** Interaksi tersembunyi pada teks *footer* planet 🪐, papan peringkat rahasia di Almanak Shio, dan perlindungan anti-bot (*troll routes*) yang unik.
 
 ### 🌙 Mode Zodiak (Barat)
-* **Ramalan Kosmik Harian:** Dihitung secara dinamis berdasarkan fase bulan dan metrik kosmik hari berjalan, disajikan dengan gaya bahasa *Gen Z* dan rekomendasi trek *YouTube*.
+* **Ramalan Kosmik Harian:** Ditulis **AI (OpenRouter)** dari fase bulan dan metrik kosmik hari berjalan, disajikan dengan gaya bahasa *Gen Z* lengkap dengan rekomendasi trek *YouTube*. Begitu kuota AI harian habis atau kunci API tidak diisi, sistem otomatis jatuh ke *data bank* statis tanpa bikin halaman gagal.
 * **Karakteristik General:** Ketahui sifat bawaan fisik, kebiasaan unik, kecocokan *soulmate* hewan, hingga selera *cosmic pantry* dari masing-masing zodiak.
-* **Kalkulator Kecocokan (Asmara, Sahabat, Rekan Kerja):** Analisis komprehensif keharmonisan dua zodiak dalam tiga dimensi sosial berbeda.
-* **Roasting Zodiak:** Butuh hiburan kasar? Terdapat mode *roasting* pedas (personal & pasangan) khusus untuk setiap zodiak!
-* **Kuis Pasangan Real-Time (Live Room):** Fitur kuis interaktif (*multiplayer*)! Buat *room* privat, undang pasangan, jawab pertanyaan sinkronisasi bersama, dan dapatkan analisis *chemistry* berbasis AI secara langsung.
+* **Kalkulator Kecocokan (Asmara, Sahabat, Rekan Kerja):** Analisis komprehensif keharmonisan dua zodiak dalam tiga dimensi sosial berbeda, diperkaya narasi AI per mode.
+* **Roasting Zodiak:** Butuh hiburan kasar? Terdapat mode *roasting* pedas (personal & pasangan) khusus untuk setiap zodiak, digenerate AI dan bisa di-*reroll* sesuka hati selama kuota harian masih ada.
 
 ### 🐉 Mode Shio (Oriental)
-* **Almanak Harian (Tong Shu):** Dasbor harian *real-time* yang menghitung pilar hari (siklus 60 batang-cabang), elemen hari, dan **Dua Belas Dewa Harian** (建除十二神) lengkap dengan daftar *Cocok Untuk* / *Sebaiknya Hindari*. Relasi tiap Shio terhadap hari dipetakan ke sembilan kategori klasik (Chong, San He, Liu He, Ben Ming, Zi Xing, Xiang Xing, Liu Hai, Liu Po, Ping) beserta interaksi lima elemen dan *daily tip*.
-* **Sinergi Jodoh Kosmik (He Hun):** Kalkulator kecocokan dua shio dengan visualisasi persentase *neon circular progress bar*, berbasis tabel relasi cabang bumi.
+* **Baca Gulungan Takdir (Ming Li):** Kalkulator **Ba Zi (八字)** utuh. Dari tanggal, jam, dan kota lahir disusun Empat Pilar lengkap: *Day Master*, kekuatan diri (身強/身弱), Sepuluh Dewa (十神), timbangan lima elemen, bintang nasib (神煞), sampai peta periode besar (大運) beserta saran penyeimbangnya. Batas tahun memakai 立春 dan batas hari memakai pukul 23:00 — bukan 1 Januari dan bukan tengah malam.
+* **Almanak Harian (Tong Shu):** Dasbor harian *real-time* yang menghitung pilar hari (siklus 60 batang-cabang), elemen hari, dan **Dua Belas Dewa Harian** (建除十二神) lengkap dengan daftar *Cocok Untuk* / *Sebaiknya Hindari*. Relasi tiap Shio terhadap hari dipetakan ke sembilan kategori klasik (Chong, San He, Liu He, Ben Ming, Zi Xing, Xiang Xing, Liu Hai, Liu Po, Ping) beserta interaksi lima elemen dan *daily tip*. Tersembunyi di balik satu interaksi rahasia pada header, ada **Papan Peringkat Harian**: status cabang dan relasi elemen ditimbang jadi satu skor, lalu ke-12 Shio diurutkan dari podium juara sampai dasar klasemen. Papan ini terbit sebagai *pop-up* gulungan yang membentang dari seberkas garis emas, dan menggulung sendiri setelah lima detik — atau tutup manual lewat tombol, klik luar, maupun `Esc`.
 * **Teropong Energi Tahunan (Liu Nian):** Proyeksi karir, keuangan, asmara, dan kesehatan untuk kombinasi shio-mu dengan shio tahun mana pun.
-* **Roasting Shio (Tu Cao):** Butuh ditampar realita? Sindiran pedas soal *toxic traits*, dosa finansial, dan *red flag* asmara tiap Shio.
-* **Kue Keberuntungan (Xing Yun Bing):** Belah kue digitalnya untuk satu pesan harian dan *lucky item*, dengan rotasi yang dijamin tidak mengulang sebelum semua pesan habis.
+* **Sinergi Jodoh Kosmik (He Hun):** Kalkulator kecocokan dua shio dengan visualisasi persentase *neon circular progress bar*. Skor diambil dari relasi cabang tahun, lalu diperdalam lapisan opsional begitu tanggal lahir diisi: pilar hari (日柱) sebagai istana pasangan, kecocokan elemen yang dibutuhkan (用神), bintang pasangan (神煞), padu-benturan batang langit (天干), dan relasi Nayin (納音).
+* **Roasting Shio (Tu Cao):** Butuh ditampar realita? Sindiran pedas soal *toxic traits*, dosa finansial, *red flag* asmara, kelemahan rahasia, plus *survival tip* tiap Shio. Isi tanggal lahir untuk membakar bagan pribadimu — pilar hari (日主) dan arah periode besar (大運 順行/逆行) sesuai gender — atau tambahkan shio pasangan untuk sesi **Bakar Bareng Pasangan**.
 * **Afinitas Penjaga Spiritual (Ben Ming Fo):** Eksplorasi delapan figur pelindung — Bodhisattva, Buddha, dan Raja Kebijaksanaan — lengkap dengan mantra, arah sakral, dan tips Feng Shui.
-* **Segera Hadir (SOON):** Baca Gulungan Takdir (Ming Li / Kalkulator Ba Zi).
-* **Latar Belakang Interaktif:** Tampilan *partikel galaksi 3D* interaktif.
+* **Kue Keberuntungan (Xing Yun Bing):** Belah kue digitalnya untuk satu pesan harian dan *lucky item*, dengan rotasi yang dijamin tidak mengulang sebelum semua pesan habis.
 
 ### 🔜 Mode Mendatang (Terkunci / Coming Soon)
 * **Weton (Kejawen):** Perhitungan primbon berdasarkan neptu hari dan pasaran Jawa (Kerangka dasar/Blueprint sudah aktif).
@@ -55,6 +54,8 @@
 
 Aplikasi ini menggunakan arsitektur **Flask Blueprints** untuk memastikan skalabilitas dan kebersihan kode (*clean architecture*). Seluruh sistem ramalan dan teks ditenagai oleh **Dynamic Data Bank** yang memastikan setiap respons (*roasting*, nasib harian, hingga profil karakter) tidak repetitif dan terasa lebih personal.
 
+Mode Zodiak memanggil **OpenRouter** untuk bagian naratifnya, dengan pembatas kuota harian yang menyimpan hitungan di **MySQL** bila kredensialnya tersedia dan otomatis mundur ke penyimpanan memori bila tidak. Mode Shio sepenuhnya deterministik — seluruh perhitungan Ba Zi, almanak, dan kecocokan dihitung lokal tanpa panggilan AI.
+
 ```text
 peace-oracle/
 ├── app.py                # Main Entry Point (Blueprint Registration)
@@ -65,6 +66,7 @@ peace-oracle/
 │   ├── weton/            # (WIP) Eastern (Javanese) Astrology Module
 │   └── tarot/            # (WIP) Tarot Reading Module
 ├── api/                  # Serverless entry points (Vercel)
+├── .python-version       # Pinned runtime for Vercel & pyenv
 └── vercel.json           # Serverless configuration
 ```
 
@@ -72,7 +74,7 @@ peace-oracle/
 
 ## 🚀 Instalasi & Menjalankan Lokal
 
-Pastikan Anda telah menginstal **Python 3.9+**.
+Pastikan telah menginstal **Python 3.13+**.
 
 1. **Clone repository ini:**
    ```bash
@@ -99,6 +101,12 @@ Pastikan Anda telah menginstal **Python 3.9+**.
    ```bash
    cp .env.example .env
    ```
+   * `SECRET_KEY` — wajib; buat dengan `python -c "import secrets; print(secrets.token_hex(32))"`.
+   * `OPENROUTER_KEY` — wajib bila ingin narasi AI di mode Zodiak; tanpa ini fitur tetap jalan memakai *data bank* statis.
+   * `DAILY_AI_LIMIT` — jatah panggilan AI per hari (default `10`).
+   * `MYSQL_*` — opsional, hanya untuk menyimpan kuota AI lintas *instance*; bila dikosongkan kuota disimpan di memori proses.
+
+   > Mode Shio tidak membutuhkan satu pun kunci di atas.
 
 5. **Jalankan Aplikasi:**
    ```bash
@@ -122,8 +130,6 @@ Proyek ini sudah dikonfigurasi sepenuhnya agar berjalan lancar sebagai **Serverl
 
 ---
 
----
-
 ## 📄 Hak Cipta
 
 **© 2026 Peace Oracle — Seluruh hak dilindungi.**
@@ -134,6 +140,12 @@ mendistribusikan, atau menayangkan ulang sebagian maupun seluruhnya tanpa
 izin tertulis dari pemilik.
 
 > Gambar ikonografi pada mode Shio dihasilkan dengan bantuan AI generatif.
+>
+> Data kota kelahiran (nama, bujur, zona waktu) berasal dari
+> [GeoNames](https://www.geonames.org/), dilisensikan di bawah
+> [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), diambil pada
+> 18 September 2026. Data tersebut tetap milik GeoNames dan tidak tercakup
+> dalam pembatasan hak cipta di atas.
 
 ---
 

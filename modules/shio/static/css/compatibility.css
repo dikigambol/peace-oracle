@@ -410,56 +410,32 @@
   text-align: center;
 }
 
-.compat-birth-toggle {
-  display: inline-flex;
+.compat-birth-title {
+  display: flex;
   align-items: center;
   gap: 9px;
-  background: transparent;
-  border: 1px dashed rgba(255, 215, 0, 0.35);
-  border-radius: 10px;
-  color: rgba(252, 227, 182, 0.85);
-  padding: 10px 18px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: border-color 0.3s, color 0.3s, background 0.3s;
-}
-
-.compat-birth-toggle:hover {
-  border-color: rgba(255, 215, 0, 0.7);
+  font-family: "Cinzel", serif;
+  font-size: 0.95rem;
   color: #ffd700;
+  margin: 0 0 12px;
 }
 
-.compat-birth-toggle.open {
-  border-style: solid;
-  border-color: rgba(255, 215, 0, 0.55);
-  background: rgba(255, 215, 0, 0.06);
-  color: #ffd700;
-}
-
-.compat-birth-toggle i {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  transform-origin: 50% 50%;
-  transition: transform 0.42s cubic-bezier(0.34, 1.4, 0.5, 1);
-}
-
-.compat-birth-toggle.open i {
-  transform: rotate(135deg);
+.compat-birth-title i {
+  opacity: 0.8;
 }
 
 .compat-birth-optional {
-  font-size: 0.72rem;
-  color: rgba(252, 227, 182, 0.5);
-  margin-left: 6px;
+  font-size: 0.7rem;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: rgba(252, 227, 182, 0.45);
+  border: 1px solid rgba(252, 227, 182, 0.2);
+  border-radius: 20px;
+  padding: 2px 9px;
 }
 
 .compat-birth-body {
   text-align: left;
-  margin-top: 14px;
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 215, 0, 0.16);
   border-radius: 12px;
@@ -853,4 +829,48 @@
   .bazi-pillar {
     font-size: 1.45rem;
   }
+}
+
+.compat-result.animate-in > * {
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.compat-result.animate-in > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.compat-result.animate-in > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.compat-result.animate-in > *:nth-child(3) {
+  animation-delay: 0.19s;
+}
+
+.compat-result.animate-in > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+
+.compat-result.animate-in > *:nth-child(5) {
+  animation-delay: 0.33s;
+}
+
+.compat-result.animate-in > *:nth-child(n + 6) {
+  animation-delay: 0.4s;
+}
+
+.compat-result.animate-in .compat-sections .compat-box {
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.compat-result.animate-in .compat-sections .compat-box:nth-child(2) {
+  animation-delay: 0.47s;
+}
+
+.compat-result.animate-in .compat-sections .compat-box:nth-child(3) {
+  animation-delay: 0.54s;
+}
+
+.compat-result.animate-in .compat-sections .compat-box:nth-child(4) {
+  animation-delay: 0.61s;
 }

@@ -33,9 +33,21 @@ SHIO_ROASTING_BANK = {
             "Bilang 'nanti kita atur' buat hal yang emang gak mau dia kerjain.",
             "Nabung buat masa depan, tapi masa depannya gak pernah dateng-dateng.",
         ],
-        "financial_sin": "Nabung mulu tapi pelit ngopi, giliran FOMO barang hype langsung jebol ATM-nya.",
-        "love_red_flag": "Kalau ngomong manis banget, tapi diem-diem swipe Tinder pas kamu ke toilet.",
-        "secret_weakness": "Takut banget kalau sampai bokek dan gak bisa pamer.",
+        "financial_sins": [
+        "Nabung mulu tapi pelit ngopi, giliran FOMO barang hype langsung jebol ATM-nya.",
+        "Hafal promo semua e-wallet, tapi lupa kapan terakhir traktir orang tanpa syarat.",
+        "Punya tiga rekening buat misahin dana, semuanya buat dirinya sendiri.",
+    ],
+        "love_red_flags": [
+        "Kalau ngomong manis banget, tapi diem-diem swipe Tinder pas kamu ke toilet.",
+        "Inget tanggal jadian, inget juga tiap rupiah yang pernah kamu utang.",
+        "Manis di awal selama kamu berguna, dingin begitu kamu yang butuh dibantu.",
+    ],
+        "secret_weaknesses": [
+        "Takut banget kalau sampai bokek dan gak bisa pamer.",
+        "Panik kalau ada yang lebih cepat tahu peluang daripada dirinya.",
+        "Gak bisa santai kalau ada satu pengeluaran yang belum sempat dicatat.",
+    ],
     },
     "kerbau": {
         "shio_name": "Kerbau (🐂)",
@@ -71,9 +83,21 @@ SHIO_ROASTING_BANK = {
             "Mindahin posisi barang di mejanya aja bisa bikin dia ngomel seharian.",
             "Ngerasa paling capek sedunia padahal porsinya dia sendiri yang nambahin.",
         ],
-        "financial_sin": "Terlalu konservatif nyimpen duit, takut investasi tapi ngeluh miskin mulu.",
-        "love_red_flag": "Pacaran sama kerbau rasanya kayak pacaran sama kanebo kering, kaku banget.",
-        "secret_weakness": "Jadwal digeser satu jam aja langsung ngedumel seharian.",
+        "financial_sins": [
+        "Terlalu konservatif nyimpen duit, takut investasi tapi ngeluh miskin mulu.",
+        "Duitnya aman di bawah kasur sepuluh tahun, nilainya diam-diam menyusut.",
+        "Nolak semua ajakan usaha, lalu iri pas temannya berhasil duluan.",
+    ],
+        "love_red_flags": [
+        "Pacaran sama kerbau rasanya kayak pacaran sama kanebo kering, kaku banget.",
+        "Gak pernah minta maaf duluan, nunggu waktu yang katanya menyembuhkan.",
+        "Diajak bicara serius malah membisu, tiga hari kemudian baru balas panjang.",
+    ],
+        "secret_weaknesses": [
+        "Jadwal digeser satu jam aja langsung ngedumel seharian.",
+        "Sekali dipermalukan, catatannya disimpan diam-diam bertahun-tahun.",
+        "Tahu dirinya keliru tapi milih bertahan daripada kelihatan kalah.",
+    ],
     },
     "macan": {
         "shio_name": "Macan (🐅)",
@@ -109,9 +133,21 @@ SHIO_ROASTING_BANK = {
             "Bosen sama hal yang udah jalan lancar, terus diacak-acak sendiri.",
             "Ngaku gak butuh siapa-siapa, padahal paling gak tahan didiemin.",
         ],
-        "financial_sin": "Beli barang branded demi validasi sosial, padahal besoknya makan indomie.",
-        "love_red_flag": "Kalau pacaran maunya disembah, tapi sendirinya nggak mau effort.",
-        "secret_weakness": "Butuh banget validasi dan pujian dari orang lain 24/7.",
+        "financial_sins": [
+        "Beli barang branded demi validasi sosial, padahal besoknya makan indomie.",
+        "Bayarin satu meja biar dikira paling mapan, pulangnya ngitung sisa saldo.",
+        "Langganan lima aplikasi premium, yang benar-benar dipakai cuma satu.",
+    ],
+        "love_red_flags": [
+        "Kalau pacaran maunya disembah, tapi sendirinya nggak mau effort.",
+        "Ngajak ribut soal hal sepele cuma biar jadi pusat perhatian lagi.",
+        "Janji besar di depan orang banyak, menguap begitu tinggal berdua.",
+    ],
+        "secret_weaknesses": [
+        "Butuh banget validasi dan pujian dari orang lain 24/7.",
+        "Diam sebentar di ruangan langsung merasa dirinya sedang dilupakan.",
+        "Gak tahan lihat orang lain dipuji lebih lama daripada dirinya.",
+    ],
     },
     "kelinci": {
         "shio_name": "Kelinci (🐇)",
@@ -147,9 +183,21 @@ SHIO_ROASTING_BANK = {
             "Janji dateng ke tiga acara di jam yang sama, gak dateng ke satu pun.",
             "Ngerasa paling ngalah, padahal ngalahnya gak pernah dikasih tau siapa-siapa.",
         ],
-        "financial_sin": "Sering ngeluarin duit buat nraktir orang demi disukai, padahal dompet lagi nangis.",
-        "love_red_flag": "Susah banget ditanyain maunya apa, ujung-ujungnya ngambek karena pacar gak peka.",
-        "secret_weakness": "Takut banget nggak disukai orang, sampai rela kehilangan jati diri.",
+        "financial_sins": [
+        "Sering ngeluarin duit buat nraktir orang demi disukai, padahal dompet lagi nangis.",
+        "Gak enak nolak patungan acara yang bahkan dia gak ikut, akhirnya bayar juga.",
+        "Beli hadiah mahal buat orang yang bahkan gak ingat ulang tahunnya.",
+    ],
+        "love_red_flags": [
+        "Susah banget ditanyain maunya apa, ujung-ujungnya ngambek karena pacar gak peka.",
+        "Bilang terserah, lalu kecewa karena pilihanmu bukan yang dia bayangkan.",
+        "Semua aman di permukaan sampai suatu hari meledak tanpa aba-aba.",
+    ],
+        "secret_weaknesses": [
+        "Takut banget nggak disukai orang, sampai rela kehilangan jati diri.",
+        "Dengar namanya disebut di grup langsung mikir yang buruk semalaman.",
+        "Lebih milih menanggung sendiri daripada bilang dia sebenarnya keberatan.",
+    ],
     },
     "naga": {
         "shio_name": "Naga (🐉)",
@@ -185,9 +233,21 @@ SHIO_ROASTING_BANK = {
             "Nge-post pencapaian kecil kayak baru menang lomba tingkat nasional.",
             "Nawarin bantuan besar-besaran, pas ditagih bilang lagi sibuk.",
         ],
-        "financial_sin": "Gaya selangit pengeluaran elit, padahal rekening lagi menjerit.",
-        "love_red_flag": "Suka gaslight pasangan buat nutupin kesalahan sendiri.",
-        "secret_weakness": "Ketemu orang yang lebih sukses, senyumnya tetep lebar tapi diem-diem ngecek follower-nya.",
+        "financial_sins": [
+        "Gaya selangit pengeluaran elit, padahal rekening lagi menjerit.",
+        "Kelas ekonomi dianggap penghinaan, tagihan kartu dianggap urusan besok.",
+        "Traktir orang buat menegaskan siapa yang di atas, bukan karena sayang.",
+    ],
+        "love_red_flags": [
+        "Suka gaslight pasangan buat nutupin kesalahan sendiri.",
+        "Kritik sekecil apa pun dibalas ceramah panjang soal betapa kamu gak paham.",
+        "Minta maaf dengan kalimat yang entah kenapa berakhir menyalahkanmu.",
+    ],
+        "secret_weaknesses": [
+        "Ketemu orang yang lebih sukses, senyumnya tetep lebar tapi diem-diem ngecek follower-nya.",
+        "Dianggap tidak penting lebih menyakitkan baginya daripada dimarahi.",
+        "Gak sanggup mengaku butuh bantuan karena itu terasa seperti turun kelas.",
+    ],
     },
     "ular": {
         "shio_name": "Ular (🐍)",
@@ -223,9 +283,21 @@ SHIO_ROASTING_BANK = {
             "Sopan banget di depan, penilaiannya udah selesai dari menit pertama.",
             "Nunggu orang salah duluan biar posisinya aman.",
         ],
-        "financial_sin": "Pelit buat kebutuhan diri sendiri, tapi boros buat pamer ke orang yang dibenci.",
-        "love_red_flag": "Cemburuan ekstrem dan posesif, hp pacar diabsen tiap jam.",
-        "secret_weakness": "Sangat takut dikhianati, makanya milih buat ninggalin duluan.",
+        "financial_sins": [
+        "Pelit buat kebutuhan diri sendiri, tapi boros buat pamer ke orang yang dibenci.",
+        "Simpan dana rahasia yang bahkan pasangannya gak tahu pernah ada.",
+        "Hitung untung rugi dulu sebelum memutuskan mau baik ke siapa.",
+    ],
+        "love_red_flags": [
+        "Cemburuan ekstrem dan posesif, hp pacar diabsen tiap jam.",
+        "Gak pernah nanya langsung, tapi sudah menyusun kesimpulan sendiri diam-diam.",
+        "Membisu bukan berarti reda, dia cuma sedang menunggu waktu yang tepat.",
+    ],
+        "secret_weaknesses": [
+        "Sangat takut dikhianati, makanya milih buat ninggalin duluan.",
+        "Gak bisa percaya penuh, bahkan pada yang belum pernah mengecewakannya.",
+        "Rahasianya kebongkar sedikit saja, langsung menjauh berbulan-bulan.",
+    ],
     },
     "kuda": {
         "shio_name": "Kuda (🐎)",
@@ -261,9 +333,21 @@ SHIO_ROASTING_BANK = {
             "Ngomong dulu, minta maaf belakangan, ulangi minggu depan.",
             "Ngerasa dikekang tiap ditanya 'kapan selesai'.",
         ],
-        "financial_sin": "Duitnya habis buat jalan-jalan dan nyobain kafe hits, nabung urusan belakangan.",
-        "love_red_flag": "Suka flirting sana-sini padahal udah punya pacar, red flag berjalan.",
-        "secret_weakness": "Takut banget dilupain orang dan merasa kesepian.",
+        "financial_sins": [
+        "Duitnya habis buat jalan-jalan dan nyobain kafe hits, nabung urusan belakangan.",
+        "Tiket dibeli duluan, mikir bayarnya pakai apa urusan belakangan.",
+        "Rencana keuangan disusun rapi tiap Januari, dilupakan tiap Februari.",
+    ],
+        "love_red_flags": [
+        "Suka flirting sana-sini padahal udah punya pacar, red flag berjalan.",
+        "Paling hangat di minggu pertama, paling sibuk di bulan ketiga.",
+        "Menghilang bukan karena marah, cuma lagi tertarik hal lain.",
+    ],
+        "secret_weaknesses": [
+        "Takut banget dilupain orang dan merasa kesepian.",
+        "Gak tahan diam di satu tempat, walau tempat itu sebenarnya sudah cukup.",
+        "Baru sadar sesuatu berharga tepat setelah dia tinggalkan.",
+    ],
     },
     "kambing": {
         "shio_name": "Kambing (🐐)",
@@ -299,9 +383,21 @@ SHIO_ROASTING_BANK = {
             "Nangis duluan pas diajak ngomong serius, pembicaraannya jadi batal.",
             "Ngerasa paling gak dihargai di ruangan yang isinya lagi muji dia.",
         ],
-        "financial_sin": "Impulsive buying barang-barang lucu gak guna pas lagi sedih (retail therapy toxic).",
-        "love_red_flag": "Nuntut pasangan buat selalu jadi cenayang yang ngerti perasaannya tanpa diomongin.",
-        "secret_weakness": "Nggak bisa hidup mandiri dan selalu butuh validasi buat tiap keputusan.",
+        "financial_sins": [
+        "Impulsive buying barang-barang lucu gak guna pas lagi sedih (retail therapy toxic).",
+        "Keranjang belanja jadi tempat menyimpan perasaan yang gak diomongin.",
+        "Minta pendapat lima orang soal satu pembelian, tetap salah pilih.",
+    ],
+        "love_red_flags": [
+        "Nuntut pasangan buat selalu jadi cenayang yang ngerti perasaannya tanpa diomongin.",
+        "Ngambek dengan alasan yang baru dijelaskan tiga hari kemudian.",
+        "Butuh ditenangkan tiap hari, tapi jarang nanya kamu lagi capek atau nggak.",
+    ],
+        "secret_weaknesses": [
+        "Nggak bisa hidup mandiri dan selalu butuh validasi buat tiap keputusan.",
+        "Ditinggal sendirian sebentar langsung menyusun cerita terburuk di kepala.",
+        "Gak berani memutuskan karena takut disalahkan kalau nanti keliru.",
+    ],
     },
     "monyet": {
         "shio_name": "Monyet (🐒)",
@@ -337,9 +433,21 @@ SHIO_ROASTING_BANK = {
             "Tau celah aturan lebih hafal daripada aturannya sendiri.",
             "Deket sama banyak orang, gak ada satu pun yang beneran kenal dia.",
         ],
-        "financial_sin": "Hamburin duit buat mentraktir circle biar dibilang asik dan sukses.",
-        "love_red_flag": "Susah banget setia, matanya jelalatan walau gandeng pacar.",
-        "secret_weakness": "Takut dianggap bodoh dan nggak relevan lagi.",
+        "financial_sins": [
+        "Hamburin duit buat mentraktir circle biar dibilang asik dan sukses.",
+        "Ikut semua tren investasi yang lagi ramai, keluar tepat sebelum untung.",
+        "Uangnya habis bukan buat barang, tapi buat jadi orang paling seru di meja.",
+    ],
+        "love_red_flags": [
+        "Susah banget setia, matanya jelalatan walau gandeng pacar.",
+        "Tiap obrolan serius dibelokkan jadi lelucon sampai kamu capek sendiri.",
+        "Akrab dengan siapa saja sampai posisimu sendiri terasa kabur.",
+    ],
+        "secret_weaknesses": [
+        "Takut dianggap bodoh dan nggak relevan lagi.",
+        "Leluconnya gak ditanggapi sekali saja, dipikirin sampai malam.",
+        "Gak bisa diam saat suasana hening karena takut dianggap membosankan.",
+    ],
     },
     "ayam": {
         "shio_name": "Ayam (🐓)",
@@ -375,9 +483,21 @@ SHIO_ROASTING_BANK = {
             "Rencana geser dikit langsung ngedumel sepanjang hari.",
             "Nuntut standar yang dia sendiri gak selalu penuhin.",
         ],
-        "financial_sin": "Beli barang branded demi gengsi dan status sosial doang.",
-        "love_red_flag": "Nuntut pacarnya sempurna kayak di film, capeknya baru kerasa setelah dijalanin.",
-        "secret_weakness": "Ada yang kelihatan lebih pintar, langsung dicari-cari celah buat dikoreksi.",
+        "financial_sins": [
+        "Beli barang branded demi gengsi dan status sosial doang.",
+        "Riset dua minggu buat barang sepuluh ribu, checkout jutaan tanpa mikir.",
+        "Nolak yang murah bukan karena jelek, tapi karena takut kelihatan murah.",
+    ],
+        "love_red_flags": [
+        "Nuntut pacarnya sempurna kayak di film, capeknya baru kerasa setelah dijalanin.",
+        "Ngasih saran yang gak diminta, lalu tersinggung kalau gak dijalankan.",
+        "Ingat semua detail yang kamu lakukan salah, lupa yang kamu lakukan benar.",
+    ],
+        "secret_weaknesses": [
+        "Ada yang kelihatan lebih pintar, langsung dicari-cari celah buat dikoreksi.",
+        "Satu kritik kecil mengalahkan sepuluh pujian di kepalanya.",
+        "Gak bisa melepas kerjaan, yakin hasil tangan siapa pun pasti berantakan.",
+    ],
     },
     "anjing": {
         "shio_name": "Anjing (🐕)",
@@ -413,9 +533,21 @@ SHIO_ROASTING_BANK = {
             "Susah move on dari orang yang jelas-jelas udah nyakitin.",
             "Bikin orang ngerasa berutang budi tanpa pernah minta langsung.",
         ],
-        "financial_sin": "Nabung terus karena takut miskin, tapi giliran dipinjem temen dikasih aja gara-gara ga enakan.",
-        "love_red_flag": "Butuh validasi berlebihan dari pasangan, kalau nggak dibilang sayang ngerasa dunia kiamat.",
-        "secret_weakness": "Takut banget ditinggalin dan sendirian.",
+        "financial_sins": [
+        "Nabung terus karena takut miskin, tapi giliran dipinjem temen dikasih aja gara-gara ga enakan.",
+        "Punya dana darurat buat sepuluh skenario, semuanya belum tentu terjadi.",
+        "Gak berani beli buat diri sendiri, gampang banget beli buat orang lain.",
+    ],
+        "love_red_flags": [
+        "Butuh validasi berlebihan dari pasangan, kalau nggak dibilang sayang ngerasa dunia kiamat.",
+        "Balasan chat telat sedikit, sudah disusun tiga kemungkinan terburuk.",
+        "Setia sampai bertahan di tempat yang jelas-jelas menyakitinya.",
+    ],
+        "secret_weaknesses": [
+        "Takut banget ditinggalin dan sendirian.",
+        "Gak bisa tidur kalau ada satu masalah yang belum selesai diomongin.",
+        "Curiga duluan ke orang baru, lalu merasa bersalah karena sudah curiga.",
+    ],
     },
     "babi": {
         "shio_name": "Babi (🐖)",
@@ -451,8 +583,388 @@ SHIO_ROASTING_BANK = {
             "Nunda urusan yang gak enak sampai jadi masalah beneran.",
             "Ngasih kesempatan kelima ke orang yang gagal di kesempatan pertama.",
         ],
-        "financial_sin": "Gajian numpang lewat doang buat GoFood dan check out Shopee tengah malam.",
-        "love_red_flag": "Nggak bisa menetapkan batasan yang jelas, pacar toxic tetep aja dibelain.",
-        "secret_weakness": "Nggak tahan lihat makanan enak dan nggak tegaan lihat orang susah.",
+        "financial_sins": [
+        "Gajian numpang lewat doang buat GoFood dan check out Shopee tengah malam.",
+        "Dipinjemin duit tanpa pernah ditagih, lalu bingung kenapa selalu kurang.",
+        "Gak bisa lewat depan toko tanpa merasa butuh sesuatu di dalamnya.",
+    ],
+        "love_red_flags": [
+        "Nggak bisa menetapkan batasan yang jelas, pacar toxic tetep aja dibelain.",
+        "Percaya penjelasan yang bahkan dia sendiri tahu gak masuk akal.",
+        "Maafin terlalu cepat, sampai orangnya gak merasa perlu berubah.",
+    ],
+        "secret_weaknesses": [
+        "Nggak tahan lihat makanan enak dan nggak tegaan lihat orang susah.",
+        "Ditipu berkali-kali oleh pola yang sama karena selalu mau percaya.",
+        "Gak bisa bilang tidak, lalu menyalahkan diri sendiri karena kecapekan.",
+    ],
     },
+}
+
+
+ROAST_PAIR_BANK = {
+    "liu_he": [
+        {
+            "verdict": "Cocok banget sampai dua-duanya lupa siapa yang harusnya ngerem.",
+            "roast": "Kalian saling ngiyain terus sampai rencana paling ngaco pun lolos tanpa diperiksa.",
+            "tip": "Sekali-sekali jadi orang yang bilang 'ini ide buruk'. Biar ada yang waras.",
+        },
+        {
+            "verdict": "Nyaman sejak menit pertama, dan itu justru masalahnya.",
+            "roast": "Kenyamanan bikin kalian berhenti berusaha. Dua-duanya nunggu yang lain gerak duluan.",
+            "tip": "Nyaman bukan berarti selesai. Tetap usahain hal yang dulu bikin klik.",
+        },
+        {
+            "verdict": "Terlalu satu suara sampai sudut pandang baru gak pernah kebagian tempat.",
+            "roast": "Kalau berdua selalu setuju, artinya salah satu berhenti mikir. Tinggal ketahuan siapa.",
+            "tip": "Cari satu topik yang kalian beda pendapat, lalu biarkan beda. Gak perlu diselesaikan.",
+        },
+    ],
+    "san_he": [
+        {
+            "verdict": "Satu frekuensi, satu arah, satu titik buta yang sama.",
+            "roast": "Kalian sejalan banget sampai kesalahan yang sama diulang berdua dengan penuh semangat.",
+            "tip": "Ajak orang ketiga yang berani ngomong pahit. Kalian butuh penyeimbang dari luar.",
+        },
+        {
+            "verdict": "Tim yang solid, tapi cuma pas semuanya lancar.",
+            "roast": "Pas ada masalah, dua-duanya sama-sama nunggu siapa yang mau jadi orang dewasa duluan.",
+            "tip": "Tentuin dari sekarang siapa yang pegang kemudi saat keadaan lagi kacau.",
+        },
+        {
+            "verdict": "Seru banget bareng, produktifnya belum tentu.",
+            "roast": "Ngobrol tiga jam soal rencana besar, yang benar-benar dikerjain nol koma sekian.",
+            "tip": "Akhiri tiap obrolan besar dengan satu tugas kecil yang jatuh tempo minggu ini.",
+        },
+    ],
+    "ben_ming": [
+        {
+            "verdict": "Kalian dua salinan dengan kekurangan yang identik.",
+            "roast": "Saling paham tanpa dijelasin, termasuk saling maklum pas dua-duanya males.",
+            "tip": "Kemiripan bukan pengganti perbaikan. Jangan jadiin alasan buat gak berubah.",
+        },
+        {
+            "verdict": "Ngaca terus-terusan, dan bayangannya gak pernah negur.",
+            "roast": "Sifat buruk yang kamu benci di dia itu punyamu juga. Makanya gak pernah dibahas.",
+            "tip": "Coba sebut satu kebiasaan kalian yang sama-sama bikin repot. Jujur sekali aja.",
+        },
+        {
+            "verdict": "Aman, hangat, dan pelan-pelan bikin jalan di tempat.",
+            "roast": "Tanpa tantangan, tanpa pertumbuhan. Nyaman doang di lingkaran yang itu-itu saja.",
+            "tip": "Ambil satu hal yang kalian berdua takut coba, lalu coba bareng.",
+        },
+    ],
+    "zi_xing": [
+        {
+            "verdict": "Kebiasaan buruk yang sama, dilipat dua.",
+            "roast": "Kalian gak saling mengoreksi, kalian saling mengizinkan. Bedanya tipis tapi akibatnya besar.",
+            "tip": "Sepakati satu kebiasaan yang dua-duanya harus hentikan, lalu saling tagih.",
+        },
+        {
+            "verdict": "Sama-sama keras ke diri sendiri, lalu keras ke satu sama lain.",
+            "roast": "Standar tinggi ketemu standar tinggi, hasilnya bukan hebat tapi capek berdua.",
+            "tip": "Turunkan target jadi separuh selama sebulan. Lihat apa yang sebenarnya hilang.",
+        },
+        {
+            "verdict": "Kalian saling memantulkan hal yang paling ingin dihindari.",
+            "roast": "Tiap ribut sebenarnya kalian lagi marah ke diri sendiri lewat orang lain.",
+            "tip": "Saat kesal, tanya dulu: ini soal dia, atau soal hal yang sama di dirimu?",
+        },
+    ],
+    "netral": [
+        {
+            "verdict": "Gak ada tarikan, gak ada tabrakan, gak ada cerita.",
+            "roast": "Hubungan kalian aman karena dua-duanya gak pernah cukup peduli buat bikin ribut.",
+            "tip": "Aman itu bukan prestasi. Tentuin apa yang sebenarnya kalian mau dari ini.",
+        },
+        {
+            "verdict": "Datar, dan itu bukan pujian.",
+            "roast": "Kalian gak punya masalah. Gak punya alasan kuat juga buat lanjut.",
+            "tip": "Coba satu kegiatan yang kalian berdua sama-sama belum pernah. Lihat ada percikan atau nggak.",
+        },
+        {
+            "verdict": "Semuanya tergantung usaha, dan itu bagian yang paling malas kalian kerjakan.",
+            "roast": "Bawaan shionya netral, jadi gak ada alasan kosmik buat nyalahin selain kalian sendiri.",
+            "tip": "Buat satu kebiasaan rutin berdua. Hubungan netral tumbuh dari kebiasaan, bukan takdir.",
+        },
+    ],
+    "liu_po": [
+        {
+            "verdict": "Yang sudah rapi selalu berhasil kalian acak lagi.",
+            "roast": "Rencana matang bertahan sampai salah satu dapat ide cemerlang di menit terakhir.",
+            "tip": "Tulis kesepakatan penting. Ingatan kalian berdua gak bisa dijadikan saksi.",
+        },
+        {
+            "verdict": "Bukan bentrok besar, cuma retak kecil yang terus bertambah.",
+            "roast": "Gak ada pertengkaran hebat. Yang ada hal sepele yang diulang sampai capek sendiri.",
+            "tip": "Beresin yang kecil sebelum menumpuk. Yang besar jarang datang tiba-tiba.",
+        },
+        {
+            "verdict": "Kalian ahli membongkar, belum tentu ahli memasang lagi.",
+            "roast": "Setiap kali hampir stabil, ada saja yang dipertanyakan ulang sampai ambruk.",
+            "tip": "Kasih jeda tiga hari sebelum mengubah keputusan yang sudah disepakati.",
+        },
+    ],
+    "liu_hai": [
+        {
+            "verdict": "Saling melukai lewat hal yang dianggap sepele.",
+            "roast": "Niat jahat sih nggak, tapi dua-duanya pulang bawa ganjalan yang dipendam.",
+            "tip": "Kalau ada yang mengganjal, bilang di hari yang sama. Jangan ditabung.",
+        },
+        {
+            "verdict": "Lukanya halus, makanya gak pernah kelihatan sampai parah.",
+            "roast": "Kalian saling bilang 'gak apa-apa' sampai suatu hari ternyata apa-apa banget.",
+            "tip": "Ganti 'gak apa-apa' dengan satu kalimat jujur. Sekali sehari cukup.",
+        },
+        {
+            "verdict": "Niat baik, pelaksanaan yang bikin sakit.",
+            "roast": "Bantuan yang kalian kasih sering datang dalam bentuk yang gak dibutuhin sama sekali.",
+            "tip": "Tanya dulu dia butuh apa, sebelum mengambil kesimpulan sendiri.",
+        },
+    ],
+    "xiang_xing": [
+        {
+            "verdict": "Saling menggerus pelan-pelan, bukan meledak.",
+            "roast": "Gesekan kalian bukan soal besar, tapi soal siapa yang harus ngalah lagi hari ini.",
+            "tip": "Bikin aturan main yang jelas sejak awal. Jangan andalkan siapa yang lebih sabar.",
+        },
+        {
+            "verdict": "Dua-duanya merasa paling banyak mengalah.",
+            "roast": "Kalian sama-sama menyimpan daftar pengorbanan, dan tak satu pun pernah dibacakan.",
+            "tip": "Sebutkan sekali saja apa yang kamu rasa sudah kamu korbankan. Lalu dengarkan giliran dia.",
+        },
+        {
+            "verdict": "Aturan jadi medan perang, bukan alat bantu.",
+            "roast": "Perdebatan kalian sering bukan soal benar salah, tapi soal siapa yang berhak menentukan.",
+            "tip": "Pisahkan urusan yang perlu disepakati dari urusan yang boleh beda. Jangan semua diseragamkan.",
+        },
+    ],
+    "chong": [
+        {
+            "verdict": "Berhadapan lurus, dan tidak ada yang mau menepi.",
+            "roast": "Tiap kali salah satu maju, yang lain otomatis mundur. Bukan kompak, cuma berlawanan.",
+            "tip": "Sepakati satu urusan yang keputusannya mutlak di tangan salah satu. Selesaikan rebutannya.",
+        },
+        {
+            "verdict": "Perubahan di hubungan ini jarang datang pelan-pelan.",
+            "roast": "Kalian gak bisa ribut kecil. Semuanya langsung jadi pembahasan tentang masa depan.",
+            "tip": "Latihan menyelesaikan hal remeh tanpa membesarkannya. Sekali seminggu saja.",
+        },
+        {
+            "verdict": "Tarik-menarik terus, dan anehnya itu yang bikin betah.",
+            "roast": "Dua-duanya ngeluh capek, tapi belum ada satu pun yang beneran mau berhenti.",
+            "tip": "Kalau memang mau lanjut, berhenti menganggap konflik sebagai bukti kedekatan.",
+        },
+    ],
+}
+
+ROAST_DAY_MASTER_BANK = {
+    "jia": [
+        {
+            "headline": "Prinsipnya lurus, jalannya buntu, tetap dilanjut juga.",
+            "roast": "Tembok sudah kelihatan dari jauh, kamu masih yakin tinggal didorong sedikit lagi.",
+            "tip": "Belok bukan berarti kalah. Batang paling kaku justru patah duluan.",
+        },
+        {
+            "headline": "Caramu sudah usang, tapi kamu menyebutnya konsisten.",
+            "roast": "Orang pindah jalur tiga tahun lalu, kamu masih membela metode yang dipilih pas awal.",
+            "tip": "Tanya sekali setahun: ini masih jalan, atau cuma sudah terlanjur biasa?",
+        },
+        {
+            "headline": "Paling tegak berdiri, paling terasa saat angin besar datang.",
+            "roast": "Kamu bangga tak pernah mengalah, padahal separuh ributmu sebenarnya tidak penting.",
+            "tip": "Pilih mana yang layak dipertahankan. Sisanya lepas, kamu tidak akan mengecil.",
+        },
+    ],
+    "yi": [
+        {
+            "headline": "Lentur banget sampai lupa maunya sendiri apa.",
+            "roast": "Kamu menempel ke yang kelihatan kuat, lalu bingung kenapa arahmu selalu ikut arah mereka.",
+            "tip": "Putuskan satu hal minggu ini tanpa bertanya siapa pun. Sekali saja.",
+        },
+        {
+            "headline": "Ahli mencari jalan, ahli juga menghindari jalan yang perlu.",
+            "roast": "Gesekan kamu tunda terus sampai menumpuk, lalu heran kenapa semuanya meledak bersamaan.",
+            "tip": "Bereskan satu ganjalan kecil hari ini. Yang kecil tidak pernah tetap kecil.",
+        },
+        {
+            "headline": "Menyesuaikan terus, sampai tak tersisa bentuk yang sungguh milikmu.",
+            "roast": "Semua nyaman denganmu karena kamu tidak pernah jadi masalah buat siapa pun.",
+            "tip": "Sesekali jadilah orang yang bikin kurang nyaman. Itu tanda kamu punya pendirian.",
+        },
+    ],
+    "bing": [
+        {
+            "headline": "Menyala terus, panasnya tanpa takaran.",
+            "roast": "Belum tahu duduk perkaranya, kamu telanjur bereaksi sekeras-kerasnya.",
+            "tip": "Beri jeda satu jam sebelum membalas hal yang memanaskan. Cuma satu jam.",
+        },
+        {
+            "headline": "Semangat di awal, menguap saat kerjanya jadi sepi.",
+            "roast": "Kamu hebat di bagian yang ada penontonnya. Bagian panjang dan sunyi kamu tinggalkan.",
+            "tip": "Pilih satu pekerjaan membosankan, tuntaskan sampai habis, tanpa cerita ke siapa-siapa.",
+        },
+        {
+            "headline": "Terangmu menghangatkan, sekaligus menyilaukan yang di dekatmu.",
+            "roast": "Kamu tidak sadar ruangan jadi soal kamu terus, dan orang mulai diam bukan karena setuju.",
+            "tip": "Hitung berapa lama kamu bicara hari ini dibanding mendengar. Angkanya bikin kaget.",
+        },
+    ],
+    "ding": [
+        {
+            "headline": "Apinya kecil, bebannya dipikul sendiri sampai habis.",
+            "roast": "Kamu memilih memendam biar tidak merepotkan, lalu kesal karena tidak ada yang peka.",
+            "tip": "Ucapkan sekali saja apa yang selama ini kamu tahan. Orang bukan pembaca pikiran.",
+        },
+        {
+            "headline": "Curiga duluan, bukti belakangan, klarifikasi tidak pernah.",
+            "roast": "Motif orang sudah kamu susun di kepala sebelum sempat menanyakan maksud mereka.",
+            "tip": "Sebelum menyimpulkan, ajukan satu pertanyaan langsung. Jawabannya biasanya membosankan.",
+        },
+        {
+            "headline": "Hangat bagi siapa pun, dingin pada diri sendiri.",
+            "roast": "Kamu rela begadang mengurus masalah orang, urusanmu sendiri ditunda bertahun-tahun.",
+            "tip": "Perlakukan dirimu seperti kamu memperlakukan teman yang sedang susah.",
+        },
+    ],
+    "wu": [
+        {
+            "headline": "Kokoh sekali, sampai tidak bergerak-gerak.",
+            "roast": "Keputusan besar kamu endapkan berbulan-bulan, kesempatannya keburu diambil orang.",
+            "tip": "Beri tenggat untuk dirimu sendiri. Yang tak pernah bergeser lama-lama cuma jadi batu.",
+        },
+        {
+            "headline": "Masalah kamu timbun, bukan diselesaikan.",
+            "roast": "Dari luar tenang, di dalam menumpuk hal yang bahkan kamu sendiri malas buka.",
+            "tip": "Bongkar satu tumpukan lama minggu ini. Yang paling kecil dulu pun boleh.",
+        },
+        {
+            "headline": "Diandalkan semua orang, ditanya kabarnya oleh nol orang.",
+            "roast": "Kamu jadi tempat bersandar sampai lupa bahwa kamu juga boleh butuh sandaran.",
+            "tip": "Minta tolong satu kali bulan ini. Bukan tanda lemah, cuma tanda wajar.",
+        },
+    ],
+    "ji": [
+        {
+            "headline": "Mengiyakan terus, menggerutu di dalam hati.",
+            "roast": "Kamu tidak pernah sanggup menolak, lalu menyalahkan diri sendiri karena kelelahan.",
+            "tip": "Latih mengucap 'aku tidak sanggup' sekali minggu ini. Dunia tidak akan runtuh.",
+        },
+        {
+            "headline": "Cemasnya disimpan diam-diam, badan yang duluan protes.",
+            "roast": "Semua kekhawatiran kamu simpan rapi, sampai perutmu yang akhirnya mengumumkan.",
+            "tip": "Tulis apa yang kamu cemaskan. Sebagian besar terlihat konyol di atas kertas.",
+        },
+        {
+            "headline": "Menumbuhkan orang lain, lupa menyiram diri sendiri.",
+            "roast": "Semua yang dekat denganmu berkembang, kecuali kamu yang berjalan di tempat.",
+            "tip": "Sisihkan satu jam seminggu untuk hal yang kamu mau, bukan yang orang butuhkan.",
+        },
+    ],
+    "geng": [
+        {
+            "headline": "Benar isinya, cara menyampaikannya bikin orang menjauh.",
+            "roast": "Poinnya tepat, penyampaiannya seperti palu. Orang ingat nadanya, bukan maksudnya.",
+            "tip": "Poin yang sama bisa disampaikan dua kali lebih pelan. Coba, hasilnya berbeda.",
+        },
+        {
+            "headline": "Tidak sabar pada orang yang langkahnya lebih lambat.",
+            "roast": "Kamu ambil alih pekerjaan orang karena tak tahan menunggu, lalu mengeluh kerjaanmu menumpuk.",
+            "tip": "Biarkan orang selesai dengan kecepatannya. Kamu bukan satu-satunya yang mampu.",
+        },
+        {
+            "headline": "Setajam itu, sampai lupa tidak semua hal perlu dipotong.",
+            "roast": "Setiap persoalan kamu hadapi dengan ketegasan, padahal sebagian cuma perlu didiamkan.",
+            "tip": "Tanya dulu: ini perlu diselesaikan, atau cukup dilewati?",
+        },
+    ],
+    "xin": [
+        {
+            "headline": "Standarnya tinggi, kulitnya tipis.",
+            "roast": "Kritik yang disampaikan kurang halus kamu anggap serangan, padahal isinya benar.",
+            "tip": "Pisahkan cara orang bicara dari isi yang dia sampaikan. Ambil isinya saja.",
+        },
+        {
+            "headline": "Luka lama kamu simpan lebih lama dari perlunya.",
+            "roast": "Kejadian tiga tahun lalu masih kamu putar, orangnya bahkan sudah lupa.",
+            "tip": "Tentukan tanggal berhenti untuk satu dendam lama. Setelah itu tidak dibahas lagi.",
+        },
+        {
+            "headline": "Semua harus rapi, termasuk citra yang kamu jaga mati-matian.",
+            "roast": "Kamu lebih takut terlihat berantakan daripada benar-benar berantakan.",
+            "tip": "Perlihatkan sisi belum rapimu pada seseorang yang kamu percaya. Sekali saja.",
+        },
+    ],
+    "ren": [
+        {
+            "headline": "Memulai banyak, menuntaskan sedikit.",
+            "roast": "Ide barumu selalu lebih menarik daripada ide lama yang belum kamu selesaikan.",
+            "tip": "Larang dirimu memulai yang baru sebelum satu yang lama benar-benar kelar.",
+        },
+        {
+            "headline": "Berpindah minat sebelum satu pun matang.",
+            "roast": "Kamu selalu berada di tahap seru, tak pernah sampai tahap membosankan yang menentukan.",
+            "tip": "Bertahan tiga bulan lagi di satu hal. Hasil datang setelah bagian yang membosankan.",
+        },
+        {
+            "headline": "Mengalir terus, arahnya ikut mana pun yang lebih gampang.",
+            "roast": "Kamu menyebutnya luwes, padahal itu cara halus untuk menghindar memilih.",
+            "tip": "Tentukan satu arah dan tolak sisanya selama sebulan. Fokus itu keputusan, bukan bakat.",
+        },
+    ],
+    "gui": [
+        {
+            "headline": "Membisu terus, sampai tak seorang pun tahu ada yang salah.",
+            "roast": "Kamu memendam rapi sampai orang menyangka semua baik saja, lalu kecewa karena tak ada yang bertanya.",
+            "tip": "Ucapkan satu kalimat jujur hari ini. Tidak perlu panjang, cukup jujur.",
+        },
+        {
+            "headline": "Yang sudah lewat kamu putar terus sampai lecet.",
+            "roast": "Percakapan minggu lalu masih kamu ulang di kepala, lengkap dengan versi yang harusnya kamu ucapkan.",
+            "tip": "Beri batas lima menit untuk memikirkan yang sudah lewat. Setelah itu tutup.",
+        },
+        {
+            "headline": "Meresap ke mana-mana, terlihat di mana pun tidak.",
+            "roast": "Sumbanganmu nyata tapi kamu pastikan tak ada yang tahu, lalu merasa tidak dihargai.",
+            "tip": "Sebutkan sekali apa yang sudah kamu kerjakan. Itu bukan pamer, itu informasi.",
+        },
+    ],
+}
+
+
+ROAST_DIRECTION_BANK = {
+    "maju": [
+        {
+            "headline": "Searah arus, jadi jarang tahu rasanya ditolak semesta.",
+            "roast": "Jalanmu relatif mulus, makanya kamu gampang mengira semua orang tinggal berusaha sedikit lebih keras.",
+            "tip": "Sesekali ambil jalur yang lebih sulit. Kemudahan bikin otot ketahananmu tidak pernah kepakai.",
+        },
+        {
+            "headline": "Ngalir terus, sampai lupa milih mau ke mana.",
+            "roast": "Kamu terbawa kesempatan yang kebetulan lewat, lalu menyebutnya rezeki. Padahal itu cuma arus.",
+            "tip": "Tentukan satu tujuan yang kamu kejar walau arusnya berlawanan. Baru itu namanya arah.",
+        },
+        {
+            "headline": "Timing-mu bagus, kesabaranmu belum teruji.",
+            "roast": "Selama ini hal-hal datang tepat waktu buatmu. Begitu telat sedikit, kamu langsung panik duluan.",
+            "tip": "Latih menunggu tanpa mengeluh. Yang searah arus pun bakal ketemu bagian yang macet.",
+        },
+    ],
+    "mundur": [
+        {
+            "headline": "Melawan arus terus, lalu heran kenapa capek sendiri.",
+            "roast": "Kamu ambil jalur paling berat bukan karena perlu, tapi karena jalur mudah terasa kurang membuktikan apa-apa.",
+            "tip": "Menang tanpa perjuangan tetap menang. Tidak semua hal perlu dibayar mahal dulu.",
+        },
+        {
+            "headline": "Belajarnya selalu lewat jalan paling panjang.",
+            "roast": "Sudah dikasih tahu jalan pintasnya, kamu tetap pilih membuktikan sendiri. Hasilnya sama, waktunya habis.",
+            "tip": "Dengarkan orang yang sudah lewat jalur itu. Pengalaman orang lain juga sah jadi pelajaran.",
+        },
+        {
+            "headline": "Tahan banting, tapi keras kepala jadi bawaannya.",
+            "roast": "Daya tahanmu terbentuk karena sering dihantam, dan sekarang kamu susah membedakan bertahan dari ngotot.",
+            "tip": "Tanya sekali-sekali: ini layak diperjuangkan, atau aku cuma tidak mau mengaku salah?",
+        },
+    ],
 }

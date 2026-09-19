@@ -343,6 +343,17 @@
   color: rgba(252, 227, 182, 0.85);
 }
 
+.yearly-taisui {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.3px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 138, 128, 0.35);
+  color: rgba(255, 138, 128, 0.9);
+}
+
 .yearly-relation-note {
   font-size: 0.82rem;
   line-height: 1.7;

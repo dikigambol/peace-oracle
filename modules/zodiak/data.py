@@ -619,30 +619,23 @@ def get_moon_phase_label(illumination_pct):
 
 
 def get_weather_label(wmo_code, temp_c):
-    if wmo_code == 0:
-        label = "Langit Cerah"
-        emoji = "☀️"
-    elif wmo_code in [1, 2]:
-        label = "Sebagian Berawan"
-        emoji = "⛅"
-    elif wmo_code == 3:
-        label = "Mendung"
-        emoji = "☁️"
-    elif wmo_code in [51, 53, 55]:
-        label = "Gerimis"
-        emoji = "🌦️"
-    elif wmo_code in [61, 63, 65]:
-        label = "Hujan"
-        emoji = "🌧️"
-    elif wmo_code in [80, 81, 82]:
-        label = "Hujan Deras"
-        emoji = "⛈️"
-    elif wmo_code in [95, 96, 99]:
-        label = "Badai Petir"
-        emoji = "🌩️"
-    else:
-        label = "Berawan"
-        emoji = "🌤️"
+    match wmo_code:
+        case 0:
+            label, emoji = "Langit Cerah", "☀️"
+        case 1 | 2:
+            label, emoji = "Sebagian Berawan", "⛅"
+        case 3:
+            label, emoji = "Mendung", "☁️"
+        case 51 | 53 | 55:
+            label, emoji = "Gerimis", "🌦️"
+        case 61 | 63 | 65:
+            label, emoji = "Hujan", "🌧️"
+        case 80 | 81 | 82:
+            label, emoji = "Hujan Deras", "⛈️"
+        case 95 | 96 | 99:
+            label, emoji = "Badai Petir", "🌩️"
+        case _:
+            label, emoji = "Berawan", "🌤️"
     return f"{emoji} {label}, {temp_c:.0f}°C"
 
 

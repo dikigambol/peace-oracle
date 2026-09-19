@@ -9,7 +9,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan air bersih, bunga teratai putih atau merah muda, dan dupa halus beraroma cendana. Guanyin menyukai kesederhanaan dan ketulusan — niat bersih lebih berharga dari persembahan mewah.",
         "best_pray_time": "Jam 23.00 – 01.00 (Jam Tikus / Shichen Zi)",
         "sacred_direction": "Utara",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Letakkan patung atau gambar Guanyin di area Utara rumah untuk memperkuat perlindungan spiritual.",
@@ -29,7 +28,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan buah-buahan segar (terutama jeruk dan apel), dupa kayu gaharu, dan lilin kuning emas. Kerbau yang tekun dalam ibadah akan merasakan ketenangan mendalam.",
         "best_pray_time": "Jam 01.00 – 03.00 (Jam Kerbau / Shichen Chou)",
         "sacred_direction": "Timur Laut",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Tempatkan batu alam atau kristal tanah (seperti citrine atau tiger eye) di sudut Timur Laut rumah.",
@@ -49,7 +47,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan dupa kemenyan, bunga krisan kuning, dan lilin merah. Macan yang mendisiplinkan energinya akan menerima perlindungan berlipat dari Ākāśagarbha.",
         "best_pray_time": "Jam 03.00 – 05.00 (Jam Macan / Shichen Yin)",
         "sacred_direction": "Timur Laut",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Tempatkan simbol kekuatan (seperti batu obsidian atau patung kecil macan) di area Timur Laut.",
@@ -69,7 +66,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan bunga lily putih, teh hijau segar, dan dupa aroma melati. Mañjuśrī menyukai keindahan yang sederhana dan natural — seperti karakter Kelinci sendiri.",
         "best_pray_time": "Jam 05.00 – 07.00 (Jam Kelinci / Shichen Mao)",
         "sacred_direction": "Timur",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Letakkan buku-buku atau simbol kebijaksanaan di area Timur rumah untuk memperkuat energi Mañjuśrī.",
@@ -89,7 +85,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan kue bulan atau makanan manis tradisional, bunga peony merah, dan dupa aroma kayu cendana premium. Naga yang rendah hati di hadapan pelindungnya akan menerima berkah paling besar.",
         "best_pray_time": "Jam 07.00 – 09.00 (Jam Naga / Shichen Chen)",
         "sacred_direction": "Tenggara",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Tempatkan simbol naga atau patung gajah putih kecil di area Tenggara rumah untuk mengaktifkan kemakmuran.",
@@ -109,7 +104,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan teh oolong berkualitas, bunga teratai merah, dan dupa aroma kayu gaharu. Ular yang meditasi dengan tulus akan menemukan ketenangan yang selama ini dicari.",
         "best_pray_time": "Jam 09.00 – 11.00 (Jam Ular / Shichen Si)",
         "sacred_direction": "Tenggara",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Ciptakan ruang meditasi kecil di area Tenggara rumah — Ular membutuhkan ruang introspeksi yang sakral.",
@@ -129,7 +123,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan buah-buahan merah (apel, delima), bunga matahari kuning, dan dupa aroma kayu manis. Kuda yang fokus dalam doanya akan merasakan ledakan energi positif.",
         "best_pray_time": "Jam 11.00 – 13.00 (Jam Kuda / Shichen Wu)",
         "sacred_direction": "Selatan",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Letakkan simbol kuda atau patung kecil di area Selatan rumah untuk mengaktifkan energi pengakuan dan reputasi.",
@@ -149,7 +142,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan lilin atau pelita, bunga putih, dan dupa cendana. Mahāvairocana dihormati lewat cahaya — nyala kecil yang dijaga tetap hidup lebih bermakna daripada persembahan besar yang hanya sesekali.",
         "best_pray_time": "Jam 13.00 – 15.00 (Jam Kambing / Shichen Wei)",
         "sacred_direction": "Barat Daya",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Letakkan sumber cahaya hangat di area Barat Daya rumah — lampu kecil yang menyala tetap lebih baik daripada lampu besar yang jarang dinyalakan.",
@@ -169,7 +161,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan buah pisang emas, kue tradisional, dan dupa premium aroma kayu cendana putih. Monyet yang serius dalam spiritualitas akan menemukan kedalaman yang selama ini dihindari.",
         "best_pray_time": "Jam 15.00 – 17.00 (Jam Monyet / Shichen Shen)",
         "sacred_direction": "Barat Daya",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Letakkan simbol matahari atau kristal bening di jendela yang terkena sinar matahari sore.",
@@ -189,7 +180,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan nasi putih, bunga krisan kuning, dan dupa aroma kemenyan tebal. Ayam yang tekun beribadah akan merasakan kekuatan batin yang menggemparkan.",
         "best_pray_time": "Jam 17.00 – 19.00 (Jam Ayam / Shichen You)",
         "sacred_direction": "Barat",
-        "direction_basis": "cabang",
         "direction_note": "Arah cabang bumi shio ini",
         "feng_shui_tips": [
             "Letakkan benda logam berkualitas (lonceng kuningan, mangkok tibetan) di area Barat rumah.",
@@ -209,7 +199,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan bunga teratai merah atau putih, buah persik, dan dupa aroma kayu aloeswood. Anjing yang berdoa dengan hati terbuka akan merasakan kedamaian yang lama dicari.",
         "best_pray_time": "Jam 19.00 – 21.00 (Jam Anjing / Shichen Xu)",
         "sacred_direction": "Barat",
-        "direction_basis": "doktrin",
         "direction_note": "Tanah Suci Amitābha di arah Barat",
         "feng_shui_tips": [
             "Letakkan lampu hangat atau lilin di area Barat rumah untuk mengundang cahaya Amitābha.",
@@ -229,7 +218,6 @@ SHIO_GUARDIAN_BANK = {
         "offering_suggestion": "Persembahkan kue-kue manis tradisional, buah anggur, dan dupa aroma mawar atau melati. Babi yang bermeditasi dengan ikhlas akan merasakan kelimpahan batin yang lebih berharga dari harta duniawi.",
         "best_pray_time": "Jam 21.00 – 23.00 (Jam Babi / Shichen Hai)",
         "sacred_direction": "Barat",
-        "direction_basis": "doktrin",
         "direction_note": "Tanah Suci Amitābha di arah Barat",
         "feng_shui_tips": [
             "Letakkan elemen air (air mancur mini, gambar laut) di area Utara rumah untuk mengalirkan rezeki.",
