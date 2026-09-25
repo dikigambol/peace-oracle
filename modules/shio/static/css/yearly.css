@@ -13,30 +13,30 @@
 
 .yearly-label {
   display: block;
-  color: #ffd700;
-  font-family: 'Cinzel', serif;
-  font-size: 0.95rem;
-  margin-bottom: 10px;
+  color: var(--gold);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-base);
+  margin-bottom: 8px;
 }
 
 .shio-grid-compact {
   max-width: 550px;
   margin: 0 auto;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 .shio-grid-compact .shio-item {
-  padding: 8px 5px;
-  gap: 5px;
+  padding: 8px 4px;
+  gap: 4px;
 }
 .shio-grid-compact .shio-item .icon.hanzi {
-  font-size: 1.8rem;
+  font-size: var(--fs-xl);
 }
 .shio-grid-compact .shio-item .name {
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
 }
 
-@media (max-width: 500px) {
+@media (max-width: 480px) {
   .shio-grid-compact {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -46,19 +46,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
-  margin: 5px 0;
+  gap: 16px;
+  margin: 4px 0;
 }
 
 .year-nav {
-  background: rgba(255, 215, 0, 0.15);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  color: #ffd700;
+  background: rgba(var(--gold-rgb), 0.15);
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  color: var(--gold);
   width: 42px;
   height: 42px;
   border-radius: 50%;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: var(--fs-base);
   transition: all 0.2s;
   display: flex;
   align-items: center;
@@ -66,7 +66,7 @@
 }
 
 .year-nav:hover {
-  background: rgba(255, 215, 0, 0.3);
+  background: rgba(var(--gold-rgb), 0.3);
   transform: scale(1.1);
 }
 
@@ -77,38 +77,38 @@
 
 .year-number {
   display: block;
-  font-family: 'Cinzel', serif;
-  font-size: 2rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-xl);
   font-weight: 700;
-  color: #ffd700;
+  color: var(--gold);
   line-height: 1;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  text-shadow: 0 0 15px rgba(var(--gold-rgb), 0.3);
 }
 
 .year-shio {
   display: block;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   margin-top: 4px;
 }
 
 .yearly-submit {
-  background: linear-gradient(135deg, #ffd700, #ff8c00);
-  color: #1a1a2e;
+  background: linear-gradient(135deg, var(--gold), var(--amber));
+  color: var(--on-gold);
   border: none;
-  padding: 12px 35px;
-  border-radius: 25px;
-  font-size: 1rem;
+  padding: 12px 36px;
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-base);
   font-weight: 700;
   cursor: pointer;
-  font-family: 'Cinzel', serif;
+  font-family: "Cinzel", "Noto Serif TC", serif;
   transition: all 0.3s;
-  margin-top: 5px;
+  margin-top: 4px;
 }
 
 .yearly-submit:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 20px rgba(var(--gold-rgb), 0.5);
 }
 
 .yearly-submit:disabled {
@@ -120,10 +120,10 @@
 
 .yearly-card {
   background: linear-gradient(145deg, rgba(20, 5, 5, 0.7), rgba(0, 0, 0, 0.8));
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.05);
-  border-radius: 16px;
-  padding: 30px;
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(var(--gold-rgb), 0.05);
+  border-radius: var(--radius-md);
+  padding: 32px;
   backdrop-filter: blur(12px);
   animation: yFadeIn 0.5s ease-out;
 }
@@ -137,68 +137,68 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .yearly-shio-box {
   background: linear-gradient(to bottom, rgba(40, 10, 10, 0.6), rgba(10, 0, 0, 0.8));
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 215, 0, 0.1);
-  border-radius: 12px;
-  padding: 15px 25px;
+  border: 1px solid rgba(var(--gold-rgb), 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(var(--gold-rgb), 0.1);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
   text-align: center;
   min-width: 120px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .yearly-shio-box:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 215, 0, 0.2);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(var(--gold-rgb), 0.2);
 }
 
 .yearly-shio-box.year-box {
   background: linear-gradient(to bottom, rgba(40, 20, 0, 0.6), rgba(10, 5, 0, 0.8));
-  border-color: rgba(255, 140, 0, 0.6);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 140, 0, 0.1);
+  border-color: rgba(var(--amber-rgb), 0.6);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(var(--amber-rgb), 0.1);
 }
 .yearly-shio-box.year-box:hover {
-  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(255, 140, 0, 0.2);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(var(--amber-rgb), 0.2);
 }
 
 .yearly-hanzi {
-  font-size: 2rem;
+  font-size: var(--fs-xl);
   display: block;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+  text-shadow: 0 0 15px rgba(var(--gold-rgb), 0.3);
 }
 
 .yearly-shio-name {
   display: block;
-  color: #ffd700;
-  font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
-  margin-top: 5px;
+  color: var(--gold);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-sm);
+  margin-top: 4px;
 }
 
 .yearly-year-num {
   display: block;
   color: rgba(255, 255, 255, 0.5);
-  font-size: 0.8rem;
-  margin-top: 3px;
+  font-size: var(--fs-xs);
+  margin-top: 4px;
 }
 
 .yearly-arrow {
-  color: rgba(255, 215, 0, 0.6);
-  font-family: 'Cinzel', serif;
-  font-size: 1.2rem;
+  color: rgba(var(--gold-rgb), 0.6);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-md);
   font-style: italic;
 }
 
 .yearly-advice {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 140, 0, 0.05));
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.05);
-  border-radius: 12px;
-  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(var(--gold-rgb), 0.15), rgba(var(--amber-rgb), 0.05));
+  border: 1px solid rgba(var(--gold-rgb), 0.4);
+  box-shadow: inset 0 0 20px rgba(var(--gold-rgb), 0.05);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
   margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
@@ -206,15 +206,15 @@
 }
 
 .yearly-advice .advice-icon {
-  color: #ffd700;
-  font-size: 1.3rem;
+  color: var(--gold);
+  font-size: var(--fs-md);
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .yearly-advice p {
   color: rgba(255, 255, 255, 0.95);
-  font-size: 0.95rem;
+  font-size: var(--fs-base);
   line-height: 1.6;
   margin: 0;
   font-style: italic;
@@ -223,7 +223,7 @@
 .yearly-categories {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  gap: 16px;
 }
 
 @media (max-width: 768px) {
@@ -237,8 +237,8 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-top: 3px solid transparent;
-  border-radius: 16px;
-  padding: 25px 20px;
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -253,10 +253,10 @@
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
 }
 
-.yearly-cat:nth-child(1) { animation-delay: 0.1s; border-top-color: #4ecdc4; background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(78, 205, 196, 0.05); }
-.yearly-cat:nth-child(2) { animation-delay: 0.2s; border-top-color: #ffd700; background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(255, 215, 0, 0.05); }
-.yearly-cat:nth-child(3) { animation-delay: 0.3s; border-top-color: #ff6b9d; background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(255, 107, 157, 0.05); }
-.yearly-cat:nth-child(4) { animation-delay: 0.4s; border-top-color: #81c784; background: linear-gradient(135deg, rgba(129, 199, 132, 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(129, 199, 132, 0.05); }
+.yearly-cat:nth-child(1) { animation-delay: 0.1s; border-top-color: var(--teal); background: linear-gradient(135deg, rgba(var(--teal-rgb), 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(var(--teal-rgb), 0.05); }
+.yearly-cat:nth-child(2) { animation-delay: 0.2s; border-top-color: var(--gold); background: linear-gradient(135deg, rgba(var(--gold-rgb), 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(var(--gold-rgb), 0.05); }
+.yearly-cat:nth-child(3) { animation-delay: 0.3s; border-top-color: var(--pink); background: linear-gradient(135deg, rgba(var(--pink-rgb), 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(var(--pink-rgb), 0.05); }
+.yearly-cat:nth-child(4) { animation-delay: 0.4s; border-top-color: var(--success); background: linear-gradient(135deg, rgba(var(--success-rgb), 0.1), rgba(10, 10, 10, 0.8)); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), inset 0 20px 40px rgba(var(--success-rgb), 0.05); }
 
 .yearly-cat .cat-icon {
   width: 50px;
@@ -266,19 +266,19 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
-  font-size: 1.4rem;
+  font-size: var(--fs-lg);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.yearly-cat:nth-child(1) .cat-icon { background: rgba(78, 205, 196, 0.15); color: #4ecdc4; border: 1px solid rgba(78, 205, 196, 0.3); }
-.yearly-cat:nth-child(2) .cat-icon { background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid rgba(255, 215, 0, 0.3); }
-.yearly-cat:nth-child(3) .cat-icon { background: rgba(255, 107, 157, 0.15); color: #ff6b9d; border: 1px solid rgba(255, 107, 157, 0.3); }
-.yearly-cat:nth-child(4) .cat-icon { background: rgba(129, 199, 132, 0.15); color: #81c784; border: 1px solid rgba(129, 199, 132, 0.3); }
+.yearly-cat:nth-child(1) .cat-icon { background: rgba(var(--teal-rgb), 0.15); color: var(--teal); border: 1px solid rgba(var(--teal-rgb), 0.3); }
+.yearly-cat:nth-child(2) .cat-icon { background: rgba(var(--gold-rgb), 0.15); color: var(--gold); border: 1px solid rgba(var(--gold-rgb), 0.3); }
+.yearly-cat:nth-child(3) .cat-icon { background: rgba(var(--pink-rgb), 0.15); color: var(--pink); border: 1px solid rgba(var(--pink-rgb), 0.3); }
+.yearly-cat:nth-child(4) .cat-icon { background: rgba(var(--success-rgb), 0.15); color: var(--success); border: 1px solid rgba(var(--success-rgb), 0.3); }
 
 .yearly-cat h3 {
-  font-family: 'Cinzel', serif;
-  font-size: 1.1rem;
-  margin: 0 0 15px;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-md);
+  margin: 0 0 16px;
   letter-spacing: 1px;
   text-transform: uppercase;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -286,14 +286,14 @@
   width: 80%;
 }
 
-.yearly-cat:nth-child(1) h3 { color: #4ecdc4; }
-.yearly-cat:nth-child(2) h3 { color: #ffd700; }
-.yearly-cat:nth-child(3) h3 { color: #ff6b9d; }
-.yearly-cat:nth-child(4) h3 { color: #81c784; }
+.yearly-cat:nth-child(1) h3 { color: var(--teal); }
+.yearly-cat:nth-child(2) h3 { color: var(--gold); }
+.yearly-cat:nth-child(3) h3 { color: var(--pink); }
+.yearly-cat:nth-child(4) h3 { color: var(--success); }
 
 .yearly-cat p {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   line-height: 1.6;
   margin: 0;
 }
@@ -305,11 +305,11 @@
 
 
 .yearly-lichun {
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   line-height: 1.6;
-  color: rgba(252, 227, 182, 0.55);
+  color: rgba(var(--cream-rgb), 0.55);
   text-align: center;
-  margin: -6px 0 18px;
+  margin: -8px 0 16px;
 }
 
 .yearly-relation {
@@ -319,61 +319,61 @@
 
 .yearly-badge {
   display: inline-block;
-  font-family: "Cinzel", serif;
-  font-size: 0.85rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-sm);
   letter-spacing: 0.5px;
-  padding: 6px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 215, 0, 0.4);
-  color: #ffd700;
+  padding: 8px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--gold-rgb), 0.4);
+  color: var(--gold);
 }
 
 .yearly-badge.code-good {
-  border-color: rgba(127, 214, 127, 0.65);
-  color: #7fd67f;
+  border-color: rgba(var(--success-rgb), 0.65);
+  color: var(--success);
 }
 
 .yearly-badge.code-bad {
-  border-color: rgba(255, 138, 128, 0.65);
-  color: #ff8a80;
+  border-color: rgba(var(--danger-rgb), 0.65);
+  color: var(--danger);
 }
 
 .yearly-badge.code-neutral {
-  border-color: rgba(252, 227, 182, 0.4);
-  color: rgba(252, 227, 182, 0.85);
+  border-color: rgba(var(--cream-rgb), 0.4);
+  color: rgba(var(--cream-rgb), 0.85);
 }
 
 .yearly-taisui {
   display: inline-block;
   margin-left: 8px;
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.3px;
-  padding: 5px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 138, 128, 0.35);
-  color: rgba(255, 138, 128, 0.9);
+  padding: 4px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--danger-rgb), 0.35);
+  color: rgba(var(--danger-rgb), 0.9);
 }
 
 .yearly-relation-note {
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   line-height: 1.7;
-  color: rgba(252, 227, 182, 0.75);
+  color: rgba(var(--cream-rgb), 0.75);
   max-width: 620px;
-  margin: 10px auto 0;
+  margin: 8px auto 0;
 }
 
 .yearly-stem {
   background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
-  border: 1px solid rgba(255, 215, 0, 0.18);
-  border-radius: 14px;
-  padding: 18px 20px;
+  border: 1px solid rgba(var(--gold-rgb), 0.18);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
   margin-bottom: 20px;
   text-align: left;
   box-sizing: border-box;
 }
 
 .yearly-stem.role-menerima {
-  border-left: 3px solid rgba(127, 214, 127, 0.6);
+  border-left: 3px solid rgba(var(--success-rgb), 0.6);
 }
 
 .yearly-stem.role-memberi,
@@ -382,18 +382,18 @@
 }
 
 .yearly-stem.role-menekan {
-  border-left: 3px solid rgba(255, 215, 0, 0.55);
+  border-left: 3px solid rgba(var(--gold-rgb), 0.55);
 }
 
 .yearly-stem.role-setara {
-  border-left: 3px solid rgba(252, 227, 182, 0.35);
+  border-left: 3px solid rgba(var(--cream-rgb), 0.35);
 }
 
 .yearly-stem-title {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.95rem;
-  margin: 0 0 10px;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
+  margin: 0 0 8px;
 }
 
 .yearly-stem-title i {
@@ -403,20 +403,20 @@
 
 .yearly-stem-pillar {
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.8rem;
-  color: rgba(252, 227, 182, 0.6);
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.6);
   margin-left: 8px;
 }
 
 .yearly-stem-summary,
 .yearly-stem-advice {
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   line-height: 1.75;
-  color: rgba(252, 227, 182, 0.88);
+  color: rgba(var(--cream-rgb), 0.88);
   margin: 0 0 8px;
 }
 
 .yearly-stem-advice {
-  color: rgba(255, 215, 0, 0.8);
+  color: rgba(var(--gold-rgb), 0.8);
   margin-bottom: 0;
 }

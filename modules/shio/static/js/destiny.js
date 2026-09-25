@@ -178,9 +178,40 @@ document.addEventListener('DOMContentLoaded', () => {
         school.appendChild(el('span', 'destiny-notice-icon', '☯'));
         const schoolBody = el('div');
         schoolBody.appendChild(el('strong', null, 'Aliran ' + meta.school));
-        paragraph(schoolBody, 'Perhitungan memakai batas awal musim semi (立春) untuk pilar tahun dan batas 23:00 untuk pilar hari.', 'destiny-notice-text');
+        paragraph(schoolBody, 'Perhitungan memakai batas awal musim semi (立春) untuk pilar tahun dan batas 23:00 untuk pilar hari (子時換日).', 'destiny-notice-text');
         school.appendChild(schoolBody);
         box.appendChild(school);
+
+        if (meta.late_zi_alternative_day) {
+            const lateZi = el('div', 'destiny-notice destiny-notice-warn');
+            lateZi.appendChild(el('span', 'destiny-notice-icon', '🌗'));
+            const body = el('div');
+            body.appendChild(el('strong', null, 'Kamu lahir di jam 23:00–23:59'));
+            paragraph(body, 'Aliran yang dipakai di sini menganggap harimu sudah berganti sejak pukul 23:00. Sebagian praktisi Zi Ping memakai aliran lain (子正換日) yang baru mengganti hari pukul 00:00.', 'destiny-notice-text');
+            paragraph(body, 'Menurut aliran itu, pilar harimu adalah ' + meta.late_zi_alternative_day + ', bukan pilar hari di tabel bawah, dan pilar jammu ikut berubah. Dua-duanya sah — bedanya ada di aturan, bukan di hitungan.', 'destiny-notice-text');
+            lateZi.appendChild(body);
+            box.appendChild(lateZi);
+        }
+
+        if (meta.city_unrecognized) {
+            const unknown = el('div', 'destiny-notice destiny-notice-warn');
+            unknown.appendChild(el('span', 'destiny-notice-icon', '📍'));
+            const body = el('div');
+            body.appendChild(el('strong', null, 'Kota lahir tidak dikenali'));
+            paragraph(body, 'Nama kota yang kamu ketik tidak ada di daftar, jadi zona WIB dipakai sebagai asumsi. Hasilnya bisa berbeda kalau kamu lahir di WITA atau WIT tepat di hari pergantian musim. Ketik ulang lalu pilih dari daftar supaya tepat.', 'destiny-notice-text');
+            unknown.appendChild(body);
+            box.appendChild(unknown);
+        }
+
+        if (meta.city_zone_only) {
+            const zoneOnly = el('div', 'destiny-notice');
+            zoneOnly.appendChild(el('span', 'destiny-notice-icon', '📍'));
+            const body = el('div');
+            body.appendChild(el('strong', null, 'Kota dipakai untuk zona waktu'));
+            paragraph(body, 'Tanpa jam lahir, ' + meta.city.name + ' dipakai untuk menentukan zona ' + meta.city.zone + ' di batas pergantian musim. Koreksi waktu matahari sejati butuh jam lahir, jadi belum diterapkan.', 'destiny-notice-text');
+            zoneOnly.appendChild(body);
+            box.appendChild(zoneOnly);
+        }
 
         if (meta.city && meta.true_solar_offset_minutes !== null) {
             const solar = el('div', 'destiny-notice');
@@ -222,6 +253,21 @@ document.addEventListener('DOMContentLoaded', () => {
             notice.appendChild(body);
             box.appendChild(notice);
         }
+    }
+
+    const chartFrame = document.getElementById('destiny-chart-frame');
+    const chartScroll = document.getElementById('destiny-chart-scroll');
+
+    function updateChartScrollHint() {
+        if (!chartFrame || !chartScroll) return;
+        const maxScroll = chartScroll.scrollWidth - chartScroll.clientWidth;
+        chartFrame.classList.toggle('more-left', chartScroll.scrollLeft > 4);
+        chartFrame.classList.toggle('more-right', chartScroll.scrollLeft < maxScroll - 4);
+    }
+
+    if (chartScroll) {
+        chartScroll.addEventListener('scroll', updateChartScrollHint, { passive: true });
+        window.addEventListener('resize', updateChartScrollHint);
     }
 
     function renderChart(pillars) {
@@ -455,6 +501,43 @@ document.addEventListener('DOMContentLoaded', () => {
         box.appendChild(grid);
     }
 
+    function renderRelations(relations) {
+        const box = clear(document.getElementById('destiny-relations'));
+        const items = (relations && relations.items) || [];
+        if (!items.length) {
+            paragraph(box, 'Pilar-pilarmu tidak saling mengunci atau bentrok. Energinya berdiri sendiri-sendiri, jadi bacaanmu lebih banyak ditentukan oleh elemen dan dewanya.', 'destiny-text');
+            return;
+        }
+        const grid = el('div', 'destiny-relation-grid');
+        items.forEach(item => {
+            const entry = card('destiny-relation destiny-relation-' + item.code);
+            const head = el('div', 'destiny-relation-head');
+            head.appendChild(el('span', 'destiny-relation-hanzi', item.hanzi));
+            const meta = el('div');
+            meta.appendChild(el('h4', 'destiny-relation-title', item.title));
+            const where = item.slots.join(' · ') + ' · ' + item.branches;
+            meta.appendChild(el('span', 'destiny-dm-sub', where));
+            head.appendChild(meta);
+            entry.appendChild(head);
+            if (item.element) {
+                entry.appendChild(el('span', 'destiny-relation-tag',
+                    'Elemen ' + item.element + ' ' + item.element_hanzi));
+            } else if (item.reach_label) {
+                const tag = el('span', 'destiny-relation-tag destiny-relation-' + item.reach,
+                    item.reach_label);
+                tag.title = item.reach_note;
+                entry.appendChild(tag);
+            }
+            paragraph(entry, item.note, 'destiny-text destiny-text-small');
+            paragraph(entry, item.advice, 'destiny-text destiny-text-small destiny-text-muted');
+            grid.appendChild(entry);
+        });
+        box.appendChild(grid);
+        if (relations.clash_note) {
+            paragraph(box, relations.clash_note, 'destiny-note');
+        }
+    }
+
     function renderShenSha(stars) {
         const box = clear(document.getElementById('destiny-shensha'));
         if (!stars.length) {
@@ -585,104 +668,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function render(data) {
         renderNotices(data.meta, data.no_birth_time);
         renderChart(data.pillars);
+        requestAnimationFrame(updateChartScrollHint);
         renderDayMaster(data.day_master);
         renderStrength(data.strength, data.useful_gods);
         renderElements(data.elements);
         renderGod(data.dominant_god);
         renderDestiny(data.destiny, data.day_master.nuance, data.meta.disclaimer);
+        renderRelations(data.relations);
         renderShenSha(data.shen_sha);
         renderLuck(data.luck);
         renderHeritage(data.heritage);
         renderRemedy(data.remedy);
         document.getElementById('destiny-disclaimer').textContent = data.meta.disclaimer;
     }
-
-  const canvas = document.getElementById('particle-canvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 5 + 2;
-        this.speedX = Math.random() * 6 - 3;
-        this.speedY = Math.random() * 6 - 3;
-        this.color = Math.random() > 0.5 ? '#ffd700' : '#ff4500';
-        this.life = 1.0;
-        this.decay = Math.random() * 0.02 + 0.02;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life -= this.decay;
-      }
-      draw() {
-        ctx.globalAlpha = this.life;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1.0;
-      }
-    }
-    function createParticles(x, y) {
-      for (let i = 0; i < 30; i++) {
-        particles.push(new Particle(x, y));
-      }
-    }
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        if (particles[i].life <= 0) {
-          particles.splice(i, 1);
-          i--;
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-    let isDragging = false;
-    const shioBg = document.getElementById('shio-bg');
-    if (shioBg) {
-      shioBg.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        createParticles(e.clientX, e.clientY);
-      });
-      shioBg.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-          for (let i = 0; i < 5; i++) {
-            particles.push(new Particle(e.clientX, e.clientY));
-          }
-        }
-      });
-      window.addEventListener('mouseup', () => {
-        isDragging = false;
-      });
-      shioBg.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        const touch = e.touches[0];
-        createParticles(touch.clientX, touch.clientY);
-      });
-      shioBg.addEventListener('touchmove', (e) => {
-        if (isDragging) {
-          const touch = e.touches[0];
-          for (let i = 0; i < 5; i++) {
-            particles.push(new Particle(touch.clientX, touch.clientY));
-          }
-        }
-      });
-      window.addEventListener('touchend', () => {
-        isDragging = false;
-      });
-    }
-  }
+  window.initBurstParticles();
 });

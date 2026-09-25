@@ -15,6 +15,10 @@ __pycache__/
 .vercel/
 .vscode/
 
+# Tests
+tests/
+.pytest_cache/
+
 # Documentation & planning
 *.md
 

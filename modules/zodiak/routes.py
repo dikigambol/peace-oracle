@@ -1,9 +1,11 @@
+import datetime
+
 from flask import Blueprint, render_template, jsonify, request
 from .data import (
     ELEMENT_COMPATIBILITY,
     GENERAL_CHARACTERISTICS,
     ZODIAC_DATA,
-    determine_zodiac,
+    determine_zodiac_from_date,
     generate_dynamic_ratings,
     get_ai_compatibility_modes,
     get_ai_relationship_roast,
@@ -53,16 +55,10 @@ def resolve_sign_from_birthdate(value):
     if not isinstance(value, str):
         return None
     try:
-        parts = value.split("-")
-        if len(parts) != 3:
-            return None
-        day = int(parts[2])
-        month = int(parts[1])
-    except (ValueError, TypeError):
+        birth_date = datetime.date.fromisoformat(value.strip())
+    except ValueError:
         return None
-    if not 1 <= month <= 12 or not 1 <= day <= 31:
-        return None
-    return determine_zodiac(day, month)
+    return determine_zodiac_from_date(birth_date)
 
 
 @zodiak_bp.route("/api/zodiak/roast", methods=["GET", "POST"])
@@ -404,7 +400,7 @@ from .quiz_bank import (
     calculate_quiz_match,
     get_ai_couple_quiz_analysis,
 )
-from .ai_limiter import _get_mysql_connection
+from core.db import get_mysql_connection
 
 
 @zodiak_bp.route("/api/zodiak/quiz/questions")
@@ -453,7 +449,7 @@ def create_quiz_room():
         return jsonify({"error": "Nama dan Zodiak Host wajib diisi."}), 400
     code_chars = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
     room_code = f"RO-{code_chars}"
-    conn = _get_mysql_connection()
+    conn = get_mysql_connection()
     if conn:
         try:
             with conn.cursor() as cursor:
@@ -494,7 +490,7 @@ def join_quiz_room():
             jsonify({"error": "Kode room, nama, dan zodiak partner wajib diisi."}),
             400,
         )
-    conn = _get_mysql_connection()
+    conn = get_mysql_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
     row = None
@@ -579,7 +575,7 @@ def submit_quiz_answers():
     answers = clean_quiz_answers(data.get("answers"))
     if not room_code or answers is None:
         return jsonify({"error": "Data jawaban 10 pertanyaan tidak lengkap."}), 400
-    conn = _get_mysql_connection()
+    conn = get_mysql_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
     row = None
@@ -714,7 +710,7 @@ def submit_quiz_answers():
 @zodiak_bp.route("/api/zodiak/quiz/room/<room_code>")
 def get_quiz_room_status(room_code):
     room_code = room_code.strip().upper()
-    conn = _get_mysql_connection()
+    conn = get_mysql_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
     row = None

@@ -3,6 +3,49 @@
   --text-light: #e0e0ff;
   --accent-color: #6b4cff;
   --accent-glow: 0 0 15px rgba(107, 76, 255, 0.5);
+
+  --gold: #ffd700;
+  --gold-rgb: 255, 215, 0;
+  --gold-deep: #b8860b;
+  --cream: #fce3b6;
+  --cream-rgb: 252, 227, 182;
+  --peach: #ffd9c2;
+  --peach-rgb: 255, 217, 194;
+  --ember: #ff6b35;
+  --ember-rgb: 255, 107, 53;
+  --flame: #ff4500;
+  --flame-rgb: 255, 69, 0;
+  --amber: #ff8c00;
+  --amber-rgb: 255, 140, 0;
+  --tangerine: #ff8c42;
+  --apricot: #ffab70;
+  --blood: #8b0000;
+  --blood-rgb: 139, 0, 0;
+  --maroon: #5a0000;
+  --pink: #ff6b9d;
+  --pink-rgb: 255, 107, 157;
+  --teal: #4ecdc4;
+  --teal-rgb: 78, 205, 196;
+  --on-gold: #1a1a2e;
+
+  --success: #81c784;
+  --success-rgb: 129, 199, 132;
+  --danger: #ff8a80;
+  --danger-rgb: 255, 138, 128;
+
+  --fs-2xs: 0.7rem;
+  --fs-xs: 0.8rem;
+  --fs-sm: 0.9rem;
+  --fs-base: 1rem;
+  --fs-md: 1.2rem;
+  --fs-lg: 1.5rem;
+  --fs-xl: 2rem;
+  --fs-2xl: 2.5rem;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
 }
 body {
   margin: 0;
@@ -406,5 +449,50 @@ body {
   .ai-quota-toast-msg {
     font-size: 0.82rem;
     line-height: 1.4;
+  }
+}
+
+:root {
+  --focus-ring: #ffd700;
+  --focus-ring-contrast: rgba(10, 10, 26, 0.9);
+}
+
+:focus-visible,
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--focus-ring) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 5px var(--focus-ring-contrast) !important;
+}
+
+.ai-quota-toast-card.toast-error .ai-quota-toast-icon {
+  color: #ff8a80;
+}
+
+.ai-quota-toast-card.toast-info .ai-quota-toast-icon {
+  color: #82b1ff;
+}
+
+button.loading {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+button.loading i {
+  margin-right: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

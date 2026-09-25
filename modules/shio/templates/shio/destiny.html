@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/destiny.css') }}" />
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <div class="shio-container" id="shio-bg">
@@ -105,8 +104,13 @@
           Ini chart mentahmu, bukan ringkasan. Kamu bisa mencocokkannya dengan
           kalkulator Ba Zi mana pun.
         </p>
-        <div class="destiny-chart-scroll">
+        <div class="destiny-chart-frame" id="destiny-chart-frame">
+        <p class="destiny-scroll-hint" aria-hidden="true">Geser tabel ke samping <i class="fa-solid fa-arrow-right-long"></i></p>
+        <div class="destiny-chart-viewport">
+        <div class="destiny-chart-scroll" id="destiny-chart-scroll">
           <table class="destiny-chart" id="destiny-chart"></table>
+        </div>
+        </div>
         </div>
         <div class="destiny-positions" id="destiny-positions"></div>
       </section>
@@ -119,6 +123,12 @@
       <section class="destiny-block">
         <h3 class="destiny-heading"><i class="fa-solid fa-scale-balanced"></i> Kekuatan Diri</h3>
         <div id="destiny-strength"></div>
+      </section>
+
+      <section class="destiny-block">
+        <h3 class="destiny-heading"><i class="fa-solid fa-diagram-project"></i> Relasi di Dalam Chart</h3>
+        <p class="destiny-note">Bagaimana pilar-pilarmu sendiri saling tarik, saling kunci, atau saling bentrok.</p>
+        <div id="destiny-relations" aria-live="polite"></div>
       </section>
 
       <section class="destiny-block">

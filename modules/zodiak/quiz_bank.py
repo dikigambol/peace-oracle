@@ -163,8 +163,7 @@ def calculate_quiz_match(host_answers, partner_answers):
         )
     total_q = len(PARTNER_QUIZ_QUESTIONS)
     match_score = int(round((exact_matches / total_q) * 100))
-    final_score = max(40, match_score)
-    return final_score, breakdown
+    return match_score, breakdown
 
 
 def get_ai_couple_quiz_analysis(

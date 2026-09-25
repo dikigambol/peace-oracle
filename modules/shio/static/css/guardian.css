@@ -6,9 +6,9 @@
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  box-shadow: 0 0 20px rgba(var(--gold-rgb), 0.3);
   object-fit: cover;
-  border: 2px solid #ffd700;
+  border: 2px solid var(--gold);
 }
 .guardian-category-full {
   grid-column: 1 / -1;
@@ -16,35 +16,35 @@
 .guardian-feng-shui-list {
   margin: 0;
   padding-left: 20px;
-  font-size: 0.95rem;
+  font-size: var(--fs-base);
   opacity: 0.9;
   line-height: 1.5;
 }
 
 
 .guardian-tradition {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   line-height: 1.6;
-  color: rgba(252, 227, 182, 0.55);
+  color: rgba(var(--cream-rgb), 0.55);
   font-style: italic;
   text-align: center;
-  margin: -6px 0 18px;
+  margin: -8px 0 16px;
 }
 
 .guardian-side-note {
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   line-height: 1.6;
-  color: rgba(252, 227, 182, 0.5);
-  margin: 0 0 10px;
+  color: rgba(var(--cream-rgb), 0.5);
+  margin: 0 0 8px;
   padding-bottom: 8px;
-  border-bottom: 1px dashed rgba(255, 215, 0, 0.15);
+  border-bottom: 1px dashed rgba(var(--gold-rgb), 0.15);
 }
 
 .guardian-meta-note {
   display: block;
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   line-height: 1.5;
-  color: rgba(252, 227, 182, 0.45);
+  color: rgba(var(--cream-rgb), 0.45);
   margin-top: 4px;
 }
 

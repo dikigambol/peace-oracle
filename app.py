@@ -15,6 +15,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 from flask import Flask, render_template
+from core.web import init_app
 from modules.zodiak.routes import zodiak_bp
 from modules.shio.routes import shio_bp
 from modules.weton.routes import weton_bp
@@ -28,6 +29,7 @@ app.register_blueprint(zodiak_bp)
 app.register_blueprint(shio_bp)
 app.register_blueprint(weton_bp)
 app.register_blueprint(tarot_bp)
+init_app(app)
 
 @app.route("/")
 def home():

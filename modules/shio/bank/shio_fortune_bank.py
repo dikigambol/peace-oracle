@@ -1247,6 +1247,83 @@ LIFE_PHASE_BANK = {
 }
 
 
+CHART_RELATION_BANK = {
+    "chong": {
+        "hanzi": "六沖",
+        "title": "Bentrokan di Dalam Diri",
+        "code": "bad",
+        "note": "Dua bagian hidupmu saling tarik ke arah berlawanan. Yang satu maju, yang lain otomatis menahan.",
+        "advice": "Jangan paksa dua hal ini jalan bersamaan. Beri giliran, satu fase untuk masing-masing.",
+    },
+    "liu_he": {
+        "hanzi": "六合",
+        "title": "Dua Pilar Saling Mengunci",
+        "code": "good",
+        "note": "Dua bagian hidupmu saling mendukung dan gampang sepakat. Kadang terlalu lengket sampai susah dipisah.",
+        "advice": "Manfaatkan kekompakannya, tapi cek sesekali apakah kamu masih bebas memilih.",
+    },
+    "san_he": {
+        "hanzi": "半合",
+        "title": "Setengah Harmoni",
+        "code": "good",
+        "note": "Dua dari tiga cabang satu kelompok hadir. Energinya searah, tinggal satu kepingan lagi untuk utuh.",
+        "advice": "Tahun atau periode yang membawa cabang ketiganya biasanya terasa lebih lancar untukmu.",
+    },
+    "xiang_xing": {
+        "hanzi": "相刑",
+        "title": "Pelajaran yang Berulang",
+        "code": "bad",
+        "note": "Ada gesekan yang muncul lagi dan lagi di antara dua bagian hidup ini, sampai kamu mau belajar darinya.",
+        "advice": "Catat polanya. Yang sudah dikenali biasanya berhenti mengejutkan.",
+    },
+    "liu_hai": {
+        "hanzi": "六害",
+        "title": "Luka yang Diam-Diam",
+        "code": "bad",
+        "note": "Tidak meledak, tapi pelan-pelan menggerus. Niat baik di satu sisi sering terbaca salah di sisi lain.",
+        "advice": "Sebut maksudmu dengan jelas di area ini. Jangan andalkan orang menebak niatmu.",
+    },
+    "liu_po": {
+        "hanzi": "六破",
+        "title": "Kesepakatan yang Rapuh",
+        "code": "bad",
+        "note": "Rencana yang menghubungkan dua bagian hidup ini gampang bergeser sebelum sempat selesai.",
+        "advice": "Tulis hal penting di area ini. Yang hanya diingat biasanya berubah sendiri.",
+    },
+    "zi_xing": {
+        "hanzi": "自刑",
+        "title": "Terlalu Keras ke Diri Sendiri",
+        "code": "bad",
+        "note": "Cabang yang sama muncul dua kali. Standarmu di area ini tinggi, dan yang paling sering kena hukumannya kamu sendiri.",
+        "advice": "Beri dirimu kelonggaran yang sama dengan yang kamu beri ke orang lain.",
+    },
+    "triad": {
+        "hanzi": "三合局",
+        "title": "Tiga Harmoni Lengkap",
+        "code": "good",
+        "note": "Ketiga cabang satu kelompok hadir di chart-mu. Elemennya jadi sangat kuat dan bisa mewarnai seluruh bacaan.",
+        "advice": "Ini sumber tenaga terbesarmu. Arahkan dengan sadar supaya tidak menenggelamkan sisi lain.",
+    },
+}
+
+CHART_RELATION_REACH = {
+    "adjacent": {
+        "label": "Berdampingan",
+        "note": "Pilarnya bersebelahan, jadi pengaruhnya kuat.",
+    },
+    "distant": {
+        "label": "Berjauhan",
+        "note": "Pilarnya berjarak, jadi pengaruhnya lebih samar.",
+    },
+}
+
+CHART_RELATION_CLASH_NOTE = (
+    "Bentrokan yang bersebelahan mengurangi separuh bobot kedua cabangnya "
+    "dalam hitungan Kekuatan Diri di atas."
+)
+
+SAN_HE_ELEMENT = {"shen": "air", "yin": "api", "si": "logam", "hai": "kayu"}
+
 PILLAR_POSITION_BANK = {
     "year": {
         "hanzi": "年柱",

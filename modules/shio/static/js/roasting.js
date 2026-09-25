@@ -21,30 +21,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const rerollBtn = document.getElementById("roast-reroll");
   const rerollCount = document.getElementById("roast-reroll-count");
   let current = null;
-  let lastVariant = -1;
+  let drawCount = 0;
 
-  function pickVariant(total) {
-    if (total < 2) return 0;
-    let index = lastVariant;
-    while (index === lastVariant) {
-      index = Math.floor(Math.random() * total);
-    }
-    lastVariant = index;
-    return index;
+  const recentPicks = {};
+
+  function historyLimit(poolSize) {
+    return Math.max(1, Math.min(poolSize - 1, Math.floor(poolSize / 2)));
   }
-
-  const lastPick = {};
 
   function pickFrom(key, pool) {
     if (!Array.isArray(pool) || !pool.length) return "-";
     if (pool.length === 1) return pool[0];
-    let index = lastPick[key];
-    const sebelumnya = index;
-    while (index === sebelumnya) {
-      index = Math.floor(Math.random() * pool.length);
+    const seen = recentPicks[key] || (recentPicks[key] = []);
+    const limit = historyLimit(pool.length);
+    const available = [];
+    for (let i = 0; i < pool.length; i++) {
+      if (seen.indexOf(i) === -1) available.push(i);
     }
-    lastPick[key] = index;
+    const source = available.length ? available : pool.map((_, i) => i);
+    const index = source[Math.floor(Math.random() * source.length)];
+    seen.push(index);
+    while (seen.length > limit) seen.shift();
     return pool[index];
+  }
+
+  function resetPickHistory() {
+    Object.keys(recentPicks).forEach((key) => delete recentPicks[key]);
+    drawCount = 0;
   }
 
   function drawTraits(pool, count) {
@@ -58,14 +61,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderRoast(shioKey) {
     const data = current;
-    const variants = data.variants || [];
-    const variant = variants[pickVariant(variants.length)] || {};
     const pool = Array.isArray(data.toxic_traits) ? data.toxic_traits : [];
     const traits = drawTraits(pool, data.traits_per_draw || 8);
+    drawCount += 1;
 
     document.getElementById("r-hanzi").textContent = SHIO_HANZI[shioKey] || "";
     document.getElementById("r-shio-name").textContent = data.shio_name || "";
-    document.getElementById("r-headline").textContent = variant.headline || "";
+    document.getElementById("r-headline").textContent = pickFrom(
+      "headline",
+      data.headlines
+    );
 
     const traitsList = document.getElementById("r-toxic-traits");
     while (traitsList.firstChild) traitsList.removeChild(traitsList.firstChild);
@@ -83,22 +88,24 @@ document.addEventListener("DOMContentLoaded", () => {
       "flag",
       data.love_red_flags
     );
-    document.getElementById("r-catchphrase").textContent =
-      variant.catchphrase || "";
+    document.getElementById("r-catchphrase").textContent = pickFrom(
+      "catchphrase",
+      data.catchphrases
+    );
     document.getElementById("r-secret-weakness").textContent = pickFrom(
       "weak",
       data.secret_weaknesses
     );
-    document.getElementById("r-survival-tip").textContent =
-      variant.survival_tip || "-";
-
-    rerollCount.textContent = variants.length
-      ? "versi " + (lastVariant + 1) + " dari " + variants.length
-      : "";
-    rerollBtn.classList.toggle(
-      "hidden",
-      variants.length < 2 && pool.length <= (data.traits_per_draw || 8)
+    document.getElementById("r-survival-tip").textContent = pickFrom(
+      "tip",
+      data.survival_tips
     );
+
+    const combinations = data.combination_count || 0;
+    rerollCount.textContent = combinations
+      ? "racikan ke-" + drawCount + " dari " + combinations.toLocaleString("id-ID")
+      : "";
+    rerollBtn.classList.toggle("hidden", combinations < 2);
   }
 
   if (rerollBtn) {
@@ -161,15 +168,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function fetchPairRoast(partnerKey) {
     if (!current || !current.shioKey) return;
-    fetch("/api/shio/roasting", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shio: current.shioKey, pasangan: partnerKey }),
-    })
-      .then((res) => res.json())
+    window
+      .fetchJson("/api/shio/roasting", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ shio: current.shioKey, pasangan: partnerKey }),
+      })
       .then((data) => renderPairRoast(data.pair_roast))
-      .catch(() => {
-        alert("Gagal memuat roasting pasangan. Coba lagi.");
+      .catch((err) => {
+        console.error("Gagal memuat roasting pasangan:", err);
+        window.showErrorToast(err && err.message);
       });
   }
 
@@ -277,8 +285,8 @@ document.addEventListener("DOMContentLoaded", () => {
     chartBox.classList.add("roast-flash");
   }
 
-  if (window.flatpickr && dmDate) {
-    flatpickr(dmDate, {
+  if (dmDate) {
+    window.initDatePicker("#" + dmDate.id, {
       dateFormat: "Y-m-d",
       altInput: true,
       altFormat: "j F Y",
@@ -289,12 +297,6 @@ document.addEventListener("DOMContentLoaded", () => {
         dmValue = str || null;
         updateSubmitState();
       },
-    });
-  } else if (dmDate) {
-    dmDate.removeAttribute("readonly");
-    dmDate.addEventListener("change", () => {
-      dmValue = dmDate.value || null;
-      updateSubmitState();
     });
   }
 
@@ -341,21 +343,22 @@ document.addEventListener("DOMContentLoaded", () => {
     roastCard.classList.add("hidden");
     rerollBtn.classList.add("hidden");
     switchView("result");
-    fetch("/api/shio/roasting", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tanggal: dmValue, gender: genderValue }),
-    })
-      .then((res) => res.json())
+    window.setButtonLoading(submitBtn, true, "Menyalakan api...");
+    window
+      .fetchJson("/api/shio/roasting", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tanggal: dmValue, gender: genderValue }),
+      })
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          window.showErrorToast(data.error);
           switchView("shioList");
           return;
         }
         current = data;
         current.shioKey = data.chart_roast.shio_key;
-        lastVariant = -1;
+        resetPickHistory();
         renderRoast(current.shioKey);
         renderChartRoast(data.chart_roast);
         roastCard.classList.remove("hidden");
@@ -365,8 +368,11 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((err) => {
         console.error("Gagal mendapatkan data roasting:", err);
-        alert("Terjadi gangguan energi kosmik. Silakan coba lagi.");
+        window.showErrorToast(err && err.message);
         switchView("shioList");
+      })
+      .finally(() => {
+        window.setButtonLoading(submitBtn, false, null, !dmValue);
       });
   }
   buildPairPicker();
@@ -433,9 +439,15 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.fill();
       }
     }
+    let running = false;
     function createEmbers(x, y, count) {
+      if (window.prefersReducedMotion()) return;
       for (let i = 0; i < count; i++) {
         particles.push(new Ember(x, y));
+      }
+      if (!running) {
+        running = true;
+        requestAnimationFrame(animate);
       }
     }
     function animate() {
@@ -450,9 +462,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
       ctx.globalCompositeOperation = "source-over";
-      requestAnimationFrame(animate);
+      if (particles.length) {
+        requestAnimationFrame(animate);
+      } else {
+        running = false;
+      }
     }
-    animate();
     let isDragging = false;
     const shioBg = document.getElementById("shio-bg");
     if (shioBg) {

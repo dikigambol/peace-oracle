@@ -716,7 +716,7 @@ SHIO_YEARLY_BANK = {
     ("monyet", "kuda"): {
         "karir": "Dinamika tahun Kuda memacu Monyet untuk berlari lebih kencang mengejar ambisi yang tertunda. Banyak perjalanan bisnis atau perpindahan yang akan membawa perspektif baru dalam karir. Adaptasi yang cepat terhadap perubahan akan menjadi kunci kesuksesanmu.",
         "keuangan": "Perputaran uang sangat cepat; pendapatan meningkat, namun godaan untuk berbelanja juga besar. Rencanakan anggaran dengan cermat agar hasil jerih payah tidak menguap begitu saja. Peluang bagus muncul dari sektor yang melibatkan perjalanan atau logistik.",
-        "asmara": "Kehidupan sosial yang sibuk membuatmu bertemu dengan banyak karakter menarik. Bagi yang berpasangan, ren পুনরায় liburan bersama untuk menjaga api asmara tetap menyala. Jangan biarkan jarak atau kesibukan mendinginkan kehangatan hati.",
+        "asmara": "Kehidupan sosial yang sibuk membuatmu bertemu dengan banyak karakter menarik. Bagi yang berpasangan, rencanakan liburan bersama untuk menjaga api asmara tetap menyala. Jangan biarkan jarak atau kesibukan mendinginkan kehangatan hati.",
         "kesehatan": "Kecepatan tahun ini bisa membuatmu kehabisan napas dan rentan terhadap kelelahan kronis. Pastikan ada jeda di antara jadwal padat untuk memulihkan energi fisik dan mental. Jaga hidrasi tubuh dan konsumsi vitamin untuk menjaga stamina.",
         "saran_utama": "Pacu kudamu dengan keberanian, namun jangan lupakan kendali kebijaksanaan di tanganmu.",
     },

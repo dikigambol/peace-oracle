@@ -39,7 +39,13 @@
     return originalFetch.call(this, url, options);
   };
 })();
-window.showAiQuotaToast = function (message) {
+const TOAST_ICONS = {
+  quota: "fa-solid fa-lock",
+  error: "fa-solid fa-triangle-exclamation",
+  info: "fa-solid fa-circle-info",
+};
+
+window.showToast = function (message, variant) {
   if (!message) return;
   let toast = document.getElementById("ai-quota-toast");
   if (toast) toast.remove();
@@ -47,10 +53,13 @@ window.showAiQuotaToast = function (message) {
   toast.id = "ai-quota-toast";
   const card = document.createElement("div");
   card.className = "ai-quota-toast-card";
+  if (variant && variant !== "quota") {
+    card.classList.add("toast-" + variant);
+  }
   const icon = document.createElement("div");
   icon.className = "ai-quota-toast-icon";
   const lock = document.createElement("i");
-  lock.className = "fa-solid fa-lock";
+  lock.className = TOAST_ICONS[variant] || TOAST_ICONS.quota;
   icon.appendChild(lock);
   const msg = document.createElement("div");
   msg.className = "ai-quota-toast-msg";
@@ -72,6 +81,74 @@ window.showAiQuotaToast = function (message) {
     }
   }, 7000);
 };
+
+window.showAiQuotaToast = function (message) {
+  window.showToast(message, "quota");
+};
+
+window.prefersReducedMotion = function () {
+  return Boolean(
+    window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+};
+
+window.showErrorToast = function (message) {
+  window.showToast(message || "Energi kosmiknya lagi terganggu. Coba lagi ya.", "error");
+};
+
+window.initDatePicker = function (selector, options) {
+  const input = document.querySelector(selector);
+  if (!input) return;
+  if (typeof window.flatpickr !== "function") {
+    input.removeAttribute("readonly");
+    input.type = "date";
+    if (options && typeof options.onChange === "function") {
+      input.addEventListener("change", () => {
+        options.onChange([], input.value);
+      });
+    }
+    return;
+  }
+  window.flatpickr(input, options || {});
+};
+
+window.fetchJson = async function (url, options) {
+  const res = await fetch(url, options);
+  let payload = null;
+  try {
+    payload = await res.json();
+  } catch (e) {
+    throw new Error("Jawaban server tidak terbaca (status " + res.status + ").");
+  }
+  if (!res.ok) {
+    throw new Error(
+      (payload && payload.error) || "Server menolak permintaan (status " + res.status + ")."
+    );
+  }
+  return payload;
+};
+
+window.setButtonLoading = function (button, isLoading, labelWhenLoading, disabledAfter) {
+  if (!button) return;
+  if (isLoading) {
+    if (!button.dataset.idleHtml) {
+      button.dataset.idleHtml = button.innerHTML;
+    }
+    button.disabled = true;
+    button.classList.add("loading");
+    button.innerHTML =
+      '<i class="fa-solid fa-circle-notch fa-spin"></i> ' +
+      (labelWhenLoading || "Membaca energi...");
+  } else {
+    button.disabled = Boolean(disabledAfter);
+    button.classList.remove("loading");
+    if (button.dataset.idleHtml) {
+      button.innerHTML = button.dataset.idleHtml;
+    }
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("load", () => {
     setTimeout(() => {

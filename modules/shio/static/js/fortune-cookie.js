@@ -87,15 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const stage = document.getElementById("cookie-stage");
       if (stage) stage.scrollIntoView({ behavior: "smooth", block: "center" });
     }, 100);
-    fetch("/api/shio/fortune-cookie", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shio: shioKey }),
-    })
-      .then((res) => res.json())
+    window
+      .fetchJson("/api/shio/fortune-cookie", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ shio: shioKey }),
+      })
       .then((data) => {
         if (data.error) {
-          alert(data.error);
+          window.showErrorToast(data.error);
           switchView("shioList");
           return;
         }
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .catch((err) => {
         console.error("Gagal mengambil kue keberuntungan:", err);
-        alert("Terjadi gangguan energi kosmik. Silakan coba lagi.");
+        window.showErrorToast(err && err.message);
         switchView("shioList");
       });
   }
@@ -232,11 +232,18 @@ document.addEventListener("DOMContentLoaded", () => {
         ctx.restore();
       }
     }
-    burstCrumbs = (x, y) => {
-      for (let i = 0; i < 45; i++) {
+    let running = false;
+    function addCrumbs(x, y, count) {
+      if (window.prefersReducedMotion()) return;
+      for (let i = 0; i < count; i++) {
         particles.push(new Crumb(x, y));
       }
-    };
+      if (!running) {
+        running = true;
+        requestAnimationFrame(animate);
+      }
+    }
+    burstCrumbs = (x, y) => addCrumbs(x, y, 45);
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let i = 0; i < particles.length; i++) {
@@ -247,24 +254,21 @@ document.addEventListener("DOMContentLoaded", () => {
           i--;
         }
       }
-      requestAnimationFrame(animate);
+      if (particles.length) {
+        requestAnimationFrame(animate);
+      } else {
+        running = false;
+      }
     }
-    animate();
     let isDragging = false;
     const shioBg = document.getElementById("shio-bg");
     if (shioBg) {
       shioBg.addEventListener("mousedown", (e) => {
         isDragging = true;
-        for (let i = 0; i < 18; i++) {
-          particles.push(new Crumb(e.clientX, e.clientY));
-        }
+        addCrumbs(e.clientX, e.clientY, 18);
       });
       shioBg.addEventListener("mousemove", (e) => {
-        if (isDragging) {
-          for (let i = 0; i < 3; i++) {
-            particles.push(new Crumb(e.clientX, e.clientY));
-          }
-        }
+        if (isDragging) addCrumbs(e.clientX, e.clientY, 3);
       });
       window.addEventListener("mouseup", () => {
         isDragging = false;
@@ -272,16 +276,12 @@ document.addEventListener("DOMContentLoaded", () => {
       shioBg.addEventListener("touchstart", (e) => {
         isDragging = true;
         const touch = e.touches[0];
-        for (let i = 0; i < 18; i++) {
-          particles.push(new Crumb(touch.clientX, touch.clientY));
-        }
+        addCrumbs(touch.clientX, touch.clientY, 18);
       });
       shioBg.addEventListener("touchmove", (e) => {
         if (isDragging) {
           const touch = e.touches[0];
-          for (let i = 0; i < 3; i++) {
-            particles.push(new Crumb(touch.clientX, touch.clientY));
-          }
+          addCrumbs(touch.clientX, touch.clientY, 3);
         }
       });
       window.addEventListener("touchend", () => {

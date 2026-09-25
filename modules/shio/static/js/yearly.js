@@ -73,15 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
         viewResult.classList.add('active');
         yearlyCard.classList.add('hidden');
 
-        fetch('/api/shio/yearly', {
+        window.setButtonLoading(btnCheck, true, 'Meneropong tahun...');
+        window.fetchJson('/api/shio/yearly', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ shio: shio, year: year })
         })
-        .then(res => res.json())
         .then(data => {
             if (data.error && !data.user_shio) {
-                alert(data.error);
+                window.showErrorToast(data.error);
                 backBtn.click();
                 return;
             }
@@ -135,97 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(err => {
             console.error('Gagal memuat proyeksi:', err);
-            alert('Terjadi gangguan energi kosmik. Silakan coba lagi.');
+            window.showErrorToast(err && err.message);
             backBtn.click();
+        })
+        .finally(() => {
+            window.setButtonLoading(btnCheck, false, null, !selectedShio);
         });
     }
-
-  const canvas = document.getElementById('particle-canvas');
-  if (canvas) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-    class Particle {
-      constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.size = Math.random() * 5 + 2;
-        this.speedX = Math.random() * 6 - 3;
-        this.speedY = Math.random() * 6 - 3;
-        this.color = Math.random() > 0.5 ? '#ffd700' : '#ff4500';
-        this.life = 1.0;
-        this.decay = Math.random() * 0.02 + 0.02;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.life -= this.decay;
-      }
-      draw() {
-        ctx.globalAlpha = this.life;
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1.0;
-      }
-    }
-    function createParticles(x, y) {
-      for (let i = 0; i < 30; i++) {
-        particles.push(new Particle(x, y));
-      }
-    }
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let i = 0; i < particles.length; i++) {
-        particles[i].update();
-        particles[i].draw();
-        if (particles[i].life <= 0) {
-          particles.splice(i, 1);
-          i--;
-        }
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-    let isDragging = false;
-    const shioBg = document.getElementById('shio-bg');
-    if (shioBg) {
-      shioBg.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        createParticles(e.clientX, e.clientY);
-      });
-      shioBg.addEventListener('mousemove', (e) => {
-        if (isDragging) {
-          for (let i = 0; i < 5; i++) {
-            particles.push(new Particle(e.clientX, e.clientY));
-          }
-        }
-      });
-      window.addEventListener('mouseup', () => {
-        isDragging = false;
-      });
-      shioBg.addEventListener('touchstart', (e) => {
-        isDragging = true;
-        const touch = e.touches[0];
-        createParticles(touch.clientX, touch.clientY);
-      });
-      shioBg.addEventListener('touchmove', (e) => {
-        if (isDragging) {
-          const touch = e.touches[0];
-          for (let i = 0; i < 5; i++) {
-            particles.push(new Particle(touch.clientX, touch.clientY));
-          }
-        }
-      });
-      window.addEventListener('touchend', () => {
-        isDragging = false;
-      });
-    }
-  }
+  window.initBurstParticles();
 });

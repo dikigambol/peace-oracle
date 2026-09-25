@@ -1,7 +1,28 @@
-import os
-import requests
+import datetime
 import json
+import math
+import os
+
+import ephem
+import requests
 from .horoscope_bank import get_openrouter_api_key
+
+SIGN_ORDER = [
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
+]
+
+WIB_OFFSET = datetime.timedelta(hours=7)
 
 ROASTING_DATA = {
     "aries": {
@@ -194,6 +215,20 @@ def determine_zodiac(day, month):
         return "aquarius"
     else:
         return "pisces"
+
+
+def get_sun_longitude(moment_utc):
+    epoch = ephem.Date(moment_utc)
+    sun = ephem.Sun()
+    sun.compute(epoch)
+    apparent = ephem.Equatorial(sun.ra, sun.dec, epoch=epoch)
+    return math.degrees(float(ephem.Ecliptic(apparent, epoch=epoch).lon)) % 360
+
+
+def determine_zodiac_from_date(birth_date):
+    noon_wib = datetime.datetime(birth_date.year, birth_date.month, birth_date.day, 12)
+    longitude = get_sun_longitude(noon_wib - WIB_OFFSET)
+    return SIGN_ORDER[int(longitude // 30) % 12]
 
 
 def get_roast(sign_key, refresh=False):

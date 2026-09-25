@@ -2,13 +2,14 @@ import ephem
 import requests
 import datetime
 import hashlib
+import math
 from .horoscope_bank import (
     get_daily_horoscope,
     get_daily_youtube_track,
     get_ai_compatibility_modes,
 )
 from .roasting_bank import (
-    determine_zodiac,
+    determine_zodiac_from_date,
     get_ai_roast,
     get_ai_relationship_roast,
 )
@@ -603,19 +604,76 @@ def get_planet_object(planet_name):
     return planets.get(planet_name)
 
 
-def get_moon_phase_label(illumination_pct):
-    if illumination_pct < 5:
-        return ("Bulan Baru", "🌑")
-    elif illumination_pct < 35:
-        return ("Bulan Sabit Awal", "🌒")
-    elif illumination_pct < 65:
-        return ("Bulan Separuh", "🌓")
-    elif illumination_pct < 90:
-        return ("Bulan Cembung", "🌔")
-    elif illumination_pct >= 90:
-        return ("Bulan Purnama", "🌕")
-    else:
-        return ("Bulan Cembung Akhir", "🌖")
+MOON_PHASES = [
+    ("Bulan Baru", "🌑"),
+    ("Bulan Sabit Awal", "🌒"),
+    ("Bulan Separuh Awal", "🌓"),
+    ("Bulan Cembung Awal", "🌔"),
+    ("Bulan Purnama", "🌕"),
+    ("Bulan Cembung Akhir", "🌖"),
+    ("Bulan Separuh Akhir", "🌗"),
+    ("Bulan Sabit Akhir", "🌘"),
+]
+
+WIB = datetime.timezone(datetime.timedelta(hours=7))
+
+INDONESIAN_MONTHS = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+]
+
+RETROGRADE_PLANETS = ["mercury", "venus", "mars", "jupiter", "saturn"]
+
+
+def get_moon_phase_label(elongation):
+    index = int(((elongation % 360) + 22.5) // 45) % 8
+    return MOON_PHASES[index]
+
+
+def get_geocentric_longitude(body):
+    return math.degrees(float(ephem.Ecliptic(body).lon))
+
+
+def get_longitude_at(planet_name, moment):
+    body = get_planet_object(planet_name)
+    body.compute(moment)
+    return get_geocentric_longitude(body)
+
+
+def format_indonesian_date(target):
+    return f"{target.day:02d} {INDONESIAN_MONTHS[target.month - 1]} {target.year}"
+
+
+def describe_sky(moment):
+    moon = ephem.Moon(moment)
+    elongation = (get_longitude_at("moon", moment) - get_longitude_at("sun", moment)) % 360
+    moon_phase_label, moon_emoji = get_moon_phase_label(elongation)
+    planet_status = {}
+    for pname in RETROGRADE_PLANETS:
+        today = get_longitude_at(pname, moment)
+        yesterday = get_longitude_at(pname, ephem.Date(moment - 1))
+        is_retrograde = (today - yesterday + 180) % 360 - 180 < 0
+        planet_status[pname] = {
+            "is_retrograde": is_retrograde,
+            "label": "⬅️ Retrograde" if is_retrograde else "✅ Langsung",
+        }
+    return {
+        "moon_phase": moon_phase_label,
+        "moon_emoji": moon_emoji,
+        "moon_illumination": round(moon.phase, 1),
+        "moon_elongation": round(elongation, 1),
+        "planet_status": planet_status,
+    }
 
 
 def get_weather_label(wmo_code, temp_c):
@@ -639,28 +697,10 @@ def get_weather_label(wmo_code, temp_c):
     return f"{emoji} {label}, {temp_c:.0f}°C"
 
 
-def get_cosmic_context():
-    now = ephem.now()
-    today_str = datetime.date.today().strftime("%d %B %Y")
-    moon = ephem.Moon(now)
-    moon_illumination = moon.phase
-    moon_phase_label, moon_emoji = get_moon_phase_label(moon_illumination)
-    planet_status = {}
-    planet_names = ["mercury", "venus", "mars", "jupiter", "saturn"]
-    for pname in planet_names:
-        planet = get_planet_object(pname)
-        planet.compute(now)
-        try:
-            prev = get_planet_object(pname)
-            prev.compute(ephem.date(now - 1))
-            delta_elong = float(planet.hlong) - float(prev.hlong)
-            is_retrograde = delta_elong < 0
-        except Exception:
-            is_retrograde = False
-        planet_status[pname] = {
-            "is_retrograde": is_retrograde,
-            "label": "⬅️ Retrograde" if is_retrograde else "✅ Langsung",
-        }
+def get_cosmic_context(now_utc=None):
+    now_utc = now_utc or datetime.datetime.now(datetime.timezone.utc)
+    today_str = format_indonesian_date(now_utc.astimezone(WIB).date())
+    sky = describe_sky(ephem.Date(now_utc.astimezone(datetime.timezone.utc).replace(tzinfo=None)))
     weather_label = "Tidak tersedia"
     weather_code = -1
     temperature = 0.0
@@ -684,10 +724,7 @@ def get_cosmic_context():
         weather_label = "🌤️ Data cuaca tidak tersedia"
     return {
         "date": today_str,
-        "moon_phase": moon_phase_label,
-        "moon_emoji": moon_emoji,
-        "moon_illumination": round(moon_illumination, 1),
-        "planet_status": planet_status,
+        **sky,
         "weather": weather_label,
         "weather_code": weather_code,
         "temperature": temperature,

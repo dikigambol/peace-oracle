@@ -1,9 +1,9 @@
 .destiny-school {
-  font-family: "Cinzel", serif;
-  color: rgba(255, 215, 0, 0.75);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: rgba(var(--gold-rgb), 0.75);
   letter-spacing: 1px;
-  margin: -20px 0 25px;
-  font-size: 0.9rem;
+  margin: -20px 0 24px;
+  font-size: var(--fs-sm);
 }
 
 .destiny-form {
@@ -11,39 +11,39 @@
   margin: 0 auto;
   text-align: left;
   background: linear-gradient(145deg, rgba(30, 8, 8, 0.7), rgba(0, 0, 0, 0.8));
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-radius: 16px;
+  border: 1px solid rgba(var(--gold-rgb), 0.2);
+  border-radius: var(--radius-md);
   padding: 28px 24px;
   backdrop-filter: blur(10px);
   box-sizing: border-box;
 }
 
 .destiny-field {
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .destiny-field > label {
   display: block;
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.9rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-sm);
   margin-bottom: 8px;
   letter-spacing: 0.5px;
 }
 
 .destiny-optional {
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.72rem;
-  color: rgba(252, 227, 182, 0.5);
+  font-size: var(--fs-2xs);
+  color: rgba(var(--cream-rgb), 0.5);
   letter-spacing: 0;
   text-transform: lowercase;
 }
 
 .destiny-hint {
   display: block;
-  margin-top: 6px;
-  font-size: 0.75rem;
-  color: rgba(252, 227, 182, 0.55);
+  margin-top: 8px;
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.55);
   line-height: 1.5;
 }
 
@@ -56,7 +56,7 @@
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(255, 215, 0, 0.6);
+  color: rgba(var(--gold-rgb), 0.6);
   pointer-events: none;
 }
 
@@ -64,12 +64,12 @@
 .destiny-form select {
   width: 100%;
   background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  border-radius: 10px;
-  color: #fce3b6;
-  padding: 12px 14px;
+  border: 1px solid rgba(var(--gold-rgb), 0.25);
+  border-radius: var(--radius-md);
+  color: var(--cream);
+  padding: 12px 16px;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: var(--fs-base);
   outline: none;
   transition: border-color 0.3s;
   box-sizing: border-box;
@@ -85,12 +85,12 @@
 }
 
 #destiny-city::placeholder {
-  color: rgba(252, 227, 182, 0.4);
+  color: rgba(var(--cream-rgb), 0.4);
 }
 
 .destiny-form input[type="text"]:focus,
 .destiny-form select:focus {
-  border-color: rgba(255, 215, 0, 0.6);
+  border-color: rgba(var(--gold-rgb), 0.6);
 }
 
 .destiny-form select:disabled {
@@ -100,13 +100,13 @@
 
 .destiny-form option {
   background: #1a0505;
-  color: #fce3b6;
+  color: var(--cream);
 }
 
 .destiny-clock {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .destiny-clock select {
@@ -115,8 +115,8 @@
 }
 
 .destiny-colon {
-  color: rgba(255, 215, 0, 0.6);
-  font-size: 1.2rem;
+  color: rgba(var(--gold-rgb), 0.6);
+  font-size: var(--fs-md);
 }
 
 .destiny-gender {
@@ -127,37 +127,37 @@
 .destiny-gender-btn {
   flex: 1;
   background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  border-radius: 10px;
-  color: #fce3b6;
+  border: 1px solid rgba(var(--gold-rgb), 0.25);
+  border-radius: var(--radius-md);
+  color: var(--cream);
   padding: 12px;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: var(--fs-sm);
   cursor: pointer;
   transition: all 0.3s;
   box-sizing: border-box;
 }
 
 .destiny-gender-btn:hover {
-  border-color: rgba(255, 215, 0, 0.5);
+  border-color: rgba(var(--gold-rgb), 0.5);
 }
 
 .destiny-gender-btn.selected {
-  background: rgba(255, 215, 0, 0.12);
-  border-color: #ffd700;
-  color: #ffd700;
+  background: rgba(var(--gold-rgb), 0.12);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 .destiny-submit {
   width: 100%;
-  background: linear-gradient(135deg, #8b0000, #b8860b);
+  background: linear-gradient(135deg, var(--blood), var(--gold-deep));
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   color: #fff7e0;
-  font-family: "Cinzel", serif;
-  font-size: 1rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-base);
   letter-spacing: 1px;
-  padding: 14px;
+  padding: 16px;
   cursor: pointer;
   transition: opacity 0.3s, transform 0.2s;
   box-sizing: border-box;
@@ -178,9 +178,9 @@
 }
 
 .destiny-error {
-  margin-top: 14px;
-  color: #ff8a80;
-  font-size: 0.85rem;
+  margin-top: 16px;
+  color: var(--danger);
+  font-size: var(--fs-sm);
   text-align: center;
 }
 
@@ -188,42 +188,42 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 30px;
+  margin-bottom: 32px;
   text-align: left;
 }
 
 .destiny-notice {
   display: flex;
-  gap: 14px;
+  gap: 16px;
   align-items: flex-start;
-  border-radius: 12px;
-  padding: 16px 18px;
-  border: 1px solid rgba(255, 215, 0, 0.18);
+  border-radius: var(--radius-md);
+  padding: 16px 16px;
+  border: 1px solid rgba(var(--gold-rgb), 0.18);
   background: rgba(0, 0, 0, 0.45);
 }
 
 .destiny-notice-warn {
-  border-color: rgba(255, 140, 0, 0.35);
+  border-color: rgba(var(--amber-rgb), 0.35);
   background: rgba(40, 18, 0, 0.5);
 }
 
 .destiny-notice-icon {
-  font-size: 1.3rem;
+  font-size: var(--fs-md);
   line-height: 1.2;
 }
 
 .destiny-notice strong {
   display: block;
-  color: #ffd700;
-  font-family: "Cinzel", serif;
-  font-size: 0.92rem;
+  color: var(--gold);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-sm);
   margin-bottom: 4px;
 }
 
 .destiny-notice-text {
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   line-height: 1.6;
-  color: rgba(252, 227, 182, 0.85);
+  color: rgba(var(--cream-rgb), 0.85);
   margin: 4px 0 0;
 }
 
@@ -235,9 +235,9 @@
 }
 
 .destiny-notice-columns h4 {
-  color: rgba(255, 215, 0, 0.8);
-  font-size: 0.8rem;
-  margin: 0 0 6px;
+  color: rgba(var(--gold-rgb), 0.8);
+  font-size: var(--fs-xs);
+  margin: 0 0 8px;
 }
 
 .destiny-block {
@@ -246,12 +246,12 @@
 }
 
 .destiny-heading {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 1.15rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-md);
   margin: 0 0 8px;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  border-bottom: 1px solid rgba(var(--gold-rgb), 0.2);
 }
 
 .destiny-heading i {
@@ -260,76 +260,76 @@
 }
 
 .destiny-note {
-  font-size: 0.8rem;
-  color: rgba(252, 227, 182, 0.6);
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.6);
   line-height: 1.6;
   margin: 0 0 16px;
 }
 
 .destiny-card {
   background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
-  border: 1px solid rgba(255, 215, 0, 0.18);
-  border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 14px;
+  border: 1px solid rgba(var(--gold-rgb), 0.18);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-bottom: 16px;
 }
 
 .destiny-text {
-  font-size: 0.92rem;
+  font-size: var(--fs-sm);
   line-height: 1.75;
-  color: rgba(252, 227, 182, 0.9);
+  color: rgba(var(--cream-rgb), 0.9);
   margin: 0 0 12px;
 }
 
 .destiny-text-small {
-  font-size: 0.84rem;
+  font-size: var(--fs-xs);
   line-height: 1.7;
 }
 
 .destiny-text-accent {
-  color: #ffd700;
+  color: var(--gold);
 }
 
 .destiny-text-warn {
-  color: #ffab70;
+  color: var(--apricot);
 }
 
 .destiny-text-muted {
-  color: rgba(252, 227, 182, 0.5);
+  color: rgba(var(--cream-rgb), 0.5);
   font-style: italic;
 }
 
 .destiny-list {
   margin: 0 0 12px;
   padding-left: 20px;
-  font-size: 0.85rem;
+  font-size: var(--fs-sm);
   line-height: 1.8;
-  color: rgba(252, 227, 182, 0.85);
+  color: rgba(var(--cream-rgb), 0.85);
 }
 
 .destiny-list-ok li::marker {
-  color: #7fd67f;
+  color: var(--success);
 }
 
 .destiny-list-off li::marker {
-  color: #ff8a80;
+  color: var(--danger);
 }
 
 .destiny-list-plain li::marker {
-  color: rgba(255, 215, 0, 0.6);
+  color: rgba(var(--gold-rgb), 0.6);
 }
 
 .destiny-two-col {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
+  gap: 16px;
   margin-top: 8px;
 }
 
 .destiny-two-col h4 {
-  font-family: "Cinzel", serif;
-  color: rgba(255, 215, 0, 0.85);
-  font-size: 0.85rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: rgba(var(--gold-rgb), 0.85);
+  font-size: var(--fs-sm);
   margin: 0 0 8px;
 }
 
@@ -337,19 +337,19 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  font-size: 0.82rem;
-  padding: 6px 0;
-  border-bottom: 1px dashed rgba(255, 215, 0, 0.12);
+  font-size: var(--fs-xs);
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(var(--gold-rgb), 0.12);
   margin: 0;
 }
 
 .destiny-kv-label {
-  color: rgba(252, 227, 182, 0.6);
+  color: rgba(var(--cream-rgb), 0.6);
   white-space: nowrap;
 }
 
 .destiny-kv-value {
-  color: #fce3b6;
+  color: var(--cream);
   text-align: right;
 }
 
@@ -363,22 +363,22 @@
   min-width: 420px;
   border-collapse: collapse;
   background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  border-radius: 12px;
+  border: 1px solid rgba(var(--gold-rgb), 0.2);
+  border-radius: var(--radius-md);
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .destiny-chart th,
 .destiny-chart td {
-  border: 1px solid rgba(255, 215, 0, 0.12);
+  border: 1px solid rgba(var(--gold-rgb), 0.12);
   padding: 12px 8px;
   text-align: center;
   vertical-align: middle;
 }
 
 .destiny-chart thead th {
-  background: rgba(255, 215, 0, 0.07);
+  background: rgba(var(--gold-rgb), 0.07);
 }
 
 .destiny-chart-corner {
@@ -387,9 +387,9 @@
 }
 
 .destiny-chart-rowhead {
-  font-family: "Cinzel", serif;
-  color: rgba(255, 215, 0, 0.7);
-  font-size: 0.85rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: rgba(var(--gold-rgb), 0.7);
+  font-size: var(--fs-sm);
   width: 104px;
 }
 
@@ -401,60 +401,60 @@
 .destiny-chart-rowhead-label {
   display: block;
   font-family: inherit;
-  font-size: 0.72rem;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.2px;
-  color: rgba(252, 227, 182, 0.6);
+  color: rgba(var(--cream-rgb), 0.6);
 }
 
 .destiny-chart-hanzi {
   display: block;
-  font-size: 1.9rem;
+  font-size: var(--fs-xl);
   line-height: 1.1;
-  color: #ffd700;
-  text-shadow: 0 0 18px rgba(255, 215, 0, 0.3);
+  color: var(--gold);
+  text-shadow: 0 0 18px rgba(var(--gold-rgb), 0.3);
 }
 
 .destiny-chart-hanzi-small {
   display: block;
-  font-size: 1.1rem;
-  color: #ffd700;
+  font-size: var(--fs-md);
+  color: var(--gold);
 }
 
 .destiny-chart-label {
   display: block;
-  font-size: 0.72rem;
-  color: rgba(252, 227, 182, 0.7);
+  font-size: var(--fs-2xs);
+  color: rgba(var(--cream-rgb), 0.7);
   margin-top: 2px;
 }
 
 .destiny-chart-sub {
   display: block;
-  font-size: 0.7rem;
-  color: rgba(252, 227, 182, 0.6);
+  font-size: var(--fs-2xs);
+  color: rgba(var(--cream-rgb), 0.6);
   margin-top: 4px;
 }
 
 .destiny-chart-god {
   display: block;
-  font-size: 0.72rem;
-  color: rgba(255, 215, 0, 0.75);
+  font-size: var(--fs-2xs);
+  color: rgba(var(--gold-rgb), 0.75);
   margin-top: 4px;
 }
 
 .destiny-hidden {
   display: block;
-  font-size: 0.75rem;
-  color: rgba(252, 227, 182, 0.8);
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.8);
   padding: 2px 0;
 }
 
 .destiny-hidden-hanzi {
-  color: #fce3b6;
-  margin-right: 6px;
+  color: var(--cream);
+  margin-right: 8px;
 }
 
 .destiny-hidden-god {
-  color: rgba(255, 215, 0, 0.6);
+  color: rgba(var(--gold-rgb), 0.6);
 }
 
 .destiny-positions {
@@ -477,20 +477,20 @@
   align-items: baseline;
   gap: 8px;
   flex-wrap: wrap;
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.9rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-sm);
   margin: 0 0 8px;
 }
 
 .destiny-position-hanzi {
-  font-size: 1.1rem;
+  font-size: var(--fs-md);
 }
 
 .destiny-position-age {
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 0.75rem;
-  color: rgba(252, 227, 182, 0.55);
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.55);
 }
 
 .destiny-dm-head,
@@ -506,34 +506,34 @@
 .destiny-dm-hanzi,
 .destiny-strength-hanzi,
 .destiny-luck-hanzi {
-  font-size: 2.4rem;
+  font-size: var(--fs-2xl);
   line-height: 1;
-  color: #ffd700;
-  text-shadow: 0 0 22px rgba(255, 215, 0, 0.35);
+  color: var(--gold);
+  text-shadow: 0 0 22px rgba(var(--gold-rgb), 0.35);
   flex-shrink: 0;
 }
 
 .destiny-luck-hanzi {
-  font-size: 1.8rem;
+  font-size: var(--fs-xl);
 }
 
 .destiny-dm-title {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 1.05rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
   margin: 0;
 }
 
 .destiny-dm-sub {
   display: block;
-  font-size: 0.78rem;
-  color: rgba(252, 227, 182, 0.6);
-  margin-top: 3px;
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.6);
+  margin-top: 4px;
 }
 
 .destiny-element {
-  padding: 16px 18px;
-  margin-bottom: 10px;
+  padding: 16px 16px;
+  margin-bottom: 8px;
 }
 
 .destiny-element-head {
@@ -544,74 +544,74 @@
 }
 
 .destiny-element-name {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.95rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
 }
 
 .destiny-element-score {
-  font-size: 0.8rem;
-  color: rgba(252, 227, 182, 0.65);
+  font-size: var(--fs-xs);
+  color: rgba(var(--cream-rgb), 0.65);
 }
 
 .destiny-bar {
   height: 7px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.07);
   overflow: hidden;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .destiny-bar-fill {
   height: 100%;
-  border-radius: 4px;
-  background: linear-gradient(90deg, #8b0000, #ffd700);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--blood), var(--gold));
   transition: width 0.6s ease;
 }
 
 .destiny-tags {
   display: flex;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   flex-wrap: wrap;
 }
 
 .destiny-tag {
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 3px 10px;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  color: rgba(252, 227, 182, 0.8);
+  padding: 4px 8px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  color: rgba(var(--cream-rgb), 0.8);
 }
 
 .destiny-tag-dominan {
-  border-color: rgba(255, 140, 0, 0.6);
-  color: #ffab70;
+  border-color: rgba(var(--amber-rgb), 0.6);
+  color: var(--apricot);
 }
 
 .destiny-tag-kosong {
-  border-color: rgba(255, 138, 128, 0.6);
-  color: #ff8a80;
+  border-color: rgba(var(--danger-rgb), 0.6);
+  color: var(--danger);
 }
 
 .destiny-tag-role-menguntungkan {
-  border-color: rgba(127, 214, 127, 0.6);
-  color: #7fd67f;
+  border-color: rgba(var(--success-rgb), 0.6);
+  color: var(--success);
 }
 
 .destiny-tag-role-merugikan {
-  border-color: rgba(255, 138, 128, 0.5);
-  color: #ff8a80;
+  border-color: rgba(var(--danger-rgb), 0.5);
+  color: var(--danger);
 }
 
 .destiny-role-menguntungkan {
-  border-left: 3px solid rgba(127, 214, 127, 0.6);
+  border-left: 3px solid rgba(var(--success-rgb), 0.6);
 }
 
 .destiny-role-merugikan {
-  border-left: 3px solid rgba(255, 138, 128, 0.5);
+  border-left: 3px solid rgba(var(--danger-rgb), 0.5);
 }
 
 .destiny-destiny-grid,
@@ -619,7 +619,7 @@
 .destiny-star-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .destiny-destiny-card,
@@ -629,102 +629,102 @@
 }
 
 .destiny-destiny-title {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.95rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
   margin: 0 0 12px;
 }
 
 .destiny-organ {
-  border-top: 1px dashed rgba(255, 215, 0, 0.15);
-  padding-top: 10px;
-  margin-top: 10px;
+  border-top: 1px dashed rgba(var(--gold-rgb), 0.15);
+  padding-top: 8px;
+  margin-top: 8px;
 }
 
 .destiny-organ strong {
   display: block;
-  color: #ffab70;
-  font-size: 0.82rem;
-  margin-bottom: 6px;
+  color: var(--apricot);
+  font-size: var(--fs-xs);
+  margin-bottom: 8px;
 }
 
 .destiny-star-icon {
-  font-size: 1.8rem;
+  font-size: var(--fs-xl);
   line-height: 1;
   flex-shrink: 0;
 }
 
 .destiny-star-title {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.95rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
   margin: 0;
 }
 
 .destiny-star-auspicious {
-  border-left: 3px solid rgba(255, 215, 0, 0.6);
+  border-left: 3px solid rgba(var(--gold-rgb), 0.6);
 }
 
 .destiny-star-neutral {
-  border-left: 3px solid rgba(252, 227, 182, 0.35);
+  border-left: 3px solid rgba(var(--cream-rgb), 0.35);
 }
 
 .destiny-star-inauspicious {
-  border-left: 3px solid rgba(255, 138, 128, 0.5);
+  border-left: 3px solid rgba(var(--danger-rgb), 0.5);
 }
 
 .destiny-luck-item {
-  padding: 18px;
+  padding: 16px;
 }
 
 .destiny-luck-title {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.95rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
   margin: 0;
 }
 
 .destiny-alter {
-  border: 1px dashed rgba(255, 215, 0, 0.2);
-  border-radius: 10px;
-  padding: 14px 16px;
+  border: 1px dashed rgba(var(--gold-rgb), 0.2);
+  border-radius: var(--radius-md);
+  padding: 16px 16px;
   margin: 16px 0;
 }
 
 .destiny-alter h4 {
-  font-family: "Cinzel", serif;
-  color: #ffd700;
-  font-size: 0.9rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-sm);
   margin: 0 0 8px;
 }
 
 .destiny-facts {
-  margin-top: 18px;
+  margin-top: 16px;
 }
 
 .destiny-disclaimer {
-  font-size: 0.78rem;
+  font-size: var(--fs-xs);
   line-height: 1.7;
-  color: rgba(252, 227, 182, 0.5);
+  color: rgba(var(--cream-rgb), 0.5);
   font-style: italic;
   text-align: center;
-  border-top: 1px solid rgba(255, 215, 0, 0.15);
-  padding-top: 18px;
-  margin-top: 10px;
+  border-top: 1px solid rgba(var(--gold-rgb), 0.15);
+  padding-top: 16px;
+  margin-top: 8px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .destiny-form {
-    padding: 22px 18px;
+    padding: 24px 16px;
   }
 
   .destiny-dm-hanzi,
   .destiny-strength-hanzi {
-    font-size: 2rem;
+    font-size: var(--fs-xl);
   }
 
   .destiny-chart-hanzi {
-    font-size: 1.6rem;
+    font-size: var(--fs-lg);
   }
 
   .destiny-kv {
@@ -759,4 +759,110 @@
 
 .destiny-block:nth-child(n + 5) {
   animation-delay: 0.33s;
+}
+
+.destiny-relation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.destiny-relation {
+  margin-bottom: 0;
+}
+
+.destiny-relation-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.destiny-relation-hanzi {
+  font-family: "Noto Serif TC", "Cinzel", serif;
+  font-size: var(--fs-lg);
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.destiny-relation-title {
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
+  margin: 0;
+}
+
+.destiny-relation-good {
+  border-left: 3px solid rgba(var(--success-rgb), 0.6);
+}
+
+.destiny-relation-bad {
+  border-left: 3px solid rgba(var(--danger-rgb), 0.6);
+}
+
+.destiny-relation-tag {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  color: var(--cream);
+  font-size: var(--fs-2xs);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.destiny-relation-tag.destiny-relation-adjacent {
+  border-color: rgba(var(--gold-rgb), 0.6);
+  color: var(--gold);
+}
+
+.destiny-chart-viewport {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.destiny-chart-viewport .destiny-chart-scroll {
+  margin-bottom: 0;
+}
+
+.destiny-chart-viewport::before,
+.destiny-chart-viewport::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.destiny-chart-viewport::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(var(--gold-rgb), 0.18), transparent);
+}
+
+.destiny-chart-viewport::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(var(--gold-rgb), 0.18), transparent);
+}
+
+.destiny-chart-frame.more-left .destiny-chart-viewport::before,
+.destiny-chart-frame.more-right .destiny-chart-viewport::after {
+  opacity: 1;
+}
+
+.destiny-scroll-hint {
+  display: none;
+  margin: 0 0 8px;
+  color: var(--gold);
+  font-size: var(--fs-xs);
+  text-align: right;
+}
+
+.destiny-chart-frame.more-right .destiny-scroll-hint {
+  display: block;
 }

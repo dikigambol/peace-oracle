@@ -1,7 +1,6 @@
 {% extends 'base.html' %} {% block title %}Peace Oracle - Gerbang Takdir
 Kosmik{% endblock %} {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <div class="home-container">
@@ -10,6 +9,7 @@ Kosmik{% endblock %} {% block extra_css %}
     <p>Pilih Gerbang Menuju Takdir Kosmik Anda</p>
   </div>
   <div class="mode-grid">
+    {% if 'zodiak' in installed_modes %}
     <a href="{{ url_for('zodiak.home') }}" class="mode-card zodiak">
       <i class="fa-solid fa-moon"></i>
       <div class="card-text">
@@ -20,6 +20,8 @@ Kosmik{% endblock %} {% block extra_css %}
         </p>
       </div>
     </a>
+    {% endif %}
+    {% if 'shio' in installed_modes %}
     <a href="{{ url_for('shio.shio_index') }}" class="mode-card shio">
       <i class="fa-solid fa-dragon"></i>
       <div class="card-text">
@@ -27,6 +29,7 @@ Kosmik{% endblock %} {% block extra_css %}
         <p>Temukan energi elemen dan kebijaksanaan oriental Anda.</p>
       </div>
     </a>
+    {% endif %}
     <a href="#" class="mode-card weton locked" onclick="event.preventDefault()">
       <div class="coming-soon-badge">SOON</div>
       <i class="fa-solid fa-scroll"></i>

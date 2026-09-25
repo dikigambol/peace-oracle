@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Quiz Shio Bareng - Peace Oracle{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/quiz.css') }}" />
+{% endblock %}
+{% block content %}
+<div class="shio-container" id="shio-bg">
+  <canvas id="particle-canvas"></canvas>
+  <div class="shio-content-wrapper">
+    <h1 class="shio-title">Quiz Shio Bareng</h1>
+    <p class="shio-subtitle">
+      Satu kode room, dibuka bareng teman. Terbuka untuk hubungan apa pun.
+    </p>
+    <a href="{{ url_for('shio.shio_index') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Kembali</a>
+
+    <form class="quiz-card quiz-join" id="quiz-join-form" novalidate>
+      <label class="quiz-label" for="join-code">Punya kode room?</label>
+      <div class="quiz-join-row">
+        <input class="quiz-input quiz-code-input" id="join-code" name="code" maxlength="7"
+          autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Misal 7K3QXM" />
+        <button type="submit" class="quiz-btn">Gabung</button>
+      </div>
+    </form>
+
+    <p class="quiz-divider"><span>atau buat room baru</span></p>
+
+    <div class="quiz-modes" role="radiogroup" aria-label="Pilih mode quiz">
+      {% for key, mode in modes.items() %}
+      <button type="button" class="quiz-mode" role="radio" aria-checked="false" data-mode="{{ key }}">
+        <i class="fa-solid {{ mode.icon }}"></i>
+        <span class="quiz-mode-title">{{ mode.title }}</span>
+        <span class="quiz-mode-size">
+          {% if limits[key][0] == limits[key][1] %}{{ limits[key][0] }} orang{% else %}{{ limits[key][0] }}&ndash;{{ limits[key][1] }} orang{% endif %}
+        </span>
+        <small>{{ mode.tagline }}</small>
+      </button>
+      {% endfor %}
+    </div>
+
+    <form class="quiz-card quiz-create hidden" id="quiz-create-form" novalidate>
+      <h2 class="quiz-card-title" id="create-title"></h2>
+      <div class="quiz-fields">
+        <div class="quiz-field">
+          <label class="quiz-label" for="create-name">Nama panggilanmu</label>
+          <input class="quiz-input" id="create-name" maxlength="24" autocomplete="nickname" placeholder="Maks. 24 karakter" />
+        </div>
+        <div class="quiz-field">
+          <label class="quiz-label" for="create-birth">Tanggal lahirmu</label>
+          <input class="quiz-input" id="create-birth" placeholder="Pilih tanggal..." readonly />
+        </div>
+      </div>
+
+      <div class="quiz-option-group hidden" id="relation-group">
+        <p class="quiz-label" id="relation-label">Jenis hubungan</p>
+        <div class="choice-chips" role="radiogroup" aria-labelledby="relation-label">
+          {% for key, lens in lenses.items() %}
+          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-relation="{{ key }}">{{ lens.label }}</button>
+          {% endfor %}
+        </div>
+        <p class="quiz-hint">
+          Pacar, gebetan, sahabat, saudara, atau partner kerja &mdash; cewek-cowok,
+          cewek-cewek, atau cowok-cowok. Lensa ini cuma mengganti sudut bacaan,
+          hitungannya tetap sama.
+        </p>
+      </div>
+
+      <div class="quiz-option-group hidden" id="flavor-group">
+        <p class="quiz-label" id="flavor-label">Rasa petunjuk</p>
+        <div class="choice-chips" role="radiogroup" aria-labelledby="flavor-label">
+          {% for key, flavor in flavors.items() %}
+          <button type="button" class="choice-chip{% if key == 'manis' %} active{% endif %}" role="radio"
+            aria-checked="{{ 'true' if key == 'manis' else 'false' }}" data-flavor="{{ key }}"
+            data-note="{{ flavor.note }}">{{ flavor.label }}</button>
+          {% endfor %}
+        </div>
+        <p class="quiz-hint" id="flavor-note">{{ flavors['manis'].note }}</p>
+      </div>
+
+      <p class="quiz-hint">
+        Tanggal lahir dipakai untuk menghitung shio dan tidak ditampilkan ke
+        peserta lain. Room otomatis terhapus 24 jam setelah dibuat.
+      </p>
+      <button type="submit" class="quiz-btn quiz-btn-wide" id="create-submit">Buat Room</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+<script src="{{ url_for('shio.static', filename='js/quiz.js') }}"></script>
+{% endblock %}

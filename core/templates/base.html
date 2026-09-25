@@ -10,10 +10,24 @@
   <title>{% block title %}Peace Oracle{% endblock %}</title>
   <link rel="icon" href="{{ url_for('static', filename='images/web_logo.png') }}" type="image/png" />
   <meta name="description" content="{% block description %}Temukan ramalan kosmik dan shio Anda.{% endblock %}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Peace Oracle" />
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}" />
+  <meta property="og:url" content="{{ request.url }}" />
+  <meta property="og:image"
+    content="{{ url_for('static', filename='images/web_logo.png', _external=True) }}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ self.og_title() }}" />
+  <meta name="twitter:description" content="{{ self.og_description() }}" />
+  <meta name="twitter:image"
+    content="{{ url_for('static', filename='images/web_logo.png', _external=True) }}" />
+  <link rel="canonical" href="{{ request.base_url }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@500;700&family=Cinzel:wght@500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
@@ -41,19 +55,23 @@
       <i class="fa-solid fa-layer-group"></i>
     </div>
     <div class="mode-switcher-menu">
-      <a href="{{ url_for('zodiak.home') }}" class="mode-item" data-mode="zodiak">
+      {% if 'zodiak' in installed_modes %}
+      <a href="{{ url_for('zodiak.home') }}" class="mode-item">
         <i class="fa-solid fa-moon"></i>
         <span>Zodiak</span>
       </a>
-      <a href="{{ url_for('shio.shio_index') }}" class="mode-item" data-mode="shio">
+      {% endif %}
+      {% if 'shio' in installed_modes %}
+      <a href="{{ url_for('shio.shio_index') }}" class="mode-item">
         <i class="fa-solid fa-dragon"></i>
         <span>Shio</span>
       </a>
-      <a href="#" class="mode-item locked" data-mode="weton" title="Segera Hadir">
+      {% endif %}
+      <a href="#" class="mode-item locked" title="Segera Hadir">
         <i class="fa-solid fa-scroll"></i>
         <span>Weton</span>
       </a>
-      <a href="#" class="mode-item locked" data-mode="tarot" title="Segera Hadir">
+      <a href="#" class="mode-item locked" title="Segera Hadir">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
         <span>Tarot</span>
       </a>
@@ -62,6 +80,7 @@
   {% block content %}{% endblock %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="{{ url_for('static', filename='js/3d-bg.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/particles.js') }}"></script>
   {% block extra_js %}{% endblock %}
 </body>
 

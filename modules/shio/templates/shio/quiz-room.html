@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}Room {{ room_code }} - Quiz Shio Bareng{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/compatibility.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/quiz.css') }}" />
+{% endblock %}
+{% block content %}
+<div class="shio-container" id="shio-bg">
+  <canvas id="particle-canvas"></canvas>
+  <div class="shio-content-wrapper quiz-room" id="quiz-room" data-room-code="{{ room_code }}">
+    <a href="{{ url_for('shio.shio_quiz_page') }}" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Menu Quiz</a>
+
+    <header class="quiz-room-head">
+      <p class="quiz-room-mode" id="room-mode">Memuat room...</p>
+      <div class="quiz-room-code">
+        <span class="quiz-code-label">Kode room</span>
+        <span class="quiz-code" id="room-code">{{ room_code }}</span>
+        <div class="quiz-share">
+          <button type="button" class="quiz-icon-btn" id="btn-copy" aria-label="Salin tautan room">
+            <i class="fa-solid fa-link"></i>
+          </button>
+          <button type="button" class="quiz-icon-btn" id="btn-share" aria-label="Bagikan tautan room">
+            <i class="fa-solid fa-share-nodes"></i>
+          </button>
+        </div>
+      </div>
+      <p class="quiz-room-meta" id="room-meta"></p>
+    </header>
+
+    <div class="quiz-card quiz-notice hidden" id="room-notice" role="status">
+      <p id="room-notice-text"></p>
+      <button type="button" class="quiz-btn hidden" id="btn-refresh">Muat ulang</button>
+    </div>
+
+    <form class="quiz-card hidden" id="room-join" novalidate>
+      <h2 class="quiz-card-title">Gabung ke room ini</h2>
+      <p class="quiz-hint" id="join-info"></p>
+      <div class="quiz-fields">
+        <div class="quiz-field">
+          <label class="quiz-label" for="join-name">Nama panggilanmu</label>
+          <input class="quiz-input" id="join-name" maxlength="24" autocomplete="nickname" placeholder="Maks. 24 karakter" />
+        </div>
+        <div class="quiz-field">
+          <label class="quiz-label" for="join-birth">Tanggal lahirmu</label>
+          <input class="quiz-input" id="join-birth" placeholder="Pilih tanggal..." readonly />
+        </div>
+      </div>
+      <p class="quiz-hint">Tanggal lahir hanya dipakai untuk menghitung shio dan tidak ditampilkan ke peserta lain.</p>
+      <button type="submit" class="quiz-btn quiz-btn-wide" id="join-submit">Gabung</button>
+    </form>
+
+    <section class="quiz-card hidden" id="room-lobby" aria-live="polite">
+      <h2 class="quiz-card-title">Peserta <span class="quiz-count" id="lobby-count"></span></h2>
+      <ul class="quiz-people" id="lobby-people"></ul>
+      <p class="quiz-hint" id="lobby-status"></p>
+      <div class="quiz-actions">
+        <button type="button" class="quiz-btn hidden" id="btn-start">Mulai</button>
+        <button type="button" class="quiz-btn quiz-btn-ghost hidden" id="btn-finish">Akhiri sekarang</button>
+      </div>
+    </section>
+
+    <form class="quiz-card hidden" id="room-questions" novalidate>
+      <h2 class="quiz-card-title">Jawab jujur, jangan saling intip</h2>
+      <p class="quiz-hint">Pilih yang paling mendekati kebiasaanmu. Tidak ada jawaban benar atau salah.</p>
+      <ol class="quiz-questions" id="question-list"></ol>
+      <button type="submit" class="quiz-btn quiz-btn-wide" id="answers-submit">Kirim Jawaban</button>
+    </form>
+
+    <section class="quiz-card hidden" id="room-turn" aria-live="polite">
+      <div class="quiz-turn-head">
+        <h2 class="quiz-card-title" id="turn-title"></h2>
+        <span class="quiz-points" id="turn-points"></span>
+      </div>
+      <p class="quiz-hint">Sifat-sifat ini milik salah satu teman di room. Siapa?</p>
+      <ol class="quiz-hints" id="turn-hints"></ol>
+      <p class="quiz-hint" id="turn-hint-count"></p>
+      <div class="quiz-options" id="turn-options"></div>
+      <p class="quiz-hint" id="turn-wait"></p>
+    </section>
+
+    <section class="hidden" id="room-result">
+      <div class="quiz-card quiz-verdict" id="result-verdict">
+        <p class="quiz-verdict-kicker" id="verdict-kicker"></p>
+        <div class="quiz-score hidden" id="verdict-score"></div>
+        <h2 class="quiz-verdict-title" id="verdict-title"></h2>
+        <p class="quiz-verdict-note" id="verdict-note"></p>
+        <div class="quiz-breakdown hidden" id="verdict-breakdown"></div>
+      </div>
+
+      <div class="hidden" id="result-pair">
+        <div class="quiz-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-scale-balanced"></i> Jawaban Kalian</h3>
+          <ul class="quiz-compare" id="pair-compare"></ul>
+        </div>
+        <div class="compat-result">
+          {% set compat_show_score = false %}
+          {% include 'shio/_compat-layers.html' %}
+        </div>
+      </div>
+
+      <div class="hidden" id="result-group">
+        <div class="quiz-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-masks-theater"></i> Peran di Geng</h3>
+          <ul class="quiz-roles" id="group-roles"></ul>
+        </div>
+        <div class="quiz-card hidden" id="group-triads-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-circle-nodes"></i> Tiga Serangkai (三合)</h3>
+          <ul class="quiz-pairs" id="group-triads"></ul>
+        </div>
+        <div class="quiz-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-link"></i> Paling Klop</h3>
+          <ul class="quiz-pairs" id="group-best"></ul>
+        </div>
+        <div class="quiz-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-bolt"></i> Paling Rawan Gesekan</h3>
+          <ul class="quiz-pairs" id="group-tense"></ul>
+        </div>
+        <details class="quiz-card quiz-details">
+          <summary id="group-all-summary"></summary>
+          <ul class="quiz-pairs" id="group-all"></ul>
+        </details>
+        <p class="quiz-hint quiz-disclaimer" id="group-note"></p>
+      </div>
+
+      <div class="hidden" id="result-guess">
+        <div class="quiz-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-ranking-star"></i> Papan Skor Penebak</h3>
+          <ol class="quiz-leaderboard" id="guess-leaderboard"></ol>
+        </div>
+        <div class="quiz-card">
+          <h3 class="quiz-section-title"><i class="fa-solid fa-user-secret"></i> Siapa Paling Gampang Ditebak</h3>
+          <ul class="quiz-targets" id="guess-targets"></ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+<script src="{{ url_for('shio.static', filename='js/compat-layers.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/quiz.js') }}"></script>
+{% endblock %}

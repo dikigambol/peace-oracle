@@ -6,6 +6,10 @@ venv/
 # Python artifacts
 __pycache__/
 *.py[cod]
+.pytest_cache/
+
+# Tests
+tests/
 
 # Vercel Serverless
 .vercel/

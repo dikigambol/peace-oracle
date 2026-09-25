@@ -1,8 +1,8 @@
 .cookie-intro {
-  color: rgba(255, 215, 0, 0.7);
-  font-size: 0.85rem;
+  color: rgba(var(--gold-rgb), 0.7);
+  font-size: var(--fs-sm);
   text-align: center;
-  margin: -5px 0 20px;
+  margin: -4px 0 20px;
   font-style: italic;
 }
 
@@ -11,31 +11,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 0 10px;
+  padding: 20px 0 8px;
   min-height: 300px;
 }
 
 .cookie-shio {
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   animation: cFadeIn 0.5s ease-out;
 }
 
 .cookie-shio-hanzi {
   display: block;
-  font-size: 2.2rem;
-  color: #ffd700;
+  font-size: var(--fs-xl);
+  color: var(--gold);
   line-height: 1;
-  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  text-shadow: 0 0 20px rgba(var(--gold-rgb), 0.4);
 }
 
 .cookie-shio-name {
   display: block;
-  font-family: "Cinzel", serif;
-  font-size: 0.95rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-base);
   color: rgba(255, 255, 255, 0.75);
   letter-spacing: 1px;
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .cookie {
@@ -59,8 +59,8 @@
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 215, 0, 0.28) 0%,
-    rgba(255, 140, 0, 0.1) 45%,
+    rgba(var(--gold-rgb), 0.28) 0%,
+    rgba(var(--amber-rgb), 0.1) 45%,
     transparent 70%
   );
   animation: cPulse 2.6s ease-in-out infinite;
@@ -120,9 +120,9 @@
 }
 
 .cookie-hint {
-  color: rgba(255, 215, 0, 0.75);
-  font-family: "Cinzel", serif;
-  font-size: 0.9rem;
+  color: rgba(var(--gold-rgb), 0.75);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-sm);
   letter-spacing: 0.5px;
   margin: 8px 0 0;
   animation: cFloat 2s ease-in-out infinite;
@@ -130,7 +130,7 @@
 }
 
 .cookie-hint i {
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .cookie-hint.faded {
@@ -139,11 +139,11 @@
 
 .cookie-slip {
   background: linear-gradient(160deg, #fdf6e3 0%, #f3e6c8 55%, #e8d7ae 100%);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 0;
   margin: 0 auto;
   max-width: 520px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 30px rgba(255, 215, 0, 0.12);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 30px rgba(var(--gold-rgb), 0.12);
   position: relative;
   overflow: hidden;
   transform-origin: top center;
@@ -161,7 +161,7 @@
 }
 
 .slip-body {
-  padding: 28px 30px 24px;
+  padding: 28px 32px 24px;
   text-align: center;
 }
 
@@ -173,32 +173,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  color: #b8860b;
+  font-size: var(--fs-md);
+  color: var(--gold-deep);
   background: rgba(184, 134, 11, 0.12);
   border: 1px dashed rgba(184, 134, 11, 0.5);
 }
 
 .slip-message {
   color: #3b2f1c;
-  font-family: "Cinzel", serif;
-  font-size: 1.1rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-md);
   line-height: 1.65;
-  margin: 0 0 22px;
+  margin: 0 0 24px;
 }
 
 .slip-lucky {
   border-top: 1px dashed rgba(150, 120, 70, 0.45);
   border-bottom: 1px dashed rgba(150, 120, 70, 0.45);
-  padding: 16px 10px;
-  margin-bottom: 18px;
+  padding: 16px 8px;
+  margin-bottom: 16px;
 }
 
 .slip-lucky-label {
   display: block;
   color: #8b6914;
-  font-family: "Cinzel", serif;
-  font-size: 0.72rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -207,7 +207,7 @@
 
 .slip-lucky-text {
   color: #5c4a2a;
-  font-size: 0.98rem;
+  font-size: var(--fs-base);
   font-style: italic;
   line-height: 1.5;
   margin: 0;
@@ -215,15 +215,15 @@
 
 .slip-note {
   color: rgba(92, 74, 42, 0.7);
-  font-size: 0.75rem;
+  font-size: var(--fs-xs);
   margin: 0;
 }
 
 .slip-note i {
-  margin-right: 5px;
+  margin-right: 4px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .cookie {
     width: 180px;
     height: 165px;
@@ -242,11 +242,11 @@
   }
 
   .slip-body {
-    padding: 22px 20px 20px;
+    padding: 24px 20px 20px;
   }
 
   .slip-message {
-    font-size: 1rem;
+    font-size: var(--fs-base);
   }
 }
 
@@ -287,7 +287,7 @@
 
 .slip-energy {
   border-top: 1px dashed rgba(139, 105, 20, 0.35);
-  margin-top: 18px;
+  margin-top: 16px;
   padding-top: 16px;
   text-align: left;
 }
@@ -295,23 +295,23 @@
 .slip-energy-head {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   flex-wrap: wrap;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .slip-energy-pillar {
-  font-family: "Cinzel", serif;
-  font-size: 1.2rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-md);
   color: #8b6914;
   letter-spacing: 1px;
 }
 
 .slip-energy-badge {
-  font-size: 0.68rem;
+  font-size: var(--fs-2xs);
   letter-spacing: 0.3px;
-  padding: 4px 10px;
-  border-radius: 20px;
+  padding: 4px 8px;
+  border-radius: var(--radius-lg);
   border: 1px solid rgba(139, 105, 20, 0.4);
   background: rgba(255, 252, 240, 0.55);
   color: #5c4a2a;
@@ -330,32 +330,32 @@
 }
 
 .slip-energy-desc {
-  font-size: 0.82rem;
+  font-size: var(--fs-xs);
   line-height: 1.7;
   color: rgba(59, 47, 28, 0.88);
   margin: 0 0 8px;
 }
 
 .slip-energy-pick {
-  font-size: 0.74rem;
+  font-size: var(--fs-2xs);
   line-height: 1.6;
   color: #755810;
   font-style: italic;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 
 .slip-hoki {
   background: rgba(139, 105, 20, 0.07);
   border: 1px solid rgba(139, 105, 20, 0.22);
-  border-radius: 10px;
-  padding: 13px 15px;
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
 }
 
 .slip-hoki-reason {
-  font-size: 0.76rem;
+  font-size: var(--fs-xs);
   line-height: 1.6;
   color: rgba(92, 74, 42, 0.85);
-  margin: 7px 0 11px;
+  margin: 8px 0 12px;
 }
 
 .slip-hoki-list {
@@ -364,22 +364,22 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 10px 16px;
+  gap: 8px 16px;
 }
 
 .slip-hoki-list li {
   display: flex;
   flex-direction: column;
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
 }
 
 .slip-hoki-list strong {
-  font-family: "Cinzel", serif;
-  font-size: 0.64rem;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: #755810;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .slip-hoki-list span {

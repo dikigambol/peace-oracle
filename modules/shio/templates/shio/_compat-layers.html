@@ -1,0 +1,78 @@
+<div class="compat-header">
+  <div class="compat-pair" id="c-pair"></div>
+  <div class="compat-rel-type" id="c-relationship"></div>
+</div>
+<div class="compat-relation-badge hidden" id="c-relation-badge">
+  <span class="relation-hanzi" id="c-relation-hanzi"></span>
+  <div class="relation-body">
+    <span class="relation-title" id="c-relation-title"></span>
+    <p class="relation-note" id="c-relation-note"></p>
+  </div>
+</div>
+{% if compat_show_score %}
+<div class="score-bar-wrapper">
+  <div class="score-label">
+    Skor Relasi Shio
+    <span class="score-label-sub">
+      Dihitung murni dari relasi cabang tahun (地支)
+    </span>
+  </div>
+  <div class="circular-chart-wrapper">
+    <svg viewBox="0 0 100 100" class="circular-chart">
+      <circle class="circle-bg" cx="50" cy="50" r="40" />
+      <circle class="circle" id="c-score-circle" cx="50" cy="50" r="40" stroke-dasharray="0, 100" pathLength="100" />
+    </svg>
+    <div class="circular-chart-text">
+      <span id="c-score-text" class="percentage">0%</span>
+    </div>
+  </div>
+</div>
+{% endif %}
+<div class="compat-dynamic hidden" id="c-dynamic">
+  <h4 class="compat-dynamic-title">
+    <i class="fa-solid fa-right-left"></i> Dinamika Elemen
+  </h4>
+  <p class="compat-dynamic-note">
+    Skor relasi shio simetris karena relasi cabang memang simetris. Lapisan
+    elemen ini tidak &mdash; yang satu memberi, yang satu menerima.
+  </p>
+  <div class="compat-dynamic-pair">
+    <div class="compat-dynamic-card" id="c-dyn-1"></div>
+    <div class="compat-dynamic-arrow" id="c-dyn-arrow"></div>
+    <div class="compat-dynamic-card" id="c-dyn-2"></div>
+  </div>
+</div>
+<div class="compat-year hidden" id="c-year">
+  <h4 class="compat-dynamic-title">
+    <i class="fa-solid fa-scroll"></i> Lapisan Tahun Lahir
+  </h4>
+  <p class="compat-dynamic-note" id="c-year-lichun"></p>
+  <div class="compat-year-stem" id="c-year-stem"></div>
+  <div class="compat-year-pair">
+    <div class="compat-year-card" id="c-year-1"></div>
+    <div class="compat-year-card" id="c-year-2"></div>
+  </div>
+</div>
+<div class="compat-bazi hidden" id="c-bazi">
+  <h4 class="compat-dynamic-title">
+    <i class="fa-solid fa-user-group"></i> <span id="c-bazi-title"></span>
+  </h4>
+  <p class="compat-dynamic-note" id="c-bazi-note"></p>
+  <div class="compat-day-pillar" id="c-day-pillar"></div>
+  <div class="compat-useful" id="c-useful"></div>
+  <div class="compat-stars hidden" id="c-stars"></div>
+</div>
+<div class="compat-sections">
+  <div class="compat-box narrative">
+    <h4 id="c-narrative-title"></h4>
+    <p id="c-narrative"></p>
+  </div>
+  <div class="compat-box drama">
+    <h4><i class="fa-solid fa-masks-theater"></i> Drama Alert</h4>
+    <p id="c-drama"></p>
+  </div>
+  <div class="compat-box tips">
+    <h4><i class="fa-solid fa-lightbulb"></i> Tips Biar Awet</h4>
+    <p id="c-tips"></p>
+  </div>
+</div>

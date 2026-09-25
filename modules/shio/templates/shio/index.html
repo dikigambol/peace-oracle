@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
 {% endblock %}
 {% block content %}
 <div class="shio-container" id="shio-bg">
@@ -29,7 +28,6 @@
     <div id="view-selection" class="shio-view active">
       <div class="choice-cards">
         <a href="{{ url_for('shio.shio_destiny_page') }}" class="choice-card">
-          <span class="choice-beta-badge">BETA</span>
           <i class="fa-solid fa-calendar-days"></i>
           <span>Baca Gulungan Takdir (Ba Zi)</span>
           <small>Empat pilar, satu cetak biru hidupmu</small>
@@ -46,8 +44,13 @@
         </a>
         <a href="{{ url_for('shio.shio_compatibility') }}" class="choice-card">
           <i class="fa-solid fa-heart-pulse"></i>
-          <span>Sinergi Jodoh Kosmik (He Hun)</span>
-          <small>Cocok di permukaan, atau sampai pilar hari?</small>
+          <span>Timbangan Kecocokan (Pei Dui)</span>
+          <small>Pacar, sahabat, atau rekan kerja: cocok sampai pilar hari?</small>
+        </a>
+        <a href="{{ url_for('shio.shio_quiz_page') }}" class="choice-card">
+          <i class="fa-solid fa-people-group"></i>
+          <span>Quiz Shio Bareng (Ju Hui)</span>
+          <small>Berdua, satu geng, atau tebak-tebakan pakai kode room</small>
         </a>
         <a href="{{ url_for('shio.shio_roasting_page') }}" class="choice-card">
           <i class="fa-solid fa-fire"></i>

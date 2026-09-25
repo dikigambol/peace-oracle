@@ -5,7 +5,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "建",
         "code": "neutral",
         "meaning": "Energi hari ini condong ke awal mula. Cocok memulai, kurang cocok membongkar.",
-        "yi": ["Memulai rencana baru", "Perjalanan & keberangkatan", "Melamar kerja atau wawancara", "Memohon restu"],
+        "yi": ["Memulai rencana baru", "Perjalanan dan keberangkatan", "Melamar kerja atau wawancara", "Memohon restu"],
         "ji": ["Menggali atau membongkar", "Pindah rumah", "Membuka simpanan besar"],
     },
     {
@@ -14,7 +14,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "除",
         "code": "good",
         "meaning": "Hari untuk menyingkirkan yang lama supaya ruang baru terbuka.",
-        "yi": ["Bersih-bersih & merapikan", "Berobat", "Mengakhiri yang sudah usang", "Melunasi utang"],
+        "yi": ["Bersih-bersih dan merapikan", "Berobat", "Mengakhiri yang sudah usang", "Melunasi utang"],
         "ji": ["Perjalanan jauh", "Menikah", "Menyimpan barang berharga"],
     },
     {
@@ -23,7 +23,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "滿",
         "code": "neutral",
         "meaning": "Energi meluap penuh. Baik untuk merayakan, rawan untuk yang butuh ketelitian.",
-        "yi": ["Doa & syukuran", "Membuka usaha", "Menjamu tamu", "Menandatangani kerja sama"],
+        "yi": ["Doa dan syukuran", "Membuka usaha", "Menjamu tamu", "Menandatangani kerja sama"],
         "ji": ["Mulai minum obat", "Mengambil keputusan medis", "Pemakaman"],
     },
     {
@@ -32,7 +32,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "平",
         "code": "neutral",
         "meaning": "Hari serba datar. Tidak menonjol, tapi aman untuk hal rutin.",
-        "yi": ["Pekerjaan rutin", "Perbaikan & perawatan", "Berdamai atau mediasi", "Meratakan tanah"],
+        "yi": ["Pekerjaan rutin", "Perbaikan dan perawatan", "Berdamai atau mediasi", "Meratakan tanah"],
         "ji": ["Menikah", "Membuka usaha", "Menanam investasi baru"],
     },
     {
@@ -50,7 +50,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "執",
         "code": "neutral",
         "meaning": "Hari untuk memegang erat dan menuntaskan, bukan melepas.",
-        "yi": ["Menagih piutang", "Menyelesaikan yang tertunda", "Membangun & mendirikan", "Menjaga komitmen"],
+        "yi": ["Menagih piutang", "Menyelesaikan yang tertunda", "Membangun dan mendirikan", "Menjaga komitmen"],
         "ji": ["Membuka usaha baru", "Pindah tempat", "Melepas aset"],
     },
     {
@@ -68,7 +68,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "危",
         "code": "bad",
         "meaning": "Energi rawan tergelincir. Hari untuk berhati-hati, bukan menantang.",
-        "yi": ["Ritual & meditasi", "Beristirahat penuh", "Introspeksi"],
+        "yi": ["Ritual dan meditasi", "Beristirahat penuh", "Introspeksi"],
         "ji": ["Naik ke tempat tinggi", "Perjalanan air atau udara", "Olahraga ekstrem", "Mengambil risiko besar"],
     },
     {
@@ -86,7 +86,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "收",
         "code": "neutral",
         "meaning": "Energi menarik masuk. Baik untuk menerima, kurang baik untuk melepas.",
-        "yi": ["Menerima pembayaran", "Menabung & menyimpan", "Merekrut orang", "Mengumpulkan data"],
+        "yi": ["Menerima pembayaran", "Menabung dan menyimpan", "Merekrut orang", "Mengumpulkan data"],
         "ji": ["Perjalanan jauh", "Membuka simpanan", "Memberi pinjaman"],
     },
     {
@@ -104,7 +104,7 @@ DAY_OFFICER_BANK = [
         "hanzi": "閉",
         "code": "bad",
         "meaning": "Energi menutup rapat. Cocok menambal dan menyimpan, buruk untuk memulai.",
-        "yi": ["Menambal & memperbaiki", "Menutup rekening lama", "Menyimpan rapat-rapat"],
+        "yi": ["Menambal dan memperbaiki", "Menutup rekening lama", "Menyimpan rapat-rapat"],
         "ji": ["Membuka usaha", "Perjalanan jauh", "Operasi atau tindakan medis", "Memulai hal baru"],
     },
 ]
@@ -252,7 +252,7 @@ STEM_RELATION_BANK = {
         "kind": "he",
         "hanzi": "丁壬合",
         "label": "Berpadu jadi Kayu",
-        "text": "Batang tahun Ding (丁) dan Ren (壬) berpadu jadi Kayu. Kedalaman bertemu keluwesan — hubungan yang romantis sekaligus rumit.",
+        "text": "Batang tahun Ding (丁) dan Ren (壬) berpadu jadi Kayu. Kedalaman bertemu keluwesan — hubungan yang hangat sekaligus rumit.",
     },
     (4, 9): {
         "kind": "he",

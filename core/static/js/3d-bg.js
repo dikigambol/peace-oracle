@@ -101,10 +101,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     renderer.render(scene, camera);
   }
-  animate();
+  const reducedMotion = window.prefersReducedMotion();
+  if (reducedMotion) {
+    camera.lookAt(scene.position);
+    renderer.render(scene, camera);
+  } else {
+    animate();
+  }
   window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    if (reducedMotion) renderer.render(scene, camera);
   });
 });
