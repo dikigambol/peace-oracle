@@ -1,22 +1,12 @@
 {% extends 'shio/_jichu.html' %}
+{% set page = 'mingli' %}
+{% set page_api = 'shio.shio_destiny_api' %}
 {% block title %}Ming Li - Peace Oracle{% endblock %}
 {% block description %}Baca gulungan takdir Ba Zi empat pilar dari tanggal, jam, dan kota lahir: Day Master, lima elemen, dewa dominan, periode besar, dan penyeimbang.{% endblock %}
-{% block shio_app %}
-<div class="sh-app" id="sh-app" data-page="mingli" data-api="{{ url_for('shio.shio_destiny_api') }}" data-static="{{ url_for('shio.static', filename='') }}">
-  <datalist id="sh-destiny-cities">
-    {% for city in cities %}
-    <option value="{{ city.name }}">{{ city.province }} &middot; {{ city.zone }}</option>
-    {% endfor %}
-  </datalist>
-  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
-    {% include 'shio/desktop/_mingli.html' %}
-  </div>
-  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
-    {% include 'shio/mobile/_mingli.html' %}
-  </div>
-</div>
-{% endblock %}
-{% block shio_js %}
-<script src="{{ url_for('shio.static', filename='js/desktop/mingli.js') }}"></script>
-<script src="{{ url_for('shio.static', filename='js/mobile/mingli.js') }}"></script>
+{% block shio_prelude %}
+<datalist id="sh-destiny-cities">
+  {% for city in cities %}
+  <option value="{{ city.name }}">{{ city.province }} &middot; {{ city.zone }}</option>
+  {% endfor %}
+</datalist>
 {% endblock %}

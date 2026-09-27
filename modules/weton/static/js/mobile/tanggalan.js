@@ -1,14 +1,10 @@
 (function () {
   const Weton = window.Weton;
+  const byId = Weton.byId;
   const WEEKDAYS = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
-  const LAHIR_FIELDS = ["tanggal", "jam", "kota"];
   let els = null;
   let renderedDays = null;
   let scrolledTo = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function buildChip(result, day) {
     const chip = Weton.el("button", "wt-m-day");
@@ -50,44 +46,17 @@
     els.detail.appendChild(Weton.renderDayDetail(result, result.selected));
   }
 
-  function renderWetonan(result) {
-    const wetonan = result.wetonan;
-    els.summary.hidden = !wetonan;
-    els.clear.hidden = !wetonan;
-    Weton.clear(els.summary);
-    if (wetonan) els.summary.appendChild(Weton.renderWetonanSummary(wetonan));
-  }
-
   function render(state) {
-    const result = state.result;
-    els.error.hidden = !state.error;
-    els.error.textContent = state.error;
     els.strip.setAttribute("aria-busy", state.loading ? "true" : "false");
-    window.setButtonLoading(els.submit, state.loading && Boolean(state.form.lahir_tanggal), "Menandai...");
-    if (!result) return;
-    els.month.textContent = result.month.label;
-    els.jawa.textContent = result.month.jawa_label;
-    els.prev.disabled = !result.month.prev;
-    els.next.disabled = !result.month.next;
+    if (!Weton.calendar.renderHeader(els, state)) return;
+    const result = state.result;
     if (result.days !== renderedDays) renderStrip(result);
     renderSelection(result);
-    renderWetonan(result);
-    els.note.textContent = result.note;
-    els.disclaimer.textContent = result.disclaimer + " Sumber: " + Object.values(result.sources).join("; ") + ".";
-  }
-
-  function goToday() {
-    const result = Weton.getState().result;
-    if (result && result.days.some((day) => day.date === result.today)) {
-      Weton.patchResult({ selected: result.today });
-      return;
-    }
-    Weton.calendarGo({ tanggal: result ? result.today : "" });
+    Weton.calendar.renderFooter(els, result);
   }
 
   function init(root) {
     els = {
-      root: root,
       month: byId("m-cal-month"),
       jawa: byId("m-cal-jawa"),
       prev: byId("m-cal-prev"),
@@ -102,53 +71,27 @@
       disclaimer: byId("m-cal-disclaimer"),
       today: byId("m-cal-today"),
       share: byId("m-cal-share"),
+      lahirFields: {
+        lahir_tanggal: byId("m-lahir-tanggal"),
+        lahir_jam: byId("m-lahir-jam"),
+        lahir_kota: byId("m-lahir-kota"),
+      },
     };
-    LAHIR_FIELDS.forEach((field) => {
-      const node = byId("m-lahir-" + field);
-      node.addEventListener("input", () => Weton.updateForm({ ["lahir_" + field]: node.value }));
-    });
+    Weton.bindInputs(els.lahirFields);
     els.strip.addEventListener("click", (event) => {
       const chip = event.target.closest("[data-date]");
       if (!chip) return;
       scrolledTo = chip.dataset.date;
       Weton.patchResult({ selected: chip.dataset.date });
     });
-    els.prev.addEventListener("click", () => {
-      const result = Weton.getState().result;
-      if (result && result.month.prev) Weton.calendarGo({ bulan: result.month.prev });
-    });
-    els.next.addEventListener("click", () => {
-      const result = Weton.getState().result;
-      if (result && result.month.next) Weton.calendarGo({ bulan: result.month.next });
-    });
-    els.today.addEventListener("click", goToday);
-    els.submit.addEventListener("click", () => {
-      const state = Weton.getState();
-      if (!state.form.lahir_tanggal) {
-        els.error.hidden = false;
-        els.error.textContent = "Isi tanggal lahir dulu.";
-        return;
-      }
-      Weton.calendarGo({ tanggal: state.result ? state.result.selected : "" });
-    });
-    els.clear.addEventListener("click", () => {
-      Weton.updateForm({ lahir_tanggal: "", lahir_jam: "", lahir_kota: "" });
-      LAHIR_FIELDS.forEach((field) => {
-        byId("m-lahir-" + field).value = "";
-      });
-      const result = Weton.getState().result;
-      Weton.calendarGo({ tanggal: result ? result.selected : "" });
-    });
-    els.share.addEventListener("click", () => {
-      const result = Weton.getState().result;
-      if (result) Weton.share(Weton.calendarShare(result, result.selected));
-    });
+    Weton.calendar.bindNav(els, (iso) => Weton.patchResult({ selected: iso }));
+    els.submit.addEventListener("click", () => Weton.calendar.submitWetonan(els));
+    els.clear.addEventListener("click", () => Weton.calendar.clearWetonan((form) => Weton.syncInputs(els.lahirFields, form)));
+    Weton.bindShare([els.share], (result) => Weton.calendarShare(result, result.selected));
   }
 
   function activate(state) {
-    LAHIR_FIELDS.forEach((field) => {
-      byId("m-lahir-" + field).value = state.form["lahir_" + field] || "";
-    });
+    Weton.syncInputs(els.lahirFields, state.form);
     renderedDays = null;
     render(state);
   }

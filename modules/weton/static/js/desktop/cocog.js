@@ -1,30 +1,19 @@
 (function () {
   const Weton = window.Weton;
+  const byId = Weton.byId;
   const SIDES = ["a", "b"];
   const TEXT_FIELDS = ["nama", "jam", "kota"];
   let els = null;
   const pickers = {};
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function syncInputs(form) {
+  function sideFields() {
+    const fields = {};
     SIDES.forEach((side) => {
-      const value = form[side + "_tanggal"] || "";
-      if (pickers[side]) {
-        if (value) pickers[side].setDate(value, false);
-        else pickers[side].clear(false);
-      } else {
-        byId("d-" + side + "-tanggal").value = value;
-      }
       TEXT_FIELDS.forEach((field) => {
-        byId("d-" + side + "-" + field).value = form[side + "_" + field] || "";
+        fields[side + "_" + field] = byId("d-" + side + "-" + field);
       });
     });
-    const lens = form.lens || els.root.closest("#wt-app").dataset.defaultLens;
-    const radio = byId("d-lens-" + lens);
-    if (radio) radio.checked = true;
+    return fields;
   }
 
   function renderResult(result) {
@@ -52,8 +41,7 @@
 
   function render(state) {
     window.setButtonLoading(els.submit, state.loading, "Menghitung petung...");
-    els.error.hidden = !state.error;
-    els.error.textContent = state.error;
+    Weton.showError(els.error, state.error);
     renderResult(state.result);
   }
 
@@ -69,25 +57,12 @@
       rows: byId("d-petung-rows"),
       cards: byId("d-petung-cards"),
       disclaimer: byId("d-disclaimer"),
+      fields: sideFields(),
     };
     SIDES.forEach((side) => {
-      const input = byId("d-" + side + "-tanggal");
-      window.initDatePicker("#d-" + side + "-tanggal", {
-        dateFormat: "Y-m-d",
-        altInput: true,
-        altFormat: "j F Y",
-        locale: "id",
-        minDate: input.dataset.min,
-        maxDate: input.dataset.max,
-        disableMobile: true,
-        onChange: (dates, str) => Weton.updateForm({ [side + "_tanggal"]: str }),
-      });
-      pickers[side] = input._flatpickr || null;
-      TEXT_FIELDS.forEach((field) => {
-        const node = byId("d-" + side + "-" + field);
-        node.addEventListener("input", () => Weton.updateForm({ [side + "_" + field]: node.value }));
-      });
+      pickers[side] = Weton.initDate(byId("d-" + side + "-tanggal"), (str) => Weton.updateForm({ [side + "_tanggal"]: str }));
     });
+    Weton.bindInputs(els.fields);
     root.querySelectorAll('input[name="d-lens"]').forEach((radio) => {
       radio.addEventListener("change", () => {
         if (radio.checked) Weton.updateForm({ lens: radio.value });
@@ -99,8 +74,7 @@
       const form = Weton.getState().form;
       const missing = SIDES.find((side) => !form[side + "_tanggal"]);
       if (missing) {
-        els.error.hidden = false;
-        els.error.textContent = "Isi tanggal lahir " + (missing === "a" ? "orang pertama" : "orang kedua") + " dulu.";
+        Weton.showError(els.error, "Isi tanggal lahir " + (missing === "a" ? "orang pertama" : "orang kedua") + " dulu.");
         return;
       }
       Weton.submit();
@@ -108,7 +82,13 @@
   }
 
   function activate(state) {
-    syncInputs(state.form);
+    SIDES.forEach((side) => {
+      Weton.syncPicker(pickers[side], byId("d-" + side + "-tanggal"), state.form[side + "_tanggal"]);
+    });
+    Weton.syncInputs(els.fields, state.form);
+    const lens = state.form.lens || els.root.closest("#wt-app").dataset.defaultLens;
+    const radio = byId("d-lens-" + lens);
+    if (radio) radio.checked = true;
     render(state);
   }
 

@@ -1,20 +1,12 @@
 (function () {
   const Weton = window.Weton;
+  const byId = Weton.byId;
   const TOTAL_STEPS = 3;
   const STEP_SIDE = { 2: "a", 3: "b" };
   const FIELDS = ["nama", "tanggal", "jam", "kota"];
   let els = null;
   let step = 1;
   let activePetung = 0;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function showError(message) {
-    els.error.hidden = !message;
-    els.error.textContent = message || "";
-  }
 
   function renderLens(lens) {
     els.lensButtons.forEach((button) => {
@@ -25,12 +17,7 @@
   }
 
   function renderSteps(state) {
-    els.steps.forEach((node) => {
-      node.hidden = Number(node.dataset.step) !== step;
-    });
-    els.progressText.textContent = "Langkah " + step + " dari " + TOTAL_STEPS;
-    els.progressFill.style.width = (step / TOTAL_STEPS) * 100 + "%";
-    els.back.hidden = step === 1;
+    Weton.renderStepper(els, step, TOTAL_STEPS);
     renderLens(state.form.lens);
     if (state.loading) {
       window.setButtonLoading(els.next, true, "Menghitung petung...");
@@ -86,17 +73,17 @@
       return;
     }
     renderSteps(state);
-    showError(state.error);
+    Weton.showError(els.error, state.error);
   }
 
   async function goNext() {
     const state = Weton.getState();
     const side = STEP_SIDE[step];
     if (side && !state.form[side + "_tanggal"]) {
-      showError("Isi tanggal lahir " + (side === "a" ? "orang pertama" : "orang kedua") + " dulu.");
+      Weton.showError(els.error, "Isi tanggal lahir " + (side === "a" ? "orang pertama" : "orang kedua") + " dulu.");
       return;
     }
-    showError("");
+    Weton.showError(els.error, "");
     if (step < TOTAL_STEPS) {
       step += 1;
       renderSteps(state);
@@ -109,7 +96,6 @@
 
   function init(root) {
     els = {
-      root: root,
       stepsSection: byId("m-match-steps"),
       resultSection: byId("m-match-result"),
       steps: Array.from(root.querySelectorAll(".wt-m-step")),
@@ -126,6 +112,7 @@
       panel: byId("m-petung-panel"),
       disclaimer: byId("m-disclaimer"),
       reset: byId("m-match-reset"),
+      fields: {},
       shareTop: byId("m-match-share"),
       shareBottom: byId("m-match-share-bottom"),
     };
@@ -138,14 +125,14 @@
     });
     ["a", "b"].forEach((side) => {
       FIELDS.forEach((field) => {
-        const node = byId("m-" + side + "-" + field);
-        node.addEventListener("input", () => Weton.updateForm({ [side + "_" + field]: node.value }));
+        els.fields[side + "_" + field] = byId("m-" + side + "-" + field);
       });
     });
+    Weton.bindInputs(els.fields);
     els.next.addEventListener("click", goNext);
     els.back.addEventListener("click", () => {
       step = Math.max(1, step - 1);
-      showError("");
+      Weton.showError(els.error, "");
       renderSteps(Weton.getState());
     });
     els.reset.addEventListener("click", () => {
@@ -153,20 +140,11 @@
       activePetung = 0;
       Weton.reset();
     });
-    const shareResult = () => {
-      const result = Weton.getState().result;
-      if (result) Weton.share(Weton.matchShare(result));
-    };
-    els.shareTop.addEventListener("click", shareResult);
-    els.shareBottom.addEventListener("click", shareResult);
+    Weton.bindShare([els.shareTop, els.shareBottom], Weton.matchShare);
   }
 
   function activate(state) {
-    ["a", "b"].forEach((side) => {
-      FIELDS.forEach((field) => {
-        byId("m-" + side + "-" + field).value = state.form[side + "_" + field] || "";
-      });
-    });
+    Weton.syncInputs(els.fields, state.form);
     render(state);
   }
 

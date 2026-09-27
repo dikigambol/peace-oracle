@@ -1,118 +1,18 @@
-{% extends 'base.html' %} {% block title %}Zodiak Peace - General Profile &
-Esensi Zodiak{% endblock %} {% block extra_css %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('zodiak.static', filename='css/style.css') }}"
-/>
-{% endblock %} {% block content %}
-<div class="stars-bg"></div>
-<header class="app-header">
-  <div class="header-container">
-    <h1 class="logo-title">
-      <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
-    </h1>
-  </div>
-  <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"
-      ><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a
-    >
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"
-      ><i class="fa-solid fa-calculator"></i> Kecocokan</a
-    >
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"
-      ><i class="fa-solid fa-compass"></i> General</a
-    >
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"
-      ><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a
-    >
-  </nav>
-</header>
+{% extends 'zodiak/_base.html' %}
+{% import 'zodiak/_macros.html' as z %}
+{% block title %}Zodiak Peace - General Profile &
+Esensi Zodiak{% endblock %}
+{% block zodiak_content %}
 <main class="main-content">
   <section class="portal-grid">
     <div class="zodiac-selector-container">
       <h2 class="section-title">
         <i class="fa-solid fa-fingerprint"></i> Pilih Zodiak
       </h2>
-      <div class="zodiac-grid" id="zodiac-grid">
-        <button class="zodiac-card" data-sign="aries">
-          <span class="zodiac-symbol">♈</span>
-          <h3 class="zodiac-name">Aries</h3>
-          <p class="zodiac-dates">21 Mar - 19 Apr</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="taurus">
-          <span class="zodiac-symbol">♉</span>
-          <h3 class="zodiac-name">Taurus</h3>
-          <p class="zodiac-dates">20 Apr - 20 Mei</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="gemini">
-          <span class="zodiac-symbol">♊</span>
-          <h3 class="zodiac-name">Gemini</h3>
-          <p class="zodiac-dates">21 Mei - 20 Jun</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="cancer">
-          <span class="zodiac-symbol">♋</span>
-          <h3 class="zodiac-name">Cancer</h3>
-          <p class="zodiac-dates">21 Jun - 22 Jul</p>
-          <span class="element-badge water">Air</span>
-        </button>
-        <button class="zodiac-card" data-sign="leo">
-          <span class="zodiac-symbol">♌</span>
-          <h3 class="zodiac-name">Leo</h3>
-          <p class="zodiac-dates">23 Jul - 22 Agu</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="virgo">
-          <span class="zodiac-symbol">♍</span>
-          <h3 class="zodiac-name">Virgo</h3>
-          <p class="zodiac-dates">23 Agu - 22 Sep</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="libra">
-          <span class="zodiac-symbol">♎</span>
-          <h3 class="zodiac-name">Libra</h3>
-          <p class="zodiac-dates">23 Sep - 22 Okt</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="scorpio">
-          <span class="zodiac-symbol">♏</span>
-          <h3 class="zodiac-name">Scorpio</h3>
-          <p class="zodiac-dates">23 Okt - 21 Nov</p>
-          <span class="element-badge water">Air</span>
-        </button>
-        <button
-          class="zodiac-card"
-          data-sign="sagittarius"
-        >
-          <span class="zodiac-symbol">♐</span>
-          <h3 class="zodiac-name">Sagittarius</h3>
-          <p class="zodiac-dates">22 Nov - 21 Des</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="capricorn">
-          <span class="zodiac-symbol">♑</span>
-          <h3 class="zodiac-name">Capricorn</h3>
-          <p class="zodiac-dates">22 Des - 19 Jan</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="aquarius">
-          <span class="zodiac-symbol">♒</span>
-          <h3 class="zodiac-name">Aquarius</h3>
-          <p class="zodiac-dates">20 Jan - 18 Feb</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="pisces">
-          <span class="zodiac-symbol">♓</span>
-          <h3 class="zodiac-name">Pisces</h3>
-          <p class="zodiac-dates">19 Feb - 20 Mar</p>
-          <span class="element-badge water">Air</span>
-        </button>
-      </div>
+      {{ z.zodiac_grid() }}
     </div>
     <div class="details-panel-container">
-      <div class="panel glass-panel">
+      <div class="panel">
         <div class="details-instruction" id="gen-instruction">
           <i class="fa-solid fa-compass cosmic-icon animated-float"></i>
           <h3>Profil General Zodiak</h3>
@@ -122,26 +22,12 @@ Esensi Zodiak{% endblock %} {% block extra_css %}
             lidah, hingga astro decor.
           </p>
         </div>
-        <div class="details-loader hidden" id="gen-loader">
-          <div class="cosmic-spinner-wrapper">
-            <i class="fa-solid fa-atom cosmic-spinner"></i>
-          </div>
-          <p class="loader-text">Membuka Profil General Kosmik...</p>
-        </div>
+        {{ z.loader("gen-loader", "Membuka Profil General Kosmik...") }}
         <div class="details-content hidden" id="gen-content">
           <button class="btn-back-grid" id="btn-back-grid-gen">
             <i class="fa-solid fa-arrow-left"></i> Pilih Zodiak Lain
           </button>
-          <div class="details-header">
-            <span class="details-symbol" id="gen-symbol">♈</span>
-            <div class="details-title-wrapper">
-              <h3 class="details-name" id="gen-name">Aries</h3>
-              <p class="details-dates" id="gen-dates">21 Maret - 19 April</p>
-            </div>
-            <span class="details-element-badge fire" id="gen-element-badge"
-              >Api</span
-            >
-          </div>
+          {{ z.details_header("gen") }}
           <hr class="separator" />
           <div class="char-section">
             <h4 class="char-section-title">
@@ -227,9 +113,7 @@ Esensi Zodiak{% endblock %} {% block extra_css %}
     </div>
   </section>
 </main>
-<footer class="app-footer">
-  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
-</footer>
-{% endblock %} {% block extra_js %}
+{% endblock %}
+{% block zodiak_js %}
 <script src="{{ url_for('zodiak.static', filename='js/general.js') }}"></script>
 {% endblock %}

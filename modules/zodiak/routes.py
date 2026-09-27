@@ -1,11 +1,8 @@
-import datetime
-
 from flask import Blueprint, render_template, jsonify, request
 from .data import (
     ELEMENT_COMPATIBILITY,
     GENERAL_CHARACTERISTICS,
     ZODIAC_DATA,
-    determine_zodiac_from_date,
     generate_dynamic_ratings,
     get_ai_compatibility_modes,
     get_ai_relationship_roast,
@@ -35,7 +32,6 @@ def compatibility_page():
 
 
 @zodiak_bp.route("/zodiak/general")
-@zodiak_bp.route("/zodiak/karakter")
 def general_page():
     return render_template("zodiak/general.html")
 
@@ -51,31 +47,11 @@ def read_sign(value):
     return None
 
 
-def resolve_sign_from_birthdate(value):
-    if not isinstance(value, str):
-        return None
-    try:
-        birth_date = datetime.date.fromisoformat(value.strip())
-    except ValueError:
-        return None
-    return determine_zodiac_from_date(birth_date)
-
-
-@zodiak_bp.route("/api/zodiak/roast", methods=["GET", "POST"])
+@zodiak_bp.route("/api/zodiak/roast")
 def get_roasting_data():
-    refresh = request.args.get("refresh") == "1" or request.args.get("roll") == "1"
-    if request.method == "POST":
-        payload = request.get_json(silent=True)
-        data = payload if isinstance(payload, dict) else {}
-    else:
-        data = request.args
-    sign_key = read_sign(data.get("sign"))
-    sign_b = read_sign(data.get("sign_b"))
-    birthdate = data.get("birthdate")
-    if request.method == "POST" and not refresh:
-        refresh = data.get("refresh") == 1 or data.get("roll") == 1
-    if birthdate:
-        sign_key = resolve_sign_from_birthdate(birthdate) or sign_key
+    refresh = request.args.get("roll") == "1"
+    sign_key = read_sign(request.args.get("sign"))
+    sign_b = read_sign(request.args.get("sign_b"))
     if not sign_key or sign_key not in ZODIAC_DATA:
         sign_key = "aries"
     z = ZODIAC_DATA[sign_key]
@@ -145,7 +121,6 @@ def get_zodiac(sign):
 
 
 @zodiak_bp.route("/api/zodiak/general/<sign>")
-@zodiak_bp.route("/api/zodiak/karakter/<sign>")
 def get_general_details(sign):
     sign_key = sign.lower()
     if sign_key not in ZODIAC_DATA:
@@ -440,6 +415,49 @@ def clean_quiz_answers(value):
     return cleaned
 
 
+def zodiac_pair_score(host_sign, partner_sign):
+    host_key = (host_sign or "").lower()
+    partner_key = (partner_sign or "").lower()
+    if host_key not in ZODIAC_DATA or partner_key not in ZODIAC_DATA:
+        return 75
+    host_element = ZODIAC_DATA[host_key]["element"]
+    partner_element = ZODIAC_DATA[partner_key]["element"]
+    return ELEMENT_COMPATIBILITY.get(host_element, {}).get(partner_element, {}).get("love", 75)
+
+
+def load_json_field(row, field, default=None):
+    return json.loads(row[field]) if row.get(field) else default
+
+
+def fetch_quiz_room(conn, room_code):
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute("SELECT * FROM quiz_rooms WHERE room_code = %s;", (room_code,))
+            return cursor.fetchone()
+    except Exception:
+        return None
+
+
+def completed_room_response(conn, row, room_code, message):
+    conn.close()
+    return jsonify(
+        {
+            "status": "completed",
+            "is_locked": True,
+            "message": message,
+            "room_code": room_code,
+            "host_name": row["host_name"],
+            "host_sign": row["host_sign"],
+            "partner_name": row.get("partner_name"),
+            "partner_sign": row.get("partner_sign"),
+            "match_score": row.get("match_score", 0),
+            "zodiac_score": zodiac_pair_score(row["host_sign"], row["partner_sign"]),
+            "breakdown": load_json_field(row, "breakdown_json", []),
+            "ai_result": load_json_field(row, "ai_result_json"),
+        }
+    )
+
+
 @zodiak_bp.route("/api/zodiak/quiz/create_room", methods=["POST"])
 def create_quiz_room():
     data = request.get_json(silent=True) or {}
@@ -493,53 +511,16 @@ def join_quiz_room():
     conn = get_mysql_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = None
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM quiz_rooms WHERE room_code = %s;", (room_code,)
-            )
-            row = cursor.fetchone()
-    except Exception:
-        pass
+    row = fetch_quiz_room(conn, room_code)
     if not row:
-        if conn:
-            conn.close()
+        conn.close()
         return (
             jsonify({"error": "Room tidak ditemukan. Pastikan kode room benar."}),
             404,
         )
     if row.get("status") == "completed":
-        h_sign = (row["host_sign"] or "").lower()
-        p_sign = (row["partner_sign"] or "").lower()
-        zodiac_score = 75
-        if h_sign in ZODIAC_DATA and p_sign in ZODIAC_DATA:
-            e1 = ZODIAC_DATA[h_sign]["element"]
-            e2 = ZODIAC_DATA[p_sign]["element"]
-            zodiac_score = ELEMENT_COMPATIBILITY.get(e1, {}).get(e2, {}).get("love", 75)
-        breakdown = (
-            json.loads(row["breakdown_json"]) if row.get("breakdown_json") else []
-        )
-        ai_result = (
-            json.loads(row["ai_result_json"]) if row.get("ai_result_json") else None
-        )
-        if conn:
-            conn.close()
-        return jsonify(
-            {
-                "status": "completed",
-                "is_locked": True,
-                "message": "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan.",
-                "room_code": room_code,
-                "host_name": row["host_name"],
-                "host_sign": row["host_sign"],
-                "partner_name": row.get("partner_name"),
-                "partner_sign": row.get("partner_sign"),
-                "match_score": row.get("match_score", 0),
-                "zodiac_score": zodiac_score,
-                "breakdown": breakdown,
-                "ai_result": ai_result,
-            }
+        return completed_room_response(
+            conn, row, room_code, "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan."
         )
     try:
         with conn.cursor() as cursor:
@@ -578,55 +559,16 @@ def submit_quiz_answers():
     conn = get_mysql_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = None
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM quiz_rooms WHERE room_code = %s;", (room_code,)
-            )
-            row = cursor.fetchone()
-    except Exception:
-        pass
+    row = fetch_quiz_room(conn, room_code)
     if not row:
-        if conn:
-            conn.close()
+        conn.close()
         return jsonify({"error": "Room tidak ditemukan."}), 404
     if row.get("status") == "completed":
-        h_sign = (row["host_sign"] or "").lower()
-        p_sign = (row["partner_sign"] or "").lower()
-        zodiac_score = 75
-        if h_sign in ZODIAC_DATA and p_sign in ZODIAC_DATA:
-            e1 = ZODIAC_DATA[h_sign]["element"]
-            e2 = ZODIAC_DATA[p_sign]["element"]
-            zodiac_score = ELEMENT_COMPATIBILITY.get(e1, {}).get(e2, {}).get("love", 75)
-        breakdown = (
-            json.loads(row["breakdown_json"]) if row.get("breakdown_json") else []
+        return completed_room_response(
+            conn, row, room_code, "Room ini sudah selesai dan jawabannya telah terkunci."
         )
-        ai_result = (
-            json.loads(row["ai_result_json"]) if row.get("ai_result_json") else None
-        )
-        if conn:
-            conn.close()
-        return jsonify(
-            {
-                "status": "completed",
-                "is_locked": True,
-                "message": "Room ini sudah selesai dan jawabannya telah terkunci.",
-                "room_code": room_code,
-                "host_name": row["host_name"],
-                "host_sign": row["host_sign"],
-                "partner_name": row.get("partner_name"),
-                "partner_sign": row.get("partner_sign"),
-                "match_score": row.get("match_score", 0),
-                "zodiac_score": zodiac_score,
-                "breakdown": breakdown,
-                "ai_result": ai_result,
-            }
-        )
-    host_answers = json.loads(row["host_answers"]) if row.get("host_answers") else None
-    partner_answers = (
-        json.loads(row["partner_answers"]) if row.get("partner_answers") else None
-    )
+    host_answers = load_json_field(row, "host_answers")
+    partner_answers = load_json_field(row, "partner_answers")
     if role == "host":
         host_answers = answers
         sql_update = "UPDATE quiz_rooms SET host_answers = %s WHERE room_code = %s;"
@@ -649,8 +591,8 @@ def submit_quiz_answers():
         and len(partner_answers) >= 10
     )
     match_score = row.get("match_score", 0)
-    breakdown = json.loads(row["breakdown_json"]) if row.get("breakdown_json") else []
-    ai_result = json.loads(row["ai_result_json"]) if row.get("ai_result_json") else None
+    breakdown = load_json_field(row, "breakdown_json", [])
+    ai_result = load_json_field(row, "ai_result_json")
     if is_both_completed:
         match_score, breakdown = calculate_quiz_match(host_answers, partner_answers)
         host_name = row["host_name"]
@@ -682,13 +624,7 @@ def submit_quiz_answers():
     else:
         if conn:
             conn.close()
-    host_sign = row["host_sign"]
-    partner_sign = row.get("partner_sign") or "taurus"
-    zodiac_score = 75
-    if host_sign in ZODIAC_DATA and partner_sign in ZODIAC_DATA:
-        e1 = ZODIAC_DATA[host_sign]["element"]
-        e2 = ZODIAC_DATA[partner_sign]["element"]
-        zodiac_score = ELEMENT_COMPATIBILITY.get(e1, {}).get(e2, {}).get("love", 75)
+    zodiac_score = zodiac_pair_score(row["host_sign"], row.get("partner_sign") or "taurus")
     return jsonify(
         {
             "status": "completed" if is_both_completed else "waiting_other",
@@ -713,32 +649,10 @@ def get_quiz_room_status(room_code):
     conn = get_mysql_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = None
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM quiz_rooms WHERE room_code = %s;", (room_code,)
-            )
-            row = cursor.fetchone()
-        conn.close()
-    except Exception:
-        if conn:
-            conn.close()
+    row = fetch_quiz_room(conn, room_code)
+    conn.close()
     if not row:
         return jsonify({"error": "Room tidak ditemukan."}), 404
-    h_sign = row["host_sign"].lower()
-    p_sign = (row["partner_sign"] or "").lower()
-    zodiac_score = 75
-    if h_sign in ZODIAC_DATA and p_sign in ZODIAC_DATA:
-        e1 = ZODIAC_DATA[h_sign]["element"]
-        e2 = ZODIAC_DATA[p_sign]["element"]
-        zodiac_score = ELEMENT_COMPATIBILITY.get(e1, {}).get(e2, {}).get("love", 75)
-    host_answers = json.loads(row["host_answers"]) if row.get("host_answers") else None
-    partner_answers = (
-        json.loads(row["partner_answers"]) if row.get("partner_answers") else None
-    )
-    breakdown = json.loads(row["breakdown_json"]) if row.get("breakdown_json") else []
-    ai_result = json.loads(row["ai_result_json"]) if row.get("ai_result_json") else None
     return jsonify(
         {
             "room_code": row["room_code"],
@@ -747,12 +661,12 @@ def get_quiz_room_status(room_code):
             "host_sign": row["host_sign"],
             "partner_name": row.get("partner_name"),
             "partner_sign": row.get("partner_sign"),
-            "has_host_answered": host_answers is not None,
-            "has_partner_answered": partner_answers is not None,
+            "has_host_answered": load_json_field(row, "host_answers") is not None,
+            "has_partner_answered": load_json_field(row, "partner_answers") is not None,
             "match_score": row.get("match_score", 0),
-            "zodiac_score": zodiac_score,
-            "breakdown": breakdown,
-            "ai_result": ai_result,
+            "zodiac_score": zodiac_pair_score(row["host_sign"], row["partner_sign"]),
+            "breakdown": load_json_field(row, "breakdown_json", []),
+            "ai_result": load_json_field(row, "ai_result_json"),
             "created_at": str(row["created_at"]),
         }
     )

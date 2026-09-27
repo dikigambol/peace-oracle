@@ -1,12 +1,9 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let picker = null;
   let renderedResult = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function ready(form) {
     return Boolean(form.date && form.gender);
@@ -45,7 +42,7 @@
   function render(state) {
     const data = state.result;
     Shio.markChoice(els.root, "gender", state.form.gender);
-    Shio.destiny.syncTimeFields(els.hour, els.minute, state.form);
+    Shio.destiny.syncTimeFields(els.time, state.form);
     window.setButtonLoading(els.submit, state.loading, "Membuka gulungan...", !ready(state.form));
     if (!state.loading) els.submit.disabled = !ready(state.form);
     els.empty.hidden = Boolean(data) || state.loading;
@@ -60,8 +57,7 @@
     els = {
       root: root,
       date: byId("d-destiny-date"),
-      hour: byId("d-destiny-hour"),
-      minute: byId("d-destiny-minute"),
+      time: byId("d-destiny-time"),
       city: byId("d-destiny-city"),
       submit: byId("d-destiny-submit"),
       empty: byId("d-destiny-empty"),
@@ -79,13 +75,8 @@
         render(Shio.getState());
       },
     });
-    root.querySelectorAll("[data-gender]").forEach((button) => {
-      button.addEventListener("click", () => {
-        Shio.updateForm({ gender: button.dataset.gender });
-        render(Shio.getState());
-      });
-    });
-    Shio.destiny.bindTimeFields(els.hour, els.minute, () => render(Shio.getState()));
+    Shio.bindGender(root, () => render(Shio.getState()));
+    Shio.destiny.bindTimeFields(els.time, () => render(Shio.getState()));
     els.city.addEventListener("input", () => Shio.updateForm({ city: els.city.value }));
     els.submit.addEventListener("click", async () => {
       const data = await Shio.destiny.submit();

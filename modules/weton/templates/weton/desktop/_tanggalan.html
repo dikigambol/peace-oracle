@@ -1,13 +1,6 @@
+{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-d-shell">
-  <header class="wt-d-header">
-    <a class="wt-d-back" href="{{ url_for('weton.weton_index') }}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Weton</a>
-    <div class="wt-d-brand">
-      <p class="wt-eyebrow">Weton Oracle</p>
-      <h1 class="wt-d-title">Kalender Jawa Harian</h1>
-      <p class="wt-d-lead">Weton, wuku, tanggal Jawa, dan pranata mangsa tiap hari, plus hari istimewa dan hari pantangan yang tercatat di primbon.</p>
-    </div>
-    {% with active = 'kalender' %}{% include 'weton/desktop/_tabs.html' %}{% endwith %}
-  </header>
+  {{ komponen.desktop_header("Kalender Jawa Harian", "Weton, wuku, tanggal Jawa, dan pranata mangsa tiap hari, plus hari istimewa dan hari pantangan yang tercatat di primbon.", "kalender") }}
 
   <div class="wt-d-cal">
     <section class="wt-card wt-d-cal-main" aria-labelledby="d-cal-month">
@@ -47,21 +40,8 @@
       <form class="wt-card wt-d-wetonan" id="d-wetonan-form" novalidate>
         <h2 class="wt-card-title">Tandai wetonanmu</h2>
         <p class="wt-hint">Isi tanggal lahirmu, nanti hari dengan weton yang sama ditandai di kalender.</p>
-        <label class="wt-field" for="d-lahir-tanggal">
-          <span class="wt-label">Tanggal lahir</span>
-          <input class="wt-input" id="d-lahir-tanggal" placeholder="Pilih tanggal" readonly autocomplete="off"
-                 data-min="{{ first_date }}" data-max="{{ last_date }}" />
-        </label>
-        <div class="wt-d-person-row">
-          <label class="wt-field" for="d-lahir-jam">
-            <span class="wt-label">Jam <em class="wt-optional">opsional</em></span>
-            <input class="wt-input" id="d-lahir-jam" type="time" />
-          </label>
-          <label class="wt-field" for="d-lahir-kota">
-            <span class="wt-label">Kota <em class="wt-optional">opsional</em></span>
-            <input class="wt-input" id="d-lahir-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
-          </label>
-        </div>
+        {{ komponen.desktop_date("d-lahir-tanggal") }}
+        {{ komponen.desktop_time_city("d-lahir") }}
         <div class="wt-d-wetonan-actions">
           <button class="wt-btn wt-btn-primary" id="d-wetonan-submit" type="submit">Tandai</button>
           <button class="wt-btn wt-btn-ghost" id="d-wetonan-clear" type="button" hidden>Hapus tanda</button>

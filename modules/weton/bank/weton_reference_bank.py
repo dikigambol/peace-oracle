@@ -76,12 +76,10 @@ KURUP = {
     "aboge": {
         "name": "Aboge",
         "long_name": "Alip Rebo Wage",
-        "note": "Setiap tahun Alip, 1 Sura jatuh pada Rabu Wage.",
     },
     "asapon": {
         "name": "Asapon",
         "long_name": "Alip Selasa Pon",
-        "note": "Setiap tahun Alip, 1 Sura jatuh pada Selasa Pon.",
     },
 }
 
@@ -170,31 +168,35 @@ GLOSSARY = {
 HUB_FEATURES = [
     {
         "key": "lahir",
+        "short": "Lahir",
         "endpoint": "weton.weton_birth_page",
         "icon": "fa-seedling",
         "title": "Cek Weton Lahir",
-        "text": "Weton, neptu, wuku, tanggal Jawa, dan watakmu, lengkap dengan koreksi jam maghrib.",
+        "text": "Cek weton, neptu, wuku, dan watakmu. Lahir habis maghrib? Hari Jawanya ikut disesuaikan.",
     },
     {
         "key": "kecocokan",
+        "short": "Cocok",
         "endpoint": "weton.weton_compatibility_page",
         "icon": "fa-people-arrows",
         "title": "Kecocokan Weton",
-        "text": "Dua petung primbon berdampingan untuk asmara, pertemanan, atau rekan kerja.",
+        "text": "Cek kecocokan dua weton pakai dua metode petung, buat asmara, pertemanan, atau partner kerja.",
     },
     {
         "key": "kalender",
+        "short": "Kalender",
         "endpoint": "weton.weton_calendar_page",
         "icon": "fa-calendar-days",
         "title": "Kalender Jawa Harian",
-        "text": "Weton tiap hari, pranata mangsa, hari istimewa, dan hari pantangan dari primbon.",
+        "text": "Cek weton harian, pranata mangsa, plus hari istimewa dan hari pantangan versi primbon.",
     },
     {
         "key": "roasting",
+        "short": "Roasting",
         "endpoint": "weton.weton_roasting_page",
         "icon": "fa-fire",
         "title": "Roasting Weton",
-        "text": "Sindiran lucu dari watak weton kamu, sendirian atau berdua sama orang lain.",
+        "text": "Roasting lucu berdasarkan watak weton kamu, solo atau bareng partner.",
     },
 ]
 

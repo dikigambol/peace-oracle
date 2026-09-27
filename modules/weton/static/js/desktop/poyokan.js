@@ -1,5 +1,6 @@
 (function () {
   const Weton = window.Weton;
+  const byId = Weton.byId;
   const SIDES = ["a", "b"];
   const TEXT_FIELDS = { a: ["jam", "kota"], b: ["nama", "jam", "kota"] };
   const SOLO_CARDS = 4;
@@ -8,10 +9,6 @@
   const pickers = {};
   let renderedResult = null;
   let shown = { solo: [], duo: [] };
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function nextIndex(pool, current) {
     if (pool.length <= current.length) return null;
@@ -44,12 +41,12 @@
 
   function renderCards(result) {
     Weton.clear(els.cards);
-    shown.solo.forEach((index, slot) => {
+    shown.solo.forEach((_, slot) => {
       els.cards.appendChild(buildCard("solo", result.roasts, slot, "Roast " + (slot + 1)));
     });
     Weton.clear(els.duoCards);
     if (result.duo) {
-      shown.duo.forEach((index, slot) => {
+      shown.duo.forEach((_, slot) => {
         els.duoCards.appendChild(buildCard("duo", result.duo.roasts, slot, "Roast berdua " + (slot + 1)));
       });
     }
@@ -86,31 +83,21 @@
 
   function render(state) {
     window.setButtonLoading(els.submit, state.loading, "Menyiapkan roasting...");
-    els.error.hidden = !state.error;
-    els.error.textContent = state.error;
+    Weton.showError(els.error, state.error);
     renderResult(state.result);
   }
 
   function syncInputs(form) {
     SIDES.forEach((side) => {
-      const value = form[side + "_tanggal"] || "";
-      if (pickers[side]) {
-        if (value) pickers[side].setDate(value, false);
-        else pickers[side].clear(false);
-      } else {
-        byId("d-" + side + "-tanggal").value = value;
-      }
-      TEXT_FIELDS[side].forEach((field) => {
-        byId("d-" + side + "-" + field).value = form[side + "_" + field] || "";
-      });
+      Weton.syncPicker(pickers[side], byId("d-" + side + "-tanggal"), form[side + "_tanggal"]);
     });
+    Weton.syncInputs(els.fields, form);
     els.duoToggle.checked = Boolean(form.duo);
     els.duoFields.hidden = !form.duo;
   }
 
   function init(root) {
     els = {
-      root: root,
       form: byId("d-roast-form"),
       submit: byId("d-roast-submit"),
       error: byId("d-roast-error"),
@@ -128,38 +115,24 @@
       disclaimer: byId("d-roast-disclaimer"),
       duoToggle: byId("d-duo"),
       duoFields: byId("d-duo-fields"),
+      fields: {},
     };
     SIDES.forEach((side) => {
-      const input = byId("d-" + side + "-tanggal");
-      window.initDatePicker("#d-" + side + "-tanggal", {
-        dateFormat: "Y-m-d",
-        altInput: true,
-        altFormat: "j F Y",
-        locale: "id",
-        minDate: input.dataset.min,
-        maxDate: input.dataset.max,
-        disableMobile: true,
-        onChange: (dates, str) => Weton.updateForm({ [side + "_tanggal"]: str }),
-      });
-      pickers[side] = input._flatpickr || null;
+      pickers[side] = Weton.initDate(byId("d-" + side + "-tanggal"), (str) => Weton.updateForm({ [side + "_tanggal"]: str }));
       TEXT_FIELDS[side].forEach((field) => {
-        const node = byId("d-" + side + "-" + field);
-        node.addEventListener("input", () => Weton.updateForm({ [side + "_" + field]: node.value }));
+        els.fields[side + "_" + field] = byId("d-" + side + "-" + field);
       });
     });
+    Weton.bindInputs(els.fields);
     els.duoToggle.addEventListener("change", () => {
       Weton.updateForm({ duo: els.duoToggle.checked });
       els.duoFields.hidden = !els.duoToggle.checked;
     });
     els.form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const form = Weton.getState().form;
-      let message = "";
-      if (!form.a_tanggal) message = "Isi tanggal lahirmu dulu.";
-      else if (form.duo && !form.b_tanggal) message = "Isi tanggal lahir orang kedua dulu, atau matikan roasting berdua.";
+      const message = Weton.roastError(Weton.getState().form);
       if (message) {
-        els.error.hidden = false;
-        els.error.textContent = message;
+        Weton.showError(els.error, message);
         return;
       }
       Weton.submit();
@@ -177,10 +150,7 @@
       const card = button.closest(".wt-roast-card");
       card.querySelector(".wt-roast-text").textContent = pool[replacement];
     });
-    els.share.addEventListener("click", () => {
-      const result = Weton.getState().result;
-      if (result) Weton.share(Weton.roastShare(result, result.roasts[shown.solo[0]]));
-    });
+    Weton.bindShare([els.share], (result) => Weton.roastShare(result, result.roasts[shown.solo[0]]));
   }
 
   function activate(state) {

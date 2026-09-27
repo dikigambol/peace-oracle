@@ -1,28 +1,15 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   const TOTAL_STEPS = 3;
   const LENS_LABEL = { asmara: "Asmara", pertemanan: "Pertemanan", kerja: "Rekan Kerja" };
   let els = null;
   let step = 1;
   let renderedResult = null;
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function showError(message) {
-    els.error.hidden = !message;
-    els.error.textContent = message || "";
-  }
-
   function renderSteps(state) {
-    els.steps.forEach((node) => {
-      node.hidden = Number(node.dataset.step) !== step;
-    });
-    els.progressText.textContent = "Langkah " + step + " dari " + TOTAL_STEPS;
-    els.progressFill.style.width = (step / TOTAL_STEPS) * 100 + "%";
-    els.back.hidden = step === 1;
-    Shio.compat.markLens(els.root, state.form.lens);
+    Shio.renderStepper(els, step, TOTAL_STEPS);
+    Shio.markRadio(els.root, "lens", state.form.lens);
     els.date1.value = state.form.date1 || "";
     els.date2.value = state.form.date2 || "";
     if (state.loading) {
@@ -65,7 +52,7 @@
   async function goNext() {
     const state = Shio.getState();
     const problem = validate(state.form);
-    showError(problem);
+    Shio.showError(els.error, problem);
     if (problem) return;
     if (step < TOTAL_STEPS) {
       step += 1;
@@ -95,21 +82,21 @@
     root.querySelectorAll("[data-lens]").forEach((chip) => {
       chip.addEventListener("click", () => {
         Shio.updateForm({ lens: chip.dataset.lens });
-        Shio.compat.markLens(root, chip.dataset.lens);
+        Shio.markRadio(root, "lens", chip.dataset.lens);
       });
     });
     Shio.mobileDate(els.date1, (value) => {
       Shio.updateForm({ date1: value });
-      showError("");
+      Shio.showError(els.error, "");
     });
     Shio.mobileDate(els.date2, (value) => {
       Shio.updateForm({ date2: value });
-      showError("");
+      Shio.showError(els.error, "");
     });
     els.next.addEventListener("click", goNext);
     els.back.addEventListener("click", () => {
       step = Math.max(1, step - 1);
-      showError("");
+      Shio.showError(els.error, "");
       renderSteps(Shio.getState());
     });
     byId("m-compat-reset").addEventListener("click", () => {

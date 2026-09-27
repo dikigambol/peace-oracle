@@ -11,12 +11,27 @@
 {% block content %}
 <div class="sh-stage" id="shio-bg">
   <canvas id="particle-canvas"></canvas>
-  {% block shio_app %}{% endblock %}
+  {% block shio_app %}
+  <div class="sh-app" id="sh-app" data-page="{{ page }}"{% if page_api %} data-api="{{ url_for(page_api) }}"{% endif %} data-static="{{ url_for('shio.static', filename='') }}"{% for name, value in (page_data or {}).items() %} data-{{ name }}="{{ value }}"{% endfor %}>
+    {% block shio_prelude %}{% endblock %}
+    <div class="sh-layout sh-layout-desktop" data-layout="desktop">
+      {% include 'shio/desktop/_' ~ page ~ '.html' %}
+    </div>
+    <div class="sh-layout sh-layout-mobile" data-layout="mobile">
+      {% include 'shio/mobile/_' ~ page ~ '.html' %}
+    </div>
+  </div>
+  {% endblock %}
 </div>
 {% endblock %}
 {% block extra_js %}
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
 <script src="{{ url_for('shio.static', filename='js/shio-core.js') }}"></script>
-{% block shio_js %}{% endblock %}
+{% block shio_js %}
+{% if page %}
+<script src="{{ url_for('shio.static', filename='js/desktop/' ~ page ~ '.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/mobile/' ~ page ~ '.js') }}"></script>
+{% endif %}
+{% endblock %}
 {% endblock %}

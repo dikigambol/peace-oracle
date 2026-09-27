@@ -1,11 +1,8 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let picker = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function render(state) {
     const form = state.form;
@@ -28,15 +25,10 @@
     picker = Shio.desktopDate(els.birth, {
       onChange: (dates, value) => Shio.updateForm({ birth: value || "" }),
     });
-    els.code.addEventListener("input", () => Shio.updateForm({ code: els.code.value }));
-    els.name.addEventListener("input", () => Shio.updateForm({ name: els.name.value }));
+    Shio.quizLobby.bindJoin(els, byId("d-quiz-join"));
     Shio.quizLobby.bindOptions(root, (attribute) => {
       render(Shio.getState());
       if (attribute === "mode") Shio.scrollIntoView(els.create);
-    });
-    byId("d-quiz-join").addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!Shio.quizLobby.joinByCode()) els.code.focus();
     });
     els.create.addEventListener("submit", (event) => {
       event.preventDefault();

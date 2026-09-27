@@ -1,34 +1,14 @@
+{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-m-shell" data-bottom-nav>
-  <header class="wt-m-appbar">
-    <a class="wt-m-icon" href="{{ url_for('weton.weton_index') }}" aria-label="Kembali ke menu Weton">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    </a>
-    <h1 class="wt-m-title">Roasting Weton</h1>
-    <button class="wt-m-icon" id="m-roast-share" type="button" aria-label="Bagikan roast ini" hidden>
-      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-    </button>
-  </header>
+  {{ komponen.mobile_appbar("Roasting Weton", "m-roast-share", "Bagikan roast ini") }}
 
   <main class="wt-m-main">
     <section class="wt-m-steps" id="m-roast-form" aria-labelledby="m-roast-question">
       <p class="wt-eyebrow">Roasting Weton</p>
       <h2 class="wt-m-question" id="m-roast-question">Kapan kamu lahir?</h2>
       <p class="wt-m-help">Primbon bakal membaca wetonmu, lalu kami ubah jadi sindiran yang lucu tapi tetap sopan.</p>
-      <label class="wt-field" for="m-a-tanggal">
-        <span class="wt-label">Tanggal lahir</span>
-        <input class="wt-input wt-input-lg" id="m-a-tanggal" type="date" min="{{ first_date }}" max="{{ last_date }}" />
-      </label>
-      <details class="wt-m-more">
-        <summary>Jam &amp; kota lahir <em class="wt-optional">opsional</em></summary>
-        <label class="wt-field" for="m-a-jam">
-          <span class="wt-label">Jam lahir</span>
-          <input class="wt-input wt-input-lg" id="m-a-jam" type="time" />
-        </label>
-        <label class="wt-field" for="m-a-kota">
-          <span class="wt-label">Kota lahir</span>
-          <input class="wt-input wt-input-lg" id="m-a-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
-        </label>
-      </details>
+      {{ komponen.mobile_date("m-a-tanggal") }}
+      {{ komponen.mobile_time_city("m-a") }}
 
       <label class="wt-toggle wt-m-toggle" for="m-duo">
         <input type="checkbox" id="m-duo" />
@@ -36,25 +16,9 @@
       </label>
 
       <div class="wt-m-duo-fields" id="m-duo-fields" hidden>
-        <label class="wt-field" for="m-b-nama">
-          <span class="wt-label">Nama <em class="wt-optional">opsional</em></span>
-          <input class="wt-input wt-input-lg" id="m-b-nama" maxlength="24" placeholder="Orang kedua" autocomplete="off" />
-        </label>
-        <label class="wt-field" for="m-b-tanggal">
-          <span class="wt-label">Tanggal lahir orang kedua</span>
-          <input class="wt-input wt-input-lg" id="m-b-tanggal" type="date" min="{{ first_date }}" max="{{ last_date }}" />
-        </label>
-        <details class="wt-m-more">
-          <summary>Jam &amp; kota lahirnya <em class="wt-optional">opsional</em></summary>
-          <label class="wt-field" for="m-b-jam">
-            <span class="wt-label">Jam lahir</span>
-            <input class="wt-input wt-input-lg" id="m-b-jam" type="time" />
-          </label>
-          <label class="wt-field" for="m-b-kota">
-            <span class="wt-label">Kota lahir</span>
-            <input class="wt-input wt-input-lg" id="m-b-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
-          </label>
-        </details>
+        {{ komponen.name_field("m-b-nama", "Orang kedua", " wt-input-lg") }}
+        {{ komponen.mobile_date("m-b-tanggal", "Tanggal lahir orang kedua") }}
+        {{ komponen.mobile_time_city("m-b", "Jam &amp; kota lahirnya") }}
       </div>
 
       <p class="wt-error" id="m-roast-error" role="alert" hidden></p>
@@ -88,5 +52,5 @@
     </section>
   </main>
 
-  {% with active = 'roasting' %}{% include 'weton/mobile/_tabbar.html' %}{% endwith %}
+  {{ komponen.mobile_tabbar("roasting") }}
 </div>

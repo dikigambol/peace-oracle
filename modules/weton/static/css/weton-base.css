@@ -375,7 +375,8 @@
   white-space: nowrap;
 }
 
-.wt-tone-baik {
+.wt-tone-baik,
+.wt-badge-istimewa {
   background: rgba(var(--wt-leaf-rgb), 0.16);
   color: var(--wt-leaf);
 }
@@ -385,7 +386,8 @@
   color: var(--wt-gold);
 }
 
-.wt-tone-berat {
+.wt-tone-berat,
+.wt-badge-pantangan {
   background: rgba(var(--wt-rose-rgb), 0.16);
   color: var(--wt-rose);
 }
@@ -544,16 +546,6 @@
   border-radius: var(--wt-radius-pill);
   font-size: 0.75rem;
   font-weight: 700;
-}
-
-.wt-badge-istimewa {
-  background: rgba(var(--wt-leaf-rgb), 0.16);
-  color: var(--wt-leaf);
-}
-
-.wt-badge-pantangan {
-  background: rgba(var(--wt-rose-rgb), 0.16);
-  color: var(--wt-rose);
 }
 
 .wt-badge-wetonan {

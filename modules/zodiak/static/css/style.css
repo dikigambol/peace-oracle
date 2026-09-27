@@ -3,21 +3,47 @@
   --text-light: #f3f4f6;
   --text-muted: #9ca3af;
   --primary-glow: rgba(139, 92, 246, 0.25);
-  --secondary-glow: rgba(236, 72, 153, 0.2);
   --accent-gold: #f59e0b;
-  --card-bg: rgba(17, 12, 36, 0.72);
   --border-color: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(139, 92, 246, 0.4);
   --fire: #f43f5e;
-  --fire-glow: rgba(244, 63, 94, 0.25);
   --earth: #10b981;
-  --earth-glow: rgba(16, 185, 129, 0.25);
   --air: #38bdf8;
-  --air-glow: rgba(56, 189, 248, 0.25);
   --water: #818cf8;
-  --water-glow: rgba(129, 140, 248, 0.25);
   --font-heading: "Space Grotesk", sans-serif;
   --font-body: "Plus Jakarta Sans", sans-serif;
+}
+.loader-text {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  background: linear-gradient(
+    90deg,
+    #6b4cff,
+    #ffd700,
+    #4caf50,
+    #ff4081,
+    #6b4cff
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 100%;
+  animation: gradient-shift 4s infinite linear;
+}
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+@media (max-width: 768px) {
+  .loader-text {
+    font-size: 1rem;
+    text-align: center;
+    letter-spacing: 1px;
+  }
 }
 * {
   margin: 0;
@@ -25,11 +51,7 @@
   box-sizing: border-box;
 }
 body {
-  background-color: var(--bg-dark);
-  color: var(--text-light);
-  font-family: var(--font-body);
   min-height: 100vh;
-  overflow-x: hidden;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -604,11 +626,6 @@ body {
   color: var(--text-light);
   background: rgba(255, 255, 255, 0.1);
 }
-@media (max-width: 968px) {
-  .btn-back-grid {
-    display: inline-flex;
-  }
-}
 .details-instruction {
   display: flex;
   flex-direction: column;
@@ -917,23 +934,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-@keyframes heartBeat {
-  0% {
-    transform: scale(1);
-  }
-  15% {
-    transform: scale(1.2);
-  }
-  30% {
-    transform: scale(1);
-  }
-  45% {
-    transform: scale(1.1);
-  }
-  60% {
-    transform: scale(1);
-  }
+  margin: 1.25rem 0;
 }
 .relation-mode-container {
   margin-bottom: 1.5rem;
@@ -1536,12 +1537,6 @@ body {
   font-size: 0.86rem;
   line-height: 1.5;
   color: #e5e7eb;
-}
-.heart-divider-large {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 1.25rem 0;
 }
 .vs-circle-pink {
   width: 48px;
@@ -2294,8 +2289,6 @@ body {
     padding: 0.65rem 0.9rem;
     font-size: 0.85rem;
   }
-}
-@media (max-width: 768px) {
   .quiz-main-panel {
     padding: 1.75rem;
     border-radius: 20px;

@@ -1,26 +1,16 @@
+{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  <header class="sh-m-appbar">
-    <a class="sh-m-icon" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    </a>
-    <h1 class="sh-m-title">Pei Dui</h1>
-    <span aria-hidden="true"></span>
-  </header>
+  {{ zujian.appbar("Pei Dui") }}
 
   <main class="sh-m-main">
     <section class="sh-m-steps" id="m-compat-steps">
-      <div class="sh-m-progress">
-        <span class="sh-m-progress-text" id="m-compat-progress-text">Langkah 1 dari 3</span>
-        <div class="sh-m-progress-bar" aria-hidden="true"><span id="m-compat-progress-fill"></span></div>
-      </div>
+      {{ zujian.progress("compat", 3) }}
 
       <div class="sh-m-step" data-step="1">
         <h2 class="sh-m-question" id="m-compat-lens-label">Hubungan kalian apa?</h2>
         <p class="sh-m-help">Lensa ini mengubah cara membaca narasi, bukan skor relasi shio.</p>
         <div class="sh-m-choice-list" role="radiogroup" aria-labelledby="m-compat-lens-label">
-          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="asmara">Asmara</button>
-          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="pertemanan">Pertemanan</button>
-          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="kerja">Rekan Kerja</button>
+          {{ zujian.lens_chips() }}
         </div>
       </div>
 
@@ -43,10 +33,7 @@
       </div>
 
       <p class="sh-error" id="m-compat-error" role="alert" hidden></p>
-      <div class="sh-m-actions">
-        <button class="sh-btn sh-btn-ghost" type="button" id="m-compat-back" hidden>Kembali</button>
-        <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-compat-next">Lanjut</button>
-      </div>
+      {{ zujian.actions("compat") }}
     </section>
 
     <section class="sh-result" id="m-compat-result" hidden aria-live="polite">

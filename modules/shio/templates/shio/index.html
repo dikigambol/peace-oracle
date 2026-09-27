@@ -6,23 +6,12 @@
 <div class="sh-app" id="sh-app" data-page="shio" data-api="{{ url_for('shio.shio_daily_api') }}" data-static="{{ url_for('shio.static', filename='') }}">
   <div class="sh-layout sh-layout-desktop" data-layout="desktop">
     <div class="sh-d-shell">
-      {% with title='Shio Oracle', lead='Decode elemen bawaanmu, align dengan energi kosmik, dan capai inner peace.', hub=true %}
+      {% with title='Shio Oracle', lead='Shio kamu bukan sekadar hewan di kalender. Ba Zi, energi tahunan, sampai kecocokan dihitung langsung dari kalender Tionghoa.', hub=true %}
       {% include 'shio/desktop/_header.html' %}
       {% endwith %}
 
       <section class="sh-d-hub" data-view="menu">
-        <button class="sh-card sh-hub-card sh-hub-card-wide" type="button" data-action="almanac" id="d-open-almanac">
-          <i class="fa-solid fa-calendar-day" aria-hidden="true"></i>
-          <span class="sh-hub-title">Almanak Harian (Tong Shu)</span>
-          <span class="sh-hub-text">Hari ini cocok buat apa, dan buat apa jangan</span>
-        </button>
-        {% for feature in caidan.features %}
-        <a class="sh-card sh-hub-card" href="{{ url_for(feature.endpoint) }}">
-          <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i>
-          <span class="sh-hub-title">{{ feature.title }}</span>
-          <span class="sh-hub-text">{{ feature.text }}</span>
-        </a>
-        {% endfor %}
+        {{ caidan.hub_cards("d") }}
       </section>
 
       <section data-view="almanac" hidden>
@@ -71,20 +60,9 @@
 
       <main class="sh-m-main">
         <section data-view="menu">
-          <p class="sh-m-lead">Decode elemen bawaanmu, align dengan energi kosmik, dan capai inner peace.</p>
+          <p class="sh-m-lead">Shio kamu bukan sekadar hewan di kalender. Pilih fitur yang mau kamu coba.</p>
           <div class="sh-m-hub">
-            <button class="sh-card sh-hub-card sh-hub-card-wide" type="button" data-action="almanac" id="m-open-almanac">
-              <i class="fa-solid fa-calendar-day" aria-hidden="true"></i>
-              <span class="sh-hub-title">Almanak Harian (Tong Shu)</span>
-              <span class="sh-hub-text">Hari ini cocok buat apa, dan buat apa jangan</span>
-            </button>
-            {% for feature in caidan.features %}
-            <a class="sh-card sh-hub-card" href="{{ url_for(feature.endpoint) }}">
-              <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i>
-              <span class="sh-hub-title">{{ feature.title }}</span>
-              <span class="sh-hub-text">{{ feature.text }}</span>
-            </a>
-            {% endfor %}
+            {{ caidan.hub_cards("m") }}
           </div>
         </section>
 

@@ -149,15 +149,76 @@ window.setButtonLoading = function (button, isLoading, labelWhenLoading, disable
   }
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      const loader = document.getElementById("global-loader");
-      if (loader) {
-        loader.classList.add("hidden");
-      }
-    }, 500);
+function initPageLoader() {
+  const loader = document.getElementById("global-loader");
+  if (!loader) return;
+  const fill = loader.querySelector(".pl-fill");
+  const percent = loader.querySelector(".pl-percent");
+  const reduceMotion = window.prefersReducedMotion();
+  const startedAt = performance.now();
+  const pendingImages = Array.from(document.images).filter((img) => !img.complete);
+  const totalAssets = pendingImages.length + 1;
+  let settledAssets = 0;
+  let pageLoaded = document.readyState === "complete";
+  let shown = 0;
+  let finished = false;
+
+  const settle = () => {
+    settledAssets += 1;
+  };
+  pendingImages.forEach((img) => {
+    img.addEventListener("load", settle, { once: true });
+    img.addEventListener("error", settle, { once: true });
   });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(settle, settle);
+  } else {
+    settle();
+  }
+
+  const render = (value) => {
+    const rounded = Math.round(value);
+    if (fill) fill.style.transform = `scaleX(${value / 100})`;
+    if (percent) percent.textContent = `${rounded}%`;
+    loader.setAttribute("aria-valuenow", String(rounded));
+  };
+  const finish = (delay) => {
+    finished = true;
+    render(100);
+    setTimeout(() => loader.classList.add("hidden"), delay);
+  };
+  const tick = (now) => {
+    if (finished) return;
+    let target = 100;
+    if (!pageLoaded) {
+      const timeFloor = 90 * (1 - Math.exp(-(now - startedAt) / 900));
+      const assetProgress = 15 + 75 * (settledAssets / totalAssets);
+      target = Math.min(90, Math.max(assetProgress, timeFloor));
+    }
+    const easing = reduceMotion ? 1 : pageLoaded ? 0.2 : 0.12;
+    shown = Math.max(shown, shown + (target - shown) * easing);
+    if (target === 100 && shown > 99.5) {
+      finish(200);
+      return;
+    }
+    render(shown);
+    requestAnimationFrame(tick);
+  };
+
+  window.addEventListener("load", () => {
+    pageLoaded = true;
+  }, { once: true });
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) finish(0);
+  });
+  setTimeout(() => {
+    pageLoaded = true;
+  }, 8000);
+  requestAnimationFrame(tick);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initPageLoader();
   const modeSwitcherToggle = document.getElementById("mode-switcher-toggle");
   const modeSwitcherContainer = document.querySelector(
     ".mode-switcher-container",
@@ -172,69 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
         modeSwitcherContainer.classList.remove("active");
       }
     });
-  }
-  const logoTitles = document.querySelectorAll(".logo-title");
-  const zodiacSymbols = [
-    "♈",
-    "♉",
-    "♊",
-    "♋",
-    "♌",
-    "♍",
-    "♎",
-    "♏",
-    "♐",
-    "♑",
-    "♒",
-    "♓",
-  ];
-  let symbolIndex = 0;
-  logoTitles.forEach((logoTitle) => {
-    const icon = logoTitle.querySelector(".logo-icon");
-    if (icon && !logoTitle.querySelector(".logo-icon-wrapper")) {
-      const wrapper = document.createElement("span");
-      wrapper.className = "logo-icon-wrapper";
-      const badge = document.createElement("span");
-      badge.className = "cute-zodiac-badge";
-      badge.innerText = zodiacSymbols[0];
-      const sparkle1 = document.createElement("span");
-      sparkle1.className = "cute-sparkle-dot s1";
-      sparkle1.innerText = "✨";
-      const sparkle2 = document.createElement("span");
-      sparkle2.className = "cute-sparkle-dot s2";
-      sparkle2.innerText = "⭐";
-      icon.parentNode.insertBefore(wrapper, icon);
-      wrapper.appendChild(icon);
-      wrapper.appendChild(badge);
-      wrapper.appendChild(sparkle1);
-      wrapper.appendChild(sparkle2);
-    }
-    logoTitle.addEventListener("click", (e) => {
-      const rect = logoTitle.getBoundingClientRect();
-      const popIcons = ["✨", "⭐", "♈", "♌", "💖", "🌟", "🔮", "♒", "♓"];
-      for (let i = 0; i < 7; i++) {
-        const particle = document.createElement("span");
-        particle.className = "cute-pop-particle";
-        particle.innerText =
-          popIcons[Math.floor(Math.random() * popIcons.length)];
-        particle.style.left = `${e.clientX - rect.left + (Math.random() * 50 - 25)}px`;
-        particle.style.top = `${e.clientY - rect.top + (Math.random() * 20 - 10)}px`;
-        logoTitle.appendChild(particle);
-        setTimeout(() => particle.remove(), 900);
-      }
-    });
-  });
-  if (logoTitles.length > 0) {
-    setInterval(() => {
-      symbolIndex = (symbolIndex + 1) % zodiacSymbols.length;
-      document.querySelectorAll(".cute-zodiac-badge").forEach((badge) => {
-        badge.classList.add("pop-out");
-        setTimeout(() => {
-          badge.innerText = zodiacSymbols[symbolIndex];
-          badge.classList.remove("pop-out");
-        }, 200);
-      });
-    }, 1800);
   }
 });
 

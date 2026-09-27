@@ -1,7 +1,7 @@
 import hashlib
 import requests
-import os
-import json
+
+from .ai_client import ask_openrouter, get_openrouter_api_key
 
 HOROSCOPE_BANK = {
     "aries": {
@@ -56530,36 +56530,6 @@ MUSIC_BANK = {
 AI_HOROSCOPE_CACHE = {}
 
 
-def get_openrouter_api_key():
-    for key_name in [
-        "OPENROUTER_API_KEY",
-        "openrouter_key",
-        "OPENROUTER_KEY",
-        "OPENROUTER_TOKEN",
-    ]:
-        val = os.getenv(key_name)
-        if val:
-            return val.strip()
-    env_paths = [
-        os.path.join(os.path.dirname(__file__), "..", "..", ".env"),
-        os.path.join(os.getcwd(), ".env"),
-        ".env",
-    ]
-    for env_path in env_paths:
-        if os.path.exists(env_path):
-            try:
-                with open(env_path, "r", encoding="utf-8") as f:
-                    for line in f:
-                        line = line.strip()
-                        if "=" in line and not line.startswith("#"):
-                            k, v = line.split("=", 1)
-                            if "openrouter" in k.lower():
-                                return v.strip()
-            except Exception:
-                pass
-    return None
-
-
 def get_bank_horoscope(sign_key, cosmic):
     sign_key = sign_key.lower()
     sign_data = HOROSCOPE_BANK.get(sign_key, HOROSCOPE_BANK["aries"])
@@ -56585,16 +56555,21 @@ def get_bank_horoscope(sign_key, cosmic):
     }
 
 
+def get_fallback_horoscope(sign_key, cosmic):
+    fallback_res = get_bank_horoscope(sign_key, cosmic)
+    fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
+    return fallback_res
+
+
 def get_daily_horoscope(sign_key, cosmic):
     sign_key = sign_key.lower()
     date_str = cosmic.get("date", "")
     cache_key = f"{sign_key}_{date_str}"
     from modules.zodiak.ai_limiter import check_ai_quota, increment_ai_quota
 
-    is_allowed, count, limit, notice = check_ai_quota()
+    is_allowed, notice = check_ai_quota()
     if not is_allowed:
-        fallback_res = get_bank_horoscope(sign_key, cosmic)
-        fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
+        fallback_res = get_fallback_horoscope(sign_key, cosmic)
         fallback_res["ai_notice"] = notice
         fallback_res["is_ai_quota_exceeded"] = True
         return fallback_res
@@ -56604,9 +56579,7 @@ def get_daily_horoscope(sign_key, cosmic):
         return cached
     api_key = get_openrouter_api_key()
     if not api_key:
-        fallback_res = get_bank_horoscope(sign_key, cosmic)
-        fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
-        return fallback_res
+        return get_fallback_horoscope(sign_key, cosmic)
     sign_name = sign_key.capitalize()
     moon_fmt = f"{cosmic.get('moon_emoji', '')} {cosmic.get('moon_phase', '')}"
     weather_fmt = cosmic.get("weather", "")
@@ -56645,120 +56618,84 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
   "music_genre": "...",
   "music_reason": "..."
 }} """
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia",
-    }
-    models = ["google/gemini-2.5-flash-lite"]
-    for model in models:
-        try:
-            payload = {
-                "model": model,
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "Kamu adalah ahli astrologi berpengalaman yang memberikan ramalan zodiak dan rekomendasi lagu musik dengan gaya bahasa Indonesia yang natural, hangat, santai, dan modern. Kembalikan respons HANYA dalam format JSON valid.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.8,
-            }
-            resp = requests.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=8,
-            )
-            if resp.status_code == 200:
-                res_data = resp.json()
-                content = res_data["choices"][0]["message"]["content"].strip()
-                if content.startswith("```"):
-                    content = content.split("\n", 1)[-1]
-                    if content.endswith("```"):
-                        content = content.rsplit("```", 1)[0]
-                    content = content.strip()
-                if content.startswith("json"):
-                    content = content[4:].strip()
-                parsed = json.loads(content)
-                if all(k in parsed for k in ["summary", "love", "career", "health"]):
-                    from modules.zodiak.data import (
-                        ZODIAC_DATA,
-                        generate_dynamic_ratings,
-                    )
+    try:
+        parsed = ask_openrouter(api_key, "Kamu adalah ahli astrologi berpengalaman yang memberikan ramalan zodiak dan rekomendasi lagu musik dengan gaya bahasa Indonesia yang natural, hangat, santai, dan modern. Kembalikan respons HANYA dalam format JSON valid.", prompt, 0.8, timeout=8)
+        if parsed is not None:
+            if all(k in parsed for k in ["summary", "love", "career", "health"]):
+                from modules.zodiak.data import (
+                    ZODIAC_DATA,
+                    generate_dynamic_ratings,
+                )
 
-                    z_info = ZODIAC_DATA.get(sign_key, ZODIAC_DATA["aries"])
-                    fallback_ratings = generate_dynamic_ratings(
-                        z_info["base_ratings"], cosmic, z_info["ruler_planet"], sign_key
-                    )
+                z_info = ZODIAC_DATA.get(sign_key, ZODIAC_DATA["aries"])
+                fallback_ratings = generate_dynamic_ratings(
+                    z_info["base_ratings"], cosmic, z_info["ruler_planet"], sign_key
+                )
 
-                    def clean_score(val, fallback):
-                        try:
-                            v = int(val)
-                            return min(99, max(40, v))
-                        except (ValueError, TypeError):
-                            return fallback
+                def clean_score(val, fallback):
+                    try:
+                        v = int(val)
+                        return min(99, max(40, v))
+                    except (ValueError, TypeError):
+                        return fallback
 
-                    love_r = clean_score(
-                        parsed.get("love_rating"), fallback_ratings["love"]
-                    )
-                    career_r = clean_score(
-                        parsed.get("career_rating"), fallback_ratings["career"]
-                    )
-                    health_r = clean_score(
-                        parsed.get("health_rating"), fallback_ratings["health"]
-                    )
-                    parsed["ratings"] = {
-                        "love": love_r,
-                        "career": career_r,
-                        "health": health_r,
-                    }
-                    if "strengths" in parsed and isinstance(parsed["strengths"], list):
-                        parsed["strengths"] = [
-                            str(s).strip()
-                            for s in parsed["strengths"]
-                            if str(s).strip()
-                        ][:4]
-                    else:
-                        parsed["strengths"] = z_info["strengths"]
-                    if "weaknesses" in parsed and isinstance(
-                        parsed["weaknesses"], list
-                    ):
-                        parsed["weaknesses"] = [
-                            str(w).strip()
-                            for w in parsed["weaknesses"]
-                            if str(w).strip()
-                        ][:4]
-                    else:
-                        parsed["weaknesses"] = z_info["weaknesses"]
-                    title = parsed.get("music_title", "Cosmic Vibe")
-                    artist = parsed.get("music_artist", "Astrology AI")
-                    genre = parsed.get("music_genre", "✨ Cosmic Vibe")
-                    vibe_reason = parsed.get(
-                        "music_reason",
-                        "Lagu ini dipilihkan kosmik untuk menyelaraskan energi harianmu.",
-                    )
-                    query = f"{title} {artist}"
-                    youtube_url = f"https://music.youtube.com/search?q={requests.utils.quote(query)}"
-                    parsed["youtube_track"] = {
-                        "title": title,
-                        "artist": artist,
-                        "genre": genre,
-                        "vibe_reason": vibe_reason,
-                        "query": query,
-                        "youtube_url": youtube_url,
-                    }
-                    parsed["ai_notice"] = None
-                    parsed["is_ai_quota_exceeded"] = False
-                    increment_ai_quota()
-                    AI_HOROSCOPE_CACHE[cache_key] = parsed
-                    return parsed
-        except Exception:
-            pass
-    fallback_res = get_bank_horoscope(sign_key, cosmic)
-    fallback_res["youtube_track"] = get_daily_youtube_track(sign_key, cosmic)
-    return fallback_res
+                love_r = clean_score(
+                    parsed.get("love_rating"), fallback_ratings["love"]
+                )
+                career_r = clean_score(
+                    parsed.get("career_rating"), fallback_ratings["career"]
+                )
+                health_r = clean_score(
+                    parsed.get("health_rating"), fallback_ratings["health"]
+                )
+                parsed["ratings"] = {
+                    "love": love_r,
+                    "career": career_r,
+                    "health": health_r,
+                }
+                if "strengths" in parsed and isinstance(parsed["strengths"], list):
+                    parsed["strengths"] = [
+                        str(s).strip()
+                        for s in parsed["strengths"]
+                        if str(s).strip()
+                    ][:4]
+                else:
+                    parsed["strengths"] = z_info["strengths"]
+                if "weaknesses" in parsed and isinstance(
+                    parsed["weaknesses"], list
+                ):
+                    parsed["weaknesses"] = [
+                        str(w).strip()
+                        for w in parsed["weaknesses"]
+                        if str(w).strip()
+                    ][:4]
+                else:
+                    parsed["weaknesses"] = z_info["weaknesses"]
+                title = parsed.get("music_title", "Cosmic Vibe")
+                artist = parsed.get("music_artist", "Astrology AI")
+                genre = parsed.get("music_genre", "✨ Cosmic Vibe")
+                vibe_reason = parsed.get(
+                    "music_reason",
+                    "Lagu ini dipilihkan kosmik untuk menyelaraskan energi harianmu.",
+                )
+                query = f"{title} {artist}"
+                youtube_url = f"https://music.youtube.com/search?q={requests.utils.quote(query)}"
+                parsed["youtube_track"] = {
+                    "title": title,
+                    "artist": artist,
+                    "genre": genre,
+                    "vibe_reason": vibe_reason,
+                    "query": query,
+                    "youtube_url": youtube_url,
+                }
+                parsed["ai_notice"] = None
+                parsed["is_ai_quota_exceeded"] = False
+                increment_ai_quota()
+                AI_HOROSCOPE_CACHE[cache_key] = parsed
+                return parsed
+    except Exception:
+        pass
+    return get_fallback_horoscope(sign_key, cosmic)
 
 
 def get_daily_youtube_track(sign_key, cosmic):
@@ -56776,6 +56713,15 @@ def get_daily_youtube_track(sign_key, cosmic):
 
 
 AI_COMPATIBILITY_CACHE = {}
+AI_MODE_FIELDS = ["status", "summary", "strengths", "challenges"]
+
+
+def merge_ai_modes(modes_data, ai_modes):
+    for mode_key in ["romance", "friendship", "work"]:
+        if mode_key in ai_modes and mode_key in modes_data:
+            for field in AI_MODE_FIELDS:
+                if field in ai_modes[mode_key]:
+                    modes_data[mode_key][field] = ai_modes[mode_key][field]
 
 
 def get_ai_compatibility_modes(
@@ -56786,24 +56732,13 @@ def get_ai_compatibility_modes(
     cache_key = f"{s1_key}_{s2_key}"
     from modules.zodiak.ai_limiter import check_ai_quota, increment_ai_quota
 
-    is_allowed, count, limit, notice = check_ai_quota()
+    is_allowed, notice = check_ai_quota()
     if not is_allowed:
         modes_data["ai_notice"] = notice
         modes_data["is_ai_quota_exceeded"] = True
         return modes_data
     if cache_key in AI_COMPATIBILITY_CACHE:
-        cached_ai = AI_COMPATIBILITY_CACHE[cache_key]
-        for mode_key in ["romance", "friendship", "work"]:
-            if mode_key in cached_ai and mode_key in modes_data:
-                ai_mode = cached_ai[mode_key]
-                if "status" in ai_mode:
-                    modes_data[mode_key]["status"] = ai_mode["status"]
-                if "summary" in ai_mode:
-                    modes_data[mode_key]["summary"] = ai_mode["summary"]
-                if "strengths" in ai_mode:
-                    modes_data[mode_key]["strengths"] = ai_mode["strengths"]
-                if "challenges" in ai_mode:
-                    modes_data[mode_key]["challenges"] = ai_mode["challenges"]
+        merge_ai_modes(modes_data, AI_COMPATIBILITY_CACHE[cache_key])
         increment_ai_quota()
         return modes_data
     api_key = get_openrouter_api_key()
@@ -56845,64 +56780,18 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa mark
     "challenges": ["...", "..."]
   }} 
 }} """
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia",
-    }
-    models = ["google/gemini-2.5-flash-lite"]
-    for model in models:
-        try:
-            payload = {
-                "model": model,
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "Kamu adalah pakar astrologi dan hubungan interpersonal yang memberikan analisis kecocokan zodiak dengan gaya bahasa Indonesia yang natural, hangat, santai, dan modern. Kembalikan respons HANYA dalam format JSON valid.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.7,
-            }
-            resp = requests.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=9,
-            )
-            if resp.status_code == 200:
-                res_data = resp.json()
-                content = res_data["choices"][0]["message"]["content"].strip()
-                if content.startswith("```"):
-                    content = content.split("\n", 1)[-1]
-                    if content.endswith("```"):
-                        content = content.rsplit("```", 1)[0]
-                    content = content.strip()
-                if content.startswith("json"):
-                    content = content[4:].strip()
-                parsed = json.loads(content)
-                if all(k in parsed for k in ["romance", "friendship", "work"]):
-                    increment_ai_quota()
-                    modes_data["ai_notice"] = None
-                    modes_data["is_ai_quota_exceeded"] = False
-                    AI_COMPATIBILITY_CACHE[cache_key] = parsed
-                    if s1_key != s2_key:
-                        AI_COMPATIBILITY_CACHE[f"{s2_key}_{s1_key}"] = parsed
-                    for mode_key in ["romance", "friendship", "work"]:
-                        if mode_key in parsed and mode_key in modes_data:
-                            ai_mode = parsed[mode_key]
-                            if "status" in ai_mode:
-                                modes_data[mode_key]["status"] = ai_mode["status"]
-                            if "summary" in ai_mode:
-                                modes_data[mode_key]["summary"] = ai_mode["summary"]
-                            if "strengths" in ai_mode:
-                                modes_data[mode_key]["strengths"] = ai_mode["strengths"]
-                            if "challenges" in ai_mode:
-                                modes_data[mode_key]["challenges"] = ai_mode[
-                                    "challenges"
-                                ]
-                    return modes_data
-        except Exception:
-            pass
+    try:
+        parsed = ask_openrouter(api_key, "Kamu adalah pakar astrologi dan hubungan interpersonal yang memberikan analisis kecocokan zodiak dengan gaya bahasa Indonesia yang natural, hangat, santai, dan modern. Kembalikan respons HANYA dalam format JSON valid.", prompt, 0.7)
+        if parsed is not None:
+            if all(k in parsed for k in ["romance", "friendship", "work"]):
+                increment_ai_quota()
+                modes_data["ai_notice"] = None
+                modes_data["is_ai_quota_exceeded"] = False
+                AI_COMPATIBILITY_CACHE[cache_key] = parsed
+                if s1_key != s2_key:
+                    AI_COMPATIBILITY_CACHE[f"{s2_key}_{s1_key}"] = parsed
+                merge_ai_modes(modes_data, parsed)
+                return modes_data
+    except Exception:
+        pass
     return modes_data

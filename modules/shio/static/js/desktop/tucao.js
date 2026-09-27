@@ -1,29 +1,9 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
+  const memo = { result: null, draw: null };
   let els = null;
   let picker = null;
-  let renderedResult = null;
-  let renderedDraw = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function renderRoast(state, instant) {
-    const data = state.result;
-    if (data !== renderedResult) {
-      Shio.clear(els.header);
-      els.header.appendChild(Shio.roast.buildHeader(data));
-      renderedResult = data;
-    }
-    if (state.draw === renderedDraw) return;
-    Shio.clear(els.sections);
-    Shio.roast.sections(data, state.draw).forEach((section) => els.sections.appendChild(section.node));
-    els.count.textContent = Shio.roast.comboLabel(data, state.draw);
-    els.reroll.hidden = !Shio.roast.canReroll(data);
-    if (!instant && renderedDraw && renderedDraw.count < state.draw.count) Shio.replay(els.card, "roast-flash");
-    renderedDraw = state.draw;
-  }
 
   function render(state, instant) {
     const data = state.result;
@@ -34,7 +14,12 @@
     els.loading.hidden = !state.loading;
     els.result.hidden = !data || state.loading;
     if (data) {
-      renderRoast(state, instant === true);
+      Shio.roast.renderInto(els, memo, state, {
+        container: els.sections,
+        wrap: (section) => section.node,
+        flash: els.card,
+        instant: instant === true,
+      });
       Shio.roast.renderPairPanel(els.pair, state);
     }
   }
@@ -52,12 +37,7 @@
       sections: byId("d-roast-sections"),
       count: byId("d-roast-count"),
       reroll: byId("d-roast-reroll"),
-      pair: {
-        toggle: root.querySelector("[data-pair-toggle]"),
-        body: root.querySelector("[data-pair-body]"),
-        loading: root.querySelector("[data-pair-loading]"),
-        card: root.querySelector("[data-pair-card]"),
-      },
+      pair: Shio.roast.pairElements(root),
     };
     els.loading.appendChild(Shio.loadingBox("Menyalakan api..."));
     picker = Shio.desktopDate(els.date, {
@@ -66,7 +46,7 @@
         render(Shio.getState());
       },
     });
-    Shio.roast.bindGender(root, () => render(Shio.getState()));
+    Shio.bindGender(root, () => render(Shio.getState()));
     Shio.roast.bindPairPanel(els.pair);
     els.submit.addEventListener("click", async () => {
       Shio.particles.emitFrom(els.submit, 34);
@@ -78,8 +58,8 @@
 
   function activate(state) {
     Shio.setDesktopDate(picker, els.date, state.form.date);
-    renderedResult = null;
-    renderedDraw = null;
+    memo.result = null;
+    memo.draw = null;
     render(state, true);
   }
 

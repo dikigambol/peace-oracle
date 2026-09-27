@@ -24,17 +24,8 @@
     setState({ ui: Object.assign({}, state.ui, patch) });
   }
 
-  function patchResult(patch) {
-    if (!state.result) return;
-    setState({ result: Object.assign({}, state.result, patch) });
-  }
-
   function registerRenderer(name, renderer) {
     renderers[name] = renderer;
-  }
-
-  function onChange(listener) {
-    listeners.add(listener);
   }
 
   function onBoot(hook) {
@@ -85,16 +76,8 @@
     return root.querySelector('[data-part="' + name + '"]');
   }
 
-  function parts(root, name) {
-    return Array.from(root.querySelectorAll('[data-part="' + name + '"]'));
-  }
-
   function staticUrl(path) {
     return (app ? app.dataset.static : "/shio-static/") + path;
-  }
-
-  function page() {
-    return app ? app.dataset.page : "";
   }
 
   function api() {
@@ -146,6 +129,57 @@
     });
   }
 
+  function markRadio(root, attribute, value) {
+    root.querySelectorAll("[data-" + attribute + "]").forEach((button) => {
+      const on = button.dataset[attribute] === value;
+      button.classList.toggle("active", on);
+      button.setAttribute("aria-checked", on ? "true" : "false");
+    });
+  }
+
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function showError(node, message) {
+    node.hidden = !message;
+    node.textContent = message || "";
+  }
+
+  function renderStepper(nodes, step, total) {
+    nodes.steps.forEach((node) => {
+      node.hidden = Number(node.dataset.step) !== step;
+    });
+    nodes.progressText.textContent = "Langkah " + step + " dari " + total;
+    nodes.progressFill.style.width = (step / total) * 100 + "%";
+    nodes.back.hidden = step === 1;
+  }
+
+  function detailsBlock(title, iconName, body, open, className) {
+    const details = el("details", "sh-m-details" + (className ? " " + className : ""));
+    details.open = Boolean(open);
+    const summary = el("summary");
+    const label = el("span");
+    label.appendChild(icon(iconName));
+    label.appendChild(document.createTextNode(" " + title));
+    summary.appendChild(label);
+    details.appendChild(summary);
+    const content = el("div", "sh-m-details-body");
+    content.appendChild(body);
+    details.appendChild(content);
+    return details;
+  }
+
+  function bindGender(root, onChange) {
+    root.querySelectorAll("[data-gender]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const current = state.form.gender;
+        updateForm({ gender: current === button.dataset.gender ? null : button.dataset.gender });
+        onChange();
+      });
+    });
+  }
+
   function loadingBox(text) {
     const box = el("div", "sh-loading");
     box.setAttribute("role", "status");
@@ -179,16 +213,6 @@
       window.showToast("Teks sudah disalin. Tinggal tempel di chat.", "info");
     } catch (error) {
       window.showErrorToast("Browser ini belum bisa menyalin otomatis.");
-    }
-  }
-
-  function readJson(id) {
-    const node = document.getElementById(id);
-    if (!node) return null;
-    try {
-      return JSON.parse(node.textContent);
-    } catch (error) {
-      return null;
     }
   }
 
@@ -255,9 +279,7 @@
     setState: setState,
     updateForm: updateForm,
     updateUi: updateUi,
-    patchResult: patchResult,
     registerRenderer: registerRenderer,
-    onChange: onChange,
     onBoot: onBoot,
     run: run,
     postJson: postJson,
@@ -265,9 +287,7 @@
     icon: icon,
     clear: clear,
     part: part,
-    parts: parts,
     staticUrl: staticUrl,
-    page: page,
     api: api,
     isoToday: isoToday,
     desktopDate: desktopDate,
@@ -276,9 +296,14 @@
     scrollIntoView: scrollIntoView,
     loadingBox: loadingBox,
     markChoice: markChoice,
+    markRadio: markRadio,
+    byId: byId,
+    showError: showError,
+    renderStepper: renderStepper,
+    detailsBlock: detailsBlock,
+    bindGender: bindGender,
     replay: replay,
     share: share,
-    readJson: readJson,
     activeLayout: () => activeLayout,
   };
 
@@ -498,14 +523,11 @@
     renderDaily: renderDaily,
     renderLoading: renderLoading,
     renderError: renderError,
-    closeBoard: closeBoard,
   };
 })(window.Shio);
 
 (function (Shio) {
-  function byId(id) {
-    return document.getElementById(id);
-  }
+  const byId = Shio.byId;
 
   function openAlmanac(scrollTop) {
     Shio.updateUi({ view: "almanac" });
@@ -627,15 +649,7 @@
     BY_KEY[item.key] = item;
   });
 
-  function markPicked(root, key) {
-    root.querySelectorAll("[data-shio]").forEach((button) => {
-      const on = button.dataset.shio === key;
-      button.classList.toggle("selected", on);
-      button.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-  }
-
-  Shio.shio = { list: SHIO_LIST, byKey: BY_KEY, markPicked: markPicked };
+  Shio.shio = { list: SHIO_LIST, byKey: BY_KEY };
 })(window.Shio);
 
 (function (Shio) {
@@ -745,8 +759,17 @@
     Shio.updateForm({ year: Number.isFinite(seeded) ? seeded : new Date().getFullYear() });
   });
 
+  function bindYearButtons(prefix, onChange) {
+    [["prev", -1], ["next", 1]].forEach(([name, delta]) => {
+      Shio.byId(prefix + "-year-" + name).addEventListener("click", () => {
+        Shio.updateForm({ year: Shio.getState().form.year + delta });
+        onChange(Shio.getState());
+      });
+    });
+  }
+
   Shio.yearly = {
-    yearShio: yearShio,
+    bindYearButtons: bindYearButtons,
     describeYear: describeYear,
     submit: submit,
     buildSummary: buildSummary,
@@ -1106,7 +1129,7 @@
     if (kind) start(kind);
   });
 
-  Shio.particles = { emit: (x, y, count) => emitter(x, y, count), emitFrom: emitFrom };
+  Shio.particles = { emitFrom: emitFrom };
 })(window.Shio);
 
 (function (Shio) {
@@ -1268,7 +1291,27 @@
     }
   }
 
-  Shio.cookie = { pick: pick, back: back, crack: crack, renderStage: renderStage, buildSlip: buildSlip };
+  function stageElements(prefix) {
+    return {
+      hanzi: Shio.byId(prefix + "-cookie-hanzi"),
+      name: Shio.byId(prefix + "-cookie-name"),
+      cookie: Shio.byId(prefix + "-cookie"),
+      hint: Shio.byId(prefix + "-cookie-hint"),
+      slipBox: Shio.byId(prefix + "-cookie-slip"),
+    };
+  }
+
+  function bindCrack(stage) {
+    stage.cookie.addEventListener("click", () => crack(stage.cookie, stage.hint));
+  }
+
+  Shio.cookie = {
+    pick: pick,
+    back: back,
+    renderStage: renderStage,
+    stageElements: stageElements,
+    bindCrack: bindCrack,
+  };
 })(window.Shio);
 
 (function (Shio) {
@@ -1508,20 +1551,12 @@
     return data;
   }
 
-  function markLens(root, lens) {
-    root.querySelectorAll("[data-lens]").forEach((chip) => {
-      const on = chip.dataset.lens === lens;
-      chip.classList.toggle("active", on);
-      chip.setAttribute("aria-checked", on ? "true" : "false");
-    });
-  }
-
   Shio.onBoot((app) => {
     if (app.dataset.page === "peidui") Shio.updateForm({ lens: "asmara" });
   });
 
   Shio.renderCompatLayers = renderCompatLayers;
-  Shio.compat = { submit: submit, scoreOf: scoreOf, renderScore: renderScore, markLens: markLens };
+  Shio.compat = { submit: submit, scoreOf: scoreOf, renderScore: renderScore };
 })(window.Shio);
 
 (function (Shio) {
@@ -1786,14 +1821,29 @@
     });
   }
 
-  function bindGender(root, onChange) {
-    root.querySelectorAll("[data-gender]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const current = Shio.getState().form.gender;
-        Shio.updateForm({ gender: current === button.dataset.gender ? null : button.dataset.gender });
-        onChange();
-      });
-    });
+  function renderInto(els, memo, state, options) {
+    const data = state.result;
+    if (data !== memo.result) {
+      Shio.clear(els.header);
+      els.header.appendChild(buildHeader(data));
+      memo.result = data;
+    }
+    if (state.draw === memo.draw) return;
+    Shio.clear(options.container);
+    sections(data, state.draw).forEach((section) => options.container.appendChild(options.wrap(section)));
+    els.count.textContent = comboLabel(data, state.draw);
+    els.reroll.hidden = !canReroll(data);
+    if (!options.instant && memo.draw && memo.draw.count < state.draw.count) Shio.replay(options.flash, "roast-flash");
+    memo.draw = state.draw;
+  }
+
+  function pairElements(root) {
+    return {
+      toggle: root.querySelector("[data-pair-toggle]"),
+      body: root.querySelector("[data-pair-body]"),
+      loading: root.querySelector("[data-pair-loading]"),
+      card: root.querySelector("[data-pair-card]"),
+    };
   }
 
   Shio.roast = {
@@ -1805,7 +1855,8 @@
     sections: sections,
     renderPairPanel: renderPairPanel,
     bindPairPanel: bindPairPanel,
-    bindGender: bindGender,
+    renderInto: renderInto,
+    pairElements: pairElements,
   };
 })(window.Shio);
 
@@ -2281,24 +2332,22 @@
     return data;
   }
 
-  function bindTimeFields(hour, minute, onChange) {
-    hour.addEventListener("change", () => {
-      const patch = { hour: hour.value };
-      if (hour.value === "") patch.minute = "";
-      else if (!Shio.getState().form.minute) patch.minute = "0";
-      Shio.updateForm(patch);
-      onChange();
-    });
-    minute.addEventListener("change", () => {
-      Shio.updateForm({ minute: minute.value });
+  function bindTimeFields(input, onChange) {
+    input.addEventListener("input", () => {
+      const [hh, mm] = input.value.split(":");
+      Shio.updateForm(input.value
+        ? { hour: String(Number(hh)), minute: String(Number(mm)) }
+        : { hour: "", minute: "" });
       onChange();
     });
   }
 
-  function syncTimeFields(hour, minute, form) {
-    hour.value = form.hour || "";
-    minute.disabled = !form.hour;
-    minute.value = form.hour ? form.minute || "0" : "";
+  function syncTimeFields(input, form) {
+    const hasHour = form.hour !== "" && form.hour !== undefined && form.hour !== null;
+    const next = hasHour
+      ? String(form.hour).padStart(2, "0") + ":" + String(form.minute || "0").padStart(2, "0")
+      : "";
+    if (input.value !== next) input.value = next;
   }
 
   Shio.destiny = {
@@ -2405,13 +2454,7 @@
     return data;
   }
 
-  function markRadio(root, attribute, value) {
-    root.querySelectorAll("[data-" + attribute + "]").forEach((button) => {
-      const on = button.dataset[attribute] === value;
-      button.classList.toggle("active", on);
-      button.setAttribute("aria-checked", on ? "true" : "false");
-    });
-  }
+  const markRadio = Shio.markRadio;
 
   function renderOptions(root, form) {
     markRadio(root, "mode", form.mode);
@@ -2446,9 +2489,17 @@
     if (app.dataset.page === "juhui") Shio.updateForm({ flavor: "manis" });
   });
 
+  function bindJoin(els, joinForm) {
+    els.code.addEventListener("input", () => Shio.updateForm({ code: els.code.value }));
+    els.name.addEventListener("input", () => Shio.updateForm({ name: els.name.value }));
+    joinForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!joinByCode()) els.code.focus();
+    });
+  }
+
   Shio.quizLobby = {
-    normaliseCode: normaliseCode,
-    joinByCode: joinByCode,
+    bindJoin: bindJoin,
     createRoom: createRoom,
     renderOptions: renderOptions,
     bindOptions: bindOptions,
@@ -2963,9 +3014,68 @@
     refresh();
   });
 
+  function renderHeader(els, state) {
+    const view = state.room;
+    const text = state.notice ? state.notice : view && outsiderNotice(view) ? { text: outsiderNotice(view), refresh: false } : null;
+    els.notice.hidden = !text;
+    els.noticeText.textContent = text ? text.text : "";
+    els.refresh.hidden = !(text && text.refresh);
+    els.mode.textContent = view ? describeRoom(view) : state.missing ? "Room tidak ditemukan" : "Memuat room...";
+    els.meta.textContent = view ? describeMeta(view) : "";
+  }
+
+  function describeJoin(view) {
+    return describeRoom(view) + ". Sudah ada " + view.participant_count + " dari " + view.max_participants + " orang.";
+  }
+
+  function renderResultInto(els, view, renderSection) {
+    const result = buildResult(view);
+    Shio.clear(els.verdict);
+    els.verdict.appendChild(result.verdict);
+    Shio.clear(els.sections);
+    result.sections.forEach((section) => els.sections.appendChild(renderSection(section)));
+    els.compat.hidden = !result.compat;
+    if (result.compat) Shio.renderCompatLayers(els.compat, result.compat);
+    els.note.hidden = !result.note;
+    els.note.textContent = result.note || "";
+  }
+
+  function renderLobby(els, view, state, flags) {
+    if (flags.showLobby) {
+      Shio.clear(els.people);
+      els.people.appendChild(buildPeople(view));
+      els.count.textContent = view.participant_count + "/" + view.max_participants;
+      els.status.textContent = describeLobby(view);
+      els.start.hidden = !flags.showStart;
+      window.setButtonLoading(els.start, state.busy === "start", "Memulai...", flags.startDisabled);
+      els.finish.hidden = !flags.showFinish;
+    }
+    if (flags.showTurn) {
+      Shio.clear(els.turn);
+      els.turn.appendChild(buildTurn(view));
+    }
+  }
+
+  function bindActions(els, prefix) {
+    els.name.addEventListener("input", () => Shio.updateForm({ name: els.name.value }));
+    els.join.addEventListener("submit", (event) => {
+      event.preventDefault();
+      join();
+    });
+    els.start.addEventListener("click", start);
+    els.finish.addEventListener("click", finish);
+    els.refresh.addEventListener("click", manualRefresh);
+    Shio.byId(prefix + "-room-copy").addEventListener("click", copyLink);
+    Shio.byId(prefix + "-room-share").addEventListener("click", shareLink);
+  }
+
   Shio.quizRoom = {
+    renderHeader: renderHeader,
+    describeJoin: describeJoin,
+    renderResultInto: renderResultInto,
+    renderLobby: renderLobby,
+    bindActions: bindActions,
     join: join,
-    pickAnswer: pickAnswer,
     missingAnswer: missingAnswer,
     submitAnswers: submitAnswers,
     start: start,

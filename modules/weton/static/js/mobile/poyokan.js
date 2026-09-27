@@ -1,5 +1,6 @@
 (function () {
   const Weton = window.Weton;
+  const byId = Weton.byId;
   const FIELDS = { a: ["tanggal", "jam", "kota"], b: ["nama", "tanggal", "jam", "kota"] };
   const SWIPE_DISTANCE = 40;
   let els = null;
@@ -7,15 +8,6 @@
   let current = 0;
   let renderedResult = null;
   let touchStart = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function showError(message) {
-    els.error.hidden = !message;
-    els.error.textContent = message || "";
-  }
 
   function renderSlide() {
     const slide = slides[current];
@@ -58,7 +50,7 @@
       return;
     }
     renderedResult = null;
-    showError(state.error);
+    Weton.showError(els.error, state.error);
   }
 
   function go(step) {
@@ -69,23 +61,15 @@
   }
 
   async function submitRoast() {
-    const form = Weton.getState().form;
-    if (!form.a_tanggal) {
-      showError("Isi tanggal lahirmu dulu.");
-      return;
-    }
-    if (form.duo && !form.b_tanggal) {
-      showError("Isi tanggal lahir orang kedua dulu, atau matikan opsi orang kedua.");
-      return;
-    }
-    showError("");
+    const message = Weton.roastError(Weton.getState().form);
+    Weton.showError(els.error, message);
+    if (message) return;
     current = 0;
     await Weton.submit();
   }
 
   function init(root) {
     els = {
-      root: root,
       formSection: byId("m-roast-form"),
       story: byId("m-roast-story"),
       submit: byId("m-roast-submit"),
@@ -105,13 +89,14 @@
       shareTop: byId("m-roast-share"),
       shareBottom: byId("m-roast-share-bottom"),
       disclaimer: byId("m-roast-disclaimer"),
+      fields: {},
     };
     Object.keys(FIELDS).forEach((side) => {
       FIELDS[side].forEach((field) => {
-        const node = byId("m-" + side + "-" + field);
-        node.addEventListener("input", () => Weton.updateForm({ [side + "_" + field]: node.value }));
+        els.fields[side + "_" + field] = byId("m-" + side + "-" + field);
       });
     });
+    Weton.bindInputs(els.fields);
     els.duoToggle.addEventListener("change", () => {
       Weton.updateForm({ duo: els.duoToggle.checked });
       els.duoFields.hidden = !els.duoToggle.checked;
@@ -132,20 +117,11 @@
       current = 0;
       Weton.reset();
     });
-    const shareSlide = () => {
-      const result = Weton.getState().result;
-      if (result && slides[current]) Weton.share(Weton.roastShare(result, slides[current].text));
-    };
-    els.shareTop.addEventListener("click", shareSlide);
-    els.shareBottom.addEventListener("click", shareSlide);
+    Weton.bindShare([els.shareTop, els.shareBottom], (result) => (slides[current] ? Weton.roastShare(result, slides[current].text) : null));
   }
 
   function activate(state) {
-    Object.keys(FIELDS).forEach((side) => {
-      FIELDS[side].forEach((field) => {
-        byId("m-" + side + "-" + field).value = state.form[side + "_" + field] || "";
-      });
-    });
+    Weton.syncInputs(els.fields, state.form);
     els.duoToggle.checked = Boolean(state.form.duo);
     els.duoFields.hidden = !state.form.duo;
     render(state);

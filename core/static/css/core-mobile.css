@@ -6,25 +6,26 @@
   height: 100dvh;
   padding: 20px;
   box-sizing: border-box;
+  gap: 24px;
 }
 
-.loader-icons {
-  gap: 18px;
-  margin-bottom: 20px;
+.pl-emblem {
+  width: 80px;
+  height: 80px;
 }
 
-.loader-icons i {
-  font-size: 2rem;
+.pl-icon {
+  font-size: 1.8rem;
 }
 
-.loader-text {
-  font-size: 1rem;
+.pl-text {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
   text-align: center;
-  letter-spacing: 1px;
 }
 
-.loader-bar-container {
-  width: 80%;
+.pl-meter {
+  width: 70%;
   max-width: 220px;
 }
 

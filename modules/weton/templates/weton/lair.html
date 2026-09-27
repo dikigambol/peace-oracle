@@ -1,33 +1,9 @@
 {% extends 'weton/_dhasar.html' %}
+{% set page = 'lahir' %}
+{% set page_file = 'lair' %}
+{% set page_api = 'weton.weton_birth_api' %}
 {% block title %}Priksa Weton Lair - Peace Oracle{% endblock %}
 {% block description %}Cek weton lahirmu: hari, pasaran, neptu, wuku, tanggal Jawa, dan pranata mangsa, dihitung presisi sampai pergantian hari saat maghrib.{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
-<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-base.css') }}" />
-<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-desktop.css') }}" media="(min-width: 769px)" />
-<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-mobile.css') }}" media="(max-width: 768px)" />
-{% endblock %}
-{% block content %}
-<div class="wt-app" id="wt-app" data-page="lahir" data-api="{{ url_for('weton.weton_birth_api') }}">
-  <div class="wt-layout wt-layout-desktop" data-layout="desktop">
-    {% include 'weton/desktop/_lair.html' %}
-  </div>
-  <div class="wt-layout wt-layout-mobile" data-layout="mobile">
-    {% include 'weton/mobile/_lair.html' %}
-  </div>
-  <datalist id="wt-city-options">
-    {% for city in cities %}
-    <option value="{{ city.name }}">{{ city.province }} · {{ city.zone }}</option>
-    {% endfor %}
-  </datalist>
-  <script type="application/json" id="wt-glossary">{{ glossary|tojson }}</script>
-</div>
-{% endblock %}
-{% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-<script src="{{ url_for('weton.static', filename='js/weton-core.js') }}"></script>
-<script src="{{ url_for('weton.static', filename='js/desktop/lair.js') }}"></script>
-<script src="{{ url_for('weton.static', filename='js/mobile/lair.js') }}"></script>
+{% block page_scripts %}
+<script type="application/json" id="wt-glossary">{{ glossary|tojson }}</script>
 {% endblock %}

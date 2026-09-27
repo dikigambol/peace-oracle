@@ -1,17 +1,6 @@
 {% extends 'shio/_jichu.html' %}
+{% set page = 'tucao' %}
+{% set page_api = 'shio.shio_roasting_api' %}
+{% set page_data = {'particles': 'embers'} %}
 {% block title %}Tu Cao - Peace Oracle{% endblock %}
 {% block description %}Roasting shio dari tanggal lahirmu: toxic traits, dosa finansial, red flag asmara, sampai pilar hari Ba Zi yang ikut dibakar.{% endblock %}
-{% block shio_app %}
-<div class="sh-app" id="sh-app" data-page="tucao" data-api="{{ url_for('shio.shio_roasting_api') }}" data-static="{{ url_for('shio.static', filename='') }}" data-particles="embers">
-  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
-    {% include 'shio/desktop/_tucao.html' %}
-  </div>
-  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
-    {% include 'shio/mobile/_tucao.html' %}
-  </div>
-</div>
-{% endblock %}
-{% block shio_js %}
-<script src="{{ url_for('shio.static', filename='js/desktop/tucao.js') }}"></script>
-<script src="{{ url_for('shio.static', filename='js/mobile/tucao.js') }}"></script>
-{% endblock %}

@@ -1,16 +1,6 @@
+{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  <header class="sh-m-appbar">
-    <span class="sh-m-slot">
-      <a class="sh-m-icon" id="m-roast-home" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
-        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      </a>
-      <button class="sh-m-icon" type="button" id="m-roast-back" aria-label="Ganti data roasting" hidden>
-        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      </button>
-    </span>
-    <h1 class="sh-m-title">Tu Cao</h1>
-    <span aria-hidden="true"></span>
-  </header>
+  {{ zujian.appbar("Tu Cao", "m-roast-home", "m-roast-back", "Ganti data roasting") }}
 
   <main class="sh-m-main">
     <section class="sh-m-steps" id="m-roast-form">
@@ -21,14 +11,7 @@
         <input class="sh-input" id="m-roast-date" type="date" />
       </label>
       <p class="sh-label">Jenis kelamin <span class="sh-optional">opsional</span></p>
-      <div class="roast-gender">
-        <button type="button" class="roast-gender-btn" data-gender="pria" aria-pressed="false">
-          <i class="fa-solid fa-mars" aria-hidden="true"></i> Pria
-        </button>
-        <button type="button" class="roast-gender-btn" data-gender="wanita" aria-pressed="false">
-          <i class="fa-solid fa-venus" aria-hidden="true"></i> Wanita
-        </button>
-      </div>
+      {{ zujian.gender_buttons("roast") }}
       <p class="sh-hint sh-m-roast-hint">Jenis kelamin cuma menentukan arah periode besarmu (大運).</p>
       <p class="sh-error" id="m-roast-error" role="alert" hidden></p>
       <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-roast-submit">

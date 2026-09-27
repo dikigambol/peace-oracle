@@ -1,3 +1,4 @@
+{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-d-shell">
   {% with title='Kecocokan Kosmik', lead='Pei Dui menimbang dua tanggal lahir: relasi shio, dinamika elemen, lapisan tahun lahir, sampai pilar hari Ba Zi.', active='peidui' %}
   {% include 'shio/desktop/_header.html' %}
@@ -18,9 +19,7 @@
       <div>
         <p class="sh-label" id="d-compat-lens-label">Hubungan kalian</p>
         <div class="choice-chips" role="radiogroup" aria-labelledby="d-compat-lens-label">
-          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="asmara">Asmara</button>
-          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="pertemanan">Pertemanan</button>
-          <button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="kerja">Rekan Kerja</button>
+          {{ zujian.lens_chips() }}
         </div>
       </div>
       <button class="sh-btn sh-btn-primary" type="button" id="d-compat-submit" disabled>

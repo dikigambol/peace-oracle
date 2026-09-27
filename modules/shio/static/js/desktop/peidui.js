@@ -1,12 +1,9 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let pickers = {};
   let renderedResult = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function ready(form) {
     return Boolean(form.date1 && form.date2);
@@ -14,7 +11,7 @@
 
   function render(state, instant) {
     const data = state.result;
-    Shio.compat.markLens(els.root, state.form.lens);
+    Shio.markRadio(els.root, "lens", state.form.lens);
     window.setButtonLoading(els.submit, state.loading, "Menimbang energi...", !ready(state.form));
     if (!state.loading) els.submit.disabled = !ready(state.form);
     els.empty.hidden = Boolean(data);

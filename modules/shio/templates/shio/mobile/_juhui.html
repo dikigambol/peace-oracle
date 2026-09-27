@@ -1,11 +1,6 @@
+{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  <header class="sh-m-appbar">
-    <a class="sh-m-icon" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    </a>
-    <h1 class="sh-m-title">Ju Hui</h1>
-    <span aria-hidden="true"></span>
-  </header>
+  {{ zujian.appbar("Ju Hui") }}
 
   <main class="sh-m-main">
     <p class="sh-m-lead">Satu kode room, dibuka bareng teman. Terbuka untuk hubungan apa pun.</p>
@@ -25,10 +20,7 @@
     </form>
 
     <section class="sh-m-steps" id="m-quiz-create" hidden>
-      <div class="sh-m-progress">
-        <span class="sh-m-progress-text" id="m-quiz-progress-text">Langkah 1 dari 2</span>
-        <div class="sh-m-progress-bar" aria-hidden="true"><span id="m-quiz-progress-fill"></span></div>
-      </div>
+      {{ zujian.progress("quiz", 2) }}
       <div class="sh-m-step" data-step="1">
         <h2 class="sh-m-question">Mau main apa?</h2>
         <div class="sh-m-mode-list" role="radiogroup" aria-label="Pilih mode quiz">
@@ -56,10 +48,7 @@
         </label>
         {% include 'shio/_juhui-xuanxiang.html' %}
       </div>
-      <div class="sh-m-actions">
-        <button class="sh-btn sh-btn-ghost" type="button" id="m-quiz-back" hidden>Kembali</button>
-        <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-quiz-next">Lanjut</button>
-      </div>
+      {{ zujian.actions("quiz") }}
     </section>
   </main>
 

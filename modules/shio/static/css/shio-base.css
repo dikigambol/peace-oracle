@@ -104,7 +104,7 @@
   min-height: 48px;
   padding: 12px 16px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  border: 1px solid rgba(var(--gold-rgb), 0.45);
   background: rgba(0, 0, 0, 0.45);
   color: var(--cream);
   font: inherit;
@@ -113,12 +113,13 @@
 }
 
 .sh-input::placeholder {
-  color: rgba(var(--cream-rgb), 0.45);
+  color: rgba(var(--cream-rgb), 0.5);
 }
 
 .sh-input:focus {
   outline: none;
   border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(var(--gold-rgb), 0.25);
 }
 
 .sh-input:disabled {
@@ -350,17 +351,16 @@ select.sh-input option {
   padding: 16px 8px;
   color: var(--cream);
   cursor: pointer;
-  transition: all 0.3s;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .shio-item:hover {
   border-color: var(--gold);
   background: rgba(80, 10, 10, 0.8);
-  transform: scale(1.05);
 }
 
 .shio-item.selected {
@@ -515,6 +515,7 @@ select.sh-input option {
   max-width: 600px;
   margin: 0 auto;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(var(--gold-rgb), 0.1);
+  animation: cardFadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .res-title {
@@ -549,6 +550,8 @@ select.sh-input option {
 .meta-box {
   font-weight: bold;
   color: var(--gold);
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: 0.14s;
 }
 
 .fortune-highlights {
@@ -595,6 +598,7 @@ select.sh-input option {
   border-radius: var(--radius-md);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .category-box:hover {
@@ -627,7 +631,6 @@ select.sh-input option {
 }
 
 ::-webkit-calendar-picker-indicator {
-  filter: invert(1) sepia(100%) saturate(500%) hue-rotate(35deg);
   cursor: pointer;
 }
 
@@ -1208,7 +1211,8 @@ body.board-locked {
   background: rgba(var(--gold-rgb), 0.08);
 }
 
-.podium-medal {
+.podium-medal,
+.star-icon {
   font-size: var(--fs-md);
   line-height: 1;
 }
@@ -1449,22 +1453,6 @@ body.board-locked {
   font-weight: 700;
 }
 
-.destiny-clock {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.destiny-clock select {
-  flex: 1;
-  min-width: 0;
-}
-
-.destiny-colon {
-  color: rgba(var(--gold-rgb), 0.6);
-  font-size: var(--fs-md);
-}
-
 .destiny-gender {
   display: flex;
   gap: 12px;
@@ -1553,6 +1541,7 @@ body.board-locked {
 .destiny-block {
   text-align: left;
   margin-bottom: 40px;
+  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
 .destiny-heading {
@@ -1569,7 +1558,8 @@ body.board-locked {
   opacity: 0.8;
 }
 
-.destiny-note {
+.destiny-note,
+.compat-dynamic-note {
   font-size: var(--fs-xs);
   color: rgba(var(--cream-rgb), 0.6);
   line-height: 1.6;
@@ -1827,7 +1817,10 @@ body.board-locked {
   font-size: var(--fs-xl);
 }
 
-.destiny-dm-title {
+.destiny-dm-title,
+.destiny-star-title,
+.destiny-luck-title,
+.destiny-relation-title {
   font-family: "Cinzel", "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
@@ -1859,7 +1852,8 @@ body.board-locked {
   font-size: var(--fs-base);
 }
 
-.destiny-element-score {
+.destiny-element-score,
+.quiz-leader-points {
   font-size: var(--fs-xs);
   color: rgba(var(--cream-rgb), 0.65);
 }
@@ -1926,7 +1920,8 @@ body.board-locked {
 
 .destiny-destiny-grid,
 .destiny-remedy-grid,
-.destiny-star-grid {
+.destiny-star-grid,
+.destiny-relation-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
@@ -1963,14 +1958,6 @@ body.board-locked {
   line-height: 1;
   flex-shrink: 0;
 }
-
-.destiny-star-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
-  color: var(--gold);
-  font-size: var(--fs-base);
-  margin: 0;
-}
-
 .destiny-star-auspicious {
   border-left: 3px solid rgba(var(--gold-rgb), 0.6);
 }
@@ -1986,14 +1973,6 @@ body.board-locked {
 .destiny-luck-item {
   padding: 16px;
 }
-
-.destiny-luck-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
-  color: var(--gold);
-  font-size: var(--fs-base);
-  margin: 0;
-}
-
 .destiny-alter {
   border: 1px dashed rgba(var(--gold-rgb), 0.2);
   border-radius: var(--radius-md);
@@ -2023,10 +2002,6 @@ body.board-locked {
   margin-top: 8px;
 }
 
-.destiny-block {
-  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
 .destiny-block:nth-child(1) {
   animation-delay: 0.05s;
 }
@@ -2046,13 +2021,6 @@ body.board-locked {
 .destiny-block:nth-child(n + 5) {
   animation-delay: 0.33s;
 }
-
-.destiny-relation-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-}
-
 .destiny-relation {
   margin-bottom: 0;
 }
@@ -2071,14 +2039,6 @@ body.board-locked {
   line-height: 1;
   flex-shrink: 0;
 }
-
-.destiny-relation-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
-  color: var(--gold);
-  font-size: var(--fs-base);
-  margin: 0;
-}
-
 .destiny-relation-good {
   border-left: 3px solid rgba(var(--success-rgb), 0.6);
 }
@@ -2213,7 +2173,9 @@ body.board-locked {
   animation: yFadeIn 0.5s ease-out;
 }
 
-.yearly-header {
+.yearly-header,
+.yearly-relation,
+.guardian-image-container {
   text-align: center;
   margin-bottom: 20px;
 }
@@ -2401,12 +2363,6 @@ body.board-locked {
   text-align: center;
   margin: -8px 0 16px;
 }
-
-.yearly-relation {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .yearly-badge {
   display: inline-block;
   font-family: "Cinzel", "Noto Serif TC", serif;
@@ -2479,7 +2435,8 @@ body.board-locked {
   border-left: 3px solid rgba(var(--cream-rgb), 0.35);
 }
 
-.yearly-stem-title {
+.yearly-stem-title,
+.compat-dynamic-title {
   font-family: "Cinzel", "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
@@ -2526,7 +2483,6 @@ body.board-locked {
 }
 
 .compat-pair {
-  font-size: var(--fs-2xl);
   margin-bottom: 4px;
 }
 
@@ -2691,31 +2647,17 @@ body.board-locked {
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.compat-dynamic {
+.compat-dynamic,
+.compat-year,
+.compat-bazi {
   margin: 32px auto 8px;
   max-width: 760px;
   text-align: left;
 }
-
-.compat-dynamic-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
-  color: var(--gold);
-  font-size: var(--fs-base);
-  margin: 0 0 8px;
-}
-
 .compat-dynamic-title i {
   margin-right: 8px;
   opacity: 0.8;
 }
-
-.compat-dynamic-note {
-  font-size: var(--fs-xs);
-  line-height: 1.6;
-  color: rgba(var(--cream-rgb), 0.6);
-  margin: 0 0 16px;
-}
-
 .compat-dynamic-pair {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -2723,7 +2665,9 @@ body.board-locked {
   gap: 12px;
 }
 
-.compat-dynamic-card {
+.compat-dynamic-card,
+.compat-year-card,
+.star-card {
   background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
   border: 1px solid rgba(var(--gold-rgb), 0.18);
   border-radius: var(--radius-md);
@@ -2756,7 +2700,8 @@ body.board-locked {
   color: rgba(var(--cream-rgb), 0.45);
 }
 
-.dyn-head {
+.dyn-head,
+.useful-head {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2807,14 +2752,9 @@ body.board-locked {
   color: rgba(var(--gold-rgb), 0.8);
   margin-bottom: 0;
 }
-
-.compat-year {
-  margin: 32px auto 8px;
-  max-width: 760px;
-  text-align: left;
-}
-
-.compat-year-stem {
+.compat-year-stem,
+.compat-day-pillar,
+.compat-useful {
   background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
   border: 1px solid rgba(var(--gold-rgb), 0.18);
   border-radius: var(--radius-md);
@@ -2835,20 +2775,12 @@ body.board-locked {
   border-left: 3px solid rgba(var(--cream-rgb), 0.3);
 }
 
-.compat-year-pair {
+.compat-year-pair,
+.compat-stars {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
 }
-
-.compat-year-card {
-  background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
-  border: 1px solid rgba(var(--gold-rgb), 0.18);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  box-sizing: border-box;
-}
-
 .year-head {
   display: flex;
   align-items: center;
@@ -2916,22 +2848,6 @@ body.board-locked {
   margin: 0;
 }
 
-.compat-bazi {
-  margin: 32px auto 8px;
-  max-width: 760px;
-  text-align: left;
-}
-
-.compat-day-pillar,
-.compat-useful {
-  background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
-  border: 1px solid rgba(var(--gold-rgb), 0.18);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-}
-
 .compat-day-pillar.code-good,
 .compat-useful.code-good {
   border-left: 3px solid rgba(var(--gold-rgb), 0.6);
@@ -2989,14 +2905,6 @@ body.board-locked {
 .bazi-stem.kind-chong {
   color: rgba(255, 171, 112, 0.9);
 }
-
-.useful-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
 .useful-glyph {
   font-size: var(--fs-lg);
   line-height: 1;
@@ -3028,7 +2936,8 @@ body.board-locked {
   box-sizing: border-box;
 }
 
-.useful-side-name {
+.useful-side-name,
+.star-title {
   font-family: "Cinzel", "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: var(--gold);
@@ -3063,20 +2972,6 @@ body.board-locked {
   color: var(--danger);
 }
 
-.compat-stars {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-}
-
-.star-card {
-  background: linear-gradient(145deg, rgba(28, 10, 10, 0.72), rgba(0, 0, 0, 0.82));
-  border: 1px solid rgba(var(--gold-rgb), 0.18);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  box-sizing: border-box;
-}
-
 .star-card.code-good {
   border-left: 3px solid rgba(var(--gold-rgb), 0.6);
 }
@@ -3095,17 +2990,6 @@ body.board-locked {
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 8px;
-}
-
-.star-icon {
-  font-size: var(--fs-md);
-  line-height: 1;
-}
-
-.star-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
-  font-size: var(--fs-sm);
-  color: var(--gold);
 }
 
 .star-who {
@@ -3179,7 +3063,8 @@ body.board-locked {
 }
 
 .quiz-card-title,
-.quiz-section-title {
+.quiz-section-title,
+.quiz-room-mode {
   font-family: "Cinzel", "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-md);
@@ -3269,14 +3154,6 @@ body.board-locked {
 .quiz-option-group {
   margin-top: 16px;
 }
-
-.quiz-room-mode {
-  font-family: "Cinzel", "Noto Serif TC", serif;
-  color: var(--gold);
-  font-size: var(--fs-md);
-  margin: 0 0 12px;
-}
-
 .quiz-room-code {
   display: inline-flex;
   align-items: center;
@@ -3394,7 +3271,8 @@ body.board-locked {
   flex: 1;
 }
 
-.quiz-person-name {
+.quiz-person-name,
+.quiz-pair-names {
   font-weight: 700;
   color: var(--cream);
   overflow-wrap: anywhere;
@@ -3684,13 +3562,6 @@ body.board-locked {
   justify-content: space-between;
   gap: 8px;
 }
-
-.quiz-pair-names {
-  font-weight: 700;
-  color: var(--cream);
-  overflow-wrap: anywhere;
-}
-
 .quiz-pair-hanzi {
   font-family: "Noto Serif TC", serif;
   color: var(--gold);
@@ -3754,12 +3625,6 @@ body.board-locked {
   font-weight: 700;
   margin-right: 8px;
 }
-
-.quiz-leader-points {
-  font-size: var(--fs-xs);
-  color: rgba(var(--cream-rgb), 0.65);
-}
-
 .quiz-empty {
   font-size: var(--fs-xs);
   color: rgba(var(--cream-rgb), 0.55);
@@ -4359,14 +4224,16 @@ body.board-locked {
   margin: 0 0 8px;
 }
 
-.pair-roast {
+.pair-roast,
+.dm-roast {
   font-size: var(--fs-sm);
   line-height: 1.7;
   color: rgba(var(--peach-rgb), 0.9);
   margin: 0 0 8px;
 }
 
-.pair-tip {
+.pair-tip,
+.dm-tip {
   font-size: var(--fs-xs);
   line-height: 1.6;
   color: rgba(255, 196, 0, 0.75);
@@ -4415,20 +4282,6 @@ body.board-locked {
   font-size: var(--fs-base);
   color: #ffc400;
   margin: 0 0 8px;
-}
-
-.dm-roast {
-  font-size: var(--fs-sm);
-  line-height: 1.7;
-  color: rgba(var(--peach-rgb), 0.9);
-  margin: 0 0 8px;
-}
-
-.dm-tip {
-  font-size: var(--fs-xs);
-  line-height: 1.6;
-  color: rgba(255, 196, 0, 0.75);
-  margin: 0;
 }
 
 .roast-gender {
@@ -4513,12 +4366,6 @@ body.board-locked {
 .guardian-hero {
   text-align: center;
 }
-
-.guardian-image-container {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
 .guardian-icon-img {
   width: 150px;
   height: 150px;
@@ -4566,19 +4413,6 @@ body.board-locked {
   margin-top: 4px;
 }
 
-.fortune-card {
-  animation: cardFadeInUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.meta-box {
-  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  animation-delay: 0.14s;
-}
-
-.category-box {
-  animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
 .category-box:nth-child(1) {
   animation-delay: 0.22s;
 }
@@ -4593,10 +4427,6 @@ body.board-locked {
 
 .category-box:nth-child(n + 4) {
   animation-delay: 0.46s;
-}
-
-.shio-item {
-  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .shio-item:hover {

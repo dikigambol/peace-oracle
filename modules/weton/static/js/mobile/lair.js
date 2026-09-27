@@ -1,30 +1,17 @@
 (function () {
   const Weton = window.Weton;
+  const byId = Weton.byId;
   const TOTAL_STEPS = 3;
   const FIELDS = { 1: "tanggal", 2: "jam", 3: "kota" };
   let els = null;
   let step = 1;
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
   function input(stepNumber) {
     return els.inputs[FIELDS[stepNumber]];
   }
 
-  function showError(message) {
-    els.error.hidden = !message;
-    els.error.textContent = message || "";
-  }
-
   function renderSteps(state) {
-    els.steps.forEach((node) => {
-      node.hidden = Number(node.dataset.step) !== step;
-    });
-    els.progressText.textContent = "Langkah " + step + " dari " + TOTAL_STEPS;
-    els.progressFill.style.width = (step / TOTAL_STEPS) * 100 + "%";
-    els.back.hidden = step === 1;
+    Weton.renderStepper(els, step, TOTAL_STEPS);
     els.skip.hidden = step === 1;
     const label = step === TOTAL_STEPS ? "Lihat wetonku" : "Lanjut";
     if (state.loading) {
@@ -85,16 +72,16 @@
       return;
     }
     renderSteps(state);
-    showError(state.error);
+    Weton.showError(els.error, state.error);
   }
 
   async function goNext() {
     const state = Weton.getState();
     if (step === 1 && !state.form.tanggal) {
-      showError("Isi tanggal lahirmu dulu.");
+      Weton.showError(els.error, "Isi tanggal lahirmu dulu.");
       return;
     }
-    showError("");
+    Weton.showError(els.error, "");
     if (step < TOTAL_STEPS) {
       step += 1;
       renderSteps(state);
@@ -108,7 +95,6 @@
 
   function init(root) {
     els = {
-      root: root,
       stepsSection: byId("m-steps"),
       resultSection: byId("m-result"),
       steps: Array.from(root.querySelectorAll(".wt-m-step")),
@@ -127,8 +113,8 @@
       shareTop: byId("m-share"),
       shareBottom: byId("m-share-bottom"),
     };
-    Object.entries(els.inputs).forEach(([field, node]) => {
-      node.addEventListener("input", () => Weton.updateForm({ [field]: node.value }));
+    Weton.bindInputs(els.inputs);
+    Object.values(els.inputs).forEach((node) => {
       node.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
@@ -139,7 +125,7 @@
     els.next.addEventListener("click", goNext);
     els.back.addEventListener("click", () => {
       step = Math.max(1, step - 1);
-      showError("");
+      Weton.showError(els.error, "");
       renderSteps(Weton.getState());
     });
     els.skip.addEventListener("click", () => {
@@ -151,12 +137,7 @@
       step = 1;
       Weton.reset();
     });
-    const shareResult = () => {
-      const result = Weton.getState().result;
-      if (result) Weton.share(Weton.lahirShare(result));
-    };
-    els.shareTop.addEventListener("click", shareResult);
-    els.shareBottom.addEventListener("click", shareResult);
+    Weton.bindShare([els.shareTop, els.shareBottom], Weton.lahirShare);
     let frame = null;
     els.cards.addEventListener("scroll", () => {
       if (frame) cancelAnimationFrame(frame);
@@ -165,9 +146,7 @@
   }
 
   function activate(state) {
-    Object.entries(els.inputs).forEach(([field, node]) => {
-      node.value = state.form[field] || "";
-    });
+    Weton.syncInputs(els.inputs, state.form);
     render(state);
   }
 

@@ -1,17 +1,5 @@
 {% extends 'shio/_jichu.html' %}
+{% set page = 'juhui-fangjian' %}
+{% set page_data = {'room-code': room_code} %}
 {% block title %}Ju Hui {{ room_code }} - Peace Oracle{% endblock %}
 {% block description %}Room Quiz Shio Bareng {{ room_code }}. Gabung, jawab, dan lihat hasil ramalan bareng teman.{% endblock %}
-{% block shio_app %}
-<div class="sh-app" id="sh-app" data-page="juhui-fangjian" data-room-code="{{ room_code }}" data-static="{{ url_for('shio.static', filename='') }}">
-  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
-    {% include 'shio/desktop/_juhui-fangjian.html' %}
-  </div>
-  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
-    {% include 'shio/mobile/_juhui-fangjian.html' %}
-  </div>
-</div>
-{% endblock %}
-{% block shio_js %}
-<script src="{{ url_for('shio.static', filename='js/desktop/juhui-fangjian.js') }}"></script>
-<script src="{{ url_for('shio.static', filename='js/mobile/juhui-fangjian.js') }}"></script>
-{% endblock %}

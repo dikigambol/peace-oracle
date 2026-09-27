@@ -10,6 +10,8 @@ from .data import (
     get_shio_destiny,
     DESTINY_CITIES,
     DESTINY_SCHOOL,
+    SHIO_DATA,
+    SHIOS_LIST,
     QuizError,
     QuizUnavailable,
     build_mysql_store,
@@ -24,6 +26,11 @@ shio_bp = Blueprint(
     static_folder="static",
     static_url_path="/shio-static",
 )
+
+@shio_bp.context_processor
+def inject_shio_list():
+    return {"shio_list": [(key, SHIO_DATA[key]["hanzi"], SHIO_DATA[key]["name"]) for key in SHIOS_LIST]}
+
 
 def read_payload():
     data = request.get_json(silent=True)
@@ -92,7 +99,7 @@ def shio_compatibility_api():
         read_text(data, "shio2"),
         read_text(data, "tanggal1"),
         read_text(data, "tanggal2"),
-        read_text(data, "lens") or "asmara",
+        read_text(data, "lens"),
     )
     if "error" in result:
         return jsonify(result), 400

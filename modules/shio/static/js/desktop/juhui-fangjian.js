@@ -1,24 +1,13 @@
 (function () {
   const Shio = window.Shio;
   const Room = Shio.quizRoom;
+  const byId = Shio.byId;
   let els = null;
   let picker = null;
   let renderedView = null;
   let renderedBusy = null;
   let questionsBuilt = false;
   let resultBuilt = false;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function renderNotice(state) {
-    const view = state.room;
-    const notice = state.notice || (view && Room.outsiderNotice(view) ? { text: Room.outsiderNotice(view), refresh: false } : null);
-    els.notice.hidden = !notice;
-    els.noticeText.textContent = notice ? notice.text : "";
-    els.refresh.hidden = !(notice && notice.refresh);
-  }
 
   function renderQuestions(view) {
     if (questionsBuilt) return;
@@ -44,22 +33,12 @@
   function renderResult(view) {
     if (resultBuilt) return;
     resultBuilt = true;
-    const result = Room.buildResult(view);
-    Shio.clear(els.verdict);
-    els.verdict.appendChild(result.verdict);
-    Shio.clear(els.sections);
-    result.sections.forEach((section) => els.sections.appendChild(renderSection(section)));
-    els.compat.hidden = !result.compat;
-    if (result.compat) Shio.renderCompatLayers(els.compat, result.compat);
-    els.note.hidden = !result.note;
-    els.note.textContent = result.note || "";
+    Room.renderResultInto(els, view, renderSection);
   }
 
   function render(state) {
     const view = state.room;
-    renderNotice(state);
-    els.mode.textContent = view ? Room.describeRoom(view) : state.missing ? "Room tidak ditemukan" : "Memuat room...";
-    els.meta.textContent = view ? Room.describeMeta(view) : "";
+    Room.renderHeader(els, state);
     const flags = view ? Room.roomFlags(view) : {};
     els.join.hidden = !flags.canJoin;
     els.lobby.hidden = !flags.showLobby;
@@ -76,26 +55,14 @@
     }
     els.idleText.textContent = view.me ? Room.describeLobby(view) : flags.canJoin ? "Isi nama dan tanggal lahir di kiri untuk ikut main." : Room.describeLobby(view);
     if (flags.canJoin) {
-      els.joinInfo.textContent = Room.describeRoom(view) + ". Sudah ada " + view.participant_count + " dari " + view.max_participants + " orang.";
+      els.joinInfo.textContent = Room.describeJoin(view);
     }
     if (flags.showQuestions) renderQuestions(view);
     if (flags.showResult) renderResult(view);
     if (view === renderedView && state.busy === renderedBusy) return;
     renderedView = view;
     renderedBusy = state.busy;
-    if (flags.showLobby) {
-      Shio.clear(els.people);
-      els.people.appendChild(Room.buildPeople(view));
-      els.count.textContent = view.participant_count + "/" + view.max_participants;
-      els.status.textContent = Room.describeLobby(view);
-      els.start.hidden = !flags.showStart;
-      window.setButtonLoading(els.start, state.busy === "start", "Memulai...", flags.startDisabled);
-      els.finish.hidden = !flags.showFinish;
-    }
-    if (flags.showTurn) {
-      Shio.clear(els.turn);
-      els.turn.appendChild(Room.buildTurn(view));
-    }
+    Room.renderLobby(els, view, state, flags);
   }
 
   function init(root) {
@@ -133,20 +100,11 @@
     picker = Shio.desktopDate(els.birth, {
       onChange: (dates, value) => Shio.updateForm({ birth: value || "" }),
     });
-    els.name.addEventListener("input", () => Shio.updateForm({ name: els.name.value }));
-    els.join.addEventListener("submit", (event) => {
-      event.preventDefault();
-      Room.join();
-    });
     els.questions.addEventListener("submit", (event) => {
       event.preventDefault();
       Room.submitAnswers();
     });
-    els.start.addEventListener("click", Room.start);
-    els.finish.addEventListener("click", Room.finish);
-    els.refresh.addEventListener("click", Room.manualRefresh);
-    byId("d-room-copy").addEventListener("click", Room.copyLink);
-    byId("d-room-share").addEventListener("click", Room.shareLink);
+    Room.bindActions(els, "d");
   }
 
   function activate(state) {

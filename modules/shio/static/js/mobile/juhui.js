@@ -1,11 +1,8 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let step = 1;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function render(state) {
     const form = state.form;
@@ -18,12 +15,7 @@
     els.join.hidden = tab !== "join";
     els.create.hidden = tab !== "create";
     if (!form.mode) step = 1;
-    els.steps.forEach((node) => {
-      node.hidden = Number(node.dataset.step) !== step;
-    });
-    els.progressText.textContent = "Langkah " + step + " dari 2";
-    els.progressFill.style.width = step * 50 + "%";
-    els.back.hidden = step === 1;
+    Shio.renderStepper(els, step, 2);
     Shio.quizLobby.renderOptions(els.root, form);
     els.title.textContent = Shio.quizLobby.modeTitle(els.root, form.mode);
     if (state.loading) {
@@ -68,14 +60,9 @@
     els.tabs.forEach((button) => {
       button.addEventListener("click", () => Shio.updateUi({ tab: button.dataset.quizTab }));
     });
-    els.code.addEventListener("input", () => Shio.updateForm({ code: els.code.value }));
-    els.name.addEventListener("input", () => Shio.updateForm({ name: els.name.value }));
+    Shio.quizLobby.bindJoin(els, els.join);
     Shio.mobileDate(els.birth, (value) => Shio.updateForm({ birth: value }));
     Shio.quizLobby.bindOptions(root, () => render(Shio.getState()));
-    els.join.addEventListener("submit", (event) => {
-      event.preventDefault();
-      if (!Shio.quizLobby.joinByCode()) els.code.focus();
-    });
     els.next.addEventListener("click", goNext);
     els.back.addEventListener("click", () => {
       step = 1;

@@ -1,4 +1,3 @@
-{% import 'shio/_caidan.html' as caidan %}
 <div class="roast-pair">
   <button type="button" class="roast-pair-cta" data-pair-toggle aria-expanded="false">
     <i class="fa-solid fa-user-group" aria-hidden="true"></i>
@@ -9,7 +8,7 @@
       Pilih shio orang kedua. Roasting hubungan diambil dari relasi cabang tahun kalian &mdash; bukan dari pasangan shio satu per satu.
     </p>
     <div class="roast-pair-grid" role="group" aria-label="Shio pasangan">
-      {% for key, hanzi, name in caidan.shio_list %}
+      {% for key, hanzi, name in shio_list %}
       <button type="button" class="pair-pick" data-shio="{{ key }}" aria-pressed="false">
         <span class="pair-pick-hanzi">{{ hanzi }}</span><span class="pair-pick-name">{{ name }}</span>
       </button>

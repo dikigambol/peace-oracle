@@ -1,26 +1,8 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let renderedResult = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function buildDetails(title, iconName, body, open) {
-    const details = Shio.el("details", "sh-m-details");
-    details.open = Boolean(open);
-    const summary = Shio.el("summary");
-    const label = Shio.el("span");
-    label.appendChild(Shio.icon(iconName));
-    label.appendChild(document.createTextNode(" " + title));
-    summary.appendChild(label);
-    details.appendChild(summary);
-    const content = Shio.el("div", "sh-m-details-body");
-    content.appendChild(body);
-    details.appendChild(content);
-    return details;
-  }
 
   function renderResult(data) {
     if (data === renderedResult) return;
@@ -29,16 +11,16 @@
     els.hero.appendChild(Shio.guardian.buildHighlights(data));
     Shio.clear(els.sections);
     Shio.guardian.sections(data).forEach((section, index) => {
-      els.sections.appendChild(buildDetails(section.title, section.icon, section.build(), index === 0));
+      els.sections.appendChild(Shio.detailsBlock(section.title, section.icon, section.build(), index === 0));
     });
-    els.sections.appendChild(buildDetails("Waktu & Arah Sakral", "fa-compass", Shio.guardian.buildMeta(data), false));
+    els.sections.appendChild(Shio.detailsBlock("Waktu & Arah Sakral", "fa-compass", Shio.guardian.buildMeta(data), false));
     renderedResult = data;
   }
 
   function render(state) {
     const data = state.result;
     const viewing = Boolean(data) || state.loading;
-    Shio.shio.markPicked(els.root, state.form.shio);
+    Shio.markChoice(els.root, "shio", state.form.shio);
     els.pick.hidden = viewing;
     els.view.hidden = !viewing;
     els.home.hidden = viewing;

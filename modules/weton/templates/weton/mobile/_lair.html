@@ -1,13 +1,6 @@
+{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-m-shell" data-bottom-nav>
-  <header class="wt-m-appbar">
-    <a class="wt-m-icon" href="{{ url_for('weton.weton_index') }}" aria-label="Kembali ke menu Weton">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    </a>
-    <h1 class="wt-m-title">Cek Weton Lahir</h1>
-    <button class="wt-m-icon" id="m-share" type="button" aria-label="Bagikan hasil" hidden>
-      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-    </button>
-  </header>
+  {{ komponen.mobile_appbar("Cek Weton Lahir", "m-share", "Bagikan hasil") }}
 
   <main class="wt-m-main">
     <section class="wt-m-steps" id="m-steps" aria-live="polite">
@@ -63,5 +56,5 @@
     </section>
   </main>
 
-  {% with active = 'lahir' %}{% include 'weton/mobile/_tabbar.html' %}{% endwith %}
+  {{ komponen.mobile_tabbar("lahir") }}
 </div>

@@ -1,11 +1,8 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let renderedResult = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function buildCard(data) {
     const card = Shio.el("article", "fortune-card sh-d-guardian-card");
@@ -18,7 +15,7 @@
 
   function render(state) {
     const data = state.result;
-    Shio.shio.markPicked(els.root, state.form.shio);
+    Shio.markChoice(els.root, "shio", state.form.shio);
     els.root.querySelectorAll("[data-shio]").forEach((button) => {
       button.disabled = state.loading;
     });

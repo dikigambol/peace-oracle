@@ -1,14 +1,10 @@
 (function () {
   const Weton = window.Weton;
-  const LAHIR_FIELDS = ["jam", "kota"];
+  const byId = Weton.byId;
   const KEY_STEPS = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
   let els = null;
   let lahirPicker = null;
   let renderedDays = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function buildCell(result, day) {
     const cell = Weton.el("button", "wt-cal-cell");
@@ -57,30 +53,13 @@
     els.detail.appendChild(Weton.renderDayDetail(result, result.selected));
   }
 
-  function renderWetonan(result) {
-    const wetonan = result.wetonan;
-    els.summary.hidden = !wetonan;
-    els.clear.hidden = !wetonan;
-    Weton.clear(els.summary);
-    if (wetonan) els.summary.appendChild(Weton.renderWetonanSummary(wetonan));
-  }
-
   function render(state) {
-    const result = state.result;
-    els.error.hidden = !state.error;
-    els.error.textContent = state.error;
     els.main.setAttribute("aria-busy", state.loading ? "true" : "false");
-    window.setButtonLoading(els.submit, state.loading && Boolean(state.form.lahir_tanggal), "Menandai...");
-    if (!result) return;
-    els.month.textContent = result.month.label;
-    els.jawa.textContent = result.month.jawa_label;
-    els.prev.disabled = !result.month.prev;
-    els.next.disabled = !result.month.next;
+    if (!Weton.calendar.renderHeader(els, state)) return;
+    const result = state.result;
     if (result.days !== renderedDays) renderGrid(result);
     renderSelection(result);
-    renderWetonan(result);
-    els.note.textContent = result.note;
-    els.disclaimer.textContent = result.disclaimer + " Sumber: " + Object.values(result.sources).join("; ") + ".";
+    Weton.calendar.renderFooter(els, result);
   }
 
   function select(iso, focus) {
@@ -99,18 +78,13 @@
     if (target) select(target.date, true);
   }
 
-  function goToday() {
-    const result = Weton.getState().result;
-    if (result && result.days.some((day) => day.date === result.today)) {
-      select(result.today, false);
-      return;
-    }
-    Weton.calendarGo({ tanggal: result ? result.today : "" });
+  function syncLahir(form) {
+    Weton.syncPicker(lahirPicker, byId("d-lahir-tanggal"), form.lahir_tanggal);
+    Weton.syncInputs(els.lahirFields, form);
   }
 
   function init(root) {
     els = {
-      root: root,
       main: root.querySelector(".wt-d-cal-main"),
       month: byId("d-cal-month"),
       jawa: byId("d-cal-jawa"),
@@ -126,45 +100,14 @@
       clear: byId("d-wetonan-clear"),
       summary: byId("d-wetonan-summary"),
       disclaimer: byId("d-cal-disclaimer"),
+      lahirFields: { lahir_jam: byId("d-lahir-jam"), lahir_kota: byId("d-lahir-kota") },
     };
-    const jump = byId("d-cal-date");
-    window.initDatePicker("#d-cal-date", {
-      dateFormat: "Y-m-d",
-      altInput: true,
-      altFormat: "j F Y",
-      locale: "id",
-      minDate: jump.dataset.min,
-      maxDate: jump.dataset.max,
-      disableMobile: true,
-      onChange: (dates, str) => {
-        if (str) Weton.calendarGo({ tanggal: str });
-      },
+    Weton.initDate(byId("d-cal-date"), (str) => {
+      if (str) Weton.calendarGo({ tanggal: str });
     });
-    const lahir = byId("d-lahir-tanggal");
-    window.initDatePicker("#d-lahir-tanggal", {
-      dateFormat: "Y-m-d",
-      altInput: true,
-      altFormat: "j F Y",
-      locale: "id",
-      minDate: lahir.dataset.min,
-      maxDate: lahir.dataset.max,
-      disableMobile: true,
-      onChange: (dates, str) => Weton.updateForm({ lahir_tanggal: str }),
-    });
-    lahirPicker = lahir._flatpickr || null;
-    LAHIR_FIELDS.forEach((field) => {
-      const node = byId("d-lahir-" + field);
-      node.addEventListener("input", () => Weton.updateForm({ ["lahir_" + field]: node.value }));
-    });
-    els.prev.addEventListener("click", () => {
-      const result = Weton.getState().result;
-      if (result && result.month.prev) Weton.calendarGo({ bulan: result.month.prev });
-    });
-    els.next.addEventListener("click", () => {
-      const result = Weton.getState().result;
-      if (result && result.month.next) Weton.calendarGo({ bulan: result.month.next });
-    });
-    els.today.addEventListener("click", goToday);
+    lahirPicker = Weton.initDate(byId("d-lahir-tanggal"), (str) => Weton.updateForm({ lahir_tanggal: str }));
+    Weton.bindInputs(els.lahirFields);
+    Weton.calendar.bindNav(els, (iso) => select(iso, false));
     els.grid.addEventListener("click", (event) => {
       const cell = event.target.closest("button[data-date]");
       if (cell) select(cell.dataset.date, false);
@@ -177,30 +120,9 @@
     });
     els.form.addEventListener("submit", (event) => {
       event.preventDefault();
-      const state = Weton.getState();
-      if (!state.form.lahir_tanggal) {
-        els.error.hidden = false;
-        els.error.textContent = "Isi tanggal lahir dulu.";
-        return;
-      }
-      Weton.calendarGo({ tanggal: state.result ? state.result.selected : "" });
+      Weton.calendar.submitWetonan(els);
     });
-    els.clear.addEventListener("click", () => {
-      Weton.updateForm({ lahir_tanggal: "", lahir_jam: "", lahir_kota: "" });
-      syncLahir(Weton.getState().form);
-      const result = Weton.getState().result;
-      Weton.calendarGo({ tanggal: result ? result.selected : "" });
-    });
-  }
-
-  function syncLahir(form) {
-    if (lahirPicker) {
-      if (form.lahir_tanggal) lahirPicker.setDate(form.lahir_tanggal, false);
-      else lahirPicker.clear(false);
-    }
-    LAHIR_FIELDS.forEach((field) => {
-      byId("d-lahir-" + field).value = form["lahir_" + field] || "";
-    });
+    els.clear.addEventListener("click", () => Weton.calendar.clearWetonan(syncLahir));
   }
 
   function activate(state) {

@@ -1,34 +1,9 @@
 {% extends 'weton/_dhasar.html' %}
+{% set page = 'kalender' %}
+{% set page_file = 'tanggalan' %}
+{% set page_api = 'weton.weton_calendar_api' %}
 {% block title %}Tanggalan Jawa Saben Dina - Peace Oracle{% endblock %}
 {% block description %}Kalender Jawa harian lengkap dengan weton, wuku, tanggal Jawa, pranata mangsa, hari istimewa, dan hari pantangan menurut primbon.{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
-<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-base.css') }}" />
-<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-desktop.css') }}" media="(min-width: 769px)" />
-<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-mobile.css') }}" media="(max-width: 768px)" />
-{% endblock %}
-{% block content %}
-<div class="wt-app" id="wt-app" data-page="kalender" data-api="{{ url_for('weton.weton_calendar_api') }}">
-  <div class="wt-layout wt-layout-desktop" data-layout="desktop">
-    {% include 'weton/desktop/_tanggalan.html' %}
-  </div>
-  <div class="wt-layout wt-layout-mobile" data-layout="mobile">
-    {% include 'weton/mobile/_tanggalan.html' %}
-  </div>
-  <datalist id="wt-city-options">
-    {% for city in cities %}
-    <option value="{{ city.name }}">{{ city.province }} · {{ city.zone }}</option>
-    {% endfor %}
-  </datalist>
-  <script type="application/json" id="wt-glossary">{{ glossary|tojson }}</script>
-  <script type="application/json" id="wt-initial">{{ initial|tojson }}</script>
-</div>
-{% endblock %}
-{% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
-<script src="{{ url_for('weton.static', filename='js/weton-core.js') }}"></script>
-<script src="{{ url_for('weton.static', filename='js/desktop/tanggalan.js') }}"></script>
-<script src="{{ url_for('weton.static', filename='js/mobile/tanggalan.js') }}"></script>
+{% block page_scripts %}
+<script type="application/json" id="wt-initial">{{ initial|tojson }}</script>
 {% endblock %}

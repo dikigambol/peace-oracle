@@ -1,3 +1,4 @@
+{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-d-shell">
   {% with title='Teropong Energi Tahunan', lead='Liu Nian membaca relasi shio kamu dengan shio tahun berjalan: menopang, menantang, atau Tai Sui.', active='liunian' %}
   {% include 'shio/desktop/_header.html' %}
@@ -8,19 +9,7 @@
       <h2 class="sh-card-title">Pilih shio kamu</h2>
       {% with picker_class='sh-d-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
       <p class="sh-label sh-d-year-label">Pilih tahun</p>
-      <div class="year-picker">
-        <button class="year-nav" type="button" id="d-year-prev" aria-label="Tahun sebelumnya">
-          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-        </button>
-        <div class="year-display">
-          <span class="year-number" id="d-year-number"></span>
-          <span class="year-shio" id="d-year-shio"></span>
-        </div>
-        <button class="year-nav" type="button" id="d-year-next" aria-label="Tahun berikutnya">
-          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-        </button>
-      </div>
-      <p class="yearly-lichun" id="d-lichun">Tahun Imlek berganti di awal musim semi (立春), sekitar 4 Februari, bukan 1 Januari.</p>
+      {{ zujian.year_picker("d") }}
       <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="d-yearly-submit" disabled>
         <i class="fa-solid fa-binoculars" aria-hidden="true"></i> Lihat Proyeksi Tahunan
       </button>

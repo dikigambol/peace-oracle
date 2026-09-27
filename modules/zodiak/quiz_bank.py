@@ -1,6 +1,4 @@
-import json
-import requests
-from .horoscope_bank import get_openrouter_api_key
+from .ai_client import ask_openrouter, get_openrouter_api_key
 from .ai_limiter import check_ai_quota, increment_ai_quota
 
 PARTNER_QUIZ_QUESTIONS = [
@@ -203,7 +201,7 @@ def get_ai_couple_quiz_analysis(
         )
         or "Saling melengkapi perbedaan"
     )
-    is_allowed, count, limit, notice = check_ai_quota()
+    is_allowed, _ = check_ai_quota()
     api_key = get_openrouter_api_key() if is_allowed else None
     if not api_key:
         return {
@@ -228,41 +226,9 @@ Buatkan ulasan dalam format JSON valid persis dengan struktur berikut (tanpa tek
   "challenge": "1-2 kalimat potensi tantangan / hal lucu yang perlu disesuaikan dengan santai.",
   "couple_tip": "1 kalimat tips hubungan paling berharga & manis untuk mereka berdua."
 }} """
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia",
-    }
     try:
-        payload = {
-            "model": "google/gemini-2.5-flash-lite",
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "Kamu adalah ahli analisis hubungan & astrologi Gen Z yang humoris, hangat, dan komunikatif. Kembalikan respons HANYA dalam format JSON valid.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            "temperature": 0.8,
-        }
-        resp = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers=headers,
-            json=payload,
-            timeout=9,
-        )
-        if resp.status_code == 200:
-            res_data = resp.json()
-            content = res_data["choices"][0]["message"]["content"].strip()
-            if content.startswith("```"):
-                content = content.split("\n", 1)[-1]
-                if content.endswith("```"):
-                    content = content.rsplit("```", 1)[0]
-                content = content.strip()
-            if content.startswith("json"):
-                content = content[4:].strip()
-            parsed = json.loads(content)
+        parsed = ask_openrouter(api_key, "Kamu adalah ahli analisis hubungan & astrologi Gen Z yang humoris, hangat, dan komunikatif. Kembalikan respons HANYA dalam format JSON valid.", prompt, 0.8)
+        if parsed is not None:
             if all(
                 k in parsed
                 for k in [

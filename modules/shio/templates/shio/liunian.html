@@ -1,17 +1,6 @@
 {% extends 'shio/_jichu.html' %}
+{% set page = 'liunian' %}
+{% set page_api = 'shio.shio_yearly_api' %}
+{% set page_data = {'current-year': current_year} %}
 {% block title %}Liu Nian - Peace Oracle{% endblock %}
 {% block description %}Teropong energi tahunan (Liu Nian): relasi shio-mu dengan shio tahun, Tai Sui, lapisan batang tahun, dan proyeksi karir, keuangan, asmara, kesehatan.{% endblock %}
-{% block shio_app %}
-<div class="sh-app" id="sh-app" data-page="liunian" data-api="{{ url_for('shio.shio_yearly_api') }}" data-static="{{ url_for('shio.static', filename='') }}" data-current-year="{{ current_year }}">
-  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
-    {% include 'shio/desktop/_liunian.html' %}
-  </div>
-  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
-    {% include 'shio/mobile/_liunian.html' %}
-  </div>
-</div>
-{% endblock %}
-{% block shio_js %}
-<script src="{{ url_for('shio.static', filename='js/desktop/liunian.js') }}"></script>
-<script src="{{ url_for('shio.static', filename='js/mobile/liunian.js') }}"></script>
-{% endblock %}

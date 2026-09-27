@@ -1,13 +1,6 @@
+{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-m-shell wt-m-shell-fab" data-bottom-nav>
-  <header class="wt-m-appbar">
-    <a class="wt-m-icon" href="{{ url_for('weton.weton_index') }}" aria-label="Kembali ke menu Weton">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    </a>
-    <h1 class="wt-m-title">Kalender Jawa</h1>
-    <button class="wt-m-icon" id="m-cal-share" type="button" aria-label="Bagikan hari terpilih">
-      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-    </button>
-  </header>
+  {{ komponen.mobile_appbar("Kalender Jawa", "m-cal-share", "Bagikan hari terpilih", False) }}
 
   <main class="wt-m-main">
     <div class="wt-m-cal-month">
@@ -28,7 +21,7 @@
 
     <div id="m-cal-detail" aria-live="polite"></div>
 
-    <details class="wt-card wt-m-wetonan" id="m-wetonan">
+    <details class="wt-card wt-m-wetonan">
       <summary>Tandai wetonanmu</summary>
       <p class="wt-hint">Hari dengan weton yang sama dengan weton lahirmu akan ditandai di strip tanggal.</p>
       <label class="wt-field" for="m-lahir-tanggal">
@@ -58,5 +51,5 @@
     <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Hari ini
   </button>
 
-  {% with active = 'kalender' %}{% include 'weton/mobile/_tabbar.html' %}{% endwith %}
+  {{ komponen.mobile_tabbar("kalender") }}
 </div>

@@ -1,11 +1,8 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   let els = null;
   let renderedResult = null;
-
-  function byId(id) {
-    return document.getElementById(id);
-  }
 
   function renderYear(state) {
     const year = state.form.year;
@@ -26,7 +23,7 @@
   }
 
   function render(state) {
-    Shio.shio.markPicked(els.root, state.form.shio);
+    Shio.markChoice(els.root, "shio", state.form.shio);
     renderYear(state);
     window.setButtonLoading(els.submit, state.loading, "Meneropong tahun...", !state.form.shio);
     if (!state.loading) els.submit.disabled = !state.form.shio;
@@ -49,14 +46,7 @@
         render(Shio.getState());
       });
     });
-    byId("d-year-prev").addEventListener("click", () => {
-      Shio.updateForm({ year: Shio.getState().form.year - 1 });
-      renderYear(Shio.getState());
-    });
-    byId("d-year-next").addEventListener("click", () => {
-      Shio.updateForm({ year: Shio.getState().form.year + 1 });
-      renderYear(Shio.getState());
-    });
+    Shio.yearly.bindYearButtons("d", renderYear);
     els.submit.addEventListener("click", async () => {
       const data = await Shio.yearly.submit();
       if (data) Shio.scrollIntoView(els.result);

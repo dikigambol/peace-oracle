@@ -43,6 +43,110 @@
     while (node.firstChild) node.removeChild(node.firstChild);
   }
 
+  function byId(id) {
+    return document.getElementById(id);
+  }
+
+  function showError(node, message) {
+    node.hidden = !message;
+    node.textContent = message || "";
+  }
+
+  function initDate(input, onPick) {
+    window.initDatePicker("#" + input.id, {
+      dateFormat: "Y-m-d",
+      altInput: true,
+      altFormat: "j F Y",
+      locale: "id",
+      minDate: input.dataset.min,
+      maxDate: input.dataset.max,
+      disableMobile: true,
+      onChange: (dates, str) => onPick(str),
+    });
+    return input._flatpickr || null;
+  }
+
+  function syncPicker(picker, input, value) {
+    if (!picker) {
+      input.value = value || "";
+      return;
+    }
+    if (value) picker.setDate(value, false);
+    else picker.clear(false);
+  }
+
+  function bindInputs(fields) {
+    Object.entries(fields).forEach(([key, node]) => {
+      node.addEventListener("input", () => updateForm({ [key]: node.value }));
+    });
+  }
+
+  function syncInputs(fields, form) {
+    Object.entries(fields).forEach(([key, node]) => {
+      node.value = form[key] || "";
+    });
+  }
+
+  function renderStepper(nodes, step, total) {
+    nodes.steps.forEach((node) => {
+      node.hidden = Number(node.dataset.step) !== step;
+    });
+    nodes.progressText.textContent = "Langkah " + step + " dari " + total;
+    nodes.progressFill.style.width = (step / total) * 100 + "%";
+    nodes.back.hidden = step === 1;
+  }
+
+  function bindShare(buttons, build) {
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const payload = state.result ? build(state.result) : null;
+        if (payload) share(payload);
+      });
+    });
+  }
+
+  function cardHeader(iconName, label) {
+    const header = el("header", "wt-result-head");
+    const icon = el("i", "fa-solid " + iconName + " wt-result-icon");
+    icon.setAttribute("aria-hidden", "true");
+    header.appendChild(icon);
+    header.appendChild(label);
+    return header;
+  }
+
+  function adviceBlock(title, inti, saran) {
+    const block = el("div", "wt-watak");
+    if (title) block.appendChild(el("h4", "wt-watak-title", title));
+    block.appendChild(el("p", "wt-watak-inti", inti));
+    const advice = el("p", "wt-watak-saran");
+    advice.appendChild(el("strong", null, "Saran: "));
+    advice.appendChild(document.createTextNode(saran));
+    block.appendChild(advice);
+    return block;
+  }
+
+  function factsList(rows) {
+    const list = el("dl", "wt-facts");
+    rows.forEach((fact) => {
+      const row = el("div", "wt-fact");
+      row.appendChild(el("dt", null, fact[0]));
+      row.appendChild(el("dd", null, fact[1]));
+      list.appendChild(row);
+    });
+    return list;
+  }
+
+  function neptuFormula(weton) {
+    return "Neptu " + weton.neptu + " = " + weton.hari + " " + weton.neptu_hari + " + " +
+      weton.pasaran + " " + weton.neptu_pasaran;
+  }
+
+  function roastError(form) {
+    if (!form.a_tanggal) return "Isi tanggal lahirmu dulu.";
+    if (form.duo && !form.b_tanggal) return "Isi tanggal lahir orang kedua dulu, atau matikan opsi orang kedua.";
+    return "";
+  }
+
   function formatShortDate(iso) {
     const [year, month, day] = iso.split("-").map(Number);
     return day + " " + MONTHS[month - 1].slice(0, 3) + " " + year;
@@ -94,8 +198,7 @@
         title: "Weton & Neptu",
         term: "neptu",
         headline: weton.label,
-        sub: "Neptu " + weton.neptu + " = " + weton.hari + " " + weton.neptu_hari + " + " +
-          weton.pasaran + " " + weton.neptu_pasaran,
+        sub: neptuFormula(weton),
         facts: [
           ["Hari Jawa", weton.hari_jawa],
           ["Paarasan", result.paarasan],
@@ -163,10 +266,6 @@
 
   function renderCard(card, variant) {
     const article = el("article", "wt-card wt-result-card wt-card-" + card.key);
-    const header = el("header", "wt-result-head");
-    const icon = el("i", "fa-solid " + card.icon + " wt-result-icon");
-    icon.setAttribute("aria-hidden", "true");
-    header.appendChild(icon);
     const label = el("p", "wt-result-label");
     if (variant === "desktop" && glossary[card.term]) {
       const term = el("span", "wt-term", card.title);
@@ -176,30 +275,11 @@
     } else {
       label.textContent = card.title;
     }
-    header.appendChild(label);
-    article.appendChild(header);
+    article.appendChild(cardHeader(card.icon, label));
     article.appendChild(el("h3", "wt-result-headline", card.headline));
     if (card.sub) article.appendChild(el("p", "wt-result-sub", card.sub));
-    if (card.facts.length) {
-      const list = el("dl", "wt-facts");
-      card.facts.forEach((fact) => {
-        const row = el("div", "wt-fact");
-        row.appendChild(el("dt", null, fact[0]));
-        row.appendChild(el("dd", null, fact[1]));
-        list.appendChild(row);
-      });
-      article.appendChild(list);
-    }
-    card.items.forEach((item) => {
-      const block = el("div", "wt-watak");
-      block.appendChild(el("h4", "wt-watak-title", item.title));
-      block.appendChild(el("p", "wt-watak-inti", item.inti));
-      const advice = el("p", "wt-watak-saran");
-      advice.appendChild(el("strong", null, "Saran: "));
-      advice.appendChild(document.createTextNode(item.saran));
-      block.appendChild(advice);
-      article.appendChild(block);
-    });
+    if (card.facts.length) article.appendChild(factsList(card.facts));
+    card.items.forEach((item) => article.appendChild(adviceBlock(item.title, item.inti, item.saran)));
     if (variant === "mobile" && glossary[card.term]) {
       const details = el("details", "wt-glossary");
       details.appendChild(el("summary", null, "Apa itu " + card.term + "?"));
@@ -305,13 +385,7 @@
   }
 
   function renderNoteBlock(title, inti, saran, extra) {
-    const block = el("div", "wt-watak");
-    block.appendChild(el("h4", "wt-watak-title", title));
-    block.appendChild(el("p", "wt-watak-inti", inti));
-    const advice = el("p", "wt-watak-saran");
-    advice.appendChild(el("strong", null, "Saran: "));
-    advice.appendChild(document.createTextNode(saran));
-    block.appendChild(advice);
+    const block = adviceBlock(title, inti, saran);
     if (extra) block.appendChild(el("p", "wt-cal-source", extra));
     return block;
   }
@@ -324,35 +398,22 @@
     const mangsa = result.mangsa[day.mangsa];
     const keblat = result.keblat[weton.pasaran_key];
     const article = el("article", "wt-card wt-result-card wt-cal-detail");
-    const header = el("header", "wt-result-head");
-    const icon = el("i", "fa-solid fa-calendar-day wt-result-icon");
-    icon.setAttribute("aria-hidden", "true");
-    header.appendChild(icon);
-    header.appendChild(el("p", "wt-result-label", day.label + (day.today ? " · hari ini" : "")));
-    article.appendChild(header);
+    article.appendChild(cardHeader("fa-calendar-day", el("p", "wt-result-label", day.label + (day.today ? " · hari ini" : ""))));
     article.appendChild(el("h3", "wt-result-headline", weton.label));
-    article.appendChild(el("p", "wt-result-sub", "Neptu " + weton.neptu + " = " + weton.hari + " " +
-      weton.neptu_hari + " + " + weton.pasaran + " " + weton.neptu_pasaran));
+    article.appendChild(el("p", "wt-result-sub", neptuFormula(weton)));
     const badges = el("div", "wt-cal-badges");
     day.istimewa.forEach((key) => badges.appendChild(el("span", "wt-badge wt-badge-istimewa", result.istimewa_info[key].name)));
     day.pantangan.forEach((item) => badges.appendChild(el("span", "wt-badge wt-badge-pantangan", result.pantangan_info[item.key].name)));
     if (day.wetonan) badges.appendChild(el("span", "wt-badge wt-badge-wetonan", "Wetonanmu"));
     if (badges.children.length) article.appendChild(badges);
-    const facts = el("dl", "wt-facts");
-    [
+    article.appendChild(factsList([
       ["Tanggal Jawa", jawa.tanggal + " " + jawa.sasi + " " + jawa.tahun + " · tahun " + jawa.taun + ", windu " + jawa.windu],
       ["Wuku", wuku.name + " (ke-" + wuku.number + ") · dewa " + wuku.dewa],
       ["Hari Jawa", weton.hari_jawa],
       ["Arah pasaran", keblat.arah + " · warna " + keblat.warna],
       ["Pranata mangsa", "Mangsa " + mangsa.name + " (" + mangsa.sanskrit + ")"],
       ["Artinya", mangsa.arti],
-    ].forEach((fact) => {
-      const row = el("div", "wt-fact");
-      row.appendChild(el("dt", null, fact[0]));
-      row.appendChild(el("dd", null, fact[1]));
-      facts.appendChild(row);
-    });
-    article.appendChild(facts);
+    ]));
     day.istimewa.forEach((key) => {
       const info = result.istimewa_info[key];
       article.appendChild(renderNoteBlock(info.name, info.inti, info.saran, "Sumber: " + info.source));
@@ -421,34 +482,66 @@
   function renderPetungCard(item) {
     const result = item.result;
     const article = el("article", "wt-card wt-result-card wt-petung-card");
-    const header = el("header", "wt-result-head");
-    const icon = el("i", "fa-solid fa-scale-balanced wt-result-icon");
-    icon.setAttribute("aria-hidden", "true");
-    header.appendChild(icon);
-    header.appendChild(el("p", "wt-result-label", item.name));
-    article.appendChild(header);
+    article.appendChild(cardHeader("fa-scale-balanced", el("p", "wt-result-label", item.name)));
     const title = el("div", "wt-petung-title");
     title.appendChild(el("h3", "wt-result-headline", result.name));
     title.appendChild(el("span", "wt-tone wt-tone-" + result.tone, result.tone_label));
     article.appendChild(title);
     article.appendChild(el("p", "wt-result-sub", item.formula + " → " + result.name));
-    const block = el("div", "wt-watak");
-    block.appendChild(el("p", "wt-watak-inti", result.inti));
-    const advice = el("p", "wt-watak-saran");
-    advice.appendChild(el("strong", null, "Saran: "));
-    advice.appendChild(document.createTextNode(result.saran));
-    block.appendChild(advice);
-    article.appendChild(block);
-    const facts = el("dl", "wt-facts");
-    [["Makna klasik", result.meaning], ["Sumber", item.source]].forEach((fact) => {
-      const row = el("div", "wt-fact");
-      row.appendChild(el("dt", null, fact[0]));
-      row.appendChild(el("dd", null, fact[1]));
-      facts.appendChild(row);
-    });
-    article.appendChild(facts);
+    article.appendChild(adviceBlock(null, result.inti, result.saran));
+    article.appendChild(factsList([["Makna klasik", result.meaning], ["Sumber", item.source]]));
     return article;
   }
+
+  const calendar = {
+    renderHeader(els, state) {
+      const result = state.result;
+      showError(els.error, state.error);
+      window.setButtonLoading(els.submit, state.loading && Boolean(state.form.lahir_tanggal), "Menandai...");
+      if (!result) return false;
+      els.month.textContent = result.month.label;
+      els.jawa.textContent = result.month.jawa_label;
+      els.prev.disabled = !result.month.prev;
+      els.next.disabled = !result.month.next;
+      return true;
+    },
+    renderFooter(els, result) {
+      const wetonan = result.wetonan;
+      els.summary.hidden = !wetonan;
+      els.clear.hidden = !wetonan;
+      clear(els.summary);
+      if (wetonan) els.summary.appendChild(renderWetonanSummary(wetonan));
+      els.note.textContent = result.note;
+      els.disclaimer.textContent = result.disclaimer + " Sumber: " + Object.values(result.sources).join("; ") + ".";
+    },
+    bindNav(els, selectDay) {
+      [[els.prev, "prev"], [els.next, "next"]].forEach(([button, key]) => {
+        button.addEventListener("click", () => {
+          if (state.result && state.result.month[key]) calendarGo({ bulan: state.result.month[key] });
+        });
+      });
+      els.today.addEventListener("click", () => {
+        const result = state.result;
+        if (result && result.days.some((day) => day.date === result.today)) {
+          selectDay(result.today);
+          return;
+        }
+        calendarGo({ tanggal: result ? result.today : "" });
+      });
+    },
+    submitWetonan(els) {
+      if (!state.form.lahir_tanggal) {
+        showError(els.error, "Isi tanggal lahir dulu.");
+        return;
+      }
+      calendarGo({ tanggal: state.result ? state.result.selected : "" });
+    },
+    clearWetonan(afterReset) {
+      updateForm({ lahir_tanggal: "", lahir_jam: "", lahir_kota: "" });
+      afterReset(state.form);
+      calendarGo({ tanggal: state.result ? state.result.selected : "" });
+    },
+  };
 
   function applyLayout(app, media) {
     const next = media.matches ? "mobile" : "desktop";
@@ -465,13 +558,13 @@
     if (renderers[next]) renderers[next].activate(state);
   }
 
-  function readGlossary() {
-    const node = document.getElementById("wt-glossary");
-    if (!node) return {};
+  function readJsonScript(id) {
+    const node = document.getElementById(id);
+    if (!node) return null;
     try {
       return JSON.parse(node.textContent);
     } catch (error) {
-      return {};
+      return null;
     }
   }
 
@@ -494,21 +587,11 @@
     };
   }
 
-  function readInitial() {
-    const node = document.getElementById("wt-initial");
-    if (!node) return null;
-    try {
-      return JSON.parse(node.textContent);
-    } catch (error) {
-      return null;
-    }
-  }
-
   function boot() {
     const app = document.getElementById("wt-app");
     if (!app) return;
-    glossary = readGlossary();
-    const initial = readInitial();
+    glossary = readJsonScript("wt-glossary") || {};
+    const initial = readJsonScript("wt-initial");
     if (initial) state = Object.assign({}, state, { result: initial });
     Object.keys(renderers).forEach((name) => {
       const root = app.querySelector('[data-layout="' + name + '"]');
@@ -529,7 +612,6 @@
     reset: reset,
     patchResult: patchResult,
     calendarGo: calendarGo,
-    findDay: findDay,
     renderMarks: renderMarks,
     describeDayForLabel: describeDayForLabel,
     renderDayDetail: renderDayDetail,
@@ -549,6 +631,16 @@
     share: share,
     el: el,
     clear: clear,
+    byId: byId,
+    showError: showError,
+    initDate: initDate,
+    syncPicker: syncPicker,
+    bindInputs: bindInputs,
+    syncInputs: syncInputs,
+    renderStepper: renderStepper,
+    bindShare: bindShare,
+    roastError: roastError,
+    calendar: calendar,
   };
 
   document.addEventListener("DOMContentLoaded", boot);

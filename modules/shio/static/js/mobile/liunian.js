@@ -1,28 +1,15 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   const TOTAL_STEPS = 2;
   let els = null;
   let step = 1;
   let activeCategory = 0;
   let renderedResult = null;
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function showError(message) {
-    els.error.hidden = !message;
-    els.error.textContent = message || "";
-  }
-
   function renderSteps(state) {
-    els.steps.forEach((node) => {
-      node.hidden = Number(node.dataset.step) !== step;
-    });
-    els.progressText.textContent = "Langkah " + step + " dari " + TOTAL_STEPS;
-    els.progressFill.style.width = (step / TOTAL_STEPS) * 100 + "%";
-    els.back.hidden = step === 1;
-    Shio.shio.markPicked(els.root, state.form.shio);
+    Shio.renderStepper(els, step, TOTAL_STEPS);
+    Shio.markChoice(els.root, "shio", state.form.shio);
     els.yearNumber.textContent = state.form.year;
     els.yearShio.textContent = Shio.yearly.describeYear(state.form.year);
     if (state.loading) {
@@ -82,10 +69,10 @@
     const state = Shio.getState();
     if (step === 1) {
       if (!state.form.shio) {
-        showError("Pilih shio kamu dulu.");
+        Shio.showError(els.error, "Pilih shio kamu dulu.");
         return;
       }
-      showError("");
+      Shio.showError(els.error, "");
       step = 2;
       renderSteps(state);
       return;
@@ -116,22 +103,15 @@
     root.querySelectorAll("[data-shio]").forEach((button) => {
       button.addEventListener("click", () => {
         Shio.updateForm({ shio: button.dataset.shio });
-        showError("");
+        Shio.showError(els.error, "");
         renderSteps(Shio.getState());
       });
     });
-    byId("m-year-prev").addEventListener("click", () => {
-      Shio.updateForm({ year: Shio.getState().form.year - 1 });
-      renderSteps(Shio.getState());
-    });
-    byId("m-year-next").addEventListener("click", () => {
-      Shio.updateForm({ year: Shio.getState().form.year + 1 });
-      renderSteps(Shio.getState());
-    });
+    Shio.yearly.bindYearButtons("m", renderSteps);
     els.next.addEventListener("click", goNext);
     els.back.addEventListener("click", () => {
       step = 1;
-      showError("");
+      Shio.showError(els.error, "");
       renderSteps(Shio.getState());
     });
     byId("m-yearly-reset").addEventListener("click", () => {

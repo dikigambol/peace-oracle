@@ -445,12 +445,30 @@
 .wt-d-hub {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 22px;
+  gap: 16px;
 }
 
 .wt-d-hub .wt-hub-card {
-  min-height: 200px;
-  padding: 28px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  column-gap: 14px;
+  row-gap: 8px;
+  padding: 20px 22px;
+}
+
+.wt-d-hub .wt-hub-text,
+.wt-d-hub .wt-hub-go {
+  grid-column: 1 / -1;
+}
+
+.wt-d-hub .wt-hub-text {
+  align-self: start;
+}
+
+.wt-d-hub .wt-hub-go {
+  padding-top: 4px;
 }
 
 .wt-d-hub .wt-hub-card:hover {

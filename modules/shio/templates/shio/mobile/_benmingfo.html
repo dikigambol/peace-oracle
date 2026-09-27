@@ -1,16 +1,6 @@
+{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  <header class="sh-m-appbar">
-    <span class="sh-m-slot">
-      <a class="sh-m-icon" id="m-guardian-home" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
-        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      </a>
-      <button class="sh-m-icon" type="button" id="m-guardian-back" aria-label="Pilih shio lain" hidden>
-        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-      </button>
-    </span>
-    <h1 class="sh-m-title">Ben Ming Fo</h1>
-    <span aria-hidden="true"></span>
-  </header>
+  {{ zujian.appbar("Ben Ming Fo", "m-guardian-home", "m-guardian-back", "Pilih shio lain") }}
 
   <main class="sh-m-main">
     <section id="m-guardian-pick">

@@ -1,30 +1,17 @@
 (function () {
   const Shio = window.Shio;
+  const byId = Shio.byId;
   const TOTAL_STEPS = 3;
   let els = null;
   let step = 1;
   let renderedResult = null;
 
-  function byId(id) {
-    return document.getElementById(id);
-  }
-
-  function showError(message) {
-    els.error.hidden = !message;
-    els.error.textContent = message || "";
-  }
-
   function renderSteps(state) {
-    els.steps.forEach((node) => {
-      node.hidden = Number(node.dataset.step) !== step;
-    });
-    els.progressText.textContent = "Langkah " + step + " dari " + TOTAL_STEPS;
-    els.progressFill.style.width = (step / TOTAL_STEPS) * 100 + "%";
-    els.back.hidden = step === 1;
+    Shio.renderStepper(els, step, TOTAL_STEPS);
     els.date.value = state.form.date || "";
     els.city.value = state.form.city || "";
     Shio.markChoice(els.root, "gender", state.form.gender);
-    Shio.destiny.syncTimeFields(els.hour, els.minute, state.form);
+    Shio.destiny.syncTimeFields(els.time, state.form);
     if (state.loading) {
       window.setButtonLoading(els.next, true, "Membuka gulungan...");
     } else {
@@ -34,17 +21,7 @@
   }
 
   function buildDetails(section, open) {
-    const details = Shio.el("details", "sh-m-details sh-m-destiny-section");
-    details.open = open;
-    const summary = Shio.el("summary");
-    const label = Shio.el("span");
-    label.appendChild(Shio.icon(section.icon));
-    label.appendChild(document.createTextNode(" " + section.title));
-    summary.appendChild(label);
-    details.appendChild(summary);
-    const body = Shio.el("div", "sh-m-details-body");
-    body.appendChild(section.build());
-    details.appendChild(body);
+    const details = Shio.detailsBlock(section.title, section.icon, section.build(), open, "sh-m-destiny-section");
     if (section.key === "chart") {
       details.addEventListener("toggle", () => Shio.destiny.refreshChartHints(details));
     }
@@ -89,7 +66,7 @@
   async function goNext() {
     const state = Shio.getState();
     const problem = validate(state.form);
-    showError(problem);
+    Shio.showError(els.error, problem);
     if (problem) return;
     if (step < TOTAL_STEPS) {
       step += 1;
@@ -117,8 +94,7 @@
       progressText: byId("m-destiny-progress-text"),
       progressFill: byId("m-destiny-progress-fill"),
       date: byId("m-destiny-date"),
-      hour: byId("m-destiny-hour"),
-      minute: byId("m-destiny-minute"),
+      time: byId("m-destiny-time"),
       city: byId("m-destiny-city"),
       error: byId("m-destiny-error"),
       back: byId("m-destiny-back"),
@@ -133,21 +109,18 @@
     els.loading.appendChild(Shio.loadingBox("Membuka gulungan..."));
     Shio.mobileDate(els.date, (value) => {
       Shio.updateForm({ date: value });
-      showError("");
+      Shio.showError(els.error, "");
     });
-    root.querySelectorAll("[data-gender]").forEach((button) => {
-      button.addEventListener("click", () => {
-        Shio.updateForm({ gender: button.dataset.gender });
-        Shio.markChoice(root, "gender", button.dataset.gender);
-        showError("");
-      });
+    Shio.bindGender(root, () => {
+      Shio.markChoice(root, "gender", Shio.getState().form.gender);
+      Shio.showError(els.error, "");
     });
-    Shio.destiny.bindTimeFields(els.hour, els.minute, () => Shio.destiny.syncTimeFields(els.hour, els.minute, Shio.getState().form));
+    Shio.destiny.bindTimeFields(els.time, () => Shio.destiny.syncTimeFields(els.time, Shio.getState().form));
     els.city.addEventListener("input", () => Shio.updateForm({ city: els.city.value }));
     els.next.addEventListener("click", goNext);
     els.back.addEventListener("click", () => {
       step = Math.max(1, step - 1);
-      showError("");
+      Shio.showError(els.error, "");
       renderSteps(Shio.getState());
     });
     els.edit.addEventListener("click", backToForm);

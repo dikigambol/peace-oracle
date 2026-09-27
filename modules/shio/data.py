@@ -6,7 +6,6 @@ import math
 import random
 import re
 import secrets
-import sqlite3
 import unicodedata
 import zlib
 from contextlib import contextmanager
@@ -158,14 +157,10 @@ STRENGTH_THRESHOLDS = [
     (0.817, "shen_qiang"),
 ]
 
-WIB = datetime.timezone(datetime.timedelta(hours=7), "WIB")
-
 LICHUN_LONGITUDE = 315.0
 
 MONTH_BRANCH_YIN = 2
 
-
-WIB_OFFSET_HOURS = 7
 
 DEFAULT_ZONE = "WIB"
 
@@ -173,7 +168,7 @@ ZONE_OFFSET_HOURS = {"WIB": 7, "WITA": 8, "WIT": 9}
 
 
 def get_zone_offset_hours(zone):
-    return ZONE_OFFSET_HOURS.get(zone, WIB_OFFSET_HOURS)
+    return ZONE_OFFSET_HOURS.get(zone, ZONE_OFFSET_HOURS[DEFAULT_ZONE])
 
 
 def get_solar_longitude(moment):
@@ -301,16 +296,25 @@ def describe_pillar(stem, branch):
     }
 
 
+ELEMENT_ROLE_LABELS = ("sama", "dm_menghidupi", "menghidupi_dm", "dm_mengekang", "mengekang_dm")
+ELEMENT_RELATION_LABELS = ("bi_he", "sheng_wo", "wo_sheng", "ke_wo", "wo_ke")
+ELEMENT_PAIR_LABELS = ("setara", "memberi", "menerima", "menekan", "ditekan")
+
+
+def classify_element_pair(first, second, labels):
+    if first == second:
+        return labels[0]
+    if ELEMENT_GENERATES[first] == second:
+        return labels[1]
+    if ELEMENT_GENERATES[second] == first:
+        return labels[2]
+    if ELEMENT_CONTROLS[first] == second:
+        return labels[3]
+    return labels[4]
+
+
 def get_element_role(day_element, other_element):
-    if day_element == other_element:
-        return "sama"
-    if ELEMENT_GENERATES[day_element] == other_element:
-        return "dm_menghidupi"
-    if ELEMENT_GENERATES[other_element] == day_element:
-        return "menghidupi_dm"
-    if ELEMENT_CONTROLS[day_element] == other_element:
-        return "dm_mengekang"
-    return "mengekang_dm"
+    return classify_element_pair(day_element, other_element, ELEMENT_ROLE_LABELS)
 
 
 def get_ten_god(day_stem, other_stem):
@@ -905,11 +909,7 @@ SHIOS_LIST = [
 ]
 
 def get_branch_relation(idx_a, idx_b):
-    dist = abs(idx_a - idx_b)
-
-    if dist > 6:
-        dist = 12 - dist
-
+    dist = get_branch_distance(idx_a, idx_b)
     pair = frozenset((idx_a, idx_b))
 
     if idx_a != idx_b:
@@ -952,16 +952,7 @@ def get_day_officer(day_branch, month_branch):
     return DAY_OFFICER_BANK[(day_branch - month_branch) % 12]
 
 def get_element_relation(day_element, shio_element):
-    if day_element == shio_element:
-        key = "bi_he"
-    elif ELEMENT_GENERATES[day_element] == shio_element:
-        key = "sheng_wo"
-    elif ELEMENT_GENERATES[shio_element] == day_element:
-        key = "wo_sheng"
-    elif ELEMENT_CONTROLS[day_element] == shio_element:
-        key = "ke_wo"
-    else:
-        key = "wo_ke"
+    key = classify_element_pair(day_element, shio_element, ELEMENT_RELATION_LABELS)
     return key, ELEMENT_RELATION_BANK[key]
 
 def resolve_almanac_date(client_date_str=None):
@@ -1136,15 +1127,7 @@ def get_shio_guardian(shio_key):
     }
 
 def get_element_role_pair(element_a, element_b):
-    if element_a == element_b:
-        return "setara"
-    if ELEMENT_GENERATES[element_a] == element_b:
-        return "memberi"
-    if ELEMENT_GENERATES[element_b] == element_a:
-        return "menerima"
-    if ELEMENT_CONTROLS[element_a] == element_b:
-        return "menekan"
-    return "ditekan"
+    return classify_element_pair(element_a, element_b, ELEMENT_PAIR_LABELS)
 
 
 def describe_element_side(self_key, other_key, self_label=None, other_label=None):
@@ -1458,6 +1441,7 @@ def describe_lens_narrative(compat, lens=DEFAULT_LENS):
 def get_shio_compatibility(shio1_key=None, shio2_key=None,
                            birth1=None, birth2=None, lens=DEFAULT_LENS,
                            names=None, day=None):
+    lens = lens if lens in RELATION_LENS else DEFAULT_LENS
     date1 = parse_birth_date(birth1) if birth1 else None
     date2 = parse_birth_date(birth2) if birth2 else None
     if birth1 and date1 is None:
@@ -1821,12 +1805,6 @@ def get_shio_yearly(user_shio_key, year):
 ROAST_TRAITS_PER_DRAW = 8
 
 
-def resolve_luck_direction(stem_index, gender_key):
-    yang = STEM_POLARITY[stem_index] == "yang"
-    maju = (yang and gender_key == "pria") or (not yang and gender_key == "wanita")
-    return "maju" if maju else "mundur"
-
-
 def describe_chart_roast(birth_date_str, gender):
     birth_date = parse_birth_date(birth_date_str)
     if birth_date is None:
@@ -1846,7 +1824,7 @@ def describe_chart_roast(birth_date_str, gender):
     gender_key = normalise_gender(gender)
     arah = None
     if gender_key is not None:
-        key = resolve_luck_direction(year_stem, gender_key)
+        key = get_luck_direction(year_stem, gender_key)
         arah_pool = ROAST_DIRECTION_BANK[key]
         arah_seed = build_stable_seed("dir_roast", birth_date.toordinal(), gender_key)
         arah_pick = random.Random(arah_seed).choice(arah_pool)
@@ -2474,13 +2452,12 @@ class QuizError(Exception):
 
 
 class Transaction:
-    def __init__(self, cursor, dialect):
+    lock_suffix = " FOR UPDATE"
+
+    def __init__(self, cursor):
         self.cursor = cursor
-        self.dialect = dialect
 
     def prepare(self, sql):
-        if self.dialect == "sqlite":
-            return sql.replace("%s", "?")
         return sql
 
     def execute(self, sql, params=()):
@@ -2497,20 +2474,24 @@ class Transaction:
         return [dict(row) for row in self.cursor.fetchall()]
 
     def lock_room(self, room_code):
-        suffix = " FOR UPDATE" if self.dialect == "mysql" else ""
         return self.fetch_one(
-            "SELECT * FROM shio_rooms WHERE room_code = %s" + suffix, (room_code,)
+            "SELECT * FROM shio_rooms WHERE room_code = %s" + self.lock_suffix, (room_code,)
         )
 
 
 class RoomStore:
-    def __init__(self, connect, dialect, unavailable_errors=(), integrity_errors=(),
-                 on_unavailable=None):
+    transaction_class = Transaction
+
+    def __init__(self, connect, unavailable_errors=(), integrity_errors=(), on_unavailable=None):
         self.connect = connect
-        self.dialect = dialect
         self.unavailable_errors = tuple(unavailable_errors)
         self.integrity_errors = tuple(integrity_errors)
         self.on_unavailable = on_unavailable
+
+    def begin(self, conn):
+        with conn.cursor() as setup:
+            setup.execute("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
+        conn.begin()
 
     def report_unavailable(self, error):
         if self.on_unavailable is not None:
@@ -2526,14 +2507,8 @@ class RoomStore:
         if conn is None:
             raise QuizUnavailable()
         try:
-            if self.dialect == "sqlite":
-                conn.execute("BEGIN IMMEDIATE")
-            else:
-                with conn.cursor() as setup:
-                    setup.execute("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
-                conn.begin()
-            cursor = conn.cursor()
-            yield Transaction(cursor, self.dialect)
+            self.begin(conn)
+            yield self.transaction_class(conn.cursor())
             conn.commit()
         except self.unavailable_errors as error:
             rollback_quietly(conn)
@@ -2556,65 +2531,11 @@ def rollback_quietly(conn):
         pass
 
 
-def open_sqlite_connection(path):
-    conn = sqlite3.connect(path, timeout=10, isolation_level=None)
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-SQLITE_SCHEMA = [
-    """CREATE TABLE IF NOT EXISTS shio_rooms (
-        room_code TEXT PRIMARY KEY,
-        mode TEXT NOT NULL,
-        relation_type TEXT,
-        status TEXT NOT NULL,
-        capacity INTEGER NOT NULL,
-        settings_json TEXT NOT NULL,
-        state_json TEXT,
-        result_json TEXT,
-        creator_device TEXT NOT NULL,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL,
-        expires_at TEXT NOT NULL
-    )""",
-    "CREATE INDEX IF NOT EXISTS idx_shio_rooms_expires ON shio_rooms (expires_at)",
-    "CREATE INDEX IF NOT EXISTS idx_shio_rooms_creator ON shio_rooms (creator_device, created_at)",
-    """CREATE TABLE IF NOT EXISTS shio_room_participants (
-        room_code TEXT NOT NULL,
-        slot INTEGER NOT NULL,
-        participant_token TEXT NOT NULL UNIQUE,
-        name TEXT NOT NULL,
-        birth_date TEXT NOT NULL,
-        shio_key TEXT NOT NULL,
-        answers_json TEXT,
-        progress_json TEXT,
-        joined_at TEXT NOT NULL,
-        PRIMARY KEY (room_code, slot)
-    )""",
-]
-
-
-def build_sqlite_store(path):
-    store = RoomStore(
-        lambda: open_sqlite_connection(path),
-        "sqlite",
-        unavailable_errors=(sqlite3.OperationalError,),
-        integrity_errors=(sqlite3.IntegrityError,),
-    )
-    conn = open_sqlite_connection(path)
-    try:
-        for statement in SQLITE_SCHEMA:
-            conn.execute(statement)
-    finally:
-        conn.close()
-    return store
-
-
 def build_mysql_store():
     from core import core as shared
 
     if not shared.HAS_PYMYSQL:
-        return RoomStore(lambda: None, "mysql")
+        return RoomStore(lambda: None)
 
     import pymysql
 
@@ -2624,7 +2545,6 @@ def build_mysql_store():
 
     return RoomStore(
         shared.get_mysql_connection,
-        "mysql",
         unavailable_errors=(
             pymysql.err.OperationalError,
             pymysql.err.InterfaceError,

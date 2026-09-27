@@ -1,13 +1,6 @@
+{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-m-shell" data-bottom-nav>
-  <header class="wt-m-appbar">
-    <a class="wt-m-icon" href="{{ url_for('weton.weton_index') }}" aria-label="Kembali ke menu Weton">
-      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-    </a>
-    <h1 class="wt-m-title">Kecocokan Weton</h1>
-    <button class="wt-m-icon" id="m-match-share" type="button" aria-label="Bagikan hasil" hidden>
-      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
-    </button>
-  </header>
+  {{ komponen.mobile_appbar("Kecocokan Weton", "m-match-share", "Bagikan hasil") }}
 
   <main class="wt-m-main">
     <section class="wt-m-steps" id="m-match-steps" aria-live="polite">
@@ -22,7 +15,7 @@
         <p class="wt-m-help">Petung aslinya untuk jodoh. Untuk pertemanan dan kerja, tafsirnya kami terjemahkan dengan bahasa netral.</p>
         <div class="wt-m-lens" role="radiogroup" aria-label="Jenis hubungan">
           {% for key, lens in lenses.items() %}
-          <button class="wt-m-lens-option" type="button" role="radio" data-lens="{{ key }}" id="m-lens-{{ key }}" aria-checked="false">
+          <button class="wt-m-lens-option" type="button" role="radio" data-lens="{{ key }}" aria-checked="false">
             <i class="fa-solid {{ lens.icon }}" aria-hidden="true"></i>
             <span>{{ lens.label }}</span>
           </button>
@@ -34,25 +27,9 @@
       <div class="wt-m-step" data-step="{{ step }}" hidden>
         <p class="wt-eyebrow">{{ title }}</p>
         <h2 class="wt-m-question">Kapan {{ 'kamu' if side == 'a' else 'dia' }} lahir?</h2>
-        <label class="wt-field" for="m-{{ side }}-nama">
-          <span class="wt-label">Nama <em class="wt-optional">opsional</em></span>
-          <input class="wt-input wt-input-lg" id="m-{{ side }}-nama" maxlength="24" placeholder="{{ title }}" autocomplete="off" />
-        </label>
-        <label class="wt-field" for="m-{{ side }}-tanggal">
-          <span class="wt-label">Tanggal lahir</span>
-          <input class="wt-input wt-input-lg" id="m-{{ side }}-tanggal" type="date" min="{{ first_date }}" max="{{ last_date }}" />
-        </label>
-        <details class="wt-m-more">
-          <summary>Jam &amp; kota lahir <em class="wt-optional">opsional</em></summary>
-          <label class="wt-field" for="m-{{ side }}-jam">
-            <span class="wt-label">Jam lahir</span>
-            <input class="wt-input wt-input-lg" id="m-{{ side }}-jam" type="time" />
-          </label>
-          <label class="wt-field" for="m-{{ side }}-kota">
-            <span class="wt-label">Kota lahir</span>
-            <input class="wt-input wt-input-lg" id="m-{{ side }}-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
-          </label>
-        </details>
+        {{ komponen.name_field("m-" ~ side ~ "-nama", title, " wt-input-lg") }}
+        {{ komponen.mobile_date("m-" ~ side ~ "-tanggal") }}
+        {{ komponen.mobile_time_city("m-" ~ side) }}
       </div>
       {% endfor %}
 
@@ -80,5 +57,5 @@
     </section>
   </main>
 
-  {% with active = 'kecocokan' %}{% include 'weton/mobile/_tabbar.html' %}{% endwith %}
+  {{ komponen.mobile_tabbar("kecocokan") }}
 </div>

@@ -215,8 +215,8 @@ def build_city_lookup():
 CITY_LOOKUP = build_city_lookup()
 
 CITY_OPTIONS = [
-    {"key": key, "name": row[0], "province": row[4], "zone": row[3]}
-    for key, row in sorted(WETON_CITIES.items(), key=lambda item: item[1][0])
+    {"name": row[0], "province": row[4], "zone": row[3]}
+    for row in sorted(WETON_CITIES.values(), key=lambda item: item[0])
 ]
 
 
@@ -256,13 +256,23 @@ def format_clock(moment):
     return moment.strftime("%H.%M")
 
 
-def read_birth_date(value):
+def as_dict(payload):
+    return payload if isinstance(payload, dict) else {}
+
+
+def parse_iso_date(value, missing_message, invalid_message):
     if not isinstance(value, str) or not value.strip():
-        raise WetonError("Isi tanggal lahir dulu.")
+        raise WetonError(missing_message)
     try:
-        parsed = datetime.date.fromisoformat(value.strip())
+        return datetime.date.fromisoformat(value.strip())
     except ValueError:
-        raise WetonError("Format tanggal lahir tidak dikenali. Pakai format TTTT-BB-HH.")
+        raise WetonError(invalid_message)
+
+
+def read_birth_date(value):
+    parsed = parse_iso_date(
+        value, "Isi tanggal lahir dulu.", "Format tanggal lahir tidak dikenali. Pakai format TTTT-BB-HH.",
+    )
     if parsed < SUPPORTED_FIRST or parsed > SUPPORTED_LAST:
         raise WetonError(
             f"Hitungan Weton ini mendukung tanggal {format_long_date(SUPPORTED_FIRST)} "
@@ -356,7 +366,7 @@ def build_watak(weton, wuku, paarasan_name):
 
 
 def resolve_birth(payload, subject=None):
-    payload = payload if isinstance(payload, dict) else {}
+    payload = as_dict(payload)
     birth_date = read_birth_date(payload.get("tanggal"))
     birth_time = read_birth_time(payload.get("jam"))
     city_key, city_defaulted = read_city(payload.get("kota"))
@@ -414,6 +424,14 @@ def today_wib():
     return datetime.datetime.now(WIB).date()
 
 
+def format_neptu_sum(first, second):
+    return f"{first} + {second} = {first + second}"
+
+
+def describe_person(birth):
+    return {"input": birth["input"], "maghrib": birth["maghrib"], "weton": get_weton(birth["javanese_day"])}
+
+
 def read_name(value, fallback):
     if value is None:
         return fallback
@@ -463,25 +481,18 @@ def describe_petung_result(result_key, lens, seed):
 
 
 def read_person(payload, fallback_name):
-    payload = payload if isinstance(payload, dict) else {}
+    payload = as_dict(payload)
     name = read_name(payload.get("nama"), fallback_name)
     subject = name if name != fallback_name else fallback_name.lower()
     try:
         birth = resolve_birth(payload, subject)
     except WetonError as error:
         raise WetonError(f"{name}: {error.message}", error.status)
-    weton = get_weton(birth["javanese_day"])
-    return {
-        "nama": name,
-        "input": birth["input"],
-        "after_sunset": birth["after_sunset"],
-        "maghrib": birth["maghrib"],
-        "weton": weton,
-    }
+    return {"nama": name, "after_sunset": birth["after_sunset"], **describe_person(birth)}
 
 
 def build_match_reading(payload, today=None):
-    payload = payload if isinstance(payload, dict) else {}
+    payload = as_dict(payload)
     lens_key = read_lens(payload.get("lens"))
     first = read_person(payload.get("a"), "Orang pertama")
     second = read_person(payload.get("b"), "Orang kedua")
@@ -498,7 +509,7 @@ def build_match_reading(payload, today=None):
         "lens": {"key": lens_key, **lens},
         "people": [first, second],
         "total_neptu": total,
-        "total_formula": f"{first['weton']['neptu']} + {second['weton']['neptu']} = {total}",
+        "total_formula": format_neptu_sum(first["weton"]["neptu"], second["weton"]["neptu"]),
         "petung": petung,
         "disclaimer": MATCH_DISCLAIMER,
         "day": day,
@@ -518,12 +529,7 @@ def read_month(value):
 
 
 def read_calendar_date(value):
-    if not isinstance(value, str) or not value.strip():
-        raise WetonError("Pilih tanggal dulu.")
-    try:
-        return datetime.date.fromisoformat(value.strip())
-    except ValueError:
-        raise WetonError("Format tanggal tidak dikenali. Pakai format TTTT-BB-HH.")
+    return parse_iso_date(value, "Pilih tanggal dulu.", "Format tanggal tidak dikenali. Pakai format TTTT-BB-HH.")
 
 
 def check_calendar_range(month_start):
@@ -609,19 +615,12 @@ def build_wetonan(payload, today):
         raise WetonError("Data weton lahir tidak dikenali.")
     if not payload.get("tanggal"):
         return None
-    birth = resolve_birth(payload)
-    weton = get_weton(birth["javanese_day"])
-    return {
-        "input": birth["input"],
-        "maghrib": birth["maghrib"],
-        "weton": weton,
-        "next": find_next_wetonan(weton["label"], today),
-        "note": WETONAN_NOTE,
-    }
+    person = describe_person(resolve_birth(payload))
+    return {**person, "next": find_next_wetonan(person["weton"]["label"], today), "note": WETONAN_NOTE}
 
 
 def build_calendar(payload, today=None):
-    payload = payload if isinstance(payload, dict) else {}
+    payload = as_dict(payload)
     today = today or today_wib()
     if payload.get("tanggal"):
         selected = read_calendar_date(payload.get("tanggal"))
@@ -685,16 +684,11 @@ def seeded_order(items, seed):
 
 
 def build_roasting(payload, today=None):
-    payload = payload if isinstance(payload, dict) else {}
+    payload = as_dict(payload)
     day = (today or today_wib()).isoformat()
-    birth = resolve_birth(payload.get("a"))
-    weton = get_weton(birth["javanese_day"])
-    person = {
-        "input": birth["input"],
-        "maghrib": birth["maghrib"],
-        "weton": weton,
-        "paarasan": PAARASAN[weton["neptu"]],
-    }
+    person = describe_person(resolve_birth(payload.get("a")))
+    weton = person["weton"]
+    person["paarasan"] = PAARASAN[weton["neptu"]]
     roasts = seeded_order(ROAST_WETON[weton_key(weton)], stable_seed(weton["label"], "roast", day))
     duo = None
     if payload.get("b") is not None:
@@ -706,7 +700,7 @@ def build_roasting(payload, today=None):
         duo = {
             "partner": partner,
             "total": total,
-            "formula": f"{weton['neptu']} + {partner['weton']['neptu']} = {total}",
+            "formula": format_neptu_sum(weton["neptu"], partner["weton"]["neptu"]),
             "petung": {
                 **petung,
                 "result_key": result_key,
