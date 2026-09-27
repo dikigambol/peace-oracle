@@ -1,0 +1,91 @@
+<div class="wt-d-shell">
+  <header class="wt-d-header">
+    <a class="wt-d-back" href="{{ url_for('weton.weton_index') }}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Weton</a>
+    <div class="wt-d-brand">
+      <p class="wt-eyebrow">Weton Oracle</p>
+      <h1 class="wt-d-title">Roasting Weton</h1>
+      <p class="wt-d-lead">Sindiran lucu yang berangkat dari watak hari, pasaran, dan neptu kamu di primbon. Tambah satu orang lagi untuk roasting berdua.</p>
+    </div>
+    {% with active = 'roasting' %}{% include 'weton/desktop/_tabs.html' %}{% endwith %}
+  </header>
+
+  <div class="wt-d-body">
+    <form class="wt-card wt-d-form" id="d-roast-form" novalidate>
+      <h2 class="wt-card-title">Weton kamu</h2>
+      <label class="wt-field" for="d-a-tanggal">
+        <span class="wt-label">Tanggal lahir</span>
+        <input class="wt-input" id="d-a-tanggal" placeholder="Pilih tanggal" readonly autocomplete="off"
+               data-min="{{ first_date }}" data-max="{{ last_date }}" />
+      </label>
+      <div class="wt-d-person-row">
+        <label class="wt-field" for="d-a-jam">
+          <span class="wt-label">Jam <em class="wt-optional">opsional</em></span>
+          <input class="wt-input" id="d-a-jam" type="time" />
+        </label>
+        <label class="wt-field" for="d-a-kota">
+          <span class="wt-label">Kota <em class="wt-optional">opsional</em></span>
+          <input class="wt-input" id="d-a-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
+        </label>
+      </div>
+
+      <label class="wt-toggle" for="d-duo">
+        <input type="checkbox" id="d-duo" />
+        <span>Roasting berdua</span>
+      </label>
+
+      <fieldset class="wt-d-duo-fields" id="d-duo-fields" hidden>
+        <legend class="wt-label">Orang kedua</legend>
+        <label class="wt-field" for="d-b-nama">
+          <span class="wt-label">Nama <em class="wt-optional">opsional</em></span>
+          <input class="wt-input" id="d-b-nama" maxlength="24" placeholder="Orang kedua" autocomplete="off" />
+        </label>
+        <label class="wt-field" for="d-b-tanggal">
+          <span class="wt-label">Tanggal lahir</span>
+          <input class="wt-input" id="d-b-tanggal" placeholder="Pilih tanggal" readonly autocomplete="off"
+                 data-min="{{ first_date }}" data-max="{{ last_date }}" />
+        </label>
+        <div class="wt-d-person-row">
+          <label class="wt-field" for="d-b-jam">
+            <span class="wt-label">Jam <em class="wt-optional">opsional</em></span>
+            <input class="wt-input" id="d-b-jam" type="time" />
+          </label>
+          <label class="wt-field" for="d-b-kota">
+            <span class="wt-label">Kota <em class="wt-optional">opsional</em></span>
+            <input class="wt-input" id="d-b-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
+          </label>
+        </div>
+      </fieldset>
+
+      <button class="wt-btn wt-btn-primary wt-btn-block" id="d-roast-submit" type="submit">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i> Roasting sekarang
+      </button>
+      <p class="wt-error" id="d-roast-error" role="alert" hidden></p>
+    </form>
+
+    <section class="wt-d-results" aria-live="polite">
+      <div class="wt-card wt-d-empty" id="d-roast-empty">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i>
+        <p>Isi tanggal lahirmu, lalu siap-siap disindir halus oleh primbon. Tenang, semuanya candaan.</p>
+      </div>
+      <div class="wt-d-roast" id="d-roast-result" hidden>
+        <div class="wt-d-roast-head">
+          <div>
+            <p class="wt-eyebrow" id="d-roast-meta"></p>
+            <h2 class="wt-d-roast-title" id="d-roast-title"></h2>
+          </div>
+          <button class="wt-btn wt-btn-ghost" id="d-roast-share" type="button">
+            <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+          </button>
+        </div>
+        <p class="wt-note" id="d-roast-maghrib"></p>
+        <div class="wt-d-roast-grid" id="d-roast-cards"></div>
+        <section class="wt-d-roast-duo" id="d-roast-duo" hidden>
+          <h2 class="wt-card-title" id="d-roast-duo-title"></h2>
+          <p class="wt-result-sub" id="d-roast-duo-sub"></p>
+          <div class="wt-d-roast-grid" id="d-roast-duo-cards"></div>
+        </section>
+        <p class="wt-sources" id="d-roast-disclaimer"></p>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="sh-m-shell" data-bottom-nav>
+  <header class="sh-m-appbar">
+    <span class="sh-m-slot">
+      <a class="sh-m-icon" id="m-guardian-home" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </a>
+      <button class="sh-m-icon" type="button" id="m-guardian-back" aria-label="Pilih shio lain" hidden>
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </button>
+    </span>
+    <h1 class="sh-m-title">Ben Ming Fo</h1>
+    <span aria-hidden="true"></span>
+  </header>
+
+  <main class="sh-m-main">
+    <section id="m-guardian-pick">
+      <h2 class="sh-m-question">Shio kamu apa?</h2>
+      <p class="sh-m-help">Pilih shio sesuai tahun Imlek kelahiranmu untuk melihat penjaganya.</p>
+      {% with picker_class='sh-m-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+    </section>
+
+    <section id="m-guardian-view" hidden aria-live="polite">
+      <div id="m-guardian-loading" hidden></div>
+      <div class="sh-result" id="m-guardian-result" hidden>
+        <div class="sh-card sh-m-guardian-card" id="m-guardian-hero"></div>
+        <div id="m-guardian-sections"></div>
+        <button class="sh-btn sh-btn-ghost sh-btn-block" type="button" id="m-guardian-reset">Pilih shio lain</button>
+      </div>
+    </section>
+  </main>
+
+  {% with active='benmingfo' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+</div>

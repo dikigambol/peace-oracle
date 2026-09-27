@@ -1,0 +1,57 @@
+{% extends 'weton/_dhasar.html' %}
+{% block title %}Weton - Peace Oracle{% endblock %}
+{% block description %}Weton Oracle tanpa AI: cek weton lahir, kecocokan weton, kalender Jawa harian, dan roasting weton, semuanya dihitung dari kalender dan primbon.{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-base.css') }}" />
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-desktop.css') }}" media="(min-width: 769px)" />
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-mobile.css') }}" media="(max-width: 768px)" />
+{% endblock %}
+{% block content %}
+<div class="wt-app" id="wt-app" data-page="hub">
+  <div class="wt-layout wt-layout-desktop" data-layout="desktop">
+    <div class="wt-d-shell">
+      <header class="wt-d-header">
+        <div class="wt-d-brand">
+          <h1 class="wt-d-title">Weton Oracle</h1>
+          <p class="wt-d-lead">Hitungan kalender Jawa dan tafsir primbon, tanpa AI. Semua angka bisa dicek, semua tafsir menyebut sumbernya.</p>
+        </div>
+      </header>
+      <nav class="wt-d-hub" aria-label="Fitur Weton">
+        {% for feature in features %}
+        <a class="wt-card wt-hub-card" href="{{ url_for(feature.endpoint) }}">
+          <i class="fa-solid {{ feature.icon }} wt-result-icon" aria-hidden="true"></i>
+          <span class="wt-hub-title">{{ feature.title }}</span>
+          <span class="wt-hub-text">{{ feature.text }}</span>
+          <span class="wt-hub-go">Buka <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+  <div class="wt-layout wt-layout-mobile" data-layout="mobile">
+    <div class="wt-m-shell" data-bottom-nav>
+      <header class="wt-m-appbar">
+        <span aria-hidden="true"></span>
+        <h1 class="wt-m-title">Weton Oracle</h1>
+        <span aria-hidden="true"></span>
+      </header>
+      <main class="wt-m-main">
+        <p class="wt-m-help">Hitungan kalender Jawa dan tafsir primbon, tanpa AI. Pilih fitur yang mau kamu coba.</p>
+        <nav class="wt-m-hub" aria-label="Fitur Weton">
+          {% for feature in features %}
+          <a class="wt-card wt-hub-card" href="{{ url_for(feature.endpoint) }}">
+            <i class="fa-solid {{ feature.icon }} wt-result-icon" aria-hidden="true"></i>
+            <span class="wt-hub-title">{{ feature.title }}</span>
+            <span class="wt-hub-text">{{ feature.text }}</span>
+          </a>
+          {% endfor %}
+        </nav>
+      </main>
+      {% with active = 'hub' %}{% include 'weton/mobile/_tabbar.html' %}{% endwith %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('weton.static', filename='js/weton-core.js') }}"></script>
+{% endblock %}

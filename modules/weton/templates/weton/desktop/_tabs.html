@@ -1,0 +1,14 @@
+<nav class="wt-d-tabs" aria-label="Fitur Weton">
+  <a class="wt-d-tab{% if active == 'lahir' %} is-active{% endif %}" href="{{ url_for('weton.weton_birth_page') }}"{% if active == 'lahir' %} aria-current="page"{% endif %}>
+    <i class="fa-solid fa-seedling" aria-hidden="true"></i> Lahir
+  </a>
+  <a class="wt-d-tab{% if active == 'kecocokan' %} is-active{% endif %}" href="{{ url_for('weton.weton_compatibility_page') }}"{% if active == 'kecocokan' %} aria-current="page"{% endif %}>
+    <i class="fa-solid fa-people-arrows" aria-hidden="true"></i> Cocok
+  </a>
+  <a class="wt-d-tab{% if active == 'kalender' %} is-active{% endif %}" href="{{ url_for('weton.weton_calendar_page') }}"{% if active == 'kalender' %} aria-current="page"{% endif %}>
+    <i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Kalender
+  </a>
+  <a class="wt-d-tab{% if active == 'roasting' %} is-active{% endif %}" href="{{ url_for('weton.weton_roasting_page') }}"{% if active == 'roasting' %} aria-current="page"{% endif %}>
+    <i class="fa-solid fa-fire" aria-hidden="true"></i> Roasting
+  </a>
+</nav>

@@ -1,0 +1,67 @@
+<div class="wt-m-shell" data-bottom-nav>
+  <header class="wt-m-appbar">
+    <a class="wt-m-icon" href="{{ url_for('weton.weton_index') }}" aria-label="Kembali ke menu Weton">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <h1 class="wt-m-title">Cek Weton Lahir</h1>
+    <button class="wt-m-icon" id="m-share" type="button" aria-label="Bagikan hasil" hidden>
+      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+    </button>
+  </header>
+
+  <main class="wt-m-main">
+    <section class="wt-m-steps" id="m-steps" aria-live="polite">
+      <div class="wt-m-progress">
+        <span class="wt-m-progress-text" id="m-progress-text">Langkah 1 dari 3</span>
+        <div class="wt-m-progress-bar" aria-hidden="true"><span id="m-progress-fill"></span></div>
+      </div>
+
+      <div class="wt-m-step" data-step="1">
+        <p class="wt-eyebrow">Weton Oracle</p>
+        <h2 class="wt-m-question">Kapan kamu lahir?</h2>
+        <p class="wt-m-help">Tanggal Masehi sesuai akta. Kalender Jawanya kami hitung otomatis.</p>
+        <label class="wt-sr-only" for="m-tanggal">Tanggal lahir</label>
+        <input class="wt-input wt-input-lg" id="m-tanggal" type="date" min="{{ first_date }}" max="{{ last_date }}" />
+      </div>
+
+      <div class="wt-m-step" data-step="2" hidden>
+        <p class="wt-eyebrow">Opsional</p>
+        <h2 class="wt-m-question">Jam berapa kamu lahir?</h2>
+        <p class="wt-m-help">Hari Jawa berganti saat maghrib. Kalau lahir malam, jam ini bisa mengubah wetonmu.</p>
+        <label class="wt-sr-only" for="m-jam">Jam lahir</label>
+        <input class="wt-input wt-input-lg" id="m-jam" type="time" />
+      </div>
+
+      <div class="wt-m-step" data-step="3" hidden>
+        <p class="wt-eyebrow">Opsional</p>
+        <h2 class="wt-m-question">Di kota mana?</h2>
+        <p class="wt-m-help">Dipakai untuk menghitung waktu matahari terbenam. Kalau kosong, kami pakai Jakarta.</p>
+        <label class="wt-sr-only" for="m-kota">Kota lahir</label>
+        <input class="wt-input wt-input-lg" id="m-kota" list="wt-city-options" placeholder="Ketik nama kota" autocomplete="off" />
+      </div>
+
+      <p class="wt-error" id="m-error" role="alert" hidden></p>
+
+      <div class="wt-m-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-back" type="button" hidden>Kembali</button>
+        <button class="wt-btn wt-btn-ghost" id="m-skip" type="button" hidden>Lewati</button>
+        <button class="wt-btn wt-btn-primary wt-btn-block" id="m-next" type="button">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="wt-m-result" id="m-result" hidden aria-live="polite">
+      <div class="wt-m-chip" id="m-chip"></div>
+      <div class="wt-m-carousel" id="m-cards" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Hasil weton"></div>
+      <div class="wt-m-dots" id="m-dots"></div>
+      <div class="wt-m-result-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-reset" type="button">Cek tanggal lain</button>
+        <button class="wt-btn wt-btn-primary" id="m-share-bottom" type="button">
+          <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+        </button>
+      </div>
+      <p class="wt-sources" id="m-sources"></p>
+    </section>
+  </main>
+
+  {% with active = 'lahir' %}{% include 'weton/mobile/_tabbar.html' %}{% endwith %}
+</div>

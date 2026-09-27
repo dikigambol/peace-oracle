@@ -1,0 +1,17 @@
+{% extends 'shio/_jichu.html' %}
+{% block title %}Ben Ming Fo - Peace Oracle{% endblock %}
+{% block description %}Temukan Ben Ming Fo, Buddha atau Bodhisattva penjaga shio-mu, lengkap dengan mantra, nasihat perlindungan, waktu, dan arah sakral.{% endblock %}
+{% block shio_app %}
+<div class="sh-app" id="sh-app" data-page="benmingfo" data-api="{{ url_for('shio.shio_guardian_api') }}" data-static="{{ url_for('shio.static', filename='') }}">
+  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
+    {% include 'shio/desktop/_benmingfo.html' %}
+  </div>
+  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
+    {% include 'shio/mobile/_benmingfo.html' %}
+  </div>
+</div>
+{% endblock %}
+{% block shio_js %}
+<script src="{{ url_for('shio.static', filename='js/desktop/benmingfo.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/mobile/benmingfo.js') }}"></script>
+{% endblock %}

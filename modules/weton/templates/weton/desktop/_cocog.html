@@ -1,0 +1,74 @@
+<div class="wt-d-shell">
+  <header class="wt-d-header">
+    <a class="wt-d-back" href="{{ url_for('weton.weton_index') }}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Weton</a>
+    <div class="wt-d-brand">
+      <p class="wt-eyebrow">Weton Oracle</p>
+      <h1 class="wt-d-title">Kecocokan Weton</h1>
+      <p class="wt-d-lead">Jumlah neptu dua orang dibaca pakai dua petung primbon. Hasilnya ditampilkan berdampingan, tanpa dicampur jadi satu persen.</p>
+    </div>
+    {% with active = 'kecocokan' %}{% include 'weton/desktop/_tabs.html' %}{% endwith %}
+  </header>
+
+  <form class="wt-card wt-d-match-form" id="d-match-form" novalidate>
+    <fieldset class="wt-lens" id="d-lens">
+      <legend class="wt-label">Hubungan kalian</legend>
+      {% for key, lens in lenses.items() %}
+      <label class="wt-lens-option">
+        <input type="radio" name="d-lens" value="{{ key }}" id="d-lens-{{ key }}"{% if key == default_lens %} checked{% endif %} />
+        <span><i class="fa-solid {{ lens.icon }}" aria-hidden="true"></i> {{ lens.label }}</span>
+      </label>
+      {% endfor %}
+    </fieldset>
+
+    <div class="wt-d-people">
+      {% for side, title in [('a', 'Orang pertama'), ('b', 'Orang kedua')] %}
+      <section class="wt-d-person" aria-labelledby="d-{{ side }}-title">
+        <h2 class="wt-card-title" id="d-{{ side }}-title">{{ title }}</h2>
+        <label class="wt-field" for="d-{{ side }}-nama">
+          <span class="wt-label">Nama <em class="wt-optional">opsional</em></span>
+          <input class="wt-input" id="d-{{ side }}-nama" maxlength="24" placeholder="{{ title }}" autocomplete="off" />
+        </label>
+        <label class="wt-field" for="d-{{ side }}-tanggal">
+          <span class="wt-label">Tanggal lahir</span>
+          <input class="wt-input" id="d-{{ side }}-tanggal" placeholder="Pilih tanggal" readonly autocomplete="off"
+                 data-min="{{ first_date }}" data-max="{{ last_date }}" />
+        </label>
+        <div class="wt-d-person-row">
+          <label class="wt-field" for="d-{{ side }}-jam">
+            <span class="wt-label">Jam lahir <em class="wt-optional">opsional</em></span>
+            <input class="wt-input" id="d-{{ side }}-jam" type="time" />
+          </label>
+          <label class="wt-field" for="d-{{ side }}-kota">
+            <span class="wt-label">Kota lahir <em class="wt-optional">opsional</em></span>
+            <input class="wt-input" id="d-{{ side }}-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
+          </label>
+        </div>
+      </section>
+      {% endfor %}
+    </div>
+
+    <div class="wt-d-match-actions">
+      <p class="wt-hint">Jam dan kota dipakai untuk menghitung maghrib, karena hari Jawa berganti saat matahari terbenam.</p>
+      <button class="wt-btn wt-btn-primary" id="d-match-submit" type="submit">Hitung kecocokan</button>
+    </div>
+    <p class="wt-error" id="d-match-error" role="alert" hidden></p>
+  </form>
+
+  <section class="wt-d-match-result" id="d-match-result" aria-live="polite" hidden>
+    <div class="wt-d-duo" id="d-duo"></div>
+    <p class="wt-note" id="d-origin" hidden></p>
+    <div class="wt-card wt-d-table-card">
+      <h2 class="wt-card-title">Ringkasan petung</h2>
+      <div class="wt-table-wrap">
+        <table class="wt-table">
+          <thead>
+            <tr><th scope="col">Petung</th><th scope="col">Rumus</th><th scope="col">Hasil</th><th scope="col">Sumber</th></tr>
+          </thead>
+          <tbody id="d-petung-rows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="wt-d-grid" id="d-petung-cards"></div>
+    <p class="wt-sources" id="d-disclaimer"></p>
+  </section>
+</div>

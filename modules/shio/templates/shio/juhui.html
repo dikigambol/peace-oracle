@@ -1,0 +1,17 @@
+{% extends 'shio/_jichu.html' %}
+{% block title %}Ju Hui - Peace Oracle{% endblock %}
+{% block description %}Quiz shio bareng teman: satu kode room untuk ramalan pasangan, ramalan kelompok, atau tebak shio teman.{% endblock %}
+{% block shio_app %}
+<div class="sh-app" id="sh-app" data-page="juhui" data-api="{{ url_for('shio.shio_quiz_create') }}" data-static="{{ url_for('shio.static', filename='') }}">
+  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
+    {% include 'shio/desktop/_juhui.html' %}
+  </div>
+  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
+    {% include 'shio/mobile/_juhui.html' %}
+  </div>
+</div>
+{% endblock %}
+{% block shio_js %}
+<script src="{{ url_for('shio.static', filename='js/desktop/juhui.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/mobile/juhui.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'shio/_jichu.html' %}
+{% block title %}Xing Yun Bing - Peace Oracle{% endblock %}
+{% block description %}Belah kue keberuntungan shio-mu: satu pesan, jimat absurd, dan energi hari ini dari pilar hari.{% endblock %}
+{% block shio_app %}
+<div class="sh-app" id="sh-app" data-page="xingyunbing" data-api="{{ url_for('shio.shio_fortune_cookie_api') }}" data-static="{{ url_for('shio.static', filename='') }}" data-particles="crumbs">
+  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
+    {% include 'shio/desktop/_xingyunbing.html' %}
+  </div>
+  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
+    {% include 'shio/mobile/_xingyunbing.html' %}
+  </div>
+</div>
+{% endblock %}
+{% block shio_js %}
+<script src="{{ url_for('shio.static', filename='js/desktop/xingyunbing.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/mobile/xingyunbing.js') }}"></script>
+{% endblock %}

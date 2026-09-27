@@ -1,0 +1,206 @@
+.co-layout-desktop {
+  display: none;
+}
+
+.global-loader {
+  height: 100dvh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.loader-icons {
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.loader-icons i {
+  font-size: 2rem;
+}
+
+.loader-text {
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.loader-bar-container {
+  width: 80%;
+  max-width: 220px;
+}
+
+.mode-switcher-container {
+  bottom: max(16px, env(safe-area-inset-bottom));
+  right: max(16px, env(safe-area-inset-right));
+}
+
+.mode-switcher-btn {
+  width: 46px;
+  height: 46px;
+  font-size: 1.3rem;
+}
+
+.mode-switcher-menu {
+  bottom: 62px;
+  gap: 8px;
+}
+
+.mode-item {
+  min-height: 44px;
+  box-sizing: border-box;
+  padding: 10px 16px;
+  gap: 10px;
+  border-radius: 24px;
+  font-size: 0.88rem;
+}
+
+.mode-item i {
+  font-size: 1.05rem;
+}
+
+#ai-quota-toast {
+  top: 16px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 480px;
+  animation: aiToastSlideInMobile 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes aiToastSlideInMobile {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.ai-quota-toast-card {
+  padding: 12px 14px;
+  gap: 10px;
+  border-radius: 14px;
+}
+
+.ai-quota-toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+}
+
+.ai-quota-toast-icon i {
+  font-size: 1rem;
+}
+
+.ai-quota-toast-msg {
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.ai-quota-toast-close {
+  min-width: 44px;
+  min-height: 44px;
+  margin: -12px -12px -12px 0;
+}
+
+.co-m-home {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 24px);
+}
+
+.co-m-appbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: calc(env(safe-area-inset-top, 0px) + 8px) 16px 8px;
+  background: rgba(10, 5, 20, 0.92);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  backdrop-filter: blur(12px);
+}
+
+.co-m-appbar h1 {
+  margin: 0;
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: 1.3rem;
+  color: #ffd700;
+  letter-spacing: 1px;
+  text-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+}
+
+.co-m-main {
+  flex: 1;
+  padding: 20px 16px 0;
+}
+
+.co-m-lead {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(224, 224, 224, 0.85);
+}
+
+.co-m-list {
+  display: grid;
+  gap: 12px;
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.co-m-list .mode-card {
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  min-height: 56px;
+  padding: 16px;
+  text-align: left;
+}
+
+.co-m-list .mode-card i {
+  flex-shrink: 0;
+  width: 40px;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.co-m-list .card-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.co-m-list .mode-card h2 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.co-m-list .mode-card p {
+  font-size: 0.8rem;
+}
+
+.co-m-list .coming-soon-badge {
+  order: 3;
+  flex-shrink: 0;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+}
+
+.co-m-footer {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 0;
+}
+
+.co-m-footer .co-footer-text {
+  padding: 8px 16px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  text-align: center;
+}

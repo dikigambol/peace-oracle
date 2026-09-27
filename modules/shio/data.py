@@ -2611,19 +2611,19 @@ def build_sqlite_store(path):
 
 
 def build_mysql_store():
-    from core import db
+    from core import core as shared
 
-    if not db.HAS_PYMYSQL:
+    if not shared.HAS_PYMYSQL:
         return RoomStore(lambda: None, "mysql")
 
     import pymysql
 
     def on_unavailable(error):
         if isinstance(error, (pymysql.err.OperationalError, pymysql.err.InterfaceError)):
-            db.mark_db_offline()
+            shared.mark_db_offline()
 
     return RoomStore(
-        db.get_mysql_connection,
+        shared.get_mysql_connection,
         "mysql",
         unavailable_errors=(
             pymysql.err.OperationalError,

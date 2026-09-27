@@ -1,7 +1,6 @@
 from datetime import date
 
-from core.db import db_available, env_int, get_mysql_connection
-from core.device import get_device_id, get_fingerprint_id
+from core.core import db_available, env_int, get_device_id, get_fingerprint_id, get_mysql_connection
 
 DAILY_AI_LIMIT = env_int("DAILY_AI_LIMIT", 10)
 FINGERPRINT_AI_LIMIT = env_int(

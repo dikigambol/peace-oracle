@@ -43,15 +43,22 @@
 * **Kue Keberuntungan (Xing Yun Bing)** — pesan dan *lucky item* harian.
 * **Quiz Shio Bareng (Ju Hui)** — Ramalan Pasangan, Ramalan Kelompok, dan Tebak Shio Teman.
 
+### 📜 Mode Weton
+* **Cek Weton Lahir** — weton, neptu, wuku, tanggal Jawa, pranata mangsa, dan watak, dengan koreksi jam maghrib per kota.
+* **Kecocokan Weton** — petung sisa bagi 8 dan sisa bagi 5 berdampingan, lensa asmara, pertemanan, atau kerja.
+* **Kalender Jawa Harian** — weton tiap hari, hari istimewa, hari pantangan primbon, dan penanda wetonan.
+* **Roasting Weton** — sindiran dari watak hari, pasaran, dan neptu, personal atau berdua.
+
 ### 🔜 Segera Hadir
-* **Weton** dan **Tarot** — kerangka dasar sudah ada.
+* **Tarot** — kerangka dasar sudah ada.
 
 ---
 
 ## 🏗️ Arsitektur Proyek
 
 * **Flask Blueprints**, satu modul per sistem ramalan.
-* Zodiak memakai AI (**OpenRouter**); Shio dihitung lokal tanpa AI.
+* Zodiak memakai AI (**OpenRouter**); Shio dan Weton dihitung lokal tanpa AI.
+* Tiap modul berdiri sendiri: hanya bergantung ke `core/`, jadi satu modul bisa dilepas tanpa merusak yang lain.
 * **MySQL** untuk kuota AI, Quiz Room Zodiak, dan *room* Quiz Shio.
 
 ```text
@@ -61,7 +68,7 @@ peace-oracle/
 ├── modules/              # Core Feature Logic (Isolated per astrology system)
 │   ├── zodiak/           # Western Astrology Module
 │   ├── shio/             # Eastern (Chinese) Astrology Module
-│   ├── weton/            # (WIP) Eastern (Javanese) Astrology Module
+│   ├── weton/            # Javanese Calendar & Primbon Module
 │   └── tarot/            # (WIP) Tarot Reading Module
 ├── api/                  # Serverless entry points (Vercel)
 ├── .python-version       # Pinned runtime for Vercel & pyenv
@@ -131,11 +138,12 @@ izin tertulis dari pemilik.
 
 > Gambar ikonografi pada mode Shio dihasilkan dengan bantuan AI generatif.
 >
-> Data kota kelahiran (nama, bujur, zona waktu) berasal dari
-> [GeoNames](https://www.geonames.org/), dilisensikan di bawah
-> [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), diambil pada
-> 18 September 2026. Data tersebut tetap milik GeoNames dan tidak tercakup
-> dalam pembatasan hak cipta di atas.
+> Data kota kelahiran yang dipakai mode Shio dan Weton (nama, bujur, lintang,
+> zona waktu) berasal dari [GeoNames](https://www.geonames.org/), dilisensikan
+> di bawah [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), diambil
+> pada 18 September 2026 (lintang untuk Weton pada 25 September 2026). Data
+> tersebut tetap milik GeoNames dan tidak tercakup dalam pembatasan hak cipta
+> di atas.
 
 ---
 

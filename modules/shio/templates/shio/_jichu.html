@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block backdrop %}<div class="sh-backdrop" aria-hidden="true"></div>{% endblock %}
+{% block backdrop_js %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio-base.css') }}" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio-desktop.css') }}" media="(min-width: 769px)" />
+<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio-mobile.css') }}" media="(max-width: 768px)" />
+{% endblock %}
+{% block content %}
+<div class="sh-stage" id="shio-bg">
+  <canvas id="particle-canvas"></canvas>
+  {% block shio_app %}{% endblock %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+<script src="{{ url_for('shio.static', filename='js/shio-core.js') }}"></script>
+{% block shio_js %}{% endblock %}
+{% endblock %}

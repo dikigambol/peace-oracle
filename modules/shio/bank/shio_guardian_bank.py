@@ -1,7 +1,7 @@
 SHIO_GUARDIAN_BANK = {
     "tikus": {
         "guardian_name": "Sahasrabhuja Avalokiteśvara (Qianshou Guanyin / 千手觀音)",
-        "guardian_icon": "images/guardians/avalokitesvara.jpg",
+        "guardian_icon": "images/benmingfo/avalokitesvara.jpg",
         "guardian_desc": "Guanyin Seribu Tangan adalah perwujudan Bodhisattva Welas Asih yang seribu tangannya menjangkau setiap makhluk yang memanggil, dan tiap telapaknya bermata agar tidak ada penderitaan yang luput terlihat. Sebagai pelindung Shio Tikus, beliau menerangi jalan bagi mereka yang cerdik namun sering cemas — memberikan ketenangan batin di tengah pikiran yang selalu aktif berputar. Guanyin mengajarkan bahwa kecerdasan sejati adalah yang dilandasi kasih sayang, bukan kalkulasi semata.",
         "mantra": "Oṃ Maṇi Padme Hūṃ (嗡嘛呢叭咪吽)",
         "mantra_meaning": "Permata teratai yang bersinar dalam hati — membangkitkan welas asih universal.",
@@ -20,7 +20,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "kerbau": {
         "guardian_name": "Ākāśagarbha (Xukongzang / 虛空藏菩薩)",
-        "guardian_icon": "images/guardians/akasagarbha.jpg",
+        "guardian_icon": "images/benmingfo/akasagarbha.jpg",
         "guardian_desc": "Ākāśagarbha adalah Bodhisattva Perbendaharaan Angkasa yang kebijaksanaannya seluas langit tanpa batas. Sebagai pelindung Shio Kerbau, beliau memberikan ketabahan dan kekuatan yang tak tergoyahkan — seperti langit yang tetap luas meski diterjang badai. Ākāśagarbha mengajarkan bahwa kekokohan sejati bukan berasal dari keras kepala, melainkan dari kelapangan hati.",
         "mantra": "Oṃ Vajra Ratna Hūṃ (唵 縛日羅 囉怛曩 吽)",
         "mantra_meaning": "Permata vajra dari perbendaharaan angkasa — membuka ingatan dan kebijaksanaan yang tak berbatas.",
@@ -39,7 +39,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "macan": {
         "guardian_name": "Ākāśagarbha (Xukongzang / 虛空藏菩薩)",
-        "guardian_icon": "images/guardians/akasagarbha.jpg",
+        "guardian_icon": "images/benmingfo/akasagarbha.jpg",
         "guardian_desc": "Ākāśagarbha adalah Bodhisattva Perbendaharaan Angkasa yang kelapangannya tidak bisa dipenuhi oleh apa pun. Untuk Shio Macan yang pemberani dan kompetitif, beliau hadir sebagai penyeimbang yang menenangkan api semangat tanpa memadamkannya. Beliau mengajarkan bahwa keberanian sejati adalah yang disertai kebijaksanaan, bukan keliaran.",
         "mantra": "Oṃ Vajra Ratna Hūṃ (唵 縛日羅 囉怛曩 吽)",
         "mantra_meaning": "Permata vajra dari perbendaharaan angkasa — membuka ingatan dan kebijaksanaan yang tak berbatas.",
@@ -58,7 +58,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "kelinci": {
         "guardian_name": "Mañjuśrī (Wenshu / 文殊菩薩)",
-        "guardian_icon": "images/guardians/manjusri.jpg",
+        "guardian_icon": "images/benmingfo/manjusri.jpg",
         "guardian_desc": "Mañjuśrī adalah Bodhisattva Kebijaksanaan yang menggenggam pedang pemotong kegelapan batin. Sebagai pelindung Shio Kelinci yang lemah lembut dan elegan, Mañjuśrī memberikan ketajaman pikiran di balik kelembutan — mengajarkan bahwa ketenangan bukan berarti pasif, dan kelembutan bisa menjadi senjata paling ampuh.",
         "mantra": "Oṃ A Ra Pa Ca Na Dhīḥ (嗡 阿 囉 巴 佐 曩 地)",
         "mantra_meaning": "Pedang kebijaksanaan yang memotong semua ilusi dan kebingungan.",
@@ -77,7 +77,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "naga": {
         "guardian_name": "Samantabhadra (Puxian / 普賢菩薩)",
-        "guardian_icon": "images/guardians/samantabhadra.jpg",
+        "guardian_icon": "images/benmingfo/samantabhadra.jpg",
         "guardian_desc": "Samantabhadra adalah Bodhisattva Kebajikan Universal yang menunggangi gajah putih bermata enam — melambangkan kemurnian tindakan dan pandangan yang menyeluruh. Sebagai pelindung Shio Naga yang percaya diri dan dominan, Samantabhadra mengajarkan bahwa kekuasaan sejati adalah yang digunakan untuk kebaikan banyak orang, bukan untuk memuaskan ego.",
         "mantra": "Oṃ Samaya Stvaṃ (唵 三昧耶 薩怛鑁)",
         "mantra_meaning": "Aku dan ikrar itu satu — menegaskan janji kebajikan yang dijalankan sampai tuntas, bukan berhenti di niat.",
@@ -96,7 +96,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "ular": {
         "guardian_name": "Samantabhadra (Puxian / 普賢菩薩)",
-        "guardian_icon": "images/guardians/samantabhadra.jpg",
+        "guardian_icon": "images/benmingfo/samantabhadra.jpg",
         "guardian_desc": "Samantabhadra adalah Bodhisattva Kebajikan Universal yang ikrarnya dijalankan sampai tuntas, bukan berhenti di niat. Untuk Shio Ular yang penuh teka-teki dan bijaksana, Samantabhadra hadir sebagai cahaya yang menerangi kedalaman batin — mengajarkan bahwa kebijaksanaan yang disimpan sendiri adalah sia-sia, dan ilmu yang dibagikan justru berlipat ganda.",
         "mantra": "Oṃ Samaya Stvaṃ (唵 三昧耶 薩怛鑁)",
         "mantra_meaning": "Aku dan ikrar itu satu — menegaskan janji kebajikan yang dijalankan sampai tuntas, bukan berhenti di niat.",
@@ -115,7 +115,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "kuda": {
         "guardian_name": "Mahāsthāmaprāpta (Dashizhi / 大勢至菩薩)",
-        "guardian_icon": "images/guardians/mahasthamaprapta.jpg",
+        "guardian_icon": "images/benmingfo/mahasthamaprapta.jpg",
         "guardian_desc": "Mahāsthāmaprāpta adalah Bodhisattva Kekuatan Agung yang cahayanya mampu menerangi seluruh alam semesta. Sebagai pelindung Shio Kuda yang aktif dan energik, beliau memberikan kekuatan yang terarah — mengajarkan bahwa energi yang terfokus jauh lebih dahsyat dari energi yang tersebar ke segala arah tanpa tujuan.",
         "mantra": "Oṃ Saṃ Jaṃ Jaṃ Saḥ Svāhā (唵 散髯髯 娑婆訶)",
         "mantra_meaning": "Cahaya kekuatan agung yang menuntun langkah keluar dari jalan yang menyesatkan.",
@@ -134,7 +134,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "kambing": {
         "guardian_name": "Mahāvairocana (Dari Rulai / 大日如來)",
-        "guardian_icon": "images/guardians/mahavairocana.jpg",
+        "guardian_icon": "images/benmingfo/mahavairocana.jpg",
         "guardian_desc": "Mahāvairocana adalah Buddha Kosmik, sumber dari mana seluruh cahaya dan kebijaksanaan memancar. Untuk Shio Kambing yang lembut dan penuh perasaan, beliau memberi terang yang menenangkan tanpa menyilaukan — mengajarkan bahwa kelembutan bukan kekurangan keberanian, melainkan bentuk keberanian yang memilih untuk tidak melukai.",
         "mantra": "Oṃ A Vi Ra Hūṃ Khaṃ (唵 阿毘羅吽欠)",
         "mantra_meaning": "Lima aksara unsur semesta — tanah, air, api, angin, dan ruang menyatu dalam satu cahaya.",
@@ -153,7 +153,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "monyet": {
         "guardian_name": "Mahāvairocana (Dari Rulai / 大日如來)",
-        "guardian_icon": "images/guardians/mahavairocana.jpg",
+        "guardian_icon": "images/benmingfo/mahavairocana.jpg",
         "guardian_desc": "Mahāvairocana adalah Buddha Kosmik yang merupakan sumber dari semua cahaya dan kebijaksanaan. Sebagai pelindung Shio Monyet yang cerdas dan inovatif, Mahāvairocana memberikan pencerahan yang mengarahkan kecerdasan pada tujuan mulia — mengajarkan bahwa kejeniusan tanpa kebijaksanaan moral hanyalah tipu daya yang merugikan diri sendiri.",
         "mantra": "Oṃ A Vi Ra Hūṃ Khaṃ (唵 阿毘羅吽欠)",
         "mantra_meaning": "Lima aksara unsur semesta — tanah, air, api, angin, dan ruang menyatu dalam satu cahaya.",
@@ -172,7 +172,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "ayam": {
         "guardian_name": "Acala (Budong Mingwang / 不動明王)",
-        "guardian_icon": "images/guardians/acala.jpg",
+        "guardian_icon": "images/benmingfo/acala.jpg",
         "guardian_desc": "Acala adalah Raja Kebijaksanaan yang Tak Tergoyahkan — berwajah garang namun berhati welas asih, memegang pedang api untuk membakar semua rintangan dan tali karma negatif. Sebagai pelindung Shio Ayam yang pekerja keras dan berani, Acala memberikan keteguhan yang tak terguncang oleh godaan dan pujian, mengajarkan bahwa kerja keras tanpa kerendahan hati akan berakhir dalam kesombongan.",
         "mantra": "Namaḥ Samanta Vajrāṇāṃ Hāṃ (南無 三曼多 伐折囉 赧 含)",
         "mantra_meaning": "Kebijaksanaan yang tak tergoyahkan membakar semua halangan karma.",
@@ -191,7 +191,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "anjing": {
         "guardian_name": "Amitābha (Amituofo / 阿彌陀佛)",
-        "guardian_icon": "images/guardians/amitabha.jpg",
+        "guardian_icon": "images/benmingfo/amitabha.jpg",
         "guardian_desc": "Amitābha adalah Buddha Cahaya Tak Terbatas, penguasa Tanah Suci Sukhāvatī di arah Barat. Sebagai pelindung Shio Anjing yang setia dan jujur, Amitābha memberikan cahaya harapan yang tak pernah padam — bahkan di saat paling gelap. Beliau mengajarkan bahwa kesetiaan sejati dimulai dari setia pada diri sendiri dan kebenaran.",
         "mantra": "Namo Amitābhāya (南無阿彌陀佛)",
         "mantra_meaning": "Berlindung pada Buddha Cahaya Tak Terbatas yang mengasihi tanpa syarat.",
@@ -210,7 +210,7 @@ SHIO_GUARDIAN_BANK = {
     },
     "babi": {
         "guardian_name": "Amitābha (Amituofo / 阿彌陀佛)",
-        "guardian_icon": "images/guardians/amitabha.jpg",
+        "guardian_icon": "images/benmingfo/amitabha.jpg",
         "guardian_desc": "Amitābha adalah Buddha Cahaya Tak Terbatas yang ikrarnya menampung siapa pun tanpa menimbang lebih dulu. Untuk Shio Babi yang welas asih dan murah hati, Amitābha memperkuat sisi dermawan sambil melindungi dari orang yang memanfaatkannya. Cahaya tak terbatas itu mengajarkan bahwa kebaikan yang tulus tidak akan pernah sia-sia — bahkan saat dunia belum membalasnya.",
         "mantra": "Namo Amitābhāya (南無阿彌陀佛)",
         "mantra_meaning": "Berlindung pada Buddha Cahaya Tak Terbatas yang mengasihi tanpa syarat.",

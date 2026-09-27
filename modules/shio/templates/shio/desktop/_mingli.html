@@ -1,0 +1,62 @@
+<div class="sh-d-shell">
+  {% with title='Gulungan Takdir', lead='Ming Li membaca Ba Zi empat pilar dari tanggal, jam, dan kota lahirmu. Aliran ' ~ school ~ '.', active='mingli' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Data kelahiran</h2>
+      <label class="sh-field" for="d-destiny-date">
+        <span class="sh-label">Tanggal lahir</span>
+        <input class="sh-input" id="d-destiny-date" placeholder="Pilih tanggal lahir" readonly autocomplete="off" />
+      </label>
+      <p class="sh-label">Jenis kelamin</p>
+      <div class="destiny-gender">
+        <button type="button" class="destiny-gender-btn" data-gender="pria" aria-pressed="false">
+          <i class="fa-solid fa-mars" aria-hidden="true"></i> Pria
+        </button>
+        <button type="button" class="destiny-gender-btn" data-gender="wanita" aria-pressed="false">
+          <i class="fa-solid fa-venus" aria-hidden="true"></i> Wanita
+        </button>
+      </div>
+      <p class="sh-hint">Dipakai untuk menentukan arah periode besar (大運).</p>
+      <div class="sh-field">
+        <label class="sh-label" for="d-destiny-hour">Jam lahir <span class="sh-optional">opsional</span></label>
+        <div class="destiny-clock">
+          <select class="sh-input" id="d-destiny-hour" aria-label="Jam lahir">
+            <option value="">---</option>
+            {% for hour in range(24) %}<option value="{{ hour }}">{{ '%02d' % hour }}</option>{% endfor %}
+          </select>
+          <span class="destiny-colon" aria-hidden="true">:</span>
+          <select class="sh-input" id="d-destiny-minute" aria-label="Menit lahir" disabled>
+            <option value="">---</option>
+            {% for minute in range(60) %}<option value="{{ minute }}">{{ '%02d' % minute }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+      <p class="sh-hint">Pakai jam dinding di kota lahir (WIB, WITA, atau WIT). Kosongkan kalau tidak ingat; bacaan tetap jalan dengan tiga pilar.</p>
+      <label class="sh-field" for="d-destiny-city">
+        <span class="sh-label">Kota lahir <span class="sh-optional">opsional</span></span>
+        <input class="sh-input" id="d-destiny-city" list="sh-destiny-cities" placeholder="Ketik nama kota" autocomplete="off" />
+      </label>
+      <p class="sh-hint">Ketik lalu pilih dari daftar. Menentukan zona waktu dan koreksi waktu matahari sejati.</p>
+      <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="d-destiny-submit" disabled>
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i> Buka Gulungan
+      </button>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-destiny-empty">
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
+        <p>Isi tanggal lahir dan jenis kelamin. Tabel empat pilar dan seluruh bacaanmu muncul di sini.</p>
+      </div>
+      <div id="d-destiny-loading" hidden></div>
+      <div id="d-destiny-result" hidden>
+        <nav class="sh-d-destiny-nav" id="d-destiny-nav" aria-label="Bagian bacaan"></nav>
+        <div id="d-destiny-notices"></div>
+        <div id="d-destiny-sections"></div>
+        <p class="destiny-disclaimer" id="d-destiny-disclaimer"></p>
+      </div>
+    </section>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="sh-d-shell">
+  {% with title='Roasting Shio', lead='Tu Cao membakar shio-mu dari tanggal lahir: toxic traits, dosa finansial, red flag asmara, sampai pilar hari Ba Zi. Siapkan mental, jangan baper.', active='tucao' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Data yang dibakar</h2>
+      <label class="sh-field" for="d-roast-date">
+        <span class="sh-label">Tanggal lahir</span>
+        <input class="sh-input" id="d-roast-date" placeholder="Pilih tanggal lahir" readonly autocomplete="off" />
+      </label>
+      <p class="sh-label">Jenis kelamin <span class="sh-optional">opsional</span></p>
+      <div class="roast-gender">
+        <button type="button" class="roast-gender-btn" data-gender="pria" aria-pressed="false">
+          <i class="fa-solid fa-mars" aria-hidden="true"></i> Pria
+        </button>
+        <button type="button" class="roast-gender-btn" data-gender="wanita" aria-pressed="false">
+          <i class="fa-solid fa-venus" aria-hidden="true"></i> Wanita
+        </button>
+      </div>
+      <p class="sh-hint sh-d-roast-hint">
+        Shio dihitung dari tanggal ini, termasuk batas awal musim semi (立春). Jenis kelamin cuma menentukan arah periode besarmu (大運).
+      </p>
+      <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="d-roast-submit" disabled>
+        <i class="fa-solid fa-fire" aria-hidden="true"></i> Gas, Bakar Gue
+      </button>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-roast-empty">
+        <i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i>
+        <p>Isi tanggal lahir di kiri. Kartu roasting-mu muncul di sini, lengkap dengan kartu Ba Zi dan roasting berdua.</p>
+      </div>
+      <div id="d-roast-loading" hidden></div>
+      <div id="d-roast-result" hidden>
+        <div class="roast-toolbar sh-d-roast-toolbar">
+          <span class="roast-reroll-count" id="d-roast-count"></span>
+          <button class="roast-reroll" type="button" id="d-roast-reroll">
+            <i class="fa-solid fa-fire" aria-hidden="true"></i> <span>Roasting Lagi</span>
+          </button>
+        </div>
+        <article class="roast-card" id="d-roast-card">
+          <div id="d-roast-header"></div>
+          <div id="d-roast-sections"></div>
+          {% include 'shio/_tucao-banlv.html' %}
+          <p class="roast-disclaimer">Semua ini cuma candaan berdasarkan stereotip shio. Jangan dibawa ke hati, bestie.</p>
+        </article>
+      </div>
+    </section>
+  </div>
+</div>

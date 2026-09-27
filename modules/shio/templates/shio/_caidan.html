@@ -1,0 +1,23 @@
+{% set features = [
+  {"key": "mingli", "endpoint": "shio.shio_destiny_page", "icon": "fa-calendar-days", "short": "Ba Zi",
+   "title": "Baca Gulungan Takdir (Ba Zi)", "text": "Empat pilar, satu cetak biru hidupmu"},
+  {"key": "liunian", "endpoint": "shio.shio_yearly_page", "icon": "fa-clock-rotate-left", "short": "Tahunan",
+   "title": "Teropong Energi Tahunan (Liu Nian)", "text": "Tahun ini menopangmu, atau menantangmu?"},
+  {"key": "peidui", "endpoint": "shio.shio_compatibility_page", "icon": "fa-heart-pulse", "short": "Cocok",
+   "title": "Timbangan Kecocokan (Pei Dui)", "text": "Pacar, sahabat, atau rekan kerja: cocok sampai pilar hari?"},
+  {"key": "juhui", "endpoint": "shio.shio_quiz_page", "icon": "fa-people-group", "short": "Quiz",
+   "title": "Quiz Shio Bareng (Ju Hui)", "text": "Berdua, satu geng, atau tebak-tebakan pakai kode room"},
+  {"key": "tucao", "endpoint": "shio.shio_roasting_page", "icon": "fa-fire", "short": "Roasting",
+   "title": "Roasting Shio (Tu Cao)", "text": "Tanggal lahir masuk, harga diri keluar"},
+  {"key": "benmingfo", "endpoint": "shio.shio_guardian_page", "icon": "fa-dragon", "short": "Penjaga",
+   "title": "Afinitas Penjaga Spiritual (Ben Ming Fo)", "text": "Ada yang menjagamu, kenalan dulu"},
+  {"key": "xingyunbing", "endpoint": "shio.shio_fortune_cookie_page", "icon": "fa-cookie-bite", "short": "Kue",
+   "title": "Kue Keberuntungan (Xing Yun Bing)", "text": "Retakkan kuenya, terima pesannya"},
+] %}
+{% set tabbar_main = ["mingli", "peidui", "juhui"] %}
+{% set tabbar_more = ["liunian", "tucao", "benmingfo", "xingyunbing"] %}
+{% set shio_list = [
+  ("tikus", "鼠", "Tikus"), ("kerbau", "牛", "Kerbau"), ("macan", "虎", "Macan"), ("kelinci", "兔", "Kelinci"),
+  ("naga", "龍", "Naga"), ("ular", "蛇", "Ular"), ("kuda", "馬", "Kuda"), ("kambing", "羊", "Kambing"),
+  ("monyet", "猴", "Monyet"), ("ayam", "雞", "Ayam"), ("anjing", "狗", "Anjing"), ("babi", "豬", "Babi"),
+] %}

@@ -1,0 +1,148 @@
+.co-layout-mobile {
+  display: none;
+}
+
+.mode-switcher-container:hover .mode-switcher-btn {
+  transform: scale(1.1);
+}
+
+.mode-switcher-container:hover .mode-switcher-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.mode-item:hover:not(.locked) {
+  background: var(--accent-color);
+  box-shadow: var(--accent-glow);
+  transform: translateX(-5px);
+}
+
+.mode-item.locked:hover {
+  background: rgba(255, 0, 0, 0.2);
+}
+
+.ai-quota-toast-close:hover {
+  color: #ffffff;
+  transform: scale(1.15);
+}
+
+.co-d-home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 20px 60px 20px;
+}
+
+.co-d-header {
+  text-align: center;
+  margin-bottom: 30px;
+  animation: fadeInDown 1s ease-out;
+}
+
+.co-d-header h1 {
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: 3.2rem;
+  color: #ffd700;
+  margin: 0 0 5px 0;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  letter-spacing: 2px;
+}
+
+.co-d-header p {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: #e0e0e0;
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.co-d-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 1000px;
+  width: 100%;
+  animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.co-d-grid .mode-card {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.co-d-grid .mode-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.co-d-grid .mode-card i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.co-d-grid .mode-card h2 {
+  font-size: 1.5rem;
+  margin: 0 0 8px 0;
+}
+
+.co-d-grid .mode-card p {
+  font-size: 0.95rem;
+}
+
+.co-d-grid .mode-card:not(.locked):hover {
+  transform: translateY(-10px);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.1);
+}
+
+.co-d-grid .mode-card:not(.locked):hover::before {
+  opacity: 1;
+}
+
+.co-d-grid .mode-card:not(.locked):hover i {
+  transform: scale(1.15);
+}
+
+.co-d-grid .coming-soon-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  padding: 6px 14px;
+  font-size: 0.75rem;
+}
+
+.co-d-footer {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  animation: fadeInUp 1s ease-out 0.5s both;
+}
+
+.co-d-footer .co-footer-text {
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-size: 0.95rem;
+}
+
+.co-d-footer .co-footer-text:hover {
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+  transform: translateY(-3px);
+}

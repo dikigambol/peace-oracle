@@ -400,7 +400,7 @@ from .quiz_bank import (
     calculate_quiz_match,
     get_ai_couple_quiz_analysis,
 )
-from core.db import get_mysql_connection
+from core.core import get_mysql_connection
 
 
 @zodiak_bp.route("/api/zodiak/quiz/questions")

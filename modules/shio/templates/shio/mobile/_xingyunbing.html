@@ -1,0 +1,41 @@
+<div class="sh-m-shell" data-bottom-nav>
+  <header class="sh-m-appbar">
+    <span class="sh-m-slot">
+      <a class="sh-m-icon" id="m-cookie-home" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </a>
+      <button class="sh-m-icon" type="button" id="m-cookie-back" aria-label="Pilih shio lain" hidden>
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </button>
+    </span>
+    <h1 class="sh-m-title">Xing Yun Bing</h1>
+    <span aria-hidden="true"></span>
+  </header>
+
+  <main class="sh-m-main">
+    <section id="m-cookie-pick">
+      <h2 class="sh-m-question">Shio kamu apa?</h2>
+      <p class="sh-m-help">Pilih shio-mu, lalu belah kuenya. Satu pesan untuk satu hari.</p>
+      {% with picker_class='sh-m-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+    </section>
+
+    <section id="m-cookie-view" hidden aria-live="polite">
+      <div class="cookie-stage sh-m-cookie-stage">
+        <div class="cookie-shio">
+          <span class="cookie-shio-hanzi" id="m-cookie-hanzi"></span>
+          <span class="cookie-shio-name" id="m-cookie-name"></span>
+        </div>
+        <button class="cookie" type="button" id="m-cookie" aria-label="Belah kue keberuntungan">
+          <span class="cookie-half cookie-half-left" aria-hidden="true">🥠</span>
+          <span class="cookie-half cookie-half-right" aria-hidden="true">🥠</span>
+          <span class="cookie-glow" aria-hidden="true"></span>
+        </button>
+        <p class="cookie-hint" id="m-cookie-hint"></p>
+      </div>
+      <div id="m-cookie-slip" hidden></div>
+      <button class="sh-btn sh-btn-ghost sh-btn-block" type="button" id="m-cookie-reset" hidden>Pilih shio lain</button>
+    </section>
+  </main>
+
+  {% with active='xingyunbing' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+</div>

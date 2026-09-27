@@ -1,0 +1,17 @@
+{% extends 'shio/_jichu.html' %}
+{% block title %}Pei Dui - Peace Oracle{% endblock %}
+{% block description %}Ukur kecocokan dua orang dari tanggal lahir: relasi shio, dinamika elemen, lapisan tahun lahir, dan pilar hari Ba Zi.{% endblock %}
+{% block shio_app %}
+<div class="sh-app" id="sh-app" data-page="peidui" data-api="{{ url_for('shio.shio_compatibility_api') }}" data-static="{{ url_for('shio.static', filename='') }}">
+  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
+    {% include 'shio/desktop/_peidui.html' %}
+  </div>
+  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
+    {% include 'shio/mobile/_peidui.html' %}
+  </div>
+</div>
+{% endblock %}
+{% block shio_js %}
+<script src="{{ url_for('shio.static', filename='js/desktop/peidui.js') }}"></script>
+<script src="{{ url_for('shio.static', filename='js/mobile/peidui.js') }}"></script>
+{% endblock %}

@@ -44,39 +44,39 @@ def shio_index():
 @shio_bp.route("/shio/destiny")
 def shio_destiny_page():
     return render_template(
-        "shio/destiny.html", cities=DESTINY_CITIES, school=DESTINY_SCHOOL
+        "shio/mingli.html", cities=DESTINY_CITIES, school=DESTINY_SCHOOL
     )
 
 @shio_bp.route("/shio/guardian")
-def guardian_spiritual():
-    return render_template("shio/guardian.html")
+def shio_guardian_page():
+    return render_template("shio/benmingfo.html")
 
 @shio_bp.route("/shio/compatibility")
-def shio_compatibility():
-    return render_template("shio/compatibility.html")
+def shio_compatibility_page():
+    return render_template("shio/peidui.html")
 
 @shio_bp.route("/shio/yearly")
 def shio_yearly_page():
     return render_template(
-        "shio/yearly.html", current_year=get_current_imlek_year()
+        "shio/liunian.html", current_year=get_current_imlek_year()
     )
 
 @shio_bp.route("/shio/roasting")
 def shio_roasting_page():
-    return render_template("shio/roasting.html")
+    return render_template("shio/tucao.html")
 
 @shio_bp.route("/shio/fortune-cookie")
 def shio_fortune_cookie_page():
-    return render_template("shio/fortune-cookie.html")
+    return render_template("shio/xingyunbing.html")
 
 @shio_bp.route("/api/shio/daily", methods=["GET"])
-def get_shio_daily():
+def shio_daily_api():
     client_date_str = request.args.get("date")
     result = get_all_daily_fortunes(client_date_str)
     return jsonify(result)
 
 @shio_bp.route("/api/shio/guardian", methods=["POST"])
-def get_shio_guardian_endpoint():
+def shio_guardian_api():
     data = read_payload()
     shio_key = read_text(data, "shio")
     if not shio_key:
@@ -85,7 +85,7 @@ def get_shio_guardian_endpoint():
     return jsonify(result)
 
 @shio_bp.route("/api/shio/compatibility", methods=["POST"])
-def get_shio_compatibility_endpoint():
+def shio_compatibility_api():
     data = read_payload()
     result = get_shio_compatibility(
         read_text(data, "shio1"),
@@ -99,7 +99,7 @@ def get_shio_compatibility_endpoint():
     return jsonify(result)
 
 @shio_bp.route("/api/shio/yearly", methods=["POST"])
-def get_shio_yearly_endpoint():
+def shio_yearly_api():
     data = read_payload()
     shio_key = read_text(data, "shio")
     year = data.get("year")
@@ -109,7 +109,7 @@ def get_shio_yearly_endpoint():
     return jsonify(result)
 
 @shio_bp.route("/api/shio/roasting", methods=["POST"])
-def get_shio_roasting_endpoint():
+def shio_roasting_api():
     data = read_payload()
     result = get_shio_roasting(
         read_text(data, "shio"),
@@ -122,7 +122,7 @@ def get_shio_roasting_endpoint():
     return jsonify(result)
 
 @shio_bp.route("/api/shio/fortune-cookie", methods=["POST"])
-def get_fortune_cookie_endpoint():
+def shio_fortune_cookie_api():
     data = read_payload()
     shio_key = read_text(data, "shio")
     if not shio_key:
@@ -131,7 +131,7 @@ def get_fortune_cookie_endpoint():
     return jsonify(result)
 
 @shio_bp.route("/api/shio/destiny", methods=["POST"])
-def get_shio_destiny_endpoint():
+def shio_destiny_api():
     data = read_payload()
     result = get_shio_destiny(
         read_text(data, "tanggal"),
@@ -160,7 +160,7 @@ def get_quiz_store():
 
 
 def get_quiz_device():
-    from core.device import get_device_id
+    from core.core import get_device_id
 
     return get_device_id()
 
@@ -188,7 +188,7 @@ def require_room_code(raw_code):
 @shio_bp.route("/shio/quiz")
 def shio_quiz_page():
     return render_template(
-        "shio/quiz.html",
+        "shio/juhui.html",
         modes=QUIZ_MODE_BANK,
         lenses=RELATION_LENS,
         flavors=GUESS_FLAVOR_BANK,
@@ -201,7 +201,7 @@ def shio_quiz_room_page(room_code):
     code = shio_data.normalise_room_code(room_code)
     if code is None:
         abort(404)
-    return render_template("shio/quiz-room.html", room_code=code)
+    return render_template("shio/juhui-fangjian.html", room_code=code)
 
 
 @shio_bp.route("/api/shio/quiz/rooms", methods=["POST"])

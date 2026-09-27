@@ -1,0 +1,84 @@
+<div class="sh-m-shell" data-bottom-nav>
+  <header class="sh-m-appbar">
+    <span class="sh-m-slot">
+      <a class="sh-m-icon" id="m-destiny-home" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </a>
+      <button class="sh-m-icon" type="button" id="m-destiny-edit" aria-label="Hitung ulang" hidden>
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+      </button>
+    </span>
+    <h1 class="sh-m-title">Ming Li</h1>
+    <span aria-hidden="true"></span>
+  </header>
+
+  <main class="sh-m-main">
+    <section class="sh-m-steps" id="m-destiny-steps">
+      <div class="sh-m-progress">
+        <span class="sh-m-progress-text" id="m-destiny-progress-text">Langkah 1 dari 3</span>
+        <div class="sh-m-progress-bar" aria-hidden="true"><span id="m-destiny-progress-fill"></span></div>
+      </div>
+
+      <div class="sh-m-step" data-step="1">
+        <h2 class="sh-m-question">Kapan kamu lahir?</h2>
+        <p class="sh-m-help">Aliran {{ school }}. Tanggal dan jenis kelamin wajib diisi.</p>
+        <label class="sh-field" for="m-destiny-date">
+          <span class="sh-label">Tanggal lahir</span>
+          <input class="sh-input" id="m-destiny-date" type="date" />
+        </label>
+        <p class="sh-label">Jenis kelamin</p>
+        <div class="destiny-gender">
+          <button type="button" class="destiny-gender-btn" data-gender="pria" aria-pressed="false">
+            <i class="fa-solid fa-mars" aria-hidden="true"></i> Pria
+          </button>
+          <button type="button" class="destiny-gender-btn" data-gender="wanita" aria-pressed="false">
+            <i class="fa-solid fa-venus" aria-hidden="true"></i> Wanita
+          </button>
+        </div>
+      </div>
+
+      <div class="sh-m-step" data-step="2" hidden>
+        <h2 class="sh-m-question">Jam berapa?</h2>
+        <p class="sh-m-help">Pakai jam dinding di kota lahir (WIB, WITA, atau WIT). Boleh dikosongkan, bacaan tetap jalan dengan tiga pilar.</p>
+        <div class="destiny-clock">
+          <select class="sh-input" id="m-destiny-hour" aria-label="Jam lahir">
+            <option value="">---</option>
+            {% for hour in range(24) %}<option value="{{ hour }}">{{ '%02d' % hour }}</option>{% endfor %}
+          </select>
+          <span class="destiny-colon" aria-hidden="true">:</span>
+          <select class="sh-input" id="m-destiny-minute" aria-label="Menit lahir" disabled>
+            <option value="">---</option>
+            {% for minute in range(60) %}<option value="{{ minute }}">{{ '%02d' % minute }}</option>{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="sh-m-step" data-step="3" hidden>
+        <h2 class="sh-m-question">Lahir di kota mana?</h2>
+        <p class="sh-m-help">Opsional. Ketik lalu pilih dari daftar untuk zona waktu dan koreksi waktu matahari sejati.</p>
+        <label class="sh-field" for="m-destiny-city">
+          <span class="sh-label">Kota lahir</span>
+          <input class="sh-input" id="m-destiny-city" list="sh-destiny-cities" placeholder="Ketik nama kota" autocomplete="off" />
+        </label>
+      </div>
+
+      <p class="sh-error" id="m-destiny-error" role="alert" hidden></p>
+      <div class="sh-m-actions">
+        <button class="sh-btn sh-btn-ghost" type="button" id="m-destiny-back" hidden>Kembali</button>
+        <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-destiny-next">Lanjut</button>
+      </div>
+    </section>
+
+    <div id="m-destiny-loading" hidden></div>
+
+    <section id="m-destiny-result" hidden aria-live="polite">
+      <div class="sh-m-chip" id="m-destiny-chip"></div>
+      <div id="m-destiny-notices"></div>
+      <div id="m-destiny-sections"></div>
+      <p class="destiny-disclaimer" id="m-destiny-disclaimer"></p>
+      <button class="sh-btn sh-btn-ghost sh-btn-block" type="button" id="m-destiny-reset">Hitung ulang</button>
+    </section>
+  </main>
+
+  {% with active='mingli' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+</div>
