@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block backdrop %}{% endblock %}
+{% block backdrop_js %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}" />
+{% block zodiak_css %}{% endblock %}
+{% endblock %}
+{% block content %}
+{% include 'zodiak/_header.html' %}
+{% block zodiak_content %}{% endblock %}
+<footer class="app-footer">
+  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
+</footer>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('zodiak.static', filename='js/zodiak-core.js') }}"></script>
+{% block zodiak_js %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-d-shell">
+  {% with title='Kue Keberuntungan', lead='Xing Yun Bing: pilih shio-mu, lalu belah kuenya. Satu pesan untuk satu hari, lengkap dengan energi pilar hari ini.', active='xingyunbing' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Pilih shio kamu</h2>
+      {% with picker_class='sh-d-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+      <p class="sh-hint">Ganti shio kapan saja untuk memanggang kue baru.</p>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-cookie-empty">
+        <i class="fa-solid fa-cookie-bite" aria-hidden="true"></i>
+        <p>Pilih shio di kiri. Kuenya muncul di sini, tinggal kamu belah.</p>
+      </div>
+      <div class="sh-card sh-d-cookie-card" id="d-cookie-view" hidden>
+        {{ zujian.cookie_stage("d") }}
+      </div>
+    </section>
+  </div>
+</div>

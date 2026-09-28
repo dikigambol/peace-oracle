@@ -1,0 +1,51 @@
+<div class="sh-d-shell">
+  {% with title='Quiz Shio Bareng', lead='Ju Hui: satu kode room, dibuka bareng teman. Terbuka untuk hubungan apa pun.', active='juhui' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Punya kode room?</h2>
+      <form class="sh-d-quiz-join" id="d-quiz-join" novalidate>
+        <label class="sh-field" for="d-quiz-code">
+          <span class="sh-label">Kode room</span>
+          <input class="sh-input quiz-code-input" id="d-quiz-code" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Misal 7K3QXM" />
+        </label>
+        <button type="submit" class="sh-btn sh-btn-primary sh-btn-block">
+          <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Gabung
+        </button>
+      </form>
+      <p class="sh-hint">Kode terdiri dari 6 huruf atau angka. Huruf O dan I otomatis dibaca sebagai 0 dan 1.</p>
+    </aside>
+
+    <section class="sh-d-results">
+      <h2 class="sh-card-title">Atau buat room baru</h2>
+      <div class="quiz-modes sh-d-quiz-modes" role="radiogroup" aria-label="Pilih mode quiz">
+        {% for key, mode in modes.items() %}
+        <button type="button" class="quiz-mode" role="radio" aria-checked="false" data-mode="{{ key }}">
+          <i class="fa-solid {{ mode.icon }}" aria-hidden="true"></i>
+          <span class="quiz-mode-title">{{ mode.title }}</span>
+          <span class="quiz-mode-size">{% if limits[key][0] == limits[key][1] %}{{ limits[key][0] }} orang{% else %}{{ limits[key][0] }}&ndash;{{ limits[key][1] }} orang{% endif %}</span>
+          <small>{{ mode.tagline }}</small>
+        </button>
+        {% endfor %}
+      </div>
+
+      <form class="sh-card sh-d-quiz-create" id="d-quiz-create" novalidate hidden>
+        <h3 class="sh-card-title" id="d-quiz-create-title"></h3>
+        <div class="sh-d-quiz-fields">
+          <label class="sh-field" for="d-quiz-name">
+            <span class="sh-label">Nama panggilanmu</span>
+            <input class="sh-input" id="d-quiz-name" maxlength="24" autocomplete="nickname" placeholder="Maks. 24 karakter" />
+          </label>
+          <label class="sh-field" for="d-quiz-birth">
+            <span class="sh-label">Tanggal lahirmu</span>
+            <input class="sh-input" id="d-quiz-birth" placeholder="Pilih tanggal" readonly autocomplete="off" />
+          </label>
+        </div>
+        {% include 'shio/_juhui-xuanxiang.html' %}
+        <button type="submit" class="sh-btn sh-btn-primary sh-btn-block sh-d-quiz-submit" id="d-quiz-create-submit">Buat Room</button>
+      </form>
+    </section>
+  </div>
+</div>

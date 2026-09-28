@@ -1,0 +1,55 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-m-shell" data-bottom-nav>
+  {{ zujian.appbar("Pei Dui") }}
+
+  <main class="sh-m-main">
+    <section class="sh-m-steps" id="m-compat-steps">
+      {{ zujian.progress("compat", 3) }}
+
+      <div class="sh-m-step" data-step="1">
+        <h2 class="sh-m-question" id="m-compat-lens-label">Hubungan kalian apa?</h2>
+        <p class="sh-m-help">Lensa ini mengubah cara membaca narasi, bukan skor relasi shio.</p>
+        <div class="sh-m-choice-list" role="radiogroup" aria-labelledby="m-compat-lens-label">
+          {{ zujian.lens_chips() }}
+        </div>
+      </div>
+
+      <div class="sh-m-step" data-step="2" hidden>
+        <h2 class="sh-m-question">Tanggal lahir orang pertama</h2>
+        <p class="sh-m-help">Shio dihitung dari tanggal ini, termasuk batas awal musim semi (立春).</p>
+        <label class="sh-field" for="m-compat-date1">
+          <span class="sh-label">Tanggal lahir pertama</span>
+          <input class="sh-input" id="m-compat-date1" type="date" />
+        </label>
+      </div>
+
+      <div class="sh-m-step" data-step="3" hidden>
+        <h2 class="sh-m-question">Tanggal lahir orang kedua</h2>
+        <p class="sh-m-help">Skor relasi murni dari cabang tahun, tidak digeser lapisan lain.</p>
+        <label class="sh-field" for="m-compat-date2">
+          <span class="sh-label">Tanggal lahir kedua</span>
+          <input class="sh-input" id="m-compat-date2" type="date" />
+        </label>
+      </div>
+
+      <p class="sh-error" id="m-compat-error" role="alert" hidden></p>
+      {{ zujian.actions("compat") }}
+    </section>
+
+    <section class="sh-result" id="m-compat-result" hidden aria-live="polite">
+      <div class="sh-m-chip" id="m-compat-chip"></div>
+      <div class="compat-result sh-m-compat-result" id="m-compat-layers">
+        {% with compat_show_score=true, compat_details=true %}{% include 'shio/_compat-layers.html' %}{% endwith %}
+      </div>
+      <div class="sh-m-result-actions">
+        <button class="sh-btn sh-btn-ghost" type="button" id="m-compat-reset">Ubah data</button>
+        <button class="sh-btn sh-btn-primary" type="button" id="m-compat-share">
+          <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+        </button>
+      </div>
+      <p class="sh-m-help sh-m-compat-quiz">Mau berdua sambil jawab soal? Coba <a href="{{ url_for('shio.shio_quiz_page') }}">Ramalan Pasangan</a>.</p>
+    </section>
+  </main>
+
+  {% with active='peidui' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+</div>

@@ -1,0 +1,26 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-d-shell">
+  {% with title='Teropong Energi Tahunan', lead='Liu Nian membaca relasi shio kamu dengan shio tahun berjalan: menopang, menantang, atau Tai Sui.', active='liunian' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Pilih shio kamu</h2>
+      {% with picker_class='sh-d-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+      <p class="sh-label sh-d-year-label">Pilih tahun</p>
+      {{ zujian.year_picker("d") }}
+      <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="d-yearly-submit" disabled>
+        <i class="fa-solid fa-binoculars" aria-hidden="true"></i> Lihat Proyeksi Tahunan
+      </button>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-yearly-empty">
+        <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+        <p>Pilih shio kamu dan tahun yang ingin diteropong. Proyeksi karir, keuangan, asmara, dan kesehatan muncul di sini.</p>
+      </div>
+      <div class="sh-result" id="d-yearly-result" hidden></div>
+    </section>
+  </div>
+</div>

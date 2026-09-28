@@ -1,0 +1,7 @@
+<div class="sh-shio-picker{% if picker_class %} {{ picker_class }}{% endif %}" role="group" aria-label="Pilih shio">
+  {% for key, hanzi, name in shio_list %}
+  <button class="shio-item" type="button" data-shio="{{ key }}" aria-pressed="false">
+    <span class="icon hanzi">{{ hanzi }}</span><span class="name">{{ name }}</span>
+  </button>
+  {% endfor %}
+</div>

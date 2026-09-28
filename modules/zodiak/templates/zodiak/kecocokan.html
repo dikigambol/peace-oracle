@@ -1,32 +1,8 @@
-{% extends 'base.html' %} {% block title %}Zodiak Peace - Kalkulator Kecocokan
-Kosmik{% endblock %} {% block extra_css %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('zodiak.static', filename='css/style.css') }}"
-/>
-{% endblock %} {% block content %}
-<div class="stars-bg"></div>
-<header class="app-header">
-  <div class="header-container">
-    <h1 class="logo-title">
-      <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
-    </h1>
-  </div>
-  <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"
-      ><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a
-    >
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item active"
-      ><i class="fa-solid fa-calculator"></i> Kecocokan</a
-    >
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"
-      ><i class="fa-solid fa-compass"></i> General</a
-    >
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"
-      ><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a
-    >
-  </nav>
-</header>
+{% extends 'zodiak/_base.html' %}
+{% import 'zodiak/_macros.html' as z %}
+{% block title %}Zodiak Peace - Kalkulator Kecocokan
+Kosmik{% endblock %}
+{% block zodiak_content %}
 <main class="main-content">
   <div class="compatibility-tab-switcher">
     <button
@@ -48,7 +24,7 @@ Kosmik{% endblock %} {% block extra_css %}
   </div>
   <section class="portal-grid" id="standard-compatibility-section">
     <div class="zodiac-selector-container">
-      <div class="panel glass-panel" id="compatibility-input-panel">
+      <div class="panel">
         <h2 class="section-title">
           <i class="fa-solid fa-people-arrows"></i> Uji Keselarasan
         </h2>
@@ -59,42 +35,14 @@ Kosmik{% endblock %} {% block extra_css %}
         <div class="compatibility-selector-large">
           <div class="select-wrapper-large">
             <label for="sign-one-select-large">Zodiak Pertama</label>
-            <select id="sign-one-select-large" class="custom-select-large">
-              <option value="" disabled selected>Pilih Zodiak</option>
-              <option value="aries">Aries (♈)</option>
-              <option value="taurus">Taurus (♉)</option>
-              <option value="gemini">Gemini (♊)</option>
-              <option value="cancer">Cancer (♋)</option>
-              <option value="leo">Leo (♌)</option>
-              <option value="virgo">Virgo (♍)</option>
-              <option value="libra">Libra (♎)</option>
-              <option value="scorpio">Scorpio (♏)</option>
-              <option value="sagittarius">Sagittarius (♐)</option>
-              <option value="capricorn">Capricorn (♑)</option>
-              <option value="aquarius">Aquarius (♒)</option>
-              <option value="pisces">Pisces (♓)</option>
-            </select>
+            {{ z.sign_select("sign-one-select-large") }}
           </div>
           <div class="heart-divider-large">
             <div class="vs-circle-pink">VS</div>
           </div>
           <div class="select-wrapper-large">
             <label for="sign-two-select-large">Zodiak Kedua</label>
-            <select id="sign-two-select-large" class="custom-select-large">
-              <option value="" disabled selected>Pilih Zodiak</option>
-              <option value="aries">Aries (♈)</option>
-              <option value="taurus">Taurus (♉)</option>
-              <option value="gemini">Gemini (♊)</option>
-              <option value="cancer">Cancer (♋)</option>
-              <option value="leo">Leo (♌)</option>
-              <option value="virgo">Virgo (♍)</option>
-              <option value="libra">Libra (♎)</option>
-              <option value="scorpio">Scorpio (♏)</option>
-              <option value="sagittarius">Sagittarius (♐)</option>
-              <option value="capricorn">Capricorn (♑)</option>
-              <option value="aquarius">Aquarius (♒)</option>
-              <option value="pisces">Pisces (♓)</option>
-            </select>
+            {{ z.sign_select("sign-two-select-large") }}
           </div>
         </div>
         <div class="relation-mode-container">
@@ -148,7 +96,7 @@ Kosmik{% endblock %} {% block extra_css %}
       </div>
     </div>
     <div class="details-panel-container">
-      <div class="panel glass-panel" id="compatibility-details-panel">
+      <div class="panel">
         <div class="details-instruction" id="comp-details-instruction">
           <i class="fa-solid fa-heart-pulse cosmic-icon animated-float"></i>
           <h3>Hasil Kecocokan Detail</h3>
@@ -157,12 +105,7 @@ Kosmik{% endblock %} {% block extra_css %}
             memunculkan analisis ramalan keselarasan hubungan secara menyeluruh.
           </p>
         </div>
-        <div class="details-loader hidden" id="comp-details-loader">
-          <div class="cosmic-spinner-wrapper">
-            <i class="fa-solid fa-atom cosmic-spinner"></i>
-          </div>
-          <p class="loader-text">Menganalisis Keselarasan Energi Kosmik...</p>
-        </div>
+        {{ z.loader("comp-details-loader", "Menganalisis Keselarasan Energi Kosmik...") }}
         <div class="details-content hidden" id="comp-details-content">
           <div class="comp-header-detail">
             <span class="comp-title-main">Analisis Hubungan</span>
@@ -170,7 +113,6 @@ Kosmik{% endblock %} {% block extra_css %}
               <span class="element-badge" id="comp-badge-one">Api</span>
               <i
                 class="fa-solid fa-link-slash icon-between-badges"
-                id="comp-badge-link"
               ></i>
               <span class="element-badge" id="comp-badge-two">Air</span>
             </div>
@@ -244,8 +186,8 @@ Kosmik{% endblock %} {% block extra_css %}
     </div>
   </section>
   <section class="quiz-room-section hidden" id="quiz-room-section">
-    <div class="panel glass-panel quiz-main-panel">
-      <div class="quiz-step" id="quiz-step-init">
+    <div class="panel quiz-main-panel">
+      <div id="quiz-step-init">
         <div class="quiz-step-header">
           <span class="quiz-badge-pink"
             ><i class="fa-solid fa-heart-circle-bolt"></i> Quiz Partner
@@ -309,21 +251,7 @@ Kosmik{% endblock %} {% block extra_css %}
               <label for="quiz-select-sign"
                 ><i class="fa-solid fa-moon"></i> Zodiak Anda</label
               >
-              <select id="quiz-select-sign" class="custom-select-large">
-                <option value="" disabled selected>Pilih Zodiak</option>
-                <option value="aries">Aries (♈)</option>
-                <option value="taurus">Taurus (♉)</option>
-                <option value="gemini">Gemini (♊)</option>
-                <option value="cancer">Cancer (♋)</option>
-                <option value="leo">Leo (♌)</option>
-                <option value="virgo">Virgo (♍)</option>
-                <option value="libra">Libra (♎)</option>
-                <option value="scorpio">Scorpio (♏)</option>
-                <option value="sagittarius">Sagittarius (♐)</option>
-                <option value="capricorn">Capricorn (♑)</option>
-                <option value="aquarius">Aquarius (♒)</option>
-                <option value="pisces">Pisces (♓)</option>
-              </select>
+              {{ z.sign_select("quiz-select-sign") }}
             </div>
           </div>
         </div>
@@ -331,7 +259,7 @@ Kosmik{% endblock %} {% block extra_css %}
           Mulai Jawab 10 Pertanyaan <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
-      <div class="quiz-step hidden" id="quiz-step-questions">
+      <div class="hidden" id="quiz-step-questions">
         <div class="quiz-progress-container">
           <div class="quiz-progress-info">
             <span class="quiz-cat-badge" id="quiz-cat-badge">Komunikasi</span>
@@ -362,17 +290,17 @@ Kosmik{% endblock %} {% block extra_css %}
           </button>
         </div>
       </div>
-      <div class="quiz-step hidden" id="quiz-step-loader">
+      <div class="hidden" id="quiz-step-loader">
         <div class="waiting-box quiz-waiting-lg">
           <div class="pulse-heart-wrapper">
             <i
               class="fa-solid fa-atom cosmic-spinner quiz-loader-icon"
             ></i>
           </div>
-          <h3 class="waiting-title quiz-waiting-title-gap">
+          <h3 class="quiz-waiting-title-gap">
             Menyimpan Jawaban &amp; Menganalisis...
           </h3>
-          <p class="waiting-desc" id="quiz-loader-desc">
+          <p id="quiz-loader-desc">
             Mohon tunggu sebentar, AI sedang menghitung persentase kembaran 10
             jawaban &amp; menyusun ulasan chemistry pasangan kalian ✨
           </p>
@@ -385,13 +313,13 @@ Kosmik{% endblock %} {% block extra_css %}
           </div>
         </div>
       </div>
-      <div class="quiz-step hidden" id="quiz-step-waiting">
+      <div class="hidden" id="quiz-step-waiting">
         <div class="waiting-box">
           <div class="pulse-heart-wrapper">
             <i class="fa-solid fa-heart pulse-heart"></i>
           </div>
-          <h3 class="waiting-title">Room Berhasil Dibuat!</h3>
-          <p class="waiting-desc">
+          <h3>Room Berhasil Dibuat!</h3>
+          <p>
             Jawaban 10 pertanyaanmu telah tersimpan. Sekarang bagikan link atau
             kode room ini ke pasanganmu untuk mulai mencocokkan!
           </p>
@@ -416,7 +344,7 @@ Kosmik{% endblock %} {% block extra_css %}
           </div>
         </div>
       </div>
-      <div class="quiz-step hidden" id="quiz-step-result">
+      <div class="hidden" id="quiz-step-result">
         <div class="result-header-box">
           <span class="quiz-badge-pink"
             ><i class="fa-solid fa-sparkles"></i> Hasil Kecocokan Partner</span
@@ -517,9 +445,7 @@ Kosmik{% endblock %} {% block extra_css %}
     </div>
   </section>
 </main>
-<footer class="app-footer">
-  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
-</footer>
-{% endblock %} {% block extra_js %}
+{% endblock %}
+{% block zodiak_js %}
 <script src="{{ url_for('zodiak.static', filename='js/kecocokan.js') }}"></script>
 {% endblock %}

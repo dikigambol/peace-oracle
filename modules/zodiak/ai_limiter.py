@@ -1,7 +1,6 @@
 from datetime import date
 
-from core.db import db_available, env_int, get_mysql_connection
-from core.device import get_device_id, get_fingerprint_id
+from core.core import db_available, env_int, get_device_id, get_fingerprint_id, get_mysql_connection
 
 DAILY_AI_LIMIT = env_int("DAILY_AI_LIMIT", 10)
 FINGERPRINT_AI_LIMIT = env_int(
@@ -125,17 +124,12 @@ def check_ai_quota(device_id=None):
         if not device_id:
             device_id = get_device_id()
         today_str = date.today().isoformat()
-        used_count = 0
         for bucket_id, bucket_limit in _quota_buckets(device_id):
-            bucket_count = _db_get_count(bucket_id, today_str)
-            if bucket_id == device_id:
-                used_count = bucket_count
-            if bucket_count >= bucket_limit:
-                notice = "AI Mode Limited. Switching to Standard Prediction."
-                return False, used_count, DAILY_AI_LIMIT, notice
-        return True, used_count, DAILY_AI_LIMIT, None
+            if _db_get_count(bucket_id, today_str) >= bucket_limit:
+                return False, "AI Mode Limited. Switching to Standard Prediction."
+        return True, None
     except Exception:
-        return True, 0, DAILY_AI_LIMIT, None
+        return True, None
 
 
 def increment_ai_quota(device_id=None):
@@ -143,12 +137,7 @@ def increment_ai_quota(device_id=None):
         if not device_id:
             device_id = get_device_id()
         today_str = date.today().isoformat()
-        new_count = 1
-        for bucket_id, bucket_limit in _quota_buckets(device_id):
-            bucket_count = _db_get_count(bucket_id, today_str) + 1
-            _db_set_count(bucket_id, today_str, bucket_count)
-            if bucket_id == device_id:
-                new_count = bucket_count
-        return new_count
+        for bucket_id, _ in _quota_buckets(device_id):
+            _db_set_count(bucket_id, today_str, _db_get_count(bucket_id, today_str) + 1)
     except Exception:
-        return 1
+        pass

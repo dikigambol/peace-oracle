@@ -1,0 +1,11 @@
+{% import 'shio/_caidan.html' as caidan %}
+<nav class="sh-d-tabs" aria-label="Fitur Shio">
+  <a class="sh-d-tab" href="{{ url_for('shio.shio_index') }}">
+    <i class="fa-solid fa-yin-yang" aria-hidden="true"></i> Beranda
+  </a>
+  {% for feature in caidan.features %}
+  <a class="sh-d-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+    <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i> {{ feature.short }}
+  </a>
+  {% endfor %}
+</nav>

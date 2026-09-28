@@ -1,0 +1,56 @@
+{% import 'weton/_komponen.html' as komponen with context %}
+<div class="wt-m-shell" data-bottom-nav>
+  {{ komponen.mobile_appbar("Roasting Weton", "m-roast-share", "Bagikan roast ini") }}
+
+  <main class="wt-m-main">
+    <section class="wt-m-steps" id="m-roast-form" aria-labelledby="m-roast-question">
+      <p class="wt-eyebrow">Roasting Weton</p>
+      <h2 class="wt-m-question" id="m-roast-question">Kapan kamu lahir?</h2>
+      <p class="wt-m-help">Primbon bakal membaca wetonmu, lalu kami ubah jadi sindiran yang lucu tapi tetap sopan.</p>
+      {{ komponen.mobile_date("m-a-tanggal") }}
+      {{ komponen.mobile_time_city("m-a") }}
+
+      <label class="wt-toggle wt-m-toggle" for="m-duo">
+        <input type="checkbox" id="m-duo" />
+        <span>Tambah orang kedua</span>
+      </label>
+
+      <div class="wt-m-duo-fields" id="m-duo-fields" hidden>
+        {{ komponen.name_field("m-b-nama", "Orang kedua", " wt-input-lg") }}
+        {{ komponen.mobile_date("m-b-tanggal", "Tanggal lahir orang kedua") }}
+        {{ komponen.mobile_time_city("m-b", "Jam &amp; kota lahirnya") }}
+      </div>
+
+      <p class="wt-error" id="m-roast-error" role="alert" hidden></p>
+      <div class="wt-m-actions">
+        <button class="wt-btn wt-btn-primary wt-btn-block" id="m-roast-submit" type="button">
+          <i class="fa-solid fa-fire" aria-hidden="true"></i> Roasting aku
+        </button>
+      </div>
+    </section>
+
+    <section class="wt-m-story" id="m-roast-story" hidden aria-roledescription="story">
+      <div class="wt-m-story-bars" id="m-story-bars" aria-hidden="true"></div>
+      <p class="wt-m-chip" id="m-roast-chip"></p>
+      <div class="wt-m-story-stage" id="m-story-stage">
+        <article class="wt-card wt-m-story-card" id="m-story-card" aria-live="polite">
+          <p class="wt-eyebrow" id="m-story-label"></p>
+          <p class="wt-m-story-text" id="m-story-text"></p>
+          <p class="wt-m-story-count" id="m-story-count"></p>
+        </article>
+        <button class="wt-m-story-tap wt-m-story-prev" id="m-story-prev" type="button" aria-label="Roast sebelumnya"></button>
+        <button class="wt-m-story-tap wt-m-story-next" id="m-story-next" type="button" aria-label="Roast berikutnya"></button>
+      </div>
+      <p class="wt-hint wt-m-story-hint">Geser atau ketuk sisi kanan untuk roast berikutnya.</p>
+      <div class="wt-m-result-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-roast-reset" type="button">Ulangi</button>
+        <button class="wt-btn wt-btn-primary" id="m-roast-share-bottom" type="button">
+          <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+        </button>
+      </div>
+      <p class="wt-sources" id="m-roast-disclaimer"></p>
+    </section>
+  </main>
+
+  {{ komponen.mobile_tabbar("roasting") }}
+</div>

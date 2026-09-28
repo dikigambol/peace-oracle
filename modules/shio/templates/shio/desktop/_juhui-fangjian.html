@@ -1,0 +1,83 @@
+<div class="sh-d-shell">
+  {% with title='Room ' ~ room_code, lead='Bagikan kode ini ke teman. Halaman ini memperbarui dirinya sendiri selama room masih berjalan.', active='juhui' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-card sh-d-room-bar">
+    <div>
+      <p class="quiz-room-mode" id="d-room-mode">Memuat room...</p>
+      <p class="quiz-room-meta" id="d-room-meta"></p>
+    </div>
+    <div class="quiz-room-code">
+      <span class="quiz-code-label">Kode room</span>
+      <span class="quiz-code">{{ room_code }}</span>
+      <div class="quiz-share">
+        <button type="button" class="quiz-icon-btn" id="d-room-copy" aria-label="Salin tautan room">
+          <i class="fa-solid fa-link" aria-hidden="true"></i>
+        </button>
+        <button type="button" class="quiz-icon-btn" id="d-room-share" aria-label="Bagikan tautan room">
+          <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-card quiz-notice sh-d-room-notice" id="d-room-notice" role="status" hidden>
+    <p id="d-room-notice-text"></p>
+    <button type="button" class="sh-btn sh-btn-ghost" id="d-room-refresh" hidden>Muat ulang</button>
+  </div>
+
+  <div class="sh-d-body">
+    <aside class="sh-d-panel sh-d-room-side">
+      <form class="sh-card" id="d-room-join" novalidate hidden>
+        <h2 class="sh-card-title">Gabung ke room ini</h2>
+        <p class="sh-hint" id="d-room-join-info"></p>
+        <label class="sh-field" for="d-room-name">
+          <span class="sh-label">Nama panggilanmu</span>
+          <input class="sh-input" id="d-room-name" maxlength="24" autocomplete="nickname" placeholder="Maks. 24 karakter" />
+        </label>
+        <label class="sh-field" for="d-room-birth">
+          <span class="sh-label">Tanggal lahirmu</span>
+          <input class="sh-input" id="d-room-birth" placeholder="Pilih tanggal" readonly autocomplete="off" />
+        </label>
+        <p class="sh-hint">Tanggal lahir hanya dipakai untuk menghitung shio dan tidak ditampilkan ke peserta lain.</p>
+        <button type="submit" class="sh-btn sh-btn-primary sh-btn-block" id="d-room-join-submit">Gabung</button>
+      </form>
+
+      <section class="sh-card" id="d-room-lobby" aria-live="polite" hidden>
+        <h2 class="sh-card-title">Peserta <span class="quiz-count" id="d-room-count"></span></h2>
+        <div id="d-room-people"></div>
+        <p class="sh-hint" id="d-room-status"></p>
+        <div class="quiz-actions">
+          <button type="button" class="sh-btn sh-btn-primary" id="d-room-start" hidden>Mulai</button>
+          <button type="button" class="sh-btn sh-btn-ghost" id="d-room-finish" hidden>Akhiri sekarang</button>
+        </div>
+      </section>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-room-idle">
+        <i class="fa-solid fa-people-group" aria-hidden="true"></i>
+        <p id="d-room-idle-text">Memuat room...</p>
+      </div>
+
+      <form class="sh-card" id="d-room-questions" novalidate hidden>
+        <h2 class="sh-card-title">Jawab jujur, jangan saling intip</h2>
+        <p class="sh-hint">Pilih yang paling mendekati kebiasaanmu. Tidak ada jawaban benar atau salah.</p>
+        <ol class="quiz-questions" id="d-room-question-list"></ol>
+        <button type="submit" class="sh-btn sh-btn-primary sh-btn-block" id="d-room-answers-submit">Kirim Jawaban</button>
+      </form>
+
+      <section class="sh-card" id="d-room-turn" hidden></section>
+
+      <section id="d-room-result" hidden>
+        <div id="d-room-verdict"></div>
+        <div id="d-room-sections"></div>
+        <div class="compat-result sh-d-room-compat" id="d-room-compat" hidden>
+          {% with compat_show_score=false, compat_details=false %}{% include 'shio/_compat-layers.html' %}{% endwith %}
+        </div>
+        <p class="quiz-hint quiz-disclaimer" id="d-room-note" hidden></p>
+      </section>
+    </section>
+  </div>
+</div>

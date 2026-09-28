@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block backdrop %}<div class="wt-backdrop" aria-hidden="true"></div>{% endblock %}
+{% block backdrop_js %}{% endblock %}
+{% block extra_css %}
+{% if page %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+{% endif %}
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-base.css') }}" />
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-desktop.css') }}" media="(min-width: 769px)" />
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-mobile.css') }}" media="(max-width: 768px)" />
+{% endblock %}
+{% block content %}
+<div class="wt-app" id="wt-app" data-page="{{ page }}" data-api="{{ url_for(page_api) }}"{% for name, value in (page_data or {}).items() %} data-{{ name }}="{{ value }}"{% endfor %}>
+  <div class="wt-layout wt-layout-desktop" data-layout="desktop">
+    {% include 'weton/desktop/_' ~ page_file ~ '.html' %}
+  </div>
+  <div class="wt-layout wt-layout-mobile" data-layout="mobile">
+    {% include 'weton/mobile/_' ~ page_file ~ '.html' %}
+  </div>
+  <datalist id="wt-city-options">
+    {% for city in cities %}
+    <option value="{{ city.name }}">{{ city.province }} · {{ city.zone }}</option>
+    {% endfor %}
+  </datalist>
+  {% block page_scripts %}{% endblock %}
+</div>
+{% endblock %}
+{% block extra_js %}
+{% if page %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+{% endif %}
+<script src="{{ url_for('weton.static', filename='js/weton-core.js') }}"></script>
+{% if page %}
+<script src="{{ url_for('weton.static', filename='js/desktop/' ~ page_file ~ '.js') }}"></script>
+<script src="{{ url_for('weton.static', filename='js/mobile/' ~ page_file ~ '.js') }}"></script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'weton/_dhasar.html' %}
+{% set page = 'kalender' %}
+{% set page_file = 'tanggalan' %}
+{% set page_api = 'weton.weton_calendar_api' %}
+{% block title %}Tanggalan Jawa Saben Dina - Peace Oracle{% endblock %}
+{% block description %}Kalender Jawa harian lengkap dengan weton, wuku, tanggal Jawa, pranata mangsa, hari istimewa, dan hari pantangan menurut primbon.{% endblock %}
+{% block page_scripts %}
+<script type="application/json" id="wt-initial">{{ initial|tojson }}</script>
+{% endblock %}

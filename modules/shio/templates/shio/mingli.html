@@ -1,0 +1,12 @@
+{% extends 'shio/_jichu.html' %}
+{% set page = 'mingli' %}
+{% set page_api = 'shio.shio_destiny_api' %}
+{% block title %}Ming Li - Peace Oracle{% endblock %}
+{% block description %}Baca gulungan takdir Ba Zi empat pilar dari tanggal, jam, dan kota lahir: Day Master, lima elemen, dewa dominan, periode besar, dan penyeimbang.{% endblock %}
+{% block shio_prelude %}
+<datalist id="sh-destiny-cities">
+  {% for city in cities %}
+  <option value="{{ city.name }}">{{ city.province }} &middot; {{ city.zone }}</option>
+  {% endfor %}
+</datalist>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-m-shell" data-bottom-nav>
+  {{ zujian.appbar("Tu Cao", "m-roast-home", "m-roast-back", "Ganti data roasting") }}
+
+  <main class="sh-m-main">
+    <section class="sh-m-steps" id="m-roast-form">
+      <h2 class="sh-m-question">Siap dibakar?</h2>
+      <p class="sh-m-help">Kenyataan pahit di depan. Siapkan mental, jangan baper.</p>
+      <label class="sh-field" for="m-roast-date">
+        <span class="sh-label">Tanggal lahir</span>
+        <input class="sh-input" id="m-roast-date" type="date" />
+      </label>
+      <p class="sh-label">Jenis kelamin <span class="sh-optional">opsional</span></p>
+      {{ zujian.gender_buttons("roast") }}
+      <p class="sh-hint sh-m-roast-hint">Jenis kelamin cuma menentukan arah periode besarmu (大運).</p>
+      <p class="sh-error" id="m-roast-error" role="alert" hidden></p>
+      <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-roast-submit">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i> Gas, Bakar Gue
+      </button>
+    </section>
+
+    <div id="m-roast-loading" hidden></div>
+
+    <section id="m-roast-result" hidden aria-live="polite">
+      <div class="roast-card sh-m-roast-head" id="m-roast-header"></div>
+      <div id="m-roast-stories"></div>
+      <button class="roast-reroll sh-m-roast-reroll" type="button" id="m-roast-reroll">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i> <span>Roasting Lagi</span>
+      </button>
+      <p class="sh-m-roast-count" id="m-roast-count"></p>
+      <div class="roast-card sh-m-roast-pair">
+        {% include 'shio/_tucao-banlv.html' %}
+      </div>
+      <p class="roast-disclaimer">Semua ini cuma candaan berdasarkan stereotip shio. Jangan dibawa ke hati, bestie.</p>
+    </section>
+  </main>
+
+  {% with active='tucao' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+</div>

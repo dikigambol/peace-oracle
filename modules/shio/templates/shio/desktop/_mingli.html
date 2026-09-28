@@ -1,0 +1,45 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-d-shell">
+  {% with title='Gulungan Takdir', lead='Ming Li membaca Ba Zi empat pilar dari tanggal, jam, dan kota lahirmu. Aliran ' ~ school ~ '.', active='mingli' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Data kelahiran</h2>
+      <label class="sh-field" for="d-destiny-date">
+        <span class="sh-label">Tanggal lahir</span>
+        <input class="sh-input" id="d-destiny-date" placeholder="Pilih tanggal lahir" readonly autocomplete="off" />
+      </label>
+      <p class="sh-label">Jenis kelamin</p>
+      {{ zujian.gender_buttons("destiny") }}
+      <p class="sh-hint">Dipakai untuk menentukan arah periode besar (大運).</p>
+      <label class="sh-field" for="d-destiny-time">
+        <span class="sh-label">Jam lahir <span class="sh-optional">opsional</span></span>
+        <input class="sh-input" id="d-destiny-time" type="time" />
+      </label>
+      <label class="sh-field" for="d-destiny-city">
+        <span class="sh-label">Kota lahir <span class="sh-optional">opsional</span></span>
+        <input class="sh-input" id="d-destiny-city" list="sh-destiny-cities" placeholder="Default: Jakarta" autocomplete="off" />
+      </label>
+      <p class="sh-hint">Pakai jam dinding di kota lahir (WIB, WITA, atau WIT). Jam dan kota dipakai untuk zona waktu dan koreksi waktu matahari sejati. Kosongkan kalau tidak ingat, bacaan tetap jalan dengan tiga pilar.</p>
+      <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="d-destiny-submit" disabled>
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i> Buka Gulungan
+      </button>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-destiny-empty">
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
+        <p>Isi tanggal lahir dan jenis kelamin. Tabel empat pilar dan seluruh bacaanmu muncul di sini.</p>
+      </div>
+      <div id="d-destiny-loading" hidden></div>
+      <div id="d-destiny-result" hidden>
+        <nav class="sh-d-destiny-nav" id="d-destiny-nav" aria-label="Bagian bacaan"></nav>
+        <div id="d-destiny-notices"></div>
+        <div id="d-destiny-sections"></div>
+        <p class="destiny-disclaimer" id="d-destiny-disclaimer"></p>
+      </div>
+    </section>
+  </div>
+</div>

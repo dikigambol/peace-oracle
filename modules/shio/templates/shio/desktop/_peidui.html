@@ -1,0 +1,45 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-d-shell">
+  {% with title='Kecocokan Kosmik', lead='Pei Dui menimbang dua tanggal lahir: relasi shio, dinamika elemen, lapisan tahun lahir, sampai pilar hari Ba Zi.', active='peidui' %}
+  {% include 'shio/desktop/_header.html' %}
+  {% endwith %}
+
+  <section class="sh-card sh-d-compat-form">
+    <div class="sh-d-compat-fields">
+      <label class="sh-field" for="d-compat-date1">
+        <span class="sh-label">Tanggal lahir pertama</span>
+        <input class="sh-input" id="d-compat-date1" placeholder="Pilih tanggal" readonly autocomplete="off" />
+      </label>
+      <label class="sh-field" for="d-compat-date2">
+        <span class="sh-label">Tanggal lahir kedua</span>
+        <input class="sh-input" id="d-compat-date2" placeholder="Pilih tanggal" readonly autocomplete="off" />
+      </label>
+    </div>
+    <div class="sh-d-compat-row">
+      <div>
+        <p class="sh-label" id="d-compat-lens-label">Hubungan kalian</p>
+        <div class="choice-chips" role="radiogroup" aria-labelledby="d-compat-lens-label">
+          {{ zujian.lens_chips() }}
+        </div>
+      </div>
+      <button class="sh-btn sh-btn-primary" type="button" id="d-compat-submit" disabled>
+        <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> Ukur Kecocokan
+      </button>
+    </div>
+    <p class="sh-hint sh-d-compat-hint">
+      Shio dihitung dari tanggal, termasuk batas awal musim semi (立春) yang sering bikin kelahiran Januari salah shio.
+      Skor relasi murni dari cabang tahun. Mau berdua sambil jawab soal? Coba
+      <a href="{{ url_for('shio.shio_quiz_page') }}">Ramalan Pasangan</a>.
+    </p>
+  </section>
+
+  <section class="sh-d-compat-results" aria-live="polite">
+    <div class="sh-card sh-empty" id="d-compat-empty">
+      <i class="fa-solid fa-heart-circle-check" aria-hidden="true"></i>
+      <p>Isi dua tanggal lahir di atas. Skor, dinamika elemen, dan lapisan Ba Zi kalian muncul di sini.</p>
+    </div>
+    <div class="compat-result sh-d-compat-result" id="d-compat-result" hidden>
+      {% with compat_show_score=true, compat_details=false %}{% include 'shio/_compat-layers.html' %}{% endwith %}
+    </div>
+  </section>
+</div>

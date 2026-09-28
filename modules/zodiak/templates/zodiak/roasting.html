@@ -1,122 +1,21 @@
-{% extends 'base.html' %} {% block title %}Zodiak Peace - Roasting (Kritik Pedas
-Zodiak){% endblock %} {% block extra_css %}
-<link
-  rel="stylesheet"
-  href="{{ url_for('zodiak.static', filename='css/style.css') }}"
-/>
-<link
-  rel="stylesheet"
-  href="{{ url_for('zodiak.static', filename='css/roasting.css') }}"
-/>
-{% endblock %} {% block content %}
-<div class="stars-bg"></div>
-<header class="app-header">
-  <div class="header-container">
-    <h1 class="logo-title">
-      <i class="fa-solid fa-bahai logo-icon"></i> Zodiak Peace
-    </h1>
-  </div>
-  <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"
-      ><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a
-    >
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"
-      ><i class="fa-solid fa-calculator"></i> Kecocokan</a
-    >
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"
-      ><i class="fa-solid fa-compass"></i> General</a
-    >
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"
-      ><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a
-    >
-  </nav>
-</header>
+{% extends 'zodiak/_base.html' %}
+{% import 'zodiak/_macros.html' as z %}
+{% block title %}Zodiak Peace - Roasting (Kritik Pedas
+Zodiak){% endblock %}
+{% block zodiak_css %}
+<link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/roasting.css') }}" />
+{% endblock %}
+{% block zodiak_content %}
 <main class="main-content">
   <section class="portal-grid">
     <div class="zodiac-selector-container">
       <h2 class="section-title">
         <i class="fa-solid fa-fire-flame-curved text-flame"></i> Pilih Zodiak
       </h2>
-      <div class="zodiac-grid" id="zodiac-grid">
-        <button class="zodiac-card" data-sign="aries">
-          <span class="zodiac-symbol">♈</span>
-          <h3 class="zodiac-name">Aries</h3>
-          <p class="zodiac-dates">21 Mar - 19 Apr</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="taurus">
-          <span class="zodiac-symbol">♉</span>
-          <h3 class="zodiac-name">Taurus</h3>
-          <p class="zodiac-dates">20 Apr - 20 Mei</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="gemini">
-          <span class="zodiac-symbol">♊</span>
-          <h3 class="zodiac-name">Gemini</h3>
-          <p class="zodiac-dates">21 Mei - 20 Jun</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="cancer">
-          <span class="zodiac-symbol">♋</span>
-          <h3 class="zodiac-name">Cancer</h3>
-          <p class="zodiac-dates">21 Jun - 22 Jul</p>
-          <span class="element-badge water">Air</span>
-        </button>
-        <button class="zodiac-card" data-sign="leo">
-          <span class="zodiac-symbol">♌</span>
-          <h3 class="zodiac-name">Leo</h3>
-          <p class="zodiac-dates">23 Jul - 22 Agu</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="virgo">
-          <span class="zodiac-symbol">♍</span>
-          <h3 class="zodiac-name">Virgo</h3>
-          <p class="zodiac-dates">23 Agu - 22 Sep</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="libra">
-          <span class="zodiac-symbol">♎</span>
-          <h3 class="zodiac-name">Libra</h3>
-          <p class="zodiac-dates">23 Sep - 22 Okt</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="scorpio">
-          <span class="zodiac-symbol">♏</span>
-          <h3 class="zodiac-name">Scorpio</h3>
-          <p class="zodiac-dates">23 Okt - 21 Nov</p>
-          <span class="element-badge water">Air</span>
-        </button>
-        <button
-          class="zodiac-card"
-          data-sign="sagittarius"
-        >
-          <span class="zodiac-symbol">♐</span>
-          <h3 class="zodiac-name">Sagittarius</h3>
-          <p class="zodiac-dates">22 Nov - 21 Des</p>
-          <span class="element-badge fire">Api</span>
-        </button>
-        <button class="zodiac-card" data-sign="capricorn">
-          <span class="zodiac-symbol">♑</span>
-          <h3 class="zodiac-name">Capricorn</h3>
-          <p class="zodiac-dates">22 Des - 19 Jan</p>
-          <span class="element-badge earth">Tanah</span>
-        </button>
-        <button class="zodiac-card" data-sign="aquarius">
-          <span class="zodiac-symbol">♒</span>
-          <h3 class="zodiac-name">Aquarius</h3>
-          <p class="zodiac-dates">20 Jan - 18 Feb</p>
-          <span class="element-badge air">Udara</span>
-        </button>
-        <button class="zodiac-card" data-sign="pisces">
-          <span class="zodiac-symbol">♓</span>
-          <h3 class="zodiac-name">Pisces</h3>
-          <p class="zodiac-dates">19 Feb - 20 Mar</p>
-          <span class="element-badge water">Air</span>
-        </button>
-      </div>
+      {{ z.zodiac_grid() }}
     </div>
     <div class="details-panel-container">
-      <div class="panel glass-panel" id="roast-details-panel">
+      <div class="panel">
         <div class="details-instruction" id="roast-instruction">
           <i
             class="fa-solid fa-pepper-hot cosmic-icon animated-float text-flame"
@@ -127,14 +26,7 @@ Zodiak){% endblock %} {% block extra_css %}
             kebiasaan toxic, dosa finansial, hingga tips survival kosmiknya.
           </p>
         </div>
-        <div class="details-loader hidden" id="roast-loader">
-          <div class="cosmic-spinner-wrapper">
-            <i
-              class="fa-solid fa-fire-flame-curved cosmic-spinner text-flame"
-            ></i>
-          </div>
-          <p class="loader-text">Menyiapkan Kritik Pedas Kosmik...</p>
-        </div>
+        {{ z.loader("roast-loader", "Menyiapkan Kritik Pedas Kosmik...", "fa-fire-flame-curved", "text-flame") }}
         <div class="details-content hidden" id="roast-content">
           <div class="roast-top-actions">
             <button class="btn-back-grid" id="btn-back-grid-roast">
@@ -142,7 +34,7 @@ Zodiak){% endblock %} {% block extra_css %}
             </button>
             <button
               type="button"
-              class="btn-roll-dice btn-roll-dice-glow"
+              class="btn-roll-dice"
               id="btn-roll-dice-roast"
               title="Acak Roasting Baru"
             >
@@ -150,16 +42,7 @@ Zodiak){% endblock %} {% block extra_css %}
               <span>Roll Dice</span>
             </button>
           </div>
-          <div class="details-header">
-            <span class="details-symbol" id="roast-symbol">♈</span>
-            <div class="details-title-wrapper">
-              <h3 class="details-name" id="roast-name">Aries</h3>
-              <p class="details-dates" id="roast-dates">21 Maret - 19 April</p>
-            </div>
-            <span class="details-element-badge fire" id="roast-element-badge"
-              >Api</span
-            >
-          </div>
+          {{ z.details_header("roast") }}
           <hr class="separator" />
           <div class="char-section">
             <div class="roast-headline-card">
@@ -212,14 +95,14 @@ Zodiak){% endblock %} {% block extra_css %}
         </div>
       </div>
       <div
-        class="panel glass-panel pair-roast-standalone-card hidden"
+        class="panel pair-roast-standalone-card hidden"
         id="pair-roast-card-panel"
       >
         <div class="feature-card-header text-flame pair-header-flex">
           <span>🔥 Roasting Hubungan Zodiak A & B</span>
           <button
             type="button"
-            class="btn-roll-dice btn-roll-dice-sm btn-roll-dice-glow"
+            class="btn-roll-dice btn-roll-dice-sm"
             id="btn-roll-dice-pair"
             title="Acak Roasting Pasangan Baru"
           >
@@ -233,21 +116,7 @@ Zodiak){% endblock %} {% block extra_css %}
           berpasangan / berteman dengan zodiak lain:
         </p>
         <div class="pair-select-group">
-          <select id="pair-sign-select" class="custom-select-large">
-            <option value="">Pilih Zodiak Pasangan / Teman</option>
-            <option value="aries">Aries (21 Mar - 19 Apr)</option>
-            <option value="taurus">Taurus (20 Apr - 20 Mei)</option>
-            <option value="gemini">Gemini (21 Mei - 20 Jun)</option>
-            <option value="cancer">Cancer (21 Jun - 22 Jul)</option>
-            <option value="leo">Leo (23 Jul - 22 Aug)</option>
-            <option value="virgo">Virgo (23 Aug - 22 Sep)</option>
-            <option value="libra">Libra (23 Sep - 22 Oct)</option>
-            <option value="scorpio">Scorpio (23 Oct - 21 Nov)</option>
-            <option value="sagittarius">Sagittarius (22 Nov - 21 Dec)</option>
-            <option value="capricorn">Capricorn (22 Dec - 19 Jan)</option>
-            <option value="aquarius">Aquarius (20 Jan - 18 Feb)</option>
-            <option value="pisces">Pisces (19 Feb - 20 Mar)</option>
-          </select>
+          {{ z.sign_select("pair-sign-select", "Pilih Zodiak Pasangan / Teman", with_dates=True, allow_empty=True) }}
         </div>
         <div class="pair-loader hidden" id="pair-roast-loader">
           <div class="cosmic-spinner-wrapper">
@@ -267,9 +136,7 @@ Zodiak){% endblock %} {% block extra_css %}
     </div>
   </section>
 </main>
-<footer class="app-footer">
-  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
-</footer>
-{% endblock %} {% block extra_js %}
+{% endblock %}
+{% block zodiak_js %}
 <script src="{{ url_for('zodiak.static', filename='js/roasting.js') }}"></script>
 {% endblock %}

@@ -1,0 +1,55 @@
+{% import 'weton/_komponen.html' as komponen with context %}
+<div class="wt-d-shell">
+  {{ komponen.desktop_header("Roasting Weton", "Sindiran lucu yang berangkat dari watak hari, pasaran, dan neptu kamu di primbon. Tambah satu orang lagi untuk roasting berdua.", "roasting") }}
+
+  <div class="wt-d-body">
+    <form class="wt-card wt-d-form" id="d-roast-form" novalidate>
+      <h2 class="wt-card-title">Weton kamu</h2>
+      {{ komponen.desktop_date("d-a-tanggal") }}
+      {{ komponen.desktop_time_city("d-a") }}
+
+      <label class="wt-toggle" for="d-duo">
+        <input type="checkbox" id="d-duo" />
+        <span>Roasting berdua</span>
+      </label>
+
+      <fieldset class="wt-d-duo-fields" id="d-duo-fields" hidden>
+        <legend class="wt-label">Orang kedua</legend>
+        {{ komponen.name_field("d-b-nama", "Orang kedua") }}
+        {{ komponen.desktop_date("d-b-tanggal") }}
+        {{ komponen.desktop_time_city("d-b") }}
+      </fieldset>
+
+      <button class="wt-btn wt-btn-primary wt-btn-block" id="d-roast-submit" type="submit">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i> Roasting sekarang
+      </button>
+      <p class="wt-error" id="d-roast-error" role="alert" hidden></p>
+    </form>
+
+    <section class="wt-d-results" aria-live="polite">
+      <div class="wt-card wt-d-empty" id="d-roast-empty">
+        <i class="fa-solid fa-fire" aria-hidden="true"></i>
+        <p>Isi tanggal lahirmu, lalu siap-siap disindir halus oleh primbon. Tenang, semuanya candaan.</p>
+      </div>
+      <div class="wt-d-roast" id="d-roast-result" hidden>
+        <div class="wt-d-roast-head">
+          <div>
+            <p class="wt-eyebrow" id="d-roast-meta"></p>
+            <h2 class="wt-d-roast-title" id="d-roast-title"></h2>
+          </div>
+          <button class="wt-btn wt-btn-ghost" id="d-roast-share" type="button">
+            <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+          </button>
+        </div>
+        <p class="wt-note" id="d-roast-maghrib"></p>
+        <div class="wt-d-roast-grid" id="d-roast-cards"></div>
+        <section class="wt-d-roast-duo" id="d-roast-duo" hidden>
+          <h2 class="wt-card-title" id="d-roast-duo-title"></h2>
+          <p class="wt-result-sub" id="d-roast-duo-sub"></p>
+          <div class="wt-d-roast-grid" id="d-roast-duo-cards"></div>
+        </section>
+        <p class="wt-sources" id="d-roast-disclaimer"></p>
+      </div>
+    </section>
+  </div>
+</div>

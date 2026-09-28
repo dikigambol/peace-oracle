@@ -13,14 +13,14 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Peace Oracle" />
   <meta property="og:locale" content="id_ID" />
-  <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}" />
-  <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}" />
+  <meta property="og:title" content="{{ self.title() }}" />
+  <meta property="og:description" content="{{ self.description() }}" />
   <meta property="og:url" content="{{ request.url }}" />
   <meta property="og:image"
     content="{{ url_for('static', filename='images/web_logo.png', _external=True) }}" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{ self.og_title() }}" />
-  <meta name="twitter:description" content="{{ self.og_description() }}" />
+  <meta name="twitter:title" content="{{ self.title() }}" />
+  <meta name="twitter:description" content="{{ self.description() }}" />
   <meta name="twitter:image"
     content="{{ url_for('static', filename='images/web_logo.png', _external=True) }}" />
   <link rel="canonical" href="{{ request.base_url }}" />
@@ -30,24 +30,39 @@
     href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@500;700&family=Cinzel:wght@500;600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/3d-bg.css') }}" />
-  <script src="{{ url_for('static', filename='js/global.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core-base.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core-desktop.css') }}" media="(min-width: 769px)" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/core-mobile.css') }}" media="(max-width: 768px)" />
+  <script src="{{ url_for('static', filename='js/core.js') }}"></script>
   {% block extra_css %}{% endblock %}
 </head>
 
-<body>
-  <canvas id="webgl-bg"></canvas>
-  <div id="global-loader" class="global-loader">
-    <div class="loader-icons">
-      <i class="fa-solid fa-moon icon-zodiak"></i>
-      <i class="fa-solid fa-dragon icon-shio"></i>
-      <i class="fa-solid fa-scroll icon-weton"></i>
-      <i class="fa-solid fa-wand-magic-sparkles icon-tarot"></i>
+<body class="{% block body_class %}{% endblock %}">
+  {% block backdrop %}<canvas id="webgl-bg"></canvas>{% endblock %}
+  {% set loader_modes = {
+    'zodiak': {'icons': ['fa-moon'], 'text': 'Membaca rasi bintang'},
+    'shio': {'icons': ['fa-dragon'], 'text': 'Menyusun delapan aksara'},
+    'weton': {'icons': ['fa-scroll'], 'text': 'Menghitung neptu'},
+    'tarot': {'icons': ['fa-wand-magic-sparkles'], 'text': 'Mengocok kartu arkana'},
+  } %}
+  {% set core_icons = loader_modes.items()|selectattr('0', 'in', installed_modes)|map(attribute='1.icons.0')|list %}
+  {% set loader_core = {'icons': core_icons or ['fa-layer-group'], 'text': 'Membuka gerbang takdir'} %}
+  {% set loader_key = request.blueprint if request.blueprint in loader_modes else 'core' %}
+  {% set loader = loader_modes.get(loader_key, loader_core) %}
+  <div id="global-loader" class="global-loader" data-mode="{{ loader_key }}" role="progressbar"
+    aria-label="Memuat halaman" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div class="pl-emblem{% if loader.icons|length > 1 %} pl-emblem-cycle{% endif %}" style="--pl-n: {{ loader.icons|length }}">
+      <span class="pl-ring" aria-hidden="true"></span>
+      {% for icon in loader.icons %}
+      <i class="fa-solid {{ icon }} pl-icon" aria-hidden="true" style="--pl-i: {{ loop.index0 }}"></i>
+      {% endfor %}
     </div>
-    <p class="loader-text">Menyelaraskan 4 Alam Semesta</p>
-    <div class="loader-bar-container">
-      <div class="loader-bar"></div>
+    <p class="pl-text">{{ loader.text }}</p>
+    <div class="pl-meter">
+      <div class="pl-track">
+        <div class="pl-fill"></div>
+      </div>
+      <span class="pl-percent">0%</span>
     </div>
   </div>
   <div class="mode-switcher-container">
@@ -67,10 +82,12 @@
         <span>Shio</span>
       </a>
       {% endif %}
-      <a href="#" class="mode-item locked" title="Segera Hadir">
+      {% if 'weton' in installed_modes %}
+      <a href="{{ url_for('weton.weton_index') }}" class="mode-item">
         <i class="fa-solid fa-scroll"></i>
         <span>Weton</span>
       </a>
+      {% endif %}
       <a href="#" class="mode-item locked" title="Segera Hadir">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
         <span>Tarot</span>
@@ -78,9 +95,9 @@
     </div>
   </div>
   {% block content %}{% endblock %}
+  {% block backdrop_js %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  <script src="{{ url_for('static', filename='js/3d-bg.js') }}"></script>
-  <script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+  {% endblock %}
   {% block extra_js %}{% endblock %}
 </body>
 

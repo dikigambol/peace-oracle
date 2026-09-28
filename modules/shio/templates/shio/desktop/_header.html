@@ -1,0 +1,21 @@
+<header class="sh-d-header">
+  <div class="sh-d-brand">
+    <div class="bagua-wrapper sh-d-bagua" aria-hidden="true">
+      <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+      <div class="trigram t1">☰</div>
+      <div class="trigram t2">☴</div>
+      <div class="trigram t3">☵</div>
+      <div class="trigram t4">☶</div>
+      <div class="trigram t5">☷</div>
+      <div class="trigram t6">☳</div>
+      <div class="trigram t7">☲</div>
+      <div class="trigram t8">☱</div>
+    </div>
+    <div>
+      {% if not hub %}<p class="sh-eyebrow">Shio Oracle</p>{% endif %}
+      <h1 class="sh-d-title">{{ title }}</h1>
+      <p class="sh-d-lead">{{ lead }}</p>
+    </div>
+  </div>
+  {% if not hub %}{% include 'shio/desktop/_tabs.html' %}{% endif %}
+</header>

@@ -1,0 +1,56 @@
+{% import 'shio/_zujian.html' as zujian %}
+<div class="sh-m-shell" data-bottom-nav>
+  {{ zujian.appbar("Ju Hui") }}
+
+  <main class="sh-m-main">
+    <p class="sh-m-lead">Satu kode room, dibuka bareng teman. Terbuka untuk hubungan apa pun.</p>
+    <div class="sh-m-segment" role="tablist" aria-label="Gabung atau buat room">
+      <button class="sh-m-segment-option" type="button" role="tab" data-quiz-tab="join" aria-selected="true">Gabung</button>
+      <button class="sh-m-segment-option" type="button" role="tab" data-quiz-tab="create" aria-selected="false">Buat room</button>
+    </div>
+
+    <form class="sh-m-steps" id="m-quiz-join" novalidate>
+      <h2 class="sh-m-question">Punya kode room?</h2>
+      <p class="sh-m-help">Kode terdiri dari 6 huruf atau angka dari temanmu.</p>
+      <label class="sh-field" for="m-quiz-code">
+        <span class="sh-label">Kode room</span>
+        <input class="sh-input quiz-code-input" id="m-quiz-code" maxlength="7" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Misal 7K3QXM" />
+      </label>
+      <button type="submit" class="sh-btn sh-btn-primary sh-btn-block">Gabung</button>
+    </form>
+
+    <section class="sh-m-steps" id="m-quiz-create" hidden>
+      {{ zujian.progress("quiz", 2) }}
+      <div class="sh-m-step" data-step="1">
+        <h2 class="sh-m-question">Mau main apa?</h2>
+        <div class="sh-m-mode-list" role="radiogroup" aria-label="Pilih mode quiz">
+          {% for key, mode in modes.items() %}
+          <button type="button" class="quiz-mode sh-m-mode" role="radio" aria-checked="false" data-mode="{{ key }}">
+            <i class="fa-solid {{ mode.icon }}" aria-hidden="true"></i>
+            <span class="sh-m-mode-body">
+              <span class="quiz-mode-title">{{ mode.title }}</span>
+              <span class="quiz-mode-size">{% if limits[key][0] == limits[key][1] %}{{ limits[key][0] }} orang{% else %}{{ limits[key][0] }}&ndash;{{ limits[key][1] }} orang{% endif %}</span>
+              <small>{{ mode.tagline }}</small>
+            </span>
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="sh-m-step" data-step="2" hidden>
+        <h2 class="sh-m-question" id="m-quiz-create-title"></h2>
+        <label class="sh-field" for="m-quiz-name">
+          <span class="sh-label">Nama panggilanmu</span>
+          <input class="sh-input" id="m-quiz-name" maxlength="24" autocomplete="nickname" placeholder="Maks. 24 karakter" />
+        </label>
+        <label class="sh-field" for="m-quiz-birth">
+          <span class="sh-label">Tanggal lahirmu</span>
+          <input class="sh-input" id="m-quiz-birth" type="date" />
+        </label>
+        {% include 'shio/_juhui-xuanxiang.html' %}
+      </div>
+      {{ zujian.actions("quiz") }}
+    </section>
+  </main>
+
+  {% with active='juhui' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+</div>
