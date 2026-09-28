@@ -208,7 +208,7 @@ def shio_quiz_room_page(room_code):
     code = shio_data.normalise_room_code(room_code)
     if code is None:
         abort(404)
-    return render_template("shio/juhui-fangjian.html", room_code=code)
+    return render_template("shio/juhui.html", room_code=code)
 
 
 @shio_bp.route("/api/shio/quiz/rooms", methods=["POST"])

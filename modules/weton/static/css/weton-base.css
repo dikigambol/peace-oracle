@@ -240,6 +240,11 @@
   border-left-color: var(--wt-gold);
 }
 
+.wt-note[data-kind="berat"] {
+  background: rgba(var(--wt-rose-rgb), 0.1);
+  border-left-color: var(--wt-rose);
+}
+
 .wt-result-head {
   display: flex;
   align-items: center;
@@ -390,6 +395,16 @@
 .wt-badge-pantangan {
   background: rgba(var(--wt-rose-rgb), 0.16);
   color: var(--wt-rose);
+}
+
+.wt-tone-aman {
+  background: rgba(var(--wt-cream-rgb), 0.12);
+  color: var(--wt-cream);
+}
+
+.wt-tone-info {
+  border: 1px solid var(--wt-line-strong);
+  color: var(--wt-gold);
 }
 
 .wt-petung-title {
@@ -671,6 +686,34 @@
   font-weight: 700;
   font-size: 0.9rem;
   color: var(--wt-gold);
+}
+
+.wt-dina-heading {
+  margin: 24px 0 12px;
+}
+
+.wt-dina-item-hindari {
+  border-color: rgba(var(--wt-rose-rgb), 0.4);
+}
+
+.wt-dina-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--wt-gold);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.wt-dina-link:focus-visible {
+  outline: 3px solid var(--wt-gold);
+  outline-offset: 2px;
+}
+
+.wt-dina-note {
+  margin: 16px 0 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

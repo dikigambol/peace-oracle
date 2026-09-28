@@ -151,6 +151,7 @@ SOURCES = {
     "mangsa": "Pranata mangsa, 12 musim dengan tanggal Masehi tetap",
     "watak": "Rangkuman watak hari, pasaran, dan jumlah neptu dalam primbon Jawa",
     "paarasan": "Paarasan menurut jumlah neptu dalam primbon Jawa",
+    "karier": "Tafsir kerja dari rangkuman watak hari, pasaran, dan neptu dalam primbon Jawa",
 }
 
 GLOSSARY = {
@@ -172,7 +173,7 @@ HUB_FEATURES = [
         "endpoint": "weton.weton_birth_page",
         "icon": "fa-seedling",
         "title": "Cek Weton Lahir",
-        "text": "Cek weton, neptu, wuku, dan watakmu. Lahir habis maghrib? Hari Jawanya ikut disesuaikan.",
+        "text": "Cek weton, neptu, wuku, watak, sampai gaya kerjamu. Lahir habis maghrib? Hari Jawanya ikut disesuaikan.",
     },
     {
         "key": "kecocokan",
@@ -197,6 +198,14 @@ HUB_FEATURES = [
         "icon": "fa-fire",
         "title": "Roasting Weton",
         "text": "Roasting lucu berdasarkan watak weton kamu, solo atau bareng partner.",
+    },
+    {
+        "key": "dinabecik",
+        "short": "Hari Baik",
+        "endpoint": "weton.weton_good_day_page",
+        "icon": "fa-calendar-check",
+        "title": "Cari Hari Baik",
+        "text": "Mau nikah, pindahan, atau buka usaha? Cari tanggal yang pas menurut primbon, lengkap dengan alasannya.",
     },
 ]
 

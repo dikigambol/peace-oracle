@@ -268,3 +268,113 @@ WATAK_WUKU = {
         "saran": "Pendirian yang kokoh itu kekuatan. Sesekali lenturkan sikap supaya kamu tetap mudah didekati.",
     },
 }
+
+KARIER_HARI = {
+    "minggu": {
+        "inti": "Di kerjaan, Minggu cenderung rapi dan konsisten. Kamu enak diajak kolaborasi dan bikin suasana tim terasa aman.",
+        "saran": "Kemauanmu kuat, tapi jangan semua kerjaan kamu pegang sendiri. Delegasikan tugas dan percayai proses timmu.",
+    },
+    "senin": {
+        "inti": "Senin identik dengan kerja cekatan dan ringan tangan. Kamu cepat eksekusi dan sering jadi andalan saat deadline mepet.",
+        "saran": "Saat feedback terasa pedas, kasih jeda sebelum membalas chat atau email. Respons yang tenang bikin kamu makin kredibel.",
+    },
+    "selasa": {
+        "inti": "Selasa punya gaya kerja yang susah ditebak dan sering keluar dari jalur biasa. Itu modal bagus buat peran yang butuh ide segar.",
+        "saran": "Rekan kerja butuh waktu buat paham caramu. Jelaskan alasan di balik idemu supaya mereka gampang ikut dan percaya.",
+    },
+    "rabu": {
+        "inti": "Rabu dibaca berani ambil peluang dan sering pas momennya. Kamu nyaman di posisi yang butuh keputusan cepat.",
+        "saran": "Momen bagus bukan pengganti rencana. Siapkan data dan opsi cadangan sebelum ambil langkah besar supaya hasilnya konsisten.",
+    },
+    "kamis": {
+        "inti": "Kamis membawa energi api: kamu semangat, cepat bergerak, dan kerja paling maksimal saat usahamu dilihat dan dihargai.",
+        "saran": "Jangan ukur performa cuma dari pujian atasan. Pasang target pribadi yang jelas supaya motivasimu nggak naik turun.",
+    },
+    "jumat": {
+        "inti": "Jumat dikenal berpengetahuan dan halus tutur katanya. Kamu nyaman di peran yang butuh komunikasi, mentoring, atau riset.",
+        "saran": "Kamu gampang bilang iya ke permintaan tambahan. Belajar menolak dengan sopan supaya beban kerjamu tetap masuk akal.",
+    },
+    "sabtu": {
+        "inti": "Sabtu dibaca sebagai pekerja keras yang bisa diandalkan. Orang segan karena hasil kerjamu, bukan karena banyak bicara.",
+        "saran": "Kerja kerasmu layak dihargai. Catat pencapaianmu dan bawa ke obrolan soal gaji atau promosi, jangan menunggu disadari.",
+    },
+}
+
+KARIER_PASARAN = {
+    "legi": {
+        "inti": "Legi gampang membaur dan suka belajar hal baru. Di kantor, kamu cepat dapat relasi dan cepat naik kurva belajar.",
+        "saran": "Karena gampang percaya, cek dulu janji klien atau partner baru. Minta semuanya tertulis sebelum kamu mulai kerja.",
+    },
+    "pahing": {
+        "inti": "Pahing paling nyaman kerja mandiri dengan semuanya tertata. Kamu jago merapikan sistem, file, sampai alur kerja tim.",
+        "saran": "Kerja sendiri memang enak, tapi update progres ke tim tetap penting. Laporan singkat bikin kerja rapimu kelihatan.",
+    },
+    "pon": {
+        "inti": "Pon punya pendirian tegas dan nggak gampang ikut arus. Kamu nyaman pegang tanggung jawab yang butuh keputusan jelas.",
+        "saran": "Beda pendapat sama atasan itu wajar. Bawa data dan tawarkan solusi, jangan jadikan rapat ajang adu gengsi.",
+    },
+    "wage": {
+        "inti": "Wage kerja dengan tenang dan nggak ribet soal status. Kamu betah di tim yang solid dan menghargai kerja yang stabil.",
+        "saran": "Wage disebut pelupa, jadi andalkan to-do list dan pengingat. Satu catatan kecil bisa menyelamatkan deadline penting.",
+    },
+    "kliwon": {
+        "inti": "Kliwon tenang, fokus, dan punya standar tinggi soal kualitas. Kamu bersinar di kerjaan yang butuh kedalaman dan ketelitian.",
+        "saran": "Diammu bisa terbaca jaga jarak. Sesekali buka obrolan di rapat supaya ide bagusmu nggak cuma tersimpan di kepala.",
+    },
+}
+
+KARIER_NEPTU = {
+    7: {
+        "inti": "Neptu 7 klop dengan kerja yang dinamis, banyak gerak, atau sering pindah tempat. Rutinitas monoton cepat bikin kamu bosan.",
+        "saran": "Pegang janji kerja sekecil apa pun, termasuk jam balas chat. Reputasi andal yang bikin kamu dipercaya pegang proyek.",
+    },
+    8: {
+        "inti": "Neptu 8 punya energi kerja yang panas dan kompetitif. Kamu hidup di target menantang, tapi gampang tersulut saat ada gesekan.",
+        "saran": "Kalau ada konflik di tim, bahas cepat dan langsung ke orangnya. Jangan simpan kesal sampai jadi drama yang ganggu kerja.",
+    },
+    9: {
+        "inti": "Neptu 9 jarang banyak omong tapi gesit saat harus eksekusi. Kamu bisa diandalkan di situasi yang butuh respons cepat.",
+        "saran": "Masukan orang itu bagus, tapi jangan tiap saran langsung diikuti. Pegang prioritasmu sendiri supaya arah kerja nggak goyah.",
+    },
+    10: {
+        "inti": "Neptu 10 sabar, cerdas, dan sering dimintai pendapat. Di tim, kamu gampang jadi mentor atau tempat orang bertanya.",
+        "saran": "Kasih ruang juga buat review dari orang lain. Kritik atas kerjamu itu bahan upgrade, bukan serangan pribadi.",
+    },
+    11: {
+        "inti": "Neptu 11 berani mencoba, tapi sering maju mundur di keputusan besar. Kamu bersinar saat perannya jelas dan didukung tim.",
+        "saran": "Latih ambil keputusan pakai tenggat, misalnya putuskan dalam satu hari. Ragu yang dibatasi waktu jauh lebih produktif.",
+    },
+    12: {
+        "inti": "Neptu 12 rajin, cerdas, dan peduli ke rekan kerja. Kamu tipe teammate yang bikin kerjaan jalan dan suasana tetap hangat.",
+        "saran": "Jangan terus mendahulukan tugas orang lain. Blok waktu khusus untuk target kariermu sendiri di kalender mingguan.",
+    },
+    13: {
+        "inti": "Neptu 13 ramah dan berjiwa petualang. Kamu semangat di kerjaan yang ketemu banyak orang atau sering mencoba hal baru.",
+        "saran": "Coba banyak hal itu seru, asal ada benang merahnya. Pilih satu keahlian inti supaya pengalamanmu terbaca sebagai karier.",
+    },
+    14: {
+        "inti": "Neptu 14 supel dan jago cari jalan keluar. Kamu sering jadi problem solver yang dicari saat proyek mulai buntu.",
+        "saran": "Karena sering jadi penolong, pastikan kontribusimu tercatat. Tulis ringkasan solusi supaya kerja kerasmu kelihatan.",
+    },
+    15: {
+        "inti": "Neptu 15 berkemauan keras dan nggak suka diatur-atur. Kamu paling produktif saat diberi target jelas plus kebebasan soal caranya.",
+        "saran": "Kalau aturan kantor terasa mengekang, sampaikan lewat jalur yang tepat. Kesal yang meledak di depan tim susah ditarik lagi.",
+    },
+    16: {
+        "inti": "Neptu 16 punya bakat memimpin yang sopan dan disukai banyak orang. Kamu natural jadi penghubung antartim atau antardivisi.",
+        "saran": "Nggak semua permintaan harus kamu iyakan. Prioritas yang jelas bikin kamu tetap bisa diandalkan tanpa kewalahan.",
+    },
+    17: {
+        "inti": "Neptu 17 kalem dan nggak suka ribut. Kamu kerja paling bagus di lingkungan yang tenang dan butuh ketelitian tinggi.",
+        "saran": "Ritmemu cenderung pelan, jadi pecah tugas besar jadi target harian. Progres kecil yang rutin tetap bikin proyek selesai.",
+    },
+    18: {
+        "inti": "Neptu 18 ambisius dan serius mengejar posisi atau pengaruh. Kamu termotivasi di jalur karier yang jenjangnya jelas.",
+        "saran": "Naik posisi itu keren kalau caranya bersih. Bangun reputasi lewat hasil kerja, bukan dengan menyikut rekan satu tim.",
+    },
+}
+
+KARIER_NOTE = (
+    "Primbon tidak punya daftar profesi baku per weton. Kartu ini menerjemahkan watak hari, pasaran, "
+    "dan neptu ke gaya kerja, sama seperti lensa kerja di Kecocokan."
+)

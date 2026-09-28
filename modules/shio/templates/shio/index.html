@@ -1,17 +1,14 @@
 {% extends 'shio/_jichu.html' %}
 {% block title %}Shengxiao - Peace Oracle{% endblock %}
-{% block description %}Shio Oracle: Ba Zi, almanak harian, ramalan tahunan, kecocokan, quiz bareng, roasting, penjaga spiritual, dan kue keberuntungan.{% endblock %}
+{% block description %}Shio Oracle: Ming Li, almanak harian, ramalan tahunan, kecocokan, quiz bareng, roasting, penjaga spiritual, dan kue keberuntungan.{% endblock %}
 {% block shio_app %}
-{% import 'shio/_caidan.html' as caidan %}
 <div class="sh-app" id="sh-app" data-page="shio" data-api="{{ url_for('shio.shio_daily_api') }}" data-static="{{ url_for('shio.static', filename='') }}">
   <div class="sh-layout sh-layout-desktop" data-layout="desktop">
     <div class="sh-d-shell">
-      {% with title='Shio Oracle', lead='Shio kamu bukan sekadar hewan di kalender. Ba Zi, energi tahunan, sampai kecocokan dihitung langsung dari kalender Tionghoa.', hub=true %}
-      {% include 'shio/desktop/_header.html' %}
-      {% endwith %}
+      {{ desktop_header(title='Shio Oracle', lead='Shio kamu bukan sekadar hewan di kalender. Ming Li, energi tahunan, sampai kecocokan dihitung langsung dari kalender Tionghoa.') }}
 
       <section class="sh-d-hub" data-view="menu">
-        {{ caidan.hub_cards("d") }}
+        {{ hub_cards("d") }}
       </section>
 
       <section data-view="almanac" hidden>
@@ -62,7 +59,7 @@
         <section data-view="menu">
           <p class="sh-m-lead">Shio kamu bukan sekadar hewan di kalender. Pilih fitur yang mau kamu coba.</p>
           <div class="sh-m-hub">
-            {{ caidan.hub_cards("m") }}
+            {{ hub_cards("m") }}
           </div>
         </section>
 
@@ -88,7 +85,7 @@
         </section>
       </main>
 
-      {% with active='index' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+      {{ mobile_tabbar('index') }}
     </div>
   </div>
   <div class="board-overlay" id="sh-board-overlay" hidden>

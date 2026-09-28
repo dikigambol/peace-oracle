@@ -1,6 +1,5 @@
-{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-d-shell">
-  {{ komponen.desktop_header("Kecocokan Weton", "Jumlah neptu dua orang dibaca pakai dua petung primbon. Hasilnya ditampilkan berdampingan, tanpa dicampur jadi satu persen.", "kecocokan") }}
+  {{ desktop_header("Kecocokan Weton", "Jumlah neptu dua orang dibaca pakai dua petung primbon. Hasilnya ditampilkan berdampingan, tanpa dicampur jadi satu persen.", "kecocokan") }}
 
   <form class="wt-card wt-d-match-form" id="d-match-form" novalidate>
     <fieldset class="wt-lens">
@@ -17,9 +16,9 @@
       {% for side, title in [('a', 'Orang pertama'), ('b', 'Orang kedua')] %}
       <section class="wt-d-person" aria-labelledby="d-{{ side }}-title">
         <h2 class="wt-card-title" id="d-{{ side }}-title">{{ title }}</h2>
-        {{ komponen.name_field("d-" ~ side ~ "-nama", title) }}
-        {{ komponen.desktop_date("d-" ~ side ~ "-tanggal") }}
-        {{ komponen.desktop_time_city("d-" ~ side, " lahir") }}
+        {{ name_field("d-" ~ side ~ "-nama", title) }}
+        {{ desktop_date("d-" ~ side ~ "-tanggal") }}
+        {{ desktop_time_city("d-" ~ side, " lahir") }}
       </section>
       {% endfor %}
     </div>

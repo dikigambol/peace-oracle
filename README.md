@@ -35,10 +35,11 @@ UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa respon
 - Ju Hui: kuis bareng teman (ramalan pasangan, ramalan grup, dan tebak shio teman).
 
 **Weton**
-- Cek weton lahir: neptu, wuku, tanggal Jawa, pranata mangsa, dan watak. Lahir setelah maghrib? Hari wetonnya otomatis geser ke hari berikutnya, dihitung sesuai kota lahir.
+- Cek weton lahir: neptu, wuku, tanggal Jawa, pranata mangsa, watak, sampai gaya kerja. Lahir setelah maghrib? Hari wetonnya otomatis geser ke hari berikutnya, dihitung sesuai kota lahir.
 - Kecocokan weton pakai dua metode petung sekaligus (sisa bagi 8 dan sisa bagi 5).
-- Kalender Jawa: weton harian, hari baik, hari pantangan, dan reminder wetonan.
+- Kalender Jawa: weton harian, hari istimewa, hari pantangan, dan reminder wetonan.
 - Roasting berdasarkan hari, pasaran, dan neptu.
+- Cari hari baik buat nikah, pindah rumah, buka usaha, atau transaksi besar. Hari pantangan disaring, sasi nikah dan petung Pancasuda ikut dihitung, lengkap dengan alasan dan sumbernya.
 
 **Tarot** masih tahap scaffolding, jadi card-nya di landing page masih ke-lock.
 

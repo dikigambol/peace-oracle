@@ -1,0 +1,63 @@
+<div class="wt-d-shell">
+  {{ desktop_header("Cari Hari Baik", "Pilih hajat dan rentang tanggal. Hari pantangan disaring dulu, lalu sisanya diurutkan pakai aturan primbon yang sumbernya jelas.", "dinabecik") }}
+
+  <div class="wt-d-body">
+    <form class="wt-card wt-d-form" id="d-dina-form" novalidate>
+      <fieldset class="wt-lens">
+        <legend class="wt-label">Mau ngapain?</legend>
+        {% for key, item in hajat.items() %}
+        <label class="wt-lens-option">
+          <input type="radio" name="d-hajat" value="{{ key }}" id="d-hajat-{{ key }}" data-petung="{{ 'true' if item.petung else 'false' }}"{% if key == default_hajat %} checked{% endif %} />
+          <span><i class="fa-solid {{ item.icon }}" aria-hidden="true"></i> {{ item.label }}</span>
+        </label>
+        {% endfor %}
+      </fieldset>
+
+      {{ desktop_date("d-dina-dari", "Dari tanggal") }}
+      {{ desktop_date("d-dina-sampai", "Sampai tanggal") }}
+      <p class="wt-hint">Rentang maksimal 92 hari.</p>
+
+      <fieldset class="wt-d-duo-fields" id="d-dina-person">
+        <legend class="wt-label">Weton lahirmu <em class="wt-optional">opsional</em></legend>
+        <p class="wt-hint">Dipakai untuk petung Pancasuda: neptu wetonmu ditambah neptu hari, lalu dibagi 5.</p>
+        {{ desktop_date("d-a-tanggal") }}
+        {{ desktop_time_city("d-a") }}
+      </fieldset>
+
+      <button class="wt-btn wt-btn-primary wt-btn-block" id="d-dina-submit" type="submit">
+        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Cari hari baik
+      </button>
+      <p class="wt-error" id="d-dina-error" role="alert" hidden></p>
+    </form>
+
+    <section class="wt-d-results" aria-live="polite">
+      <div class="wt-card wt-d-empty" id="d-dina-empty">
+        <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+        <p>Pilih hajat dan rentang tanggal. Kami saring hari pantangannya, lalu tunjukkan tanggal yang paling pas beserta alasannya.</p>
+      </div>
+      <div class="wt-d-dina" id="d-dina-result" hidden>
+        <div class="wt-d-roast-head">
+          <div>
+            <p class="wt-eyebrow" id="d-dina-meta"></p>
+            <h2 class="wt-d-roast-title" id="d-dina-title"></h2>
+          </div>
+          <button class="wt-btn wt-btn-ghost" id="d-dina-share" type="button">
+            <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+          </button>
+        </div>
+        <p class="wt-note" id="d-dina-basis"></p>
+        <p class="wt-note" id="d-dina-maghrib" hidden></p>
+        <div id="d-dina-sasi"></div>
+        <h3 class="wt-card-title wt-dina-heading">Rekomendasi</h3>
+        <p class="wt-cal-plain" id="d-dina-none" hidden></p>
+        <div class="wt-d-grid" id="d-dina-recommended"></div>
+        <section id="d-dina-avoid-wrap" hidden>
+          <h3 class="wt-card-title wt-dina-heading" id="d-dina-avoid-title"></h3>
+          <div class="wt-d-grid" id="d-dina-avoid"></div>
+        </section>
+        <p class="wt-hint wt-dina-note" id="d-dina-note"></p>
+        <p class="wt-sources" id="d-dina-disclaimer"></p>
+      </div>
+    </section>
+  </div>
+</div>

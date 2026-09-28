@@ -1,6 +1,5 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  {{ zujian.appbar("Tu Cao", "m-roast-home", "m-roast-back", "Ganti data roasting") }}
+  {{ appbar("Tu Cao", "m-roast-home", "m-roast-back", "Ganti data roasting") }}
 
   <main class="sh-m-main">
     <section class="sh-m-steps" id="m-roast-form">
@@ -11,7 +10,7 @@
         <input class="sh-input" id="m-roast-date" type="date" />
       </label>
       <p class="sh-label">Jenis kelamin <span class="sh-optional">opsional</span></p>
-      {{ zujian.gender_buttons("roast") }}
+      {{ gender_buttons("roast") }}
       <p class="sh-hint sh-m-roast-hint">Jenis kelamin cuma menentukan arah periode besarmu (大運).</p>
       <p class="sh-error" id="m-roast-error" role="alert" hidden></p>
       <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-roast-submit">
@@ -29,11 +28,11 @@
       </button>
       <p class="sh-m-roast-count" id="m-roast-count"></p>
       <div class="roast-card sh-m-roast-pair">
-        {% include 'shio/_tucao-banlv.html' %}
+        {{ roast_pair() }}
       </div>
       <p class="roast-disclaimer">Semua ini cuma candaan berdasarkan stereotip shio. Jangan dibawa ke hati, bestie.</p>
     </section>
   </main>
 
-  {% with active='tucao' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+  {{ mobile_tabbar('tucao') }}
 </div>

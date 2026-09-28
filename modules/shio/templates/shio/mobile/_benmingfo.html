@@ -1,12 +1,11 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  {{ zujian.appbar("Ben Ming Fo", "m-guardian-home", "m-guardian-back", "Pilih shio lain") }}
+  {{ appbar("Ben Ming Fo", "m-guardian-home", "m-guardian-back", "Pilih shio lain") }}
 
   <main class="sh-m-main">
     <section id="m-guardian-pick">
       <h2 class="sh-m-question">Shio kamu apa?</h2>
       <p class="sh-m-help">Pilih shio sesuai tahun Imlek kelahiranmu untuk melihat penjaganya.</p>
-      {% with picker_class='sh-m-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+      {{ shio_picker('sh-m-shio-picker') }}
     </section>
 
     <section id="m-guardian-view" hidden aria-live="polite">
@@ -19,5 +18,5 @@
     </section>
   </main>
 
-  {% with active='benmingfo' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+  {{ mobile_tabbar('benmingfo') }}
 </div>

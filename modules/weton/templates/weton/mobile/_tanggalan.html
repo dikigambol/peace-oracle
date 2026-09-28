@@ -1,6 +1,5 @@
-{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-m-shell wt-m-shell-fab" data-bottom-nav>
-  {{ komponen.mobile_appbar("Kalender Jawa", "m-cal-share", "Bagikan hari terpilih", False) }}
+  {{ mobile_appbar("Kalender Jawa", "m-cal-share", "Bagikan hari terpilih", False) }}
 
   <main class="wt-m-main">
     <div class="wt-m-cal-month">
@@ -51,5 +50,5 @@
     <i class="fa-solid fa-calendar-day" aria-hidden="true"></i> Hari ini
   </button>
 
-  {{ komponen.mobile_tabbar("kalender") }}
+  {{ mobile_tabbar("kalender") }}
 </div>

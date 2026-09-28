@@ -1,8 +1,5 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-d-shell">
-  {% with title='Gulungan Takdir', lead='Ming Li membaca Ba Zi empat pilar dari tanggal, jam, dan kota lahirmu. Aliran ' ~ school ~ '.', active='mingli' %}
-  {% include 'shio/desktop/_header.html' %}
-  {% endwith %}
+  {{ desktop_header(title='Gulungan Takdir', lead='Ming Li membaca empat pilar dari tanggal, jam, dan kota lahirmu. Aliran ' ~ school ~ '.', active='mingli') }}
 
   <div class="sh-d-body">
     <aside class="sh-card sh-d-panel">
@@ -12,7 +9,7 @@
         <input class="sh-input" id="d-destiny-date" placeholder="Pilih tanggal lahir" readonly autocomplete="off" />
       </label>
       <p class="sh-label">Jenis kelamin</p>
-      {{ zujian.gender_buttons("destiny") }}
+      {{ gender_buttons("destiny") }}
       <p class="sh-hint">Dipakai untuk menentukan arah periode besar (大運).</p>
       <label class="sh-field" for="d-destiny-time">
         <span class="sh-label">Jam lahir <span class="sh-optional">opsional</span></span>

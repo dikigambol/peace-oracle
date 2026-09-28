@@ -1,6 +1,8 @@
+import datetime
+
 from flask import Blueprint, jsonify, render_template, request
 
-from .bank import DEFAULT_LENS, GLOSSARY, HUB_FEATURES, WETON_LENS
+from .bank import DEFAULT_HAJAT, DEFAULT_LENS, GLOSSARY, HAJAT, HUB_FEATURES, WETON_LENS
 from .data import (
     CITY_OPTIONS,
     SUPPORTED_FIRST,
@@ -8,8 +10,10 @@ from .data import (
     WetonError,
     build_birth_reading,
     build_calendar,
+    build_dina_reading,
     build_match_reading,
     build_roasting,
+    today_wib,
 )
 
 weton_bp = Blueprint(
@@ -70,7 +74,11 @@ def weton_compatibility_api():
 
 @weton_bp.route("/weton/calendar")
 def weton_calendar_page():
-    return render_page("weton/tanggalan.html", initial=build_calendar({}))
+    try:
+        initial = build_calendar({"tanggal": request.args.get("tanggal")})
+    except WetonError:
+        initial = build_calendar({})
+    return render_page("weton/tanggalan.html", initial=initial)
 
 
 @weton_bp.route("/api/weton/calendar", methods=["POST"])
@@ -86,3 +94,20 @@ def weton_roasting_page():
 @weton_bp.route("/api/weton/roasting", methods=["POST"])
 def weton_roasting_api():
     return api_response(build_roasting)
+
+
+@weton_bp.route("/weton/good-day")
+def weton_good_day_page():
+    today = today_wib()
+    return render_page(
+        "weton/dinabecik.html",
+        hajat=HAJAT,
+        default_hajat=DEFAULT_HAJAT,
+        default_start=today.isoformat(),
+        default_end=min(today + datetime.timedelta(days=30), SUPPORTED_LAST).isoformat(),
+    )
+
+
+@weton_bp.route("/api/weton/good-day", methods=["POST"])
+def weton_good_day_api():
+    return api_response(build_dina_reading)

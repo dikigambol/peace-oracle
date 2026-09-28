@@ -1,25 +1,24 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  {{ zujian.appbar("Liu Nian") }}
+  {{ appbar("Liu Nian") }}
 
   <main class="sh-m-main">
     <section class="sh-m-steps" id="m-yearly-steps">
-      {{ zujian.progress("yearly", 2) }}
+      {{ progress("yearly", 2) }}
 
       <div class="sh-m-step" data-step="1">
         <h2 class="sh-m-question">Shio kamu apa?</h2>
         <p class="sh-m-help">Pilih shio sesuai tahun Imlek kelahiranmu.</p>
-        {% with picker_class='sh-m-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+        {{ shio_picker('sh-m-shio-picker') }}
       </div>
 
       <div class="sh-m-step" data-step="2" hidden>
         <h2 class="sh-m-question">Tahun berapa?</h2>
         <p class="sh-m-help">Geser ke tahun yang ingin kamu teropong.</p>
-        {{ zujian.year_picker("m") }}
+        {{ year_picker("m") }}
       </div>
 
       <p class="sh-error" id="m-yearly-error" role="alert" hidden></p>
-      {{ zujian.actions("yearly") }}
+      {{ actions("yearly") }}
     </section>
 
     <section class="sh-result" id="m-yearly-result" hidden aria-live="polite">
@@ -36,5 +35,5 @@
     </section>
   </main>
 
-  {% with active='liunian' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+  {{ mobile_tabbar('liunian') }}
 </div>

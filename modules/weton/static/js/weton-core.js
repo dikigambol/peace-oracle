@@ -261,6 +261,16 @@
         facts: [],
         items: [watak.paarasan],
       },
+      {
+        key: "karier",
+        icon: "fa-briefcase",
+        title: "Karier",
+        term: "neptu",
+        headline: "Gaya kerja " + weton.label,
+        sub: result.karier.note,
+        facts: [],
+        items: [result.karier.hari, result.karier.pasaran, result.karier.neptu],
+      },
     ];
   }
 
@@ -352,6 +362,11 @@
       if (form.duo && form.b_tanggal) {
         payload.b = { nama: form.b_nama, tanggal: form.b_tanggal, jam: form.b_jam, kota: form.b_kota };
       }
+      return payload;
+    },
+    dinabecik: (form) => {
+      const payload = { hajat: form.hajat, dari: form.dari, sampai: form.sampai };
+      if (form.a_tanggal) payload.a = { tanggal: form.a_tanggal, jam: form.a_jam, kota: form.a_kota };
       return payload;
     },
   };
@@ -587,6 +602,97 @@
     };
   }
 
+  function dinaDefaults(app) {
+    if (state.form.hajat) return;
+    updateForm({
+      hajat: app.dataset.defaultHajat,
+      dari: app.dataset.defaultStart,
+      sampai: app.dataset.defaultEnd,
+    });
+  }
+
+  function dinaError(form) {
+    if (!form.dari || !form.sampai) return "Pilih tanggal awal dan akhir dulu.";
+    if (form.sampai < form.dari) return "Tanggal akhir harus sama dengan atau sesudah tanggal awal.";
+    return "";
+  }
+
+  function buildDinaItem(day) {
+    const article = el("article", "wt-card wt-result-card wt-dina-item wt-dina-item-" + day.status);
+    const icon = day.status === "hindari" ? "fa-ban" : "fa-calendar-check";
+    article.appendChild(cardHeader(icon, el("p", "wt-result-label", day.label + (day.today ? " · hari ini" : ""))));
+    article.appendChild(el("h3", "wt-result-headline", day.weton.label));
+    article.appendChild(el("p", "wt-result-sub",
+      day.jawa.tanggal + " " + day.jawa.sasi + " " + day.jawa.tahun + " · wuku " + day.wuku + " · neptu " + day.weton.neptu));
+    const chips = el("div", "wt-cal-badges");
+    chips.appendChild(el("span", "wt-tone wt-tone-" + day.tone, day.tone_label));
+    day.reasons.forEach((reason) => {
+      if (reason.kind !== "bebas" || day.tone !== "aman") {
+        chips.appendChild(el("span", "wt-tone wt-tone-" + reason.tone, reason.label));
+      }
+    });
+    article.appendChild(chips);
+    const details = day.reasons.filter((reason) => reason.text).map((reason) => [reason.label, reason.text]);
+    if (details.length) article.appendChild(factsList(details));
+    const link = el("a", "wt-dina-link", "Lihat di kalender ");
+    link.href = document.getElementById("wt-app").dataset.calendarUrl + "?tanggal=" + day.date;
+    const arrow = el("i", "fa-solid fa-arrow-right");
+    arrow.setAttribute("aria-hidden", "true");
+    link.appendChild(arrow);
+    article.appendChild(link);
+    return article;
+  }
+
+  function dinaTitle(result) {
+    const count = result.recommended.length;
+    if (!count) return "Belum ada hari yang pas";
+    return count + " hari paling pas buat " + result.hajat.label.toLowerCase();
+  }
+
+  function renderDina(els, result) {
+    els.basis.textContent = result.hajat.inti + " " + result.hajat.saran;
+    const person = result.people[0];
+    els.maghrib.hidden = !person;
+    if (person) {
+      els.maghrib.textContent = "Wetonmu " + person.weton.label + " (neptu " + person.weton.neptu + "). " + person.maghrib.text;
+      els.maghrib.dataset.kind = person.maghrib.kind;
+    }
+    clear(els.sasi);
+    result.sasi_notes.forEach((note) => {
+      const line = el("p", "wt-note", "Sasi " + note.sasi + " (" + note.days + " hari di rentang ini): " + note.text);
+      line.dataset.kind = note.tone;
+      els.sasi.appendChild(line);
+    });
+    if (result.petung_hint) {
+      const hint = el("p", "wt-note", result.petung_hint);
+      hint.dataset.kind = "after";
+      els.sasi.appendChild(hint);
+    }
+    els.none.hidden = result.recommended.length > 0;
+    els.none.textContent = "Tidak ada hari yang lolos di rentang " + result.range.label +
+      ". Coba geser atau lebarkan rentang tanggalnya.";
+    clear(els.recommended);
+    result.recommended.forEach((day) => els.recommended.appendChild(buildDinaItem(day)));
+    els.avoidWrap.hidden = !result.avoid.length;
+    els.avoidTitle.textContent = "Sebaiknya dihindari (" + result.avoid.length + " hari)";
+    clear(els.avoid);
+    result.avoid.forEach((day) => els.avoid.appendChild(buildDinaItem(day)));
+    els.note.textContent = result.note;
+    els.disclaimer.textContent = result.disclaimer + " Sumber: " + Object.values(result.sources).join("; ") + ".";
+  }
+
+  function dinaShare(result) {
+    const hajat = result.hajat.label.toLowerCase();
+    const picks = result.recommended.slice(0, 3).map((day) => day.label + " (" + day.weton.label + ")");
+    const summary = picks.length
+      ? "Hari paling pas buat " + hajat + ": " + picks.join(", ") + "."
+      : "Belum ada hari yang pas buat " + hajat + " di " + result.range.label + ".";
+    return {
+      title: "Hari baik " + hajat,
+      text: summary + " Cari hari baikmu di Weton Oracle.",
+    };
+  }
+
   function boot() {
     const app = document.getElementById("wt-app");
     if (!app) return;
@@ -641,6 +747,12 @@
     bindShare: bindShare,
     roastError: roastError,
     calendar: calendar,
+    dinaDefaults: dinaDefaults,
+    dinaError: dinaError,
+    dinaTitle: dinaTitle,
+    buildDinaItem: buildDinaItem,
+    renderDina: renderDina,
+    dinaShare: dinaShare,
   };
 
   document.addEventListener("DOMContentLoaded", boot);

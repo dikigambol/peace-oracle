@@ -1,8 +1,5 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-d-shell">
-  {% with title='Kecocokan Kosmik', lead='Pei Dui menimbang dua tanggal lahir: relasi shio, dinamika elemen, lapisan tahun lahir, sampai pilar hari Ba Zi.', active='peidui' %}
-  {% include 'shio/desktop/_header.html' %}
-  {% endwith %}
+  {{ desktop_header(title='Kecocokan Kosmik', lead='Pei Dui menimbang dua tanggal lahir: relasi shio, dinamika elemen, lapisan tahun lahir, sampai pilar hari Ba Zi.', active='peidui') }}
 
   <section class="sh-card sh-d-compat-form">
     <div class="sh-d-compat-fields">
@@ -19,7 +16,7 @@
       <div>
         <p class="sh-label" id="d-compat-lens-label">Hubungan kalian</p>
         <div class="choice-chips" role="radiogroup" aria-labelledby="d-compat-lens-label">
-          {{ zujian.lens_chips() }}
+          {{ lens_chips() }}
         </div>
       </div>
       <button class="sh-btn sh-btn-primary" type="button" id="d-compat-submit" disabled>
@@ -39,7 +36,7 @@
       <p>Isi dua tanggal lahir di atas. Skor, dinamika elemen, dan lapisan Ba Zi kalian muncul di sini.</p>
     </div>
     <div class="compat-result sh-d-compat-result" id="d-compat-result" hidden>
-      {% with compat_show_score=true, compat_details=false %}{% include 'shio/_compat-layers.html' %}{% endwith %}
+      {{ compat_layers(show_score=true, details=false) }}
     </div>
   </section>
 </div>

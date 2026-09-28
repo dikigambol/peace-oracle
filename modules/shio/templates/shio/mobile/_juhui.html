@@ -1,6 +1,84 @@
-{% import 'shio/_zujian.html' as zujian %}
+{% if room_code %}
 <div class="sh-m-shell" data-bottom-nav>
-  {{ zujian.appbar("Ju Hui") }}
+  <header class="sh-m-appbar">
+    <a class="sh-m-icon" href="{{ url_for('shio.shio_quiz_page') }}" aria-label="Kembali ke menu quiz">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <h1 class="sh-m-title sh-m-room-code">{{ room_code }}</h1>
+    <button type="button" class="sh-m-icon" id="m-room-share" aria-label="Bagikan tautan room">
+      <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+    </button>
+  </header>
+
+  <main class="sh-m-main">
+    <section class="sh-card sh-m-room-status">
+      <p class="quiz-room-mode" id="m-room-mode">Memuat room...</p>
+      <p class="quiz-room-meta" id="m-room-meta"></p>
+      <button type="button" class="sh-btn sh-btn-ghost sh-btn-block" id="m-room-copy">
+        <i class="fa-solid fa-link" aria-hidden="true"></i> Salin tautan room
+      </button>
+    </section>
+
+    <div class="quiz-card quiz-notice sh-m-room-notice" id="m-room-notice" role="status" hidden>
+      <p id="m-room-notice-text"></p>
+      <button type="button" class="sh-btn sh-btn-ghost sh-btn-block" id="m-room-refresh" hidden>Muat ulang</button>
+    </div>
+
+    <form class="sh-m-steps" id="m-room-join" novalidate hidden>
+      <h2 class="sh-m-question">Gabung ke room ini</h2>
+      <p class="sh-m-help" id="m-room-join-info"></p>
+      <label class="sh-field" for="m-room-name">
+        <span class="sh-label">Nama panggilanmu</span>
+        <input class="sh-input" id="m-room-name" maxlength="24" autocomplete="nickname" placeholder="Maks. 24 karakter" />
+      </label>
+      <label class="sh-field" for="m-room-birth">
+        <span class="sh-label">Tanggal lahirmu</span>
+        <input class="sh-input" id="m-room-birth" type="date" />
+      </label>
+      <p class="sh-hint">Tanggal lahir hanya dipakai untuk menghitung shio dan tidak ditampilkan ke peserta lain.</p>
+      <button type="submit" class="sh-btn sh-btn-primary sh-btn-block" id="m-room-join-submit">Gabung</button>
+    </form>
+
+    <section class="sh-card sh-m-room-action" id="m-room-action" hidden>
+      <p class="sh-m-help" id="m-room-status"></p>
+      <button type="button" class="sh-btn sh-btn-primary sh-btn-block" id="m-room-start" hidden>Mulai</button>
+      <button type="button" class="sh-btn sh-btn-ghost sh-btn-block" id="m-room-finish" hidden>Akhiri sekarang</button>
+    </section>
+
+    <section class="sh-m-steps" id="m-room-questions" hidden>
+      <div class="sh-m-progress">
+        <span class="sh-m-progress-text" id="m-room-question-progress"></span>
+        <div class="sh-m-progress-bar" aria-hidden="true"><span id="m-room-question-fill"></span></div>
+      </div>
+      <div id="m-room-question"></div>
+      <div class="sh-m-actions">
+        <button class="sh-btn sh-btn-ghost" type="button" id="m-room-question-back">Kembali</button>
+        <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-room-question-next">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="sh-card" id="m-room-turn" hidden></section>
+
+    <section id="m-room-result" hidden>
+      <div id="m-room-verdict"></div>
+      <div id="m-room-sections"></div>
+      <div class="compat-result sh-m-compat-result" id="m-room-compat" hidden>
+        {{ compat_layers(show_score=false, details=true) }}
+      </div>
+      <p class="quiz-hint quiz-disclaimer" id="m-room-note" hidden></p>
+    </section>
+
+    <details class="sh-m-details sh-m-room-people" id="m-room-lobby" hidden>
+      <summary><span>Peserta <span class="quiz-count" id="m-room-count"></span></span></summary>
+      <div class="sh-m-details-body" id="m-room-people"></div>
+    </details>
+  </main>
+
+  {{ mobile_tabbar('juhui') }}
+</div>
+{% else %}
+<div class="sh-m-shell" data-bottom-nav>
+  {{ appbar("Ju Hui") }}
 
   <main class="sh-m-main">
     <p class="sh-m-lead">Satu kode room, dibuka bareng teman. Terbuka untuk hubungan apa pun.</p>
@@ -20,7 +98,7 @@
     </form>
 
     <section class="sh-m-steps" id="m-quiz-create" hidden>
-      {{ zujian.progress("quiz", 2) }}
+      {{ progress("quiz", 2) }}
       <div class="sh-m-step" data-step="1">
         <h2 class="sh-m-question">Mau main apa?</h2>
         <div class="sh-m-mode-list" role="radiogroup" aria-label="Pilih mode quiz">
@@ -46,11 +124,12 @@
           <span class="sh-label">Tanggal lahirmu</span>
           <input class="sh-input" id="m-quiz-birth" type="date" />
         </label>
-        {% include 'shio/_juhui-xuanxiang.html' %}
+        {{ quiz_options() }}
       </div>
-      {{ zujian.actions("quiz") }}
+      {{ actions("quiz") }}
     </section>
   </main>
 
-  {% with active='juhui' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+  {{ mobile_tabbar('juhui') }}
 </div>
+{% endif %}

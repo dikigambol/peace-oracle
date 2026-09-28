@@ -129,19 +129,22 @@
 }
 
 .wt-card-watak,
-.wt-card-laku {
+.wt-card-laku,
+.wt-card-karier {
   grid-column: 1 / -1;
 }
 
 .wt-card-watak .wt-watak,
-.wt-card-laku .wt-watak {
+.wt-card-laku .wt-watak,
+.wt-card-karier .wt-watak {
   display: grid;
   grid-template-columns: 200px 1fr;
   column-gap: 20px;
 }
 
 .wt-card-watak .wt-watak-title,
-.wt-card-laku .wt-watak-title {
+.wt-card-laku .wt-watak-title,
+.wt-card-karier .wt-watak-title {
   grid-row: span 2;
 }
 
@@ -401,7 +404,9 @@
   padding: 0 6px;
 }
 
-.wt-d-roast[hidden] {
+.wt-d-roast[hidden],
+.wt-d-dina[hidden],
+.wt-d-dina section[hidden] {
   display: none;
 }
 
@@ -469,6 +474,10 @@
 
 .wt-d-hub .wt-hub-go {
   padding-top: 4px;
+}
+
+.wt-d-hub .wt-hub-card:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .wt-d-hub .wt-hub-card:hover {

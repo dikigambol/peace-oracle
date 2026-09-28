@@ -1,5 +1,4 @@
 {% extends 'weton/_dhasar.html' %}
-{% import 'weton/_komponen.html' as komponen with context %}
 {% block title %}Weton - Peace Oracle{% endblock %}
 {% block description %}Weton Oracle: cek weton lahir, kecocokan weton, kalender Jawa harian, dan roasting weton, semuanya dihitung dari kalender dan primbon.{% endblock %}
 {% block content %}
@@ -43,7 +42,7 @@
           {% endfor %}
         </nav>
       </main>
-      {{ komponen.mobile_tabbar("hub") }}
+      {{ mobile_tabbar("hub") }}
     </div>
   </div>
 </div>

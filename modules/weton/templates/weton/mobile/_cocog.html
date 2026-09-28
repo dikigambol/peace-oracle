@@ -1,6 +1,5 @@
-{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-m-shell" data-bottom-nav>
-  {{ komponen.mobile_appbar("Kecocokan Weton", "m-match-share", "Bagikan hasil") }}
+  {{ mobile_appbar("Kecocokan Weton", "m-match-share", "Bagikan hasil") }}
 
   <main class="wt-m-main">
     <section class="wt-m-steps" id="m-match-steps" aria-live="polite">
@@ -27,9 +26,9 @@
       <div class="wt-m-step" data-step="{{ step }}" hidden>
         <p class="wt-eyebrow">{{ title }}</p>
         <h2 class="wt-m-question">Kapan {{ 'kamu' if side == 'a' else 'dia' }} lahir?</h2>
-        {{ komponen.name_field("m-" ~ side ~ "-nama", title, " wt-input-lg") }}
-        {{ komponen.mobile_date("m-" ~ side ~ "-tanggal") }}
-        {{ komponen.mobile_time_city("m-" ~ side) }}
+        {{ name_field("m-" ~ side ~ "-nama", title, " wt-input-lg") }}
+        {{ mobile_date("m-" ~ side ~ "-tanggal") }}
+        {{ mobile_time_city("m-" ~ side) }}
       </div>
       {% endfor %}
 
@@ -57,5 +56,5 @@
     </section>
   </main>
 
-  {{ komponen.mobile_tabbar("kecocokan") }}
+  {{ mobile_tabbar("kecocokan") }}
 </div>

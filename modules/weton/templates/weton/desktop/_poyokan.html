@@ -1,12 +1,11 @@
-{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-d-shell">
-  {{ komponen.desktop_header("Roasting Weton", "Sindiran lucu yang berangkat dari watak hari, pasaran, dan neptu kamu di primbon. Tambah satu orang lagi untuk roasting berdua.", "roasting") }}
+  {{ desktop_header("Roasting Weton", "Sindiran lucu yang berangkat dari watak hari, pasaran, dan neptu kamu di primbon. Tambah satu orang lagi untuk roasting berdua.", "roasting") }}
 
   <div class="wt-d-body">
     <form class="wt-card wt-d-form" id="d-roast-form" novalidate>
       <h2 class="wt-card-title">Weton kamu</h2>
-      {{ komponen.desktop_date("d-a-tanggal") }}
-      {{ komponen.desktop_time_city("d-a") }}
+      {{ desktop_date("d-a-tanggal") }}
+      {{ desktop_time_city("d-a") }}
 
       <label class="wt-toggle" for="d-duo">
         <input type="checkbox" id="d-duo" />
@@ -15,9 +14,9 @@
 
       <fieldset class="wt-d-duo-fields" id="d-duo-fields" hidden>
         <legend class="wt-label">Orang kedua</legend>
-        {{ komponen.name_field("d-b-nama", "Orang kedua") }}
-        {{ komponen.desktop_date("d-b-tanggal") }}
-        {{ komponen.desktop_time_city("d-b") }}
+        {{ name_field("d-b-nama", "Orang kedua") }}
+        {{ desktop_date("d-b-tanggal") }}
+        {{ desktop_time_city("d-b") }}
       </fieldset>
 
       <button class="wt-btn wt-btn-primary wt-btn-block" id="d-roast-submit" type="submit">

@@ -1,6 +1,5 @@
-{% import 'weton/_komponen.html' as komponen with context %}
 <div class="wt-d-shell">
-  {{ komponen.desktop_header("Kalender Jawa Harian", "Weton, wuku, tanggal Jawa, dan pranata mangsa tiap hari, plus hari istimewa dan hari pantangan yang tercatat di primbon.", "kalender") }}
+  {{ desktop_header("Kalender Jawa Harian", "Weton, wuku, tanggal Jawa, dan pranata mangsa tiap hari, plus hari istimewa dan hari pantangan yang tercatat di primbon.", "kalender") }}
 
   <div class="wt-d-cal">
     <section class="wt-card wt-d-cal-main" aria-labelledby="d-cal-month">
@@ -40,8 +39,8 @@
       <form class="wt-card wt-d-wetonan" id="d-wetonan-form" novalidate>
         <h2 class="wt-card-title">Tandai wetonanmu</h2>
         <p class="wt-hint">Isi tanggal lahirmu, nanti hari dengan weton yang sama ditandai di kalender.</p>
-        {{ komponen.desktop_date("d-lahir-tanggal") }}
-        {{ komponen.desktop_time_city("d-lahir") }}
+        {{ desktop_date("d-lahir-tanggal") }}
+        {{ desktop_time_city("d-lahir") }}
         <div class="wt-d-wetonan-actions">
           <button class="wt-btn wt-btn-primary" id="d-wetonan-submit" type="submit">Tandai</button>
           <button class="wt-btn wt-btn-ghost" id="d-wetonan-clear" type="button" hidden>Hapus tanda</button>

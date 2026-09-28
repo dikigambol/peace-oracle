@@ -1,0 +1,74 @@
+<div class="wt-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Cari Hari Baik", "m-dina-share", "Bagikan hasil") }}
+
+  <main class="wt-m-main">
+    <section class="wt-m-steps" id="m-dina-steps" aria-live="polite">
+      <div class="wt-m-progress">
+        <span class="wt-m-progress-text" id="m-dina-progress-text">Langkah 1 dari 3</span>
+        <div class="wt-m-progress-bar" aria-hidden="true"><span id="m-dina-progress-fill"></span></div>
+      </div>
+
+      <div class="wt-m-step" data-step="1">
+        <p class="wt-eyebrow">Cari Hari Baik</p>
+        <h2 class="wt-m-question">Mau ngapain?</h2>
+        <p class="wt-m-help">Tiap hajat punya aturan primbon sendiri. Pilih satu, nanti hari pantangannya kami saring.</p>
+        <div class="wt-m-lens" role="radiogroup" aria-label="Jenis hajat">
+          {% for key, item in hajat.items() %}
+          <button class="wt-m-lens-option" type="button" role="radio" data-hajat="{{ key }}" data-petung="{{ 'true' if item.petung else 'false' }}" aria-checked="false">
+            <i class="fa-solid {{ item.icon }}" aria-hidden="true"></i>
+            <span>{{ item.label }}</span>
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="wt-m-step" data-step="2" hidden>
+        <p class="wt-eyebrow">Rentang tanggal</p>
+        <h2 class="wt-m-question">Kapan kira-kira?</h2>
+        <p class="wt-m-help">Pilih rentang maksimal 92 hari. Makin lebar rentangnya, makin banyak pilihan hari.</p>
+        {{ mobile_date("m-dina-dari", "Dari tanggal") }}
+        {{ mobile_date("m-dina-sampai", "Sampai tanggal") }}
+      </div>
+
+      <div class="wt-m-step" data-step="3" hidden>
+        <p class="wt-eyebrow">Opsional</p>
+        <h2 class="wt-m-question">Kapan kamu lahir?</h2>
+        <p class="wt-m-help">Dipakai untuk petung Pancasuda: neptu wetonmu ditambah neptu hari, lalu dibagi 5. Boleh dilewati.</p>
+        {{ mobile_date("m-a-tanggal") }}
+        {{ mobile_time_city("m-a") }}
+      </div>
+
+      <p class="wt-error" id="m-dina-error" role="alert" hidden></p>
+
+      <div class="wt-m-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-dina-back" type="button" hidden>Kembali</button>
+        <button class="wt-btn wt-btn-ghost" id="m-dina-skip" type="button" hidden>Lewati</button>
+        <button class="wt-btn wt-btn-primary wt-btn-block" id="m-dina-next" type="button">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="wt-m-result" id="m-dina-result" hidden aria-live="polite">
+      <p class="wt-m-chip" id="m-dina-chip"></p>
+      <p class="wt-note" id="m-dina-basis"></p>
+      <p class="wt-note" id="m-dina-maghrib" hidden></p>
+      <div id="m-dina-sasi"></div>
+      <h2 class="wt-card-title wt-dina-heading" id="m-dina-title"></h2>
+      <p class="wt-cal-plain" id="m-dina-none" hidden></p>
+      <div class="wt-m-dina-list" id="m-dina-recommended"></div>
+      <details class="wt-card wt-m-wetonan" id="m-dina-avoid-wrap" hidden>
+        <summary id="m-dina-avoid-title"></summary>
+        <div class="wt-m-dina-list" id="m-dina-avoid"></div>
+      </details>
+      <div class="wt-m-result-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-dina-reset" type="button">Cari ulang</button>
+        <button class="wt-btn wt-btn-primary" id="m-dina-share-bottom" type="button">
+          <i class="fa-solid fa-share-nodes" aria-hidden="true"></i> Bagikan
+        </button>
+      </div>
+      <p class="wt-hint wt-dina-note" id="m-dina-note"></p>
+      <p class="wt-sources" id="m-dina-disclaimer"></p>
+    </section>
+  </main>
+
+  {{ mobile_tabbar("dinabecik") }}
+</div>

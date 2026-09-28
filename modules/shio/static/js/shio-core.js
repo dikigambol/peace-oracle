@@ -2486,7 +2486,7 @@
   }
 
   Shio.onBoot((app) => {
-    if (app.dataset.page === "juhui") Shio.updateForm({ flavor: "manis" });
+    if (app.dataset.page === "juhui" && !app.dataset.roomCode) Shio.updateForm({ flavor: "manis" });
   });
 
   function bindJoin(els, joinForm) {
@@ -2995,7 +2995,7 @@
   }
 
   Shio.onBoot((app) => {
-    if (app.dataset.page !== "juhui-fangjian") return;
+    if (app.dataset.page !== "juhui" || !app.dataset.roomCode) return;
     code = app.dataset.roomCode;
     seat = loadSeat(code);
     Shio.setState({ room: null, notice: null, busy: null, missing: false });

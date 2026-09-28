@@ -1,12 +1,10 @@
 <div class="sh-d-shell">
-  {% with title='Siapa Penjaga Spiritualmu?', lead='Ben Ming Fo adalah Buddha atau Bodhisattva pelindung tiap shio. Pilih shio-mu untuk melihat mantra, nasihat perlindungan, dan arah sakralnya.', active='benmingfo' %}
-  {% include 'shio/desktop/_header.html' %}
-  {% endwith %}
+  {{ desktop_header(title='Siapa Penjaga Spiritualmu?', lead='Ben Ming Fo adalah Buddha atau Bodhisattva pelindung tiap shio. Pilih shio-mu untuk melihat mantra, nasihat perlindungan, dan arah sakralnya.', active='benmingfo') }}
 
   <div class="sh-d-body">
     <aside class="sh-card sh-d-panel">
       <h2 class="sh-card-title">Pilih shio kamu</h2>
-      {% with picker_class='sh-d-shio-picker' %}{% include 'shio/_xuanze.html' %}{% endwith %}
+      {{ shio_picker('sh-d-shio-picker') }}
       <p class="sh-hint">Klik salah satu shio, kartu penjaganya langsung muncul di kanan.</p>
     </aside>
 

@@ -51,6 +51,17 @@ from .bank import (
     ROAST_DUO,
     ROAST_DISCLAIMER,
     ROAST_SOURCE,
+    KARIER_HARI,
+    KARIER_PASARAN,
+    KARIER_NEPTU,
+    KARIER_NOTE,
+    PANCASUDA,
+    HAJAT,
+    DEFAULT_HAJAT,
+    DINA_TONE_LABELS,
+    DINA_NOTE,
+    DINA_PETUNG_HINT,
+    DINA_DISCLAIMER,
 )
 
 JDN_OFFSET = 1721425
@@ -365,6 +376,15 @@ def build_watak(weton, wuku, paarasan_name):
     }
 
 
+def build_karier(weton):
+    return {
+        "note": KARIER_NOTE,
+        "hari": {"title": f"Kerja ala hari {weton['hari']}", **KARIER_HARI[weton["hari_key"]]},
+        "pasaran": {"title": f"Kerja ala pasaran {weton['pasaran']}", **KARIER_PASARAN[weton["pasaran_key"]]},
+        "neptu": {"title": f"Kerja ala neptu {weton['neptu']}", **KARIER_NEPTU[weton["neptu"]]},
+    }
+
+
 def resolve_birth(payload, subject=None):
     payload = as_dict(payload)
     birth_date = read_birth_date(payload.get("tanggal"))
@@ -411,6 +431,7 @@ def build_birth_reading(payload):
         "mangsa": reading["mangsa"],
         "paarasan": paarasan_name,
         "watak": build_watak(weton, reading["wuku"], paarasan_name),
+        "karier": build_karier(weton),
         "maghrib": birth["maghrib"],
         "sources": SOURCES,
     }
@@ -719,4 +740,165 @@ def build_roasting(payload, today=None):
         "day": day,
         "disclaimer": ROAST_DISCLAIMER,
         "source": ROAST_SOURCE,
+    }
+
+
+DINA_MAX_DAYS = 92
+DINA_MAX_RECOMMENDED = 10
+
+
+def read_hajat(value):
+    if value in (None, ""):
+        return DEFAULT_HAJAT
+    if value not in HAJAT:
+        raise WetonError("Pilih hajat: nikah, pindah rumah, buka usaha, atau transaksi besar.")
+    return value
+
+
+def read_range(start_value, end_value):
+    invalid = "Format tanggal tidak dikenali. Pakai format TTTT-BB-HH."
+    start = parse_iso_date(start_value, "Pilih tanggal awal dulu.", invalid)
+    end = parse_iso_date(end_value, "Pilih tanggal akhir dulu.", invalid)
+    if end < start:
+        raise WetonError("Tanggal akhir harus sama dengan atau sesudah tanggal awal.")
+    if (end - start).days + 1 > DINA_MAX_DAYS:
+        raise WetonError(f"Rentang maksimal {DINA_MAX_DAYS} hari. Persempit dulu rentangnya.")
+    if start < SUPPORTED_FIRST or end > SUPPORTED_LAST:
+        raise WetonError(
+            f"Pencarian hari baik mendukung tanggal {format_long_date(SUPPORTED_FIRST)} "
+            f"sampai {format_long_date(SUPPORTED_LAST)}."
+        )
+    return start, end
+
+
+def compute_pancasuda(person_neptu, day_neptu):
+    remainder = (person_neptu + day_neptu) % PANCASUDA["divisor"]
+    result = PANCASUDA["results"][remainder]
+    return {
+        "name": result["name"],
+        "arti": result["arti"],
+        "tone": result["tone"],
+        "remainder": remainder,
+        "formula": f"{format_neptu_sum(person_neptu, day_neptu)} : {PANCASUDA['divisor']} sisa {remainder}",
+    }
+
+
+def build_reason(kind, tone, label, text=None):
+    return {"kind": kind, "tone": tone, "label": label, "text": text}
+
+
+def score_day(day, hajat_key, people_neptu, today):
+    hajat = HAJAT[hajat_key]
+    weton = get_weton(day)
+    wuku = get_wuku(day)
+    jawa = get_javanese_date(day)
+    reasons = []
+    pantangan = [item for item in find_pantangan(weton, wuku, jawa) if item["key"] in hajat["pantangan"]]
+    for item in pantangan:
+        info = PANTANGAN[item["key"]]
+        reasons.append(build_reason("pantangan", "berat", info["name"], f"Tercatat {item['basis_label']}. {info['inti']}"))
+    if not pantangan:
+        reasons.append(build_reason("bebas", "aman", "Bebas pantangan"))
+    sasi_key = jawa["sasi_key"]
+    if sasi_key in hajat["sasi_hindari"]:
+        reasons.append(build_reason("sasi", "berat", f"Sasi {jawa['sasi']}"))
+    elif sasi_key in hajat["sasi_baik"]:
+        reasons.append(build_reason("sasi", "baik", f"Sasi {jawa['sasi']}"))
+    petung = None
+    if hajat["petung"] and people_neptu is not None:
+        petung = compute_pancasuda(people_neptu, weton["neptu"])
+        reasons.append(build_reason(
+            "petung", petung["tone"], f"Pancasuda: {petung['name']}", f"{petung['formula']}, {petung['arti']}.",
+        ))
+    for key in find_istimewa(weton, jawa):
+        reasons.append(build_reason("istimewa", "info", HARI_ISTIMEWA[key]["name"]))
+    tones = {reason["tone"] for reason in reasons}
+    if pantangan:
+        status, tone = "hindari", "berat"
+    elif "berat" in tones:
+        status, tone = "kurang", "campur"
+    elif "baik" in tones:
+        status, tone = "rekomendasi", "baik"
+    else:
+        status, tone = "rekomendasi", "aman"
+    return {
+        "date": day.isoformat(),
+        "label": format_long_date(day),
+        "weekday": day.weekday(),
+        "today": day == today,
+        "weton": weton,
+        "wuku": wuku["name"],
+        "jawa": {"tanggal": jawa["tanggal"], "sasi": jawa["sasi"], "sasi_key": sasi_key, "tahun": jawa["tahun"]},
+        "status": status,
+        "tone": tone,
+        "tone_label": DINA_TONE_LABELS[tone],
+        "reasons": reasons,
+        "petung": petung,
+    }
+
+
+def describe_sasi_notes(days, hajat):
+    counts = {}
+    for day in days:
+        counts.setdefault(day["jawa"]["sasi_key"], [day["jawa"]["sasi"], 0])[1] += 1
+    notes = []
+    for sasi_key, (sasi_name, total) in counts.items():
+        for tone, bank in (("berat", hajat["sasi_hindari"]), ("baik", hajat["sasi_baik"])):
+            if sasi_key in bank:
+                notes.append({"sasi": sasi_name, "tone": tone, "days": total, "text": bank[sasi_key]})
+    return notes
+
+
+def build_dina_reading(payload, today=None):
+    payload = as_dict(payload)
+    today = today or today_wib()
+    hajat_key = read_hajat(payload.get("hajat"))
+    hajat = HAJAT[hajat_key]
+    start, end = read_range(payload.get("dari"), payload.get("sampai"))
+    person_payload = as_dict(payload.get("a"))
+    people = []
+    if hajat["petung"] and person_payload.get("tanggal"):
+        people.append(describe_person(resolve_birth(person_payload)))
+    people_neptu = sum(person["weton"]["neptu"] for person in people) if people else None
+    days = []
+    day = start
+    while day <= end:
+        days.append(score_day(day, hajat_key, people_neptu, today))
+        day += DAY
+    recommended = sorted(
+        (entry for entry in days if entry["status"] == "rekomendasi"),
+        key=lambda entry: (entry["tone"] != "baik", entry["date"]),
+    )
+    counts = {status: 0 for status in ("rekomendasi", "kurang", "hindari")}
+    for entry in days:
+        counts[entry["status"]] += 1
+    sources = {"hajat": hajat["source"]}
+    if hajat["petung"]:
+        sources["pancasuda"] = PANCASUDA["source"]
+    sources["pantangan_wuku"] = CALENDAR_SOURCES["pantangan_wuku"]
+    sources["pantangan_sasi"] = CALENDAR_SOURCES["pantangan_sasi"]
+    return {
+        "hajat": {
+            "key": hajat_key,
+            "label": hajat["label"],
+            "icon": hajat["icon"],
+            "inti": hajat["inti"],
+            "saran": hajat["saran"],
+            "petung": PANCASUDA["name"] if hajat["petung"] else None,
+        },
+        "range": {
+            "start": start.isoformat(),
+            "end": end.isoformat(),
+            "label": f"{format_long_date(start)} – {format_long_date(end)}",
+            "days": len(days),
+        },
+        "people": people,
+        "petung_hint": DINA_PETUNG_HINT if hajat["petung"] and not people else None,
+        "recommended": recommended[:DINA_MAX_RECOMMENDED],
+        "avoid": [entry for entry in days if entry["status"] == "hindari"],
+        "sasi_notes": describe_sasi_notes(days, hajat),
+        "counts": counts,
+        "note": DINA_NOTE,
+        "disclaimer": DINA_DISCLAIMER,
+        "sources": sources,
     }

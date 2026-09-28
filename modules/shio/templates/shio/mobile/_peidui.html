@@ -1,16 +1,15 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-m-shell" data-bottom-nav>
-  {{ zujian.appbar("Pei Dui") }}
+  {{ appbar("Pei Dui") }}
 
   <main class="sh-m-main">
     <section class="sh-m-steps" id="m-compat-steps">
-      {{ zujian.progress("compat", 3) }}
+      {{ progress("compat", 3) }}
 
       <div class="sh-m-step" data-step="1">
         <h2 class="sh-m-question" id="m-compat-lens-label">Hubungan kalian apa?</h2>
         <p class="sh-m-help">Lensa ini mengubah cara membaca narasi, bukan skor relasi shio.</p>
         <div class="sh-m-choice-list" role="radiogroup" aria-labelledby="m-compat-lens-label">
-          {{ zujian.lens_chips() }}
+          {{ lens_chips() }}
         </div>
       </div>
 
@@ -33,13 +32,13 @@
       </div>
 
       <p class="sh-error" id="m-compat-error" role="alert" hidden></p>
-      {{ zujian.actions("compat") }}
+      {{ actions("compat") }}
     </section>
 
     <section class="sh-result" id="m-compat-result" hidden aria-live="polite">
       <div class="sh-m-chip" id="m-compat-chip"></div>
       <div class="compat-result sh-m-compat-result" id="m-compat-layers">
-        {% with compat_show_score=true, compat_details=true %}{% include 'shio/_compat-layers.html' %}{% endwith %}
+        {{ compat_layers(show_score=true, details=true) }}
       </div>
       <div class="sh-m-result-actions">
         <button class="sh-btn sh-btn-ghost" type="button" id="m-compat-reset">Ubah data</button>
@@ -51,5 +50,5 @@
     </section>
   </main>
 
-  {% with active='peidui' %}{% include 'shio/mobile/_tabbar.html' %}{% endwith %}
+  {{ mobile_tabbar('peidui') }}
 </div>

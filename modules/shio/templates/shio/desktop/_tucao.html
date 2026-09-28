@@ -1,8 +1,5 @@
-{% import 'shio/_zujian.html' as zujian %}
 <div class="sh-d-shell">
-  {% with title='Roasting Shio', lead='Tu Cao membakar shio-mu dari tanggal lahir: toxic traits, dosa finansial, red flag asmara, sampai pilar hari Ba Zi. Siapkan mental, jangan baper.', active='tucao' %}
-  {% include 'shio/desktop/_header.html' %}
-  {% endwith %}
+  {{ desktop_header(title='Roasting Shio', lead='Tu Cao membakar shio-mu dari tanggal lahir: toxic traits, dosa finansial, red flag asmara, sampai pilar hari Ba Zi. Siapkan mental, jangan baper.', active='tucao') }}
 
   <div class="sh-d-body">
     <aside class="sh-card sh-d-panel">
@@ -12,7 +9,7 @@
         <input class="sh-input" id="d-roast-date" placeholder="Pilih tanggal lahir" readonly autocomplete="off" />
       </label>
       <p class="sh-label">Jenis kelamin <span class="sh-optional">opsional</span></p>
-      {{ zujian.gender_buttons("roast") }}
+      {{ gender_buttons("roast") }}
       <p class="sh-hint sh-d-roast-hint">
         Shio dihitung dari tanggal ini, termasuk batas awal musim semi (立春). Jenis kelamin cuma menentukan arah periode besarmu (大運).
       </p>
@@ -37,7 +34,7 @@
         <article class="roast-card" id="d-roast-card">
           <div id="d-roast-header"></div>
           <div id="d-roast-sections"></div>
-          {% include 'shio/_tucao-banlv.html' %}
+          {{ roast_pair() }}
           <p class="roast-disclaimer">Semua ini cuma candaan berdasarkan stereotip shio. Jangan dibawa ke hati, bestie.</p>
         </article>
       </div>

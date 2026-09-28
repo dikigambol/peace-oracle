@@ -1,4 +1,333 @@
 {% extends 'base.html' %}
+{% set features = [
+  {"key": "mingli", "endpoint": "shio.shio_destiny_page", "icon": "fa-calendar-days", "short": "Ming Li",
+   "title": "Baca Gulungan Takdir (Ming Li)", "text": "Breakdown empat pilar Ming Li dari tanggal, jam, dan kota lahirmu."},
+  {"key": "liunian", "endpoint": "shio.shio_yearly_page", "icon": "fa-clock-rotate-left", "short": "Tahunan",
+   "title": "Teropong Energi Tahunan (Liu Nian)", "text": "Forecast tahun ini per shio: karier, asmara, keuangan, dan kesehatan."},
+  {"key": "peidui", "endpoint": "shio.shio_compatibility_page", "icon": "fa-heart-pulse", "short": "Cocok",
+   "title": "Timbangan Kecocokan (Pei Dui)", "text": "Cek kecocokan dua orang buat asmara, pertemanan, atau partner kerja."},
+  {"key": "juhui", "endpoint": "shio.shio_quiz_page", "icon": "fa-people-group", "short": "Quiz",
+   "title": "Quiz Shio Bareng (Ju Hui)", "text": "Main kuis bareng teman lewat kode room, bisa berdua atau satu geng."},
+  {"key": "tucao", "endpoint": "shio.shio_roasting_page", "icon": "fa-fire", "short": "Roasting",
+   "title": "Roasting Shio (Tu Cao)", "text": "Roasting pedas sesuai shio kamu, solo atau bareng partner."},
+  {"key": "benmingfo", "endpoint": "shio.shio_guardian_page", "icon": "fa-dragon", "short": "Penjaga",
+   "title": "Afinitas Penjaga Spiritual (Ben Ming Fo)", "text": "Kenalan sama penjaga shio kamu, lengkap dengan mantra dan tips Feng Shui."},
+  {"key": "xingyunbing", "endpoint": "shio.shio_fortune_cookie_page", "icon": "fa-cookie-bite", "short": "Kue",
+   "title": "Kue Keberuntungan (Xing Yun Bing)", "text": "Buka fortune cookie harian buat dapat pesan dan lucky item hari ini."},
+] %}
+{% set tabbar_main = ["mingli", "peidui", "juhui"] %}
+{% set tabbar_more = ["liunian", "tucao", "benmingfo", "xingyunbing"] %}
+
+{% macro hub_cards(prefix) %}
+<button class="sh-card sh-hub-card sh-hub-card-wide" type="button" data-action="almanac" id="{{ prefix }}-open-almanac">
+  <i class="fa-solid fa-calendar-day" aria-hidden="true"></i>
+  <span class="sh-hub-title">Almanak Harian (Tong Shu)</span>
+  <span class="sh-hub-text">Cek energi hari ini, dewa harian, plus aktivitas yang pas dan yang mending di-skip.</span>
+</button>
+{% for feature in features %}
+<a class="sh-card sh-hub-card" href="{{ url_for(feature.endpoint) }}">
+  <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i>
+  <span class="sh-hub-title">{{ feature.title }}</span>
+  <span class="sh-hub-text">{{ feature.text }}</span>
+</a>
+{% endfor %}
+{% endmacro %}
+
+{% macro desktop_header(title, lead, active=None) %}
+<header class="sh-d-header">
+  <div class="sh-d-brand">
+    <div class="bagua-wrapper sh-d-bagua" aria-hidden="true">
+      <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
+      <div class="trigram t1">☰</div>
+      <div class="trigram t2">☴</div>
+      <div class="trigram t3">☵</div>
+      <div class="trigram t4">☶</div>
+      <div class="trigram t5">☷</div>
+      <div class="trigram t6">☳</div>
+      <div class="trigram t7">☲</div>
+      <div class="trigram t8">☱</div>
+    </div>
+    <div>
+      {% if active %}<p class="sh-eyebrow">Shio Oracle</p>{% endif %}
+      <h1 class="sh-d-title">{{ title }}</h1>
+      <p class="sh-d-lead">{{ lead }}</p>
+    </div>
+  </div>
+  {% if active %}
+  <nav class="sh-d-tabs" aria-label="Fitur Shio">
+    <a class="sh-d-tab" href="{{ url_for('shio.shio_index') }}">
+      <i class="fa-solid fa-yin-yang" aria-hidden="true"></i> Beranda
+    </a>
+    {% for feature in features %}
+    <a class="sh-d-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+      <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i> {{ feature.short }}
+    </a>
+    {% endfor %}
+  </nav>
+  {% endif %}
+</header>
+{% endmacro %}
+
+{% macro mobile_tabbar(active) %}
+<nav class="sh-m-tabbar" aria-label="Fitur Shio">
+  <a class="sh-m-tab{% if active == 'index' %} is-active{% endif %}" href="{{ url_for('shio.shio_index') }}"{% if active == 'index' %} aria-current="page"{% endif %}>
+    <i class="fa-solid fa-yin-yang" aria-hidden="true"></i><span>Beranda</span>
+  </a>
+  {% for feature in features if feature.key in tabbar_main %}
+  <a class="sh-m-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+    <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i><span>{{ feature.short }}</span>
+  </a>
+  {% endfor %}
+  <button class="sh-m-tab{% if active in tabbar_more %} is-active{% endif %}" type="button" data-sheet-open aria-expanded="false" aria-controls="m-more-sheet">
+    <i class="fa-solid fa-ellipsis" aria-hidden="true"></i><span>Lainnya</span>
+  </button>
+</nav>
+<div class="sh-m-sheet" id="m-more-sheet" data-sheet hidden>
+  <div class="sh-m-sheet-backdrop" data-sheet-close></div>
+  <div class="sh-m-sheet-panel" role="dialog" aria-label="Fitur lainnya">
+    <p class="sh-m-sheet-title">Fitur lainnya</p>
+    {% for feature in features if feature.key in tabbar_more %}
+    <a class="sh-m-sheet-link{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+      <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i>
+      <span>{{ feature.title }}</span>
+    </a>
+    {% endfor %}
+    <button class="sh-btn sh-btn-ghost sh-btn-block" type="button" data-sheet-close>Tutup</button>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro appbar(title, home_id=None, back_id=None, back_label=None) %}
+<header class="sh-m-appbar">
+  {% if back_id %}
+  <span class="sh-m-slot">
+    <a class="sh-m-icon" id="{{ home_id }}" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </a>
+    <button class="sh-m-icon" type="button" id="{{ back_id }}" aria-label="{{ back_label }}" hidden>
+      <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+    </button>
+  </span>
+  {% else %}
+  <a class="sh-m-icon" href="{{ url_for('shio.shio_index') }}" aria-label="Kembali ke menu Shio">
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+  </a>
+  {% endif %}
+  <h1 class="sh-m-title">{{ title }}</h1>
+  <span aria-hidden="true"></span>
+</header>
+{% endmacro %}
+
+{% macro progress(prefix, total) %}
+<div class="sh-m-progress">
+  <span class="sh-m-progress-text" id="m-{{ prefix }}-progress-text">Langkah 1 dari {{ total }}</span>
+  <div class="sh-m-progress-bar" aria-hidden="true"><span id="m-{{ prefix }}-progress-fill"></span></div>
+</div>
+{% endmacro %}
+
+{% macro actions(prefix) %}
+<div class="sh-m-actions">
+  <button class="sh-btn sh-btn-ghost" type="button" id="m-{{ prefix }}-back" hidden>Kembali</button>
+  <button class="sh-btn sh-btn-primary sh-btn-block" type="button" id="m-{{ prefix }}-next">Lanjut</button>
+</div>
+{% endmacro %}
+
+{% macro gender_buttons(kind) %}
+<div class="{{ kind }}-gender">
+  <button type="button" class="{{ kind }}-gender-btn" data-gender="pria" aria-pressed="false">
+    <i class="fa-solid fa-mars" aria-hidden="true"></i> Pria
+  </button>
+  <button type="button" class="{{ kind }}-gender-btn" data-gender="wanita" aria-pressed="false">
+    <i class="fa-solid fa-venus" aria-hidden="true"></i> Wanita
+  </button>
+</div>
+{% endmacro %}
+
+{% macro lens_chips() %}
+<button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="asmara">Asmara</button>
+<button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="pertemanan">Pertemanan</button>
+<button type="button" class="choice-chip" role="radio" aria-checked="false" data-lens="kerja">Rekan Kerja</button>
+{% endmacro %}
+
+{% macro year_picker(prefix) %}
+<div class="year-picker">
+  <button class="year-nav" type="button" id="{{ prefix }}-year-prev" aria-label="Tahun sebelumnya">
+    <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+  </button>
+  <div class="year-display">
+    <span class="year-number" id="{{ prefix }}-year-number"></span>
+    <span class="year-shio" id="{{ prefix }}-year-shio"></span>
+  </div>
+  <button class="year-nav" type="button" id="{{ prefix }}-year-next" aria-label="Tahun berikutnya">
+    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+  </button>
+</div>
+<p class="yearly-lichun" id="{{ prefix }}-lichun">Tahun Imlek berganti di awal musim semi (立春), sekitar 4 Februari, bukan 1 Januari.</p>
+{% endmacro %}
+
+{% macro cookie_stage(prefix, stage_class="cookie-stage") %}
+<div class="{{ stage_class }}">
+  <div class="cookie-shio">
+    <span class="cookie-shio-hanzi" id="{{ prefix }}-cookie-hanzi"></span>
+    <span class="cookie-shio-name" id="{{ prefix }}-cookie-name"></span>
+  </div>
+  <button class="cookie" type="button" id="{{ prefix }}-cookie" aria-label="Belah kue keberuntungan">
+    <span class="cookie-half cookie-half-left" aria-hidden="true">🥠</span>
+    <span class="cookie-half cookie-half-right" aria-hidden="true">🥠</span>
+    <span class="cookie-glow" aria-hidden="true"></span>
+  </button>
+  <p class="cookie-hint" id="{{ prefix }}-cookie-hint"></p>
+</div>
+<div id="{{ prefix }}-cookie-slip" hidden></div>
+{% endmacro %}
+
+{% macro shio_picker(picker_class=None) %}
+<div class="sh-shio-picker{% if picker_class %} {{ picker_class }}{% endif %}" role="group" aria-label="Pilih shio">
+  {% for key, hanzi, name in shio_list %}
+  <button class="shio-item" type="button" data-shio="{{ key }}" aria-pressed="false">
+    <span class="icon hanzi">{{ hanzi }}</span><span class="name">{{ name }}</span>
+  </button>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro layer(part, box_class, icon, title, details=false, title_part=none) %}
+{% if details %}
+<details class="sh-m-details compat-layer" data-part="{{ part }}" hidden>
+  <summary><span><i class="fa-solid {{ icon }}" aria-hidden="true"></i> <span{% if title_part %} data-part="{{ title_part }}"{% endif %}>{{ title }}</span></span></summary>
+  <div class="sh-m-details-body {{ box_class }}">{{ caller() }}</div>
+</details>
+{% else %}
+<div class="{{ box_class }}" data-part="{{ part }}" hidden>
+  <h4 class="compat-dynamic-title">
+    <i class="fa-solid {{ icon }}" aria-hidden="true"></i> <span{% if title_part %} data-part="{{ title_part }}"{% endif %}>{{ title }}</span>
+  </h4>
+  {{ caller() }}
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro compat_layers(show_score, details) %}
+<div class="compat-header">
+  <div class="compat-pair" data-part="pair"></div>
+  <div class="compat-rel-type" data-part="relationship"></div>
+</div>
+<div class="compat-relation-badge" data-part="relation-badge" hidden>
+  <span class="relation-hanzi" data-part="relation-hanzi"></span>
+  <div class="relation-body">
+    <span class="relation-title" data-part="relation-title"></span>
+    <p class="relation-note" data-part="relation-note"></p>
+  </div>
+</div>
+{% if show_score %}
+<div class="score-bar-wrapper">
+  <div class="score-label">
+    Skor Relasi Shio
+    <span class="score-label-sub">Dihitung murni dari relasi cabang tahun (地支)</span>
+  </div>
+  <div class="circular-chart-wrapper">
+    <svg viewBox="0 0 100 100" class="circular-chart" aria-hidden="true">
+      <circle class="circle-bg" cx="50" cy="50" r="40" />
+      <circle class="circle" data-part="score-circle" cx="50" cy="50" r="40" stroke-dasharray="0, 100" pathLength="100" />
+    </svg>
+    <div class="circular-chart-text">
+      <span class="percentage" data-part="score-text">0%</span>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% call layer('dynamic', 'compat-dynamic', 'fa-right-left', 'Dinamika Elemen', details) %}
+  <p class="compat-dynamic-note">
+    Skor relasi shio simetris karena relasi cabang memang simetris. Lapisan
+    elemen ini tidak &mdash; yang satu memberi, yang satu menerima.
+  </p>
+  <div class="compat-dynamic-pair">
+    <div class="compat-dynamic-card" data-part="dyn-1"></div>
+    <div class="compat-dynamic-arrow" data-part="dyn-arrow"></div>
+    <div class="compat-dynamic-card" data-part="dyn-2"></div>
+  </div>
+{% endcall %}
+{% call layer('year', 'compat-year', 'fa-scroll', 'Lapisan Tahun Lahir', details) %}
+  <p class="compat-dynamic-note" data-part="year-lichun"></p>
+  <div class="compat-year-stem" data-part="year-stem"></div>
+  <div class="compat-year-pair">
+    <div class="compat-year-card" data-part="year-1"></div>
+    <div class="compat-year-card" data-part="year-2"></div>
+  </div>
+{% endcall %}
+{% call layer('bazi', 'compat-bazi', 'fa-user-group', '', details, 'bazi-title') %}
+  <p class="compat-dynamic-note" data-part="bazi-note"></p>
+  <div class="compat-day-pillar" data-part="day-pillar"></div>
+  <div class="compat-useful" data-part="useful"></div>
+  <div class="compat-stars" data-part="stars" hidden></div>
+{% endcall %}
+<div class="compat-sections">
+  <div class="compat-box narrative">
+    <h4 data-part="narrative-title"></h4>
+    <p data-part="narrative"></p>
+  </div>
+  <div class="compat-box drama">
+    <h4><i class="fa-solid fa-masks-theater" aria-hidden="true"></i> Drama Alert</h4>
+    <p data-part="drama"></p>
+  </div>
+  <div class="compat-box tips">
+    <h4><i class="fa-solid fa-lightbulb" aria-hidden="true"></i> Tips Biar Awet</h4>
+    <p data-part="tips"></p>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro quiz_options() %}
+<div class="quiz-option-group" data-quiz-group="relation" hidden>
+  <p class="sh-label">Jenis hubungan</p>
+  <div class="choice-chips" role="radiogroup" aria-label="Jenis hubungan">
+    {% for key, lens in lenses.items() %}
+    <button type="button" class="choice-chip" role="radio" aria-checked="false" data-relation="{{ key }}">{{ lens.label }}</button>
+    {% endfor %}
+  </div>
+  <p class="quiz-hint">
+    Pacar, gebetan, sahabat, saudara, atau partner kerja &mdash; cewek-cowok, cewek-cewek, atau cowok-cowok.
+    Lensa ini cuma mengganti sudut bacaan, hitungannya tetap sama.
+  </p>
+</div>
+<div class="quiz-option-group" data-quiz-group="flavor" hidden>
+  <p class="sh-label">Rasa petunjuk</p>
+  <div class="choice-chips" role="radiogroup" aria-label="Rasa petunjuk">
+    {% for key, flavor in flavors.items() %}
+    <button type="button" class="choice-chip" role="radio" aria-checked="false" data-flavor="{{ key }}" data-note="{{ flavor.note }}">{{ flavor.label }}</button>
+    {% endfor %}
+  </div>
+  <p class="quiz-hint" data-quiz-flavor-note></p>
+</div>
+<p class="quiz-hint">
+  Tanggal lahir dipakai untuk menghitung shio dan tidak ditampilkan ke peserta lain. Room otomatis terhapus 24 jam setelah dibuat.
+</p>
+{% endmacro %}
+
+{% macro roast_pair() %}
+<div class="roast-pair">
+  <button type="button" class="roast-pair-cta" data-pair-toggle aria-expanded="false">
+    <i class="fa-solid fa-user-group" aria-hidden="true"></i>
+    <span>Bakar Bareng Pasangan</span>
+  </button>
+  <div class="roast-pair-body" data-pair-body hidden>
+    <p class="roast-pair-note">
+      Pilih shio orang kedua. Roasting hubungan diambil dari relasi cabang tahun kalian &mdash; bukan dari pasangan shio satu per satu.
+    </p>
+    <div class="roast-pair-grid" role="group" aria-label="Shio pasangan">
+      {% for key, hanzi, name in shio_list %}
+      <button type="button" class="pair-pick" data-shio="{{ key }}" aria-pressed="false">
+        <span class="pair-pick-hanzi">{{ hanzi }}</span><span class="pair-pick-name">{{ name }}</span>
+      </button>
+      {% endfor %}
+    </div>
+    <p class="sh-loading sh-roast-pair-loading" data-pair-loading hidden>
+      <i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Menyalakan api berdua...
+    </p>
+    <div class="roast-pair-card" data-pair-card hidden></div>
+  </div>
+</div>
+{% endmacro %}
 {% block backdrop %}<div class="sh-backdrop" aria-hidden="true"></div>{% endblock %}
 {% block backdrop_js %}{% endblock %}
 {% block extra_css %}
