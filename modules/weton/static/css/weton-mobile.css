@@ -562,12 +562,35 @@
 
 .wt-m-hub {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .wt-m-hub .wt-hub-card {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  column-gap: 12px;
+  row-gap: 2px;
+  align-items: center;
   min-height: 44px;
-  padding: 18px;
+  padding: 14px 16px;
+}
+
+.wt-m-hub .wt-result-icon {
+  grid-row: span 2;
+  align-self: start;
+}
+
+.wt-m-hub .wt-hub-title {
+  font-size: 1.05rem;
+}
+
+.wt-m-hub .wt-hub-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.85rem;
+  line-height: 1.45;
 }
 
 .wt-m-tabbar {
