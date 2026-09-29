@@ -67,7 +67,6 @@
     const hasResult = Boolean(state.result);
     els.stepsSection.hidden = hasResult;
     els.resultSection.hidden = !hasResult;
-    els.shareTop.hidden = !hasResult;
     if (hasResult) {
       renderResult(state.result);
       return;
@@ -92,6 +91,7 @@
     const ok = await Weton.submit();
     if (!ok) step = 2;
     render(Weton.getState());
+    if (ok) Weton.showResult(els.resultSection);
   }
 
   function init(root) {
@@ -113,8 +113,6 @@
       disclaimer: byId("m-disclaimer"),
       reset: byId("m-match-reset"),
       fields: {},
-      shareTop: byId("m-match-share"),
-      shareBottom: byId("m-match-share-bottom"),
     };
     if (!Weton.getState().form.lens) Weton.updateForm({ lens: root.closest("#wt-app").dataset.defaultLens });
     els.lensButtons.forEach((button) => {
@@ -140,7 +138,6 @@
       activePetung = 0;
       Weton.reset();
     });
-    Weton.bindShare([els.shareTop, els.shareBottom], Weton.matchShare);
   }
 
   function activate(state) {

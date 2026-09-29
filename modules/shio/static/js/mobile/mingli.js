@@ -74,7 +74,8 @@
       return;
     }
     window.scrollTo(0, 0);
-    await Shio.destiny.submit();
+    const data = await Shio.destiny.submit();
+    if (data) Shio.showResult(els.result);
   }
 
   function backToForm() {

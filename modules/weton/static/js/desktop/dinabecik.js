@@ -32,7 +32,6 @@
       result: byId("d-dina-result"),
       meta: byId("d-dina-meta"),
       title: byId("d-dina-title"),
-      share: byId("d-dina-share"),
       basis: byId("d-dina-basis"),
       maghrib: byId("d-dina-maghrib"),
       sasi: byId("d-dina-sasi"),
@@ -57,16 +56,15 @@
         renderPerson(radio.value);
       });
     });
-    els.form.addEventListener("submit", (event) => {
+    els.form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const message = Weton.dinaError(Weton.getState().form);
       if (message) {
         Weton.showError(els.error, message);
         return;
       }
-      Weton.submit();
+      if (await Weton.submit()) Weton.showResult(els.result);
     });
-    Weton.bindShare([els.share], Weton.dinaShare);
   }
 
   function activate(state) {

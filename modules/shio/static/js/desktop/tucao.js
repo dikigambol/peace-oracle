@@ -51,17 +51,21 @@
     els.submit.addEventListener("click", async () => {
       Shio.particles.emitFrom(els.submit, 34);
       const data = await Shio.roast.submit();
-      if (data) Shio.scrollIntoView(els.result);
+      if (data) Shio.showResult(els.result);
     });
     els.reroll.addEventListener("click", Shio.roast.reroll);
   }
 
-  function activate(state) {
+  function syncForm(state) {
     Shio.setDesktopDate(picker, els.date, state.form.date);
+  }
+
+  function activate(state) {
+    syncForm(state);
     memo.result = null;
     memo.draw = null;
     render(state, true);
   }
 
-  Shio.registerRenderer("desktop", { init: init, render: render, activate: activate });
+  Shio.registerRenderer("desktop", { init: init, render: render, activate: activate, syncForm: syncForm });
 })();

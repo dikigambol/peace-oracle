@@ -1,5 +1,6 @@
 import calendar
 import datetime
+import functools
 import random
 import re
 import zlib
@@ -95,6 +96,7 @@ def get_year_length(year):
     return YEAR_LENGTH_WUNTU if get_taun_name(year) in TAUN_WUNTU else YEAR_LENGTH_WASTU
 
 
+@functools.lru_cache(maxsize=None)
 def get_sura_start(year):
     if year >= ASAPON_FIRST_YEAR:
         start = ASAPON_START_DATE
@@ -173,6 +175,8 @@ def get_wuku(day):
         "name": wuku["name"],
         "key": wuku["key"],
         "dewa": wuku["dewa"],
+        "kayu": wuku["kayu"],
+        "burung": wuku["burung"],
         "number": position // 7 + 1,
         "day_in_wuku": position % 7 + 1,
     }
@@ -197,6 +201,8 @@ def get_mangsa(day):
         "sanskrit": mangsa["sanskrit"],
         "candra": mangsa["candra"],
         "arti": mangsa["arti"],
+        "tanda": mangsa["tanda"],
+        "tani": mangsa["tani"],
         "start": start.isoformat(),
         "end": end.isoformat(),
     }
@@ -366,22 +372,28 @@ def build_maghrib_note(birth_time, city, sunset, after_sunset, next_label, same_
     }
 
 
-def build_watak(weton, wuku, paarasan_name):
+def pick_variant(variants, *seed_parts):
+    return variants[stable_seed(*seed_parts) % len(variants)]
+
+
+def build_watak(weton, wuku, paarasan_name, day):
+    label = weton["label"]
     return {
-        "hari": {"title": f"Watak hari {weton['hari']}", **WATAK_HARI[weton["hari_key"]]},
-        "pasaran": {"title": f"Watak pasaran {weton['pasaran']}", **WATAK_PASARAN[weton["pasaran_key"]]},
-        "neptu": {"title": f"Watak neptu {weton['neptu']}", **WATAK_NEPTU[weton["neptu"]]},
-        "wuku": {"title": f"Watak wuku {wuku['name']}", **WATAK_WUKU[wuku["key"]]},
-        "paarasan": {"title": paarasan_name, **WATAK_PAARASAN[paarasan_name]},
+        "hari": {"title": f"Watak hari {weton['hari']}", **pick_variant(WATAK_HARI[weton["hari_key"]], label, "watak_hari", day)},
+        "pasaran": {"title": f"Watak pasaran {weton['pasaran']}", **pick_variant(WATAK_PASARAN[weton["pasaran_key"]], label, "watak_pasaran", day)},
+        "neptu": {"title": f"Watak neptu {weton['neptu']}", **pick_variant(WATAK_NEPTU[weton["neptu"]], label, "watak_neptu", day)},
+        "wuku": {"title": f"Watak wuku {wuku['name']}", **pick_variant(WATAK_WUKU[wuku["key"]], label, wuku["key"], "watak_wuku", day)},
+        "paarasan": {"title": paarasan_name, **pick_variant(WATAK_PAARASAN[paarasan_name], label, "watak_paarasan", day)},
     }
 
 
-def build_karier(weton):
+def build_karier(weton, day):
+    label = weton["label"]
     return {
         "note": KARIER_NOTE,
-        "hari": {"title": f"Kerja ala hari {weton['hari']}", **KARIER_HARI[weton["hari_key"]]},
-        "pasaran": {"title": f"Kerja ala pasaran {weton['pasaran']}", **KARIER_PASARAN[weton["pasaran_key"]]},
-        "neptu": {"title": f"Kerja ala neptu {weton['neptu']}", **KARIER_NEPTU[weton["neptu"]]},
+        "hari": {"title": f"Kerja ala hari {weton['hari']}", **pick_variant(KARIER_HARI[weton["hari_key"]], label, "karier_hari", day)},
+        "pasaran": {"title": f"Kerja ala pasaran {weton['pasaran']}", **pick_variant(KARIER_PASARAN[weton["pasaran_key"]], label, "karier_pasaran", day)},
+        "neptu": {"title": f"Kerja ala neptu {weton['neptu']}", **pick_variant(KARIER_NEPTU[weton["neptu"]], label, "karier_neptu", day)},
     }
 
 
@@ -416,7 +428,8 @@ def resolve_birth(payload, subject=None):
     }
 
 
-def build_birth_reading(payload):
+def build_birth_reading(payload, today=None):
+    day = (today or today_wib()).isoformat()
     birth = resolve_birth(payload)
     reading = describe_javanese_day(birth["javanese_day"])
     weton = reading["weton"]
@@ -430,8 +443,8 @@ def build_birth_reading(payload):
         "jawa": reading["jawa"],
         "mangsa": reading["mangsa"],
         "paarasan": paarasan_name,
-        "watak": build_watak(weton, reading["wuku"], paarasan_name),
-        "karier": build_karier(weton),
+        "watak": build_watak(weton, reading["wuku"], paarasan_name, day),
+        "karier": build_karier(weton, day),
         "maghrib": birth["maghrib"],
         "sources": SOURCES,
     }
@@ -566,14 +579,29 @@ def shift_month(month_start, step):
     return datetime.date(index // 12, index % 12 + 1, 1)
 
 
+def get_sasi_length(jawa):
+    index = next(position for position, sasi in enumerate(SASI) if sasi["key"] == jawa["sasi_key"])
+    if index == len(SASI) - 1:
+        return jawa["year_length"] - FIRST_ELEVEN_SASI_DAYS
+    return 30 if index % 2 == 0 else 29
+
+
+def matches_istimewa(item, weton, jawa):
+    if item["hari"] and item["hari"] != weton["hari_key"]:
+        return False
+    if item["pasaran"] and item["pasaran"] != weton["pasaran_key"]:
+        return False
+    if item["sasi"] and item["sasi"] != jawa["sasi_key"]:
+        return False
+    if item["tanggal"] and item["tanggal"] != jawa["tanggal"]:
+        return False
+    if item["akhir_sasi"] and jawa["tanggal"] + 7 <= get_sasi_length(jawa):
+        return False
+    return True
+
+
 def find_istimewa(weton, jawa):
-    keys = [
-        key for key, item in HARI_ISTIMEWA.items()
-        if item["hari"] == weton["hari_key"] and item["pasaran"] == weton["pasaran_key"]
-    ]
-    if jawa["tanggal"] == 1 and jawa["sasi_key"] == "sura":
-        keys.append("satu_sura")
-    return keys
+    return [key for key, item in HARI_ISTIMEWA.items() if matches_istimewa(item, weton, jawa)]
 
 
 def find_pantangan(weton, wuku, jawa):
@@ -751,7 +779,7 @@ def read_hajat(value):
     if value in (None, ""):
         return DEFAULT_HAJAT
     if value not in HAJAT:
-        raise WetonError("Pilih hajat: nikah, pindah rumah, buka usaha, atau transaksi besar.")
+        raise WetonError("Pilih hajat: nikah, pindah rumah, bangun rumah, buka usaha, atau transaksi besar.")
     return value
 
 
@@ -901,4 +929,63 @@ def build_dina_reading(payload, today=None):
         "note": DINA_NOTE,
         "disclaimer": DINA_DISCLAIMER,
         "sources": sources,
+    }
+
+
+TODAY_LOOKAHEAD_DAYS = 400
+TODAY_UPCOMING_LIMIT = 3
+
+
+def find_upcoming_istimewa(today):
+    found = {}
+    for offset in range(1, TODAY_LOOKAHEAD_DAYS + 1):
+        day = today + datetime.timedelta(days=offset)
+        if day > SUPPORTED_LAST:
+            break
+        for key in find_istimewa(get_weton(day), get_javanese_date(day)):
+            found.setdefault(key, {
+                "key": key,
+                "name": HARI_ISTIMEWA[key]["name"],
+                "date": day.isoformat(),
+                "label": format_long_date(day),
+                "days": offset,
+            })
+        if len(found) >= TODAY_UPCOMING_LIMIT:
+            break
+    return sorted(found.values(), key=lambda item: (item["days"], item["key"]))[:TODAY_UPCOMING_LIMIT]
+
+
+def build_today_maghrib(now, today):
+    city = describe_city(WETON_DEFAULT_CITY)
+    sunset = get_sunset(today, WETON_DEFAULT_CITY)
+    clock = format_clock(sunset)
+    next_label = get_weton(today + DAY)["label"]
+    after = now.replace(tzinfo=None) >= sunset
+    if after:
+        text = f"Sudah lewat maghrib ({clock} di {city['name']}), jadi hari Jawa sudah masuk {next_label}."
+    else:
+        text = f"Weton ini berlaku sampai maghrib, sekitar {clock} di {city['name']}. Setelah itu hari Jawa masuk {next_label}."
+    return {"clock": clock, "after": after, "next_weton": next_label, "text": text}
+
+
+def build_today(now=None):
+    now = now or datetime.datetime.now(WIB)
+    today = now.date()
+    weton = get_weton(today)
+    wuku = get_wuku(today)
+    jawa = get_javanese_date(today)
+    return {
+        "date": today.isoformat(),
+        "label": format_long_date(today),
+        "weton": weton,
+        "jawa": jawa,
+        "wuku": wuku,
+        "mangsa": get_mangsa(today),
+        "istimewa": [{"key": key, "name": HARI_ISTIMEWA[key]["name"]} for key in find_istimewa(weton, jawa)],
+        "pantangan": [
+            {"key": item["key"], "name": PANTANGAN[item["key"]]["name"], "basis_label": item["basis_label"]}
+            for item in find_pantangan(weton, wuku, jawa)
+        ],
+        "maghrib": build_today_maghrib(now, today),
+        "upcoming": find_upcoming_istimewa(today),
     }

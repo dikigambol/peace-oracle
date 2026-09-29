@@ -79,7 +79,7 @@
     }
     activeCategory = 0;
     const data = await Shio.yearly.submit();
-    if (data) window.scrollTo(0, 0);
+    if (data) Shio.showResult(els.resultSection);
   }
 
   function init(root) {
@@ -117,16 +117,6 @@
     byId("m-yearly-reset").addEventListener("click", () => {
       step = 1;
       Shio.setState({ result: null });
-    });
-    byId("m-yearly-share").addEventListener("click", () => {
-      const data = Shio.getState().result;
-      if (!data) return;
-      const relation = data.relation || {};
-      Shio.share({
-        title: "Liu Nian " + (data.year || ""),
-        text: "Shio " + (data.user_shio || {}).name + " di Tahun " + (data.year_shio || {}).name + " " + data.year +
-          ": " + (relation.name_id || relation.label || "") + ". Cek proyeksi tahunanmu di Peace Oracle.",
-      });
     });
   }
 

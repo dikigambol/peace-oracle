@@ -60,7 +60,7 @@
       return;
     }
     const data = await Shio.compat.submit();
-    if (data) window.scrollTo(0, 0);
+    if (data) Shio.showResult(els.resultSection);
   }
 
   function init(root) {
@@ -103,17 +103,6 @@
       step = 1;
       Shio.setState({ result: null });
       window.scrollTo(0, 0);
-    });
-    byId("m-compat-share").addEventListener("click", () => {
-      const data = Shio.getState().result;
-      if (!data) return;
-      const one = data.shio1 || {};
-      const two = data.shio2 || {};
-      Shio.share({
-        title: "Pei Dui " + one.name + " × " + two.name,
-        text: "Kecocokan shio " + one.name + " × " + two.name + ": " + Shio.compat.scoreOf(data) +
-          "%. Cek kecocokan kalian di Peace Oracle.",
-      });
     });
   }
 

@@ -67,6 +67,40 @@
     return node;
   }
 
+  const timeClearRefreshers = new WeakMap();
+
+  function refreshTimeClear(input) {
+    const refresh = timeClearRefreshers.get(input);
+    if (refresh) refresh();
+  }
+
+  function setupTimeClear(root) {
+    root.querySelectorAll('input[type="time"]').forEach((input) => {
+      const wrap = el("span", "sh-time");
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+      const button = el("button", "sh-time-clear");
+      button.type = "button";
+      button.setAttribute("aria-label", "Hapus jam lahir");
+      const mark = el("i", "fa-solid fa-xmark");
+      mark.setAttribute("aria-hidden", "true");
+      button.appendChild(mark);
+      wrap.appendChild(button);
+      const refresh = () => {
+        button.hidden = !input.value;
+      };
+      input.addEventListener("input", refresh);
+      input.addEventListener("change", refresh);
+      button.addEventListener("click", () => {
+        input.value = "";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.focus();
+      });
+      timeClearRefreshers.set(input, refresh);
+      refresh();
+    });
+  }
+
   function clear(node) {
     while (node && node.firstChild) node.removeChild(node.firstChild);
     return node;
@@ -193,27 +227,38 @@
     node.scrollIntoView({ behavior: window.prefersReducedMotion() ? "auto" : "smooth", block: "start" });
   }
 
+  function focusResult(node) {
+    if (!node) return;
+    if (!node.hasAttribute("tabindex")) node.setAttribute("tabindex", "-1");
+    node.classList.add("sh-result-target");
+    if (activeLayout === "mobile") window.scrollTo({ top: 0, behavior: window.prefersReducedMotion() ? "auto" : "smooth" });
+    else scrollIntoView(node);
+    node.focus({ preventScroll: true });
+  }
+
+  function freshForm(form) {
+    const next = {};
+    if (form.lens) next.lens = form.lens;
+    if (app.dataset.page === "liunian") {
+      const seeded = parseInt(app.dataset.currentYear, 10);
+      next.year = Number.isFinite(seeded) ? seeded : new Date().getFullYear();
+    }
+    return next;
+  }
+
+  function showResult(node) {
+    state = Object.assign({}, state, { submitted: state.form, form: freshForm(state.form) });
+    const renderer = renderers[activeLayout];
+    if (renderer && renderer.syncForm) renderer.syncForm(state);
+    if (renderer) renderer.render(state);
+    focusResult(node);
+  }
+
   function replay(node, className) {
     if (!node) return;
     node.classList.remove(className);
     void node.offsetWidth;
     node.classList.add(className);
-  }
-
-  async function share(payload) {
-    const url = payload.url || window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: payload.title, text: payload.text, url: url });
-      } catch (error) {}
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(payload.text + " " + url);
-      window.showToast("Teks sudah disalin. Tinggal tempel di chat.", "info");
-    } catch (error) {
-      window.showErrorToast("Browser ini belum bisa menyalin otomatis.");
-    }
   }
 
   function setupMoreSheet(root) {
@@ -261,6 +306,7 @@
     if (!app) return;
     const mobileRoot = app.querySelector('[data-layout="mobile"]');
     if (mobileRoot) setupMoreSheet(mobileRoot);
+    setupTimeClear(app);
     bootHooks.forEach((hook) => hook(app));
     Object.keys(renderers).forEach((name) => {
       const root = app.querySelector('[data-layout="' + name + '"]');
@@ -285,6 +331,7 @@
     postJson: postJson,
     el: el,
     icon: icon,
+    refreshTimeClear: refreshTimeClear,
     clear: clear,
     part: part,
     staticUrl: staticUrl,
@@ -294,6 +341,8 @@
     setDesktopDate: setDesktopDate,
     mobileDate: mobileDate,
     scrollIntoView: scrollIntoView,
+    focusResult: focusResult,
+    showResult: showResult,
     loadingBox: loadingBox,
     markChoice: markChoice,
     markRadio: markRadio,
@@ -303,7 +352,6 @@
     detailsBlock: detailsBlock,
     bindGender: bindGender,
     replay: replay,
-    share: share,
     activeLayout: () => activeLayout,
   };
 
@@ -1534,8 +1582,8 @@
     requestAnimationFrame(() => circle.setAttribute("stroke-dasharray", score + ", 100"));
   }
 
-  async function submit() {
-    const form = Shio.getState().form;
+  async function submit(source) {
+    const form = source || Shio.getState().form;
     if (!form.date1 || !form.date2) return null;
     const data = await Shio.run(() => Shio.postJson(Shio.api(), {
       tanggal1: form.date1,
@@ -2348,6 +2396,7 @@
       ? String(form.hour).padStart(2, "0") + ":" + String(form.minute || "0").padStart(2, "0")
       : "";
     if (input.value !== next) input.value = next;
+    Shio.refreshTimeClear(input);
   }
 
   Shio.destiny = {

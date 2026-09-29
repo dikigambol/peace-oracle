@@ -49,7 +49,7 @@
     Shio.yearly.bindYearButtons("d", renderYear);
     els.submit.addEventListener("click", async () => {
       const data = await Shio.yearly.submit();
-      if (data) Shio.scrollIntoView(els.result);
+      if (data) Shio.showResult(els.result);
     });
   }
 

@@ -50,6 +50,21 @@ HAJAT = {
         "petung": True,
         "source": "Hari pindah rumah dengan Pancasuda dan catatan pantangan primbon (detikJateng)",
     },
+    "bangun_rumah": {
+        "label": "Bangun rumah",
+        "icon": "fa-trowel-bricks",
+        "inti": "Untuk mulai bangun rumah, hari pantangan disaring dulu, lalu sasi Jawa ikut dilihat. Ada tiga sasi yang dipercaya paling pas.",
+        "saran": "Hari baik cuma pembuka. Pastikan izin bangunan, anggaran, dan tukang sudah siap sebelum peletakan batu pertama.",
+        "pantangan": ["taliwangke", "samparwangke", "sarik_agung", "kala_dite"],
+        "sasi_hindari": {},
+        "sasi_baik": {
+            "bakdamulud": "Sasi Bakdamulud dipercaya mendatangkan rezeki lancar dan kedamaian bagi penghuni rumah.",
+            "ruwah": "Sasi Ruwah dipercaya membawa kemakmuran dan derajat yang terangkat bagi rumah yang dibangun.",
+            "besar": "Sasi Besar dipercaya paling baik untuk membangun rumah karena membawa kebahagiaan, keselamatan, dan rezeki.",
+        },
+        "petung": False,
+        "source": "Sasi baik membangun rumah menurut primbon Jawa (BorobudurNews dan Liputan6)",
+    },
     "usaha": {
         "label": "Buka usaha",
         "icon": "fa-store",

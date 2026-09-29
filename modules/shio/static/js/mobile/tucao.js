@@ -63,7 +63,8 @@
       }
       Shio.particles.emitFrom(els.submit, 34);
       window.scrollTo(0, 0);
-      await Shio.roast.submit();
+      const data = await Shio.roast.submit();
+      if (data) Shio.showResult(els.result);
     });
     els.reroll.addEventListener("click", () => {
       Shio.roast.reroll();

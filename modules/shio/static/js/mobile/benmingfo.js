@@ -33,6 +33,7 @@
 
   function reset() {
     if (Shio.getState().loading) return;
+    Shio.updateForm({ shio: null });
     Shio.setState({ result: null });
     window.scrollTo(0, 0);
   }
@@ -51,9 +52,10 @@
     };
     els.loading.appendChild(Shio.loadingBox("Memanggil penjaga shio-mu..."));
     root.querySelectorAll("[data-shio]").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         window.scrollTo(0, 0);
-        Shio.guardian.submit(button.dataset.shio);
+        const data = await Shio.guardian.submit(button.dataset.shio);
+        if (data) Shio.focusResult(els.result);
       });
     });
     els.back.addEventListener("click", reset);
