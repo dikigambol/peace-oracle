@@ -15,6 +15,7 @@
   }
 
   function goBack() {
+    Shio.updateForm({ shio: null });
     Shio.cookie.back();
     window.scrollTo(0, 0);
   }
@@ -31,8 +32,8 @@
     };
     root.querySelectorAll("[data-shio]").forEach((button) => {
       button.addEventListener("click", () => {
-        window.scrollTo(0, 0);
         Shio.cookie.pick(button.dataset.shio);
+        Shio.focusResult(els.view);
       });
     });
     Shio.cookie.bindCrack(els.stage);

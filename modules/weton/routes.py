@@ -13,6 +13,7 @@ from .data import (
     build_dina_reading,
     build_match_reading,
     build_roasting,
+    build_today,
     today_wib,
 )
 
@@ -49,7 +50,7 @@ def api_response(builder):
 
 @weton_bp.route("/weton")
 def weton_index():
-    return render_template("weton/index.html")
+    return render_template("weton/index.html", today=build_today())
 
 
 @weton_bp.route("/weton/birth")

@@ -69,7 +69,7 @@
       });
     });
     if (!Weton.getState().form.lens) Weton.updateForm({ lens: root.closest("#wt-app").dataset.defaultLens });
-    els.form.addEventListener("submit", (event) => {
+    els.form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const form = Weton.getState().form;
       const missing = SIDES.find((side) => !form[side + "_tanggal"]);
@@ -77,7 +77,7 @@
         Weton.showError(els.error, "Isi tanggal lahir " + (missing === "a" ? "orang pertama" : "orang kedua") + " dulu.");
         return;
       }
-      Weton.submit();
+      if (await Weton.submit()) Weton.showResult(els.result);
     });
   }
 

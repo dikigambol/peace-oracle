@@ -28,6 +28,7 @@
   function init(root) {
     els = {
       form: byId("d-form"),
+      result: byId("d-result"),
       tanggal: byId("d-tanggal"),
       fields: { jam: byId("d-jam"), kota: byId("d-kota") },
       submit: byId("d-submit"),
@@ -39,13 +40,13 @@
     };
     picker = Weton.initDate(els.tanggal, (str) => Weton.updateForm({ tanggal: str }));
     Weton.bindInputs(els.fields);
-    els.form.addEventListener("submit", (event) => {
+    els.form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (!Weton.getState().form.tanggal) {
         Weton.showError(els.error, "Isi tanggal lahirmu dulu.");
         return;
       }
-      Weton.submit();
+      if (await Weton.submit()) Weton.showResult(els.result);
     });
   }
 

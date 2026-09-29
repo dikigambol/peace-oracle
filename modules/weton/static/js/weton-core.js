@@ -84,6 +84,41 @@
   function syncInputs(fields, form) {
     Object.entries(fields).forEach(([key, node]) => {
       node.value = form[key] || "";
+      refreshTimeClear(node);
+    });
+  }
+
+  const timeClearRefreshers = new WeakMap();
+
+  function refreshTimeClear(input) {
+    const refresh = timeClearRefreshers.get(input);
+    if (refresh) refresh();
+  }
+
+  function setupTimeClear(root) {
+    root.querySelectorAll('input[type="time"]').forEach((input) => {
+      const wrap = el("span", "wt-time");
+      input.parentNode.insertBefore(wrap, input);
+      wrap.appendChild(input);
+      const button = el("button", "wt-time-clear");
+      button.type = "button";
+      button.setAttribute("aria-label", "Hapus jam lahir");
+      const mark = el("i", "fa-solid fa-xmark");
+      mark.setAttribute("aria-hidden", "true");
+      button.appendChild(mark);
+      wrap.appendChild(button);
+      const refresh = () => {
+        button.hidden = !input.value;
+      };
+      input.addEventListener("input", refresh);
+      input.addEventListener("change", refresh);
+      button.addEventListener("click", () => {
+        input.value = "";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.focus();
+      });
+      timeClearRefreshers.set(input, refresh);
+      refresh();
     });
   }
 
@@ -94,15 +129,6 @@
     nodes.progressText.textContent = "Langkah " + step + " dari " + total;
     nodes.progressFill.style.width = (step / total) * 100 + "%";
     nodes.back.hidden = step === 1;
-  }
-
-  function bindShare(buttons, build) {
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const payload = state.result ? build(state.result) : null;
-        if (payload) share(payload);
-      });
-    });
   }
 
   function cardHeader(iconName, label) {
@@ -175,6 +201,34 @@
     setState({ result: null, error: "" });
   }
 
+  function freshForm(form) {
+    const app = byId("wt-app");
+    const next = {};
+    if (form.lens) next.lens = form.lens;
+    if (form.hajat) {
+      next.hajat = form.hajat;
+      next.dari = app.dataset.defaultStart;
+      next.sampai = app.dataset.defaultEnd;
+    }
+    return next;
+  }
+
+  function focusResult(node) {
+    if (!node) return;
+    if (!node.hasAttribute("tabindex")) node.setAttribute("tabindex", "-1");
+    node.classList.add("wt-result-target");
+    const behavior = window.prefersReducedMotion() ? "auto" : "smooth";
+    if (activeLayout === "mobile") window.scrollTo({ top: 0, behavior: behavior });
+    else node.scrollIntoView({ behavior: behavior, block: "start" });
+    node.focus({ preventScroll: true });
+  }
+
+  function showResult(node) {
+    state = Object.assign({}, state, { submitted: state.form, form: freshForm(state.form) });
+    if (activeLayout && renderers[activeLayout]) renderers[activeLayout].activate(state);
+    focusResult(node);
+  }
+
   function patchResult(patch) {
     if (!state.result) return;
     setState({ result: Object.assign({}, state.result, patch) });
@@ -212,7 +266,8 @@
         term: "wuku",
         headline: wuku.name,
         sub: "Wuku ke-" + wuku.number + " dari 30 · hari ke-" + wuku.day_in_wuku,
-        facts: [["Dewa pelindung", wuku.dewa]],
+        facts: [["Dewa pelindung", wuku.dewa], ["Pohon lambang", wuku.kayu], ["Burung lambang", wuku.burung || "Tidak ada"]]
+          .filter((fact) => fact[1]),
         items: [watak.wuku],
       },
       {
@@ -238,7 +293,9 @@
         facts: [
           ["Candra", mangsa.candra],
           ["Artinya", mangsa.arti],
-        ],
+          ["Tanda alam", mangsa.tanda],
+          ["Kegiatan tani", mangsa.tani],
+        ].filter((fact) => fact[1]),
         items: [],
       },
       {
@@ -302,42 +359,6 @@
   function describeSources(result) {
     const sources = result.sources || {};
     return "Sumber hitungan dan tafsir: " + Object.values(sources).join("; ") + ".";
-  }
-
-  function lahirShare(result) {
-    return {
-      title: "Weton " + result.weton.label,
-      text: "Wetonku " + result.weton.label + " (neptu " + result.weton.neptu + "), wuku " +
-        result.wuku.name + ", lahir " + result.jawa.tanggal + " " + result.jawa.sasi + " " +
-        result.jawa.tahun + ". Cek wetonmu di Weton Oracle.",
-    };
-  }
-
-  function matchShare(result) {
-    const names = result.people.map((person) => person.weton.label).join(" × ");
-    const outcomes = result.petung.map((item) => item.name.replace("Petung ", "") + ": " + item.result.name).join(", ");
-    return {
-      title: "Kecocokan weton " + names,
-      text: "Kecocokan weton " + names + " (neptu " + result.total_neptu + "), lensa " +
-        result.lens.label.toLowerCase() + ". " + outcomes + ". Cek punyamu di Weton Oracle.",
-    };
-  }
-
-  async function share(payload) {
-    const text = payload.text;
-    const url = window.location.href;
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: payload.title, text: text, url: url });
-      } catch (error) {}
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(text + " " + url);
-      window.showToast("Teks hasil sudah disalin. Tinggal tempel di chat.", "info");
-    } catch (error) {
-      window.showErrorToast("Browser ini belum bisa menyalin otomatis.");
-    }
   }
 
   const PAYLOAD_BUILDERS = {
@@ -421,14 +442,17 @@
     day.pantangan.forEach((item) => badges.appendChild(el("span", "wt-badge wt-badge-pantangan", result.pantangan_info[item.key].name)));
     if (day.wetonan) badges.appendChild(el("span", "wt-badge wt-badge-wetonan", "Wetonanmu"));
     if (badges.children.length) article.appendChild(badges);
+    const lambang = [wuku.kayu && "kayu " + wuku.kayu, "burung " + (wuku.burung || "tidak ada")].filter(Boolean).join(" · ");
     article.appendChild(factsList([
       ["Tanggal Jawa", jawa.tanggal + " " + jawa.sasi + " " + jawa.tahun + " · tahun " + jawa.taun + ", windu " + jawa.windu],
       ["Wuku", wuku.name + " (ke-" + wuku.number + ") · dewa " + wuku.dewa],
+      ["Lambang wuku", lambang],
       ["Hari Jawa", weton.hari_jawa],
       ["Arah pasaran", keblat.arah + " · warna " + keblat.warna],
       ["Pranata mangsa", "Mangsa " + mangsa.name + " (" + mangsa.sanskrit + ")"],
       ["Artinya", mangsa.arti],
-    ]));
+      ["Tanda alam", mangsa.tanda],
+    ].filter((fact) => fact[1])));
     day.istimewa.forEach((key) => {
       const info = result.istimewa_info[key];
       article.appendChild(renderNoteBlock(info.name, info.inti, info.saran, "Sumber: " + info.source));
@@ -458,18 +482,6 @@
     wrap.appendChild(note);
     wrap.appendChild(el("p", "wt-hint", wetonan.note));
     return wrap;
-  }
-
-  function calendarShare(result, iso) {
-    const day = findDay(result, iso);
-    const extras = day.istimewa.map((key) => result.istimewa_info[key].name)
-      .concat(day.pantangan.map((item) => result.pantangan_info[item.key].name));
-    return {
-      title: "Kalender Jawa " + day.label,
-      text: day.label + " jatuh pada " + day.weton.label + ", " + day.jawa.tanggal + " " + day.jawa.sasi + " " +
-        day.jawa.tahun + ", wuku " + day.wuku.name + (extras.length ? " (" + extras.join(", ") + ")" : "") +
-        ". Cek kalender Jawa di Weton Oracle.",
-    };
   }
 
   function renderDuo(result) {
@@ -595,13 +607,6 @@
     return slides;
   }
 
-  function roastShare(result, text) {
-    return {
-      title: "Roasting weton " + result.person.weton.label,
-      text: "Roasting weton " + result.person.weton.label + ": \"" + text + "\" Coba roasting wetonmu di Weton Oracle.",
-    };
-  }
-
   function dinaDefaults(app) {
     if (state.form.hajat) return;
     updateForm({
@@ -681,24 +686,13 @@
     els.disclaimer.textContent = result.disclaimer + " Sumber: " + Object.values(result.sources).join("; ") + ".";
   }
 
-  function dinaShare(result) {
-    const hajat = result.hajat.label.toLowerCase();
-    const picks = result.recommended.slice(0, 3).map((day) => day.label + " (" + day.weton.label + ")");
-    const summary = picks.length
-      ? "Hari paling pas buat " + hajat + ": " + picks.join(", ") + "."
-      : "Belum ada hari yang pas buat " + hajat + " di " + result.range.label + ".";
-    return {
-      title: "Hari baik " + hajat,
-      text: summary + " Cari hari baikmu di Weton Oracle.",
-    };
-  }
-
   function boot() {
     const app = document.getElementById("wt-app");
     if (!app) return;
     glossary = readJsonScript("wt-glossary") || {};
     const initial = readJsonScript("wt-initial");
     if (initial) state = Object.assign({}, state, { result: initial });
+    setupTimeClear(app);
     Object.keys(renderers).forEach((name) => {
       const root = app.querySelector('[data-layout="' + name + '"]');
       if (root) renderers[name].init(root);
@@ -716,25 +710,21 @@
     updateForm: updateForm,
     submit: submit,
     reset: reset,
+    showResult: showResult,
     patchResult: patchResult,
     calendarGo: calendarGo,
     renderMarks: renderMarks,
     describeDayForLabel: describeDayForLabel,
     renderDayDetail: renderDayDetail,
     renderWetonanSummary: renderWetonanSummary,
-    calendarShare: calendarShare,
     duoLabel: duoLabel,
     roastSlides: roastSlides,
-    roastShare: roastShare,
     registerRenderer: registerRenderer,
     buildLahirCards: buildLahirCards,
     renderCard: renderCard,
     describeSources: describeSources,
     renderDuo: renderDuo,
     renderPetungCard: renderPetungCard,
-    lahirShare: lahirShare,
-    matchShare: matchShare,
-    share: share,
     el: el,
     clear: clear,
     byId: byId,
@@ -744,7 +734,6 @@
     bindInputs: bindInputs,
     syncInputs: syncInputs,
     renderStepper: renderStepper,
-    bindShare: bindShare,
     roastError: roastError,
     calendar: calendar,
     dinaDefaults: dinaDefaults,
@@ -752,7 +741,6 @@
     dinaTitle: dinaTitle,
     buildDinaItem: buildDinaItem,
     renderDina: renderDina,
-    dinaShare: dinaShare,
   };
 
   document.addEventListener("DOMContentLoaded", boot);

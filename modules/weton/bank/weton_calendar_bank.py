@@ -3,6 +3,9 @@ HARI_ISTIMEWA = {
         "name": "Anggara Kasih",
         "hari": "selasa",
         "pasaran": "kliwon",
+        "sasi": None,
+        "tanggal": None,
+        "akhir_sasi": False,
         "inti": "Selasa Kliwon disebut Anggara Kasih, hari yang dianggap istimewa untuk doa, perenungan, dan merawat rasa sayang.",
         "saran": "Pakai hari ini buat me-time yang bermakna: rapikan pikiran, kirim doa, atau sapa keluarga yang lama nggak kamu hubungi.",
         "source": "Wikipedia bahasa Indonesia (Kliwon, merujuk Primbon Betaljemur Adammakna) dan Kawruh.com",
@@ -11,6 +14,9 @@ HARI_ISTIMEWA = {
         "name": "Jumat Kliwon",
         "hari": "jumat",
         "pasaran": "kliwon",
+        "sasi": None,
+        "tanggal": None,
+        "akhir_sasi": False,
         "inti": "Jumat Kliwon dianggap hari keramat. Malamnya dimulai Kamis setelah maghrib dan sering diisi ziarah atau doa keselamatan.",
         "saran": "Cocok buat ziarah atau hening sebentar. Kalau kamu nggak menjalankan tradisinya, cukup hormati orang yang menjalankan.",
         "source": "Wikipedia bahasa Indonesia (Kliwon, merujuk Primbon Betaljemur Adammakna) dan Kawruh.com",
@@ -19,9 +25,56 @@ HARI_ISTIMEWA = {
         "name": "1 Sura",
         "hari": None,
         "pasaran": None,
+        "sasi": "sura",
+        "tanggal": 1,
+        "akhir_sasi": False,
         "inti": "1 Sura adalah tahun baru Jawa. Malam 1 Sura jatuh sehari sebelumnya setelah maghrib, diisi tirakatan atau kirab pusaka.",
         "saran": "Momen pas buat refleksi setahun ke belakang. Tulis satu hal yang mau kamu lepas dan satu hal yang mau kamu mulai.",
         "source": "Aritmetika kalender Sultan Agungan, Wikipedia bahasa Indonesia (Kliwon), dan Kawruh.com",
+    },
+    "rebo_wekasan": {
+        "name": "Rebo Wekasan",
+        "hari": "rabu",
+        "pasaran": None,
+        "sasi": "sapar",
+        "tanggal": None,
+        "akhir_sasi": True,
+        "inti": "Rebo Wekasan adalah Rabu terakhir di sasi Sapar. Banyak keluarga Jawa mengisinya dengan doa tolak bala dan selamatan.",
+        "saran": "Ambil momen ini buat doa bersama atau berbagi makanan ke tetangga. Kalau kamu nggak ikut tradisinya, cukup hormati yang menjalankan.",
+        "source": "Wikipedia bahasa Indonesia (Rebo wekasan), Kompas, dan detikJatim",
+    },
+    "garebeg_mulud": {
+        "name": "Garebeg Mulud",
+        "hari": None,
+        "pasaran": None,
+        "sasi": "mulud",
+        "tanggal": 12,
+        "akhir_sasi": False,
+        "inti": "Garebeg Mulud digelar Keraton Yogyakarta tiap 12 Mulud untuk memperingati Maulid Nabi, lengkap dengan kirab gunungan.",
+        "saran": "Kalau kamu di Jogja, lihat kirab gunungannya di Alun-alun Utara. Tanggal keraton ikut kalender Jawa, jadi bisa beda sehari dari Hijriah.",
+        "source": "Kraton Jogja (kratonjogja.id, Hajad Dalem Garebeg) dan Dinas Kebudayaan DIY",
+    },
+    "garebeg_sawal": {
+        "name": "Garebeg Sawal",
+        "hari": None,
+        "pasaran": None,
+        "sasi": "sawal",
+        "tanggal": 1,
+        "akhir_sasi": False,
+        "inti": "Garebeg Sawal digelar Keraton Yogyakarta tiap 1 Sawal sebagai syukur selesainya puasa, ditandai gunungan yang dibagikan ke warga.",
+        "saran": "Tanggal keraton ikut kalender Jawa, jadi bisa beda sehari dengan Lebaran versi pemerintah. Cek pengumuman resmi sebelum kamu datang.",
+        "source": "Kraton Jogja (kratonjogja.id, Hajad Dalem Garebeg) dan Dinas Kebudayaan DIY",
+    },
+    "garebeg_besar": {
+        "name": "Garebeg Besar",
+        "hari": None,
+        "pasaran": None,
+        "sasi": "besar",
+        "tanggal": 10,
+        "akhir_sasi": False,
+        "inti": "Garebeg Besar digelar Keraton Yogyakarta tiap 10 Besar bertepatan dengan Iduladha, dengan kirab gunungan menuju Masjid Gedhe.",
+        "saran": "Momen pas buat berbagi, sejalan dengan semangat kurban. Tanggal keraton bisa beda sehari dari versi pemerintah, jadi cek dulu jadwalnya.",
+        "source": "Kraton Jogja (kratonjogja.id, Hajad Dalem Garebeg) dan Dinas Kebudayaan DIY",
     },
 }
 
@@ -106,10 +159,15 @@ KEBLAT_PASARAN = {
 }
 
 CALENDAR_SOURCES = {
-    "istimewa": "Wikipedia bahasa Indonesia (Kliwon, merujuk Primbon Betaljemur Adammakna) dan Kawruh.com",
+    "istimewa": "Wikipedia bahasa Indonesia (Kliwon, merujuk Primbon Betaljemur Adammakna) dan Kawruh.com; Rebo Wekasan: Wikipedia bahasa Indonesia dan Kompas; Garebeg: Kraton Jogja (kratonjogja.id, Hajad Dalem Garebeg) dan Dinas Kebudayaan DIY",
     "pantangan_wuku": "Primbon Jawa: Taliwangke, Samparwangke, Sarik Agung, Kala Dite, dan Dhendhan Kukudan menurut wuku",
     "pantangan_sasi": "Primbon Betaljemur Adammakna: Taliwangke menurut sasi",
     "keblat": "Wikipedia bahasa Indonesia (Legi, Paing, Pon, Wage, Kliwon), merujuk Primbon Betaljemur Adammakna",
+    "lambang_wuku": (
+        "Lambang kayu dan burung wuku: JavaSense (merujuk Primbon Betaljemur Adammakna), kaweruhjawa, mysteriobizarre, "
+        "dan tabel pawukon Baratayuda, dipakai versi mayoritas"
+    ),
+    "mangsa": "Tanda alam pranata mangsa: Wikipedia bahasa Indonesia (Pranata mangsa, versi Kasunanan)",
 }
 
 CALENDAR_NOTE = (

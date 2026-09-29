@@ -164,6 +164,45 @@
   color: var(--wt-faint);
 }
 
+.wt-time {
+  position: relative;
+  display: block;
+}
+
+.wt-time-clear {
+  position: absolute;
+  top: 50%;
+  right: 40px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--wt-faint);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.wt-time-clear:hover,
+.wt-time-clear:focus-visible {
+  color: var(--wt-cream);
+  background: rgba(var(--wt-cream-rgb), 0.12);
+}
+
+.wt-time-clear:focus-visible {
+  outline: 2px solid var(--wt-gold);
+  outline-offset: 1px;
+}
+
+.wt-time-clear[hidden] {
+  display: none;
+}
+
 .wt-input:focus {
   outline: none;
   border-color: var(--wt-gold);
@@ -482,6 +521,7 @@
 }
 
 .wt-lens-option span {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -513,7 +553,6 @@
 
 .wt-lens-grid .wt-lens-option span {
   width: 100%;
-  box-sizing: border-box;
   gap: 6px;
   padding: 10px;
   border-radius: var(--wt-radius-md);
@@ -738,4 +777,84 @@
   [aria-busy="true"] {
     transition: none;
   }
+}
+
+
+.wt-today {
+  display: grid;
+  gap: 16px;
+  border-color: var(--wt-line-strong);
+  background: linear-gradient(160deg, rgba(var(--wt-sogan-rgb), 0.35), var(--wt-surface));
+}
+
+.wt-today-main {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.wt-today-main .wt-eyebrow,
+.wt-today-main .wt-cal-badges {
+  margin: 0;
+}
+
+.wt-today-title {
+  margin: 0;
+  font-family: var(--wt-font-head);
+  font-size: 1.9rem;
+  line-height: 1.15;
+  color: var(--wt-cream);
+}
+
+.wt-today-meta {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--wt-muted);
+}
+
+.wt-today-maghrib {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--wt-faint);
+}
+
+.wt-today-maghrib[data-after="true"] {
+  color: var(--wt-gold);
+}
+
+.wt-today-next .wt-label {
+  margin: 0 0 8px;
+}
+
+.wt-today-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wt-today-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--wt-line);
+  font-size: 0.9rem;
+}
+
+.wt-today-name {
+  font-weight: 700;
+  color: var(--wt-cream);
+}
+
+.wt-today-when {
+  text-align: right;
+  color: var(--wt-muted);
+}
+
+.wt-result-target:focus {
+  outline: none;
 }

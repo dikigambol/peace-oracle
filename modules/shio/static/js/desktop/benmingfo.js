@@ -39,7 +39,7 @@
     root.querySelectorAll("[data-shio]").forEach((button) => {
       button.addEventListener("click", async () => {
         const data = await Shio.guardian.submit(button.dataset.shio);
-        if (data) Shio.scrollIntoView(els.result);
+        if (data) Shio.focusResult(els.result);
       });
     });
   }

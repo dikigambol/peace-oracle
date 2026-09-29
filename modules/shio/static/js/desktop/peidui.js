@@ -27,7 +27,7 @@
 
   async function submit() {
     const data = await Shio.compat.submit();
-    if (data) setTimeout(() => Shio.scrollIntoView(els.result), 200);
+    if (data) setTimeout(() => Shio.showResult(els.result), 200);
   }
 
   function setupDate(key) {
@@ -55,18 +55,22 @@
         if (state.form.lens === chip.dataset.lens || state.loading) return;
         Shio.updateForm({ lens: chip.dataset.lens });
         render(Shio.getState());
-        if (state.result && ready(state.form)) Shio.compat.submit();
+        if (state.result && state.submitted) Shio.compat.submit(Object.assign({}, state.submitted, { lens: chip.dataset.lens }));
       });
     });
     els.submit.addEventListener("click", submit);
   }
 
-  function activate(state) {
+  function syncForm(state) {
     Shio.setDesktopDate(pickers.date1, byId("d-compat-date1"), state.form.date1);
     Shio.setDesktopDate(pickers.date2, byId("d-compat-date2"), state.form.date2);
+  }
+
+  function activate(state) {
+    syncForm(state);
     renderedResult = null;
     render(state, true);
   }
 
-  Shio.registerRenderer("desktop", { init: init, render: render, activate: activate });
+  Shio.registerRenderer("desktop", { init: init, render: render, activate: activate, syncForm: syncForm });
 })();

@@ -11,6 +11,7 @@
           <p class="wt-d-lead">Tanggal lahirmu punya kode, dan weton adalah cara bacanya. Neptu, watak, sampai kecocokan dihitung langsung dari primbon.</p>
         </div>
       </header>
+      {{ today_card(today, "d") }}
       <nav class="wt-d-hub" aria-label="Fitur Weton">
         {% for feature in features %}
         <a class="wt-card wt-hub-card" href="{{ url_for(feature.endpoint) }}">
@@ -32,6 +33,7 @@
       </header>
       <main class="wt-m-main">
         <p class="wt-m-help">Tanggal lahirmu punya kode, weton cara bacanya. Pilih fitur yang mau kamu coba.</p>
+        {{ today_card(today, "m") }}
         <nav class="wt-m-hub" aria-label="Fitur Weton">
           {% for feature in features %}
           <a class="wt-card wt-hub-card" href="{{ url_for(feature.endpoint) }}">

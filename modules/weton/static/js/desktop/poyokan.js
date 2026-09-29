@@ -105,7 +105,6 @@
       result: byId("d-roast-result"),
       meta: byId("d-roast-meta"),
       title: byId("d-roast-title"),
-      share: byId("d-roast-share"),
       maghrib: byId("d-roast-maghrib"),
       cards: byId("d-roast-cards"),
       duo: byId("d-roast-duo"),
@@ -128,14 +127,14 @@
       Weton.updateForm({ duo: els.duoToggle.checked });
       els.duoFields.hidden = !els.duoToggle.checked;
     });
-    els.form.addEventListener("submit", (event) => {
+    els.form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const message = Weton.roastError(Weton.getState().form);
       if (message) {
         Weton.showError(els.error, message);
         return;
       }
-      Weton.submit();
+      if (await Weton.submit()) Weton.showResult(els.result);
     });
     root.addEventListener("click", (event) => {
       const button = event.target.closest(".wt-roast-reroll");
@@ -150,7 +149,6 @@
       const card = button.closest(".wt-roast-card");
       card.querySelector(".wt-roast-text").textContent = pool[replacement];
     });
-    Weton.bindShare([els.share], (result) => Weton.roastShare(result, result.roasts[shown.solo[0]]));
   }
 
   function activate(state) {

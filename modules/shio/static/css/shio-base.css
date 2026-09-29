@@ -116,6 +116,45 @@
   color: rgba(var(--cream-rgb), 0.5);
 }
 
+.sh-time {
+  position: relative;
+  display: block;
+}
+
+.sh-time-clear {
+  position: absolute;
+  top: 50%;
+  right: 44px;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: rgba(var(--cream-rgb), 0.5);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.sh-time-clear:hover,
+.sh-time-clear:focus-visible {
+  color: var(--cream);
+  background: rgba(var(--cream-rgb), 0.12);
+}
+
+.sh-time-clear:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.sh-time-clear[hidden] {
+  display: none;
+}
+
 .sh-input:focus {
   outline: none;
   border-color: var(--gold);
@@ -4860,4 +4899,8 @@ body.board-locked {
 
 .board-overlay[hidden] {
   display: none;
+}
+
+.sh-result-target:focus {
+  outline: none;
 }

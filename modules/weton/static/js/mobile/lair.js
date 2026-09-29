@@ -66,7 +66,6 @@
     const hasResult = Boolean(state.result);
     els.stepsSection.hidden = hasResult;
     els.resultSection.hidden = !hasResult;
-    els.shareTop.hidden = !hasResult;
     if (hasResult) {
       renderResult(state.result);
       return;
@@ -91,6 +90,7 @@
     const ok = await Weton.submit();
     if (!ok) step = 1;
     render(Weton.getState());
+    if (ok) Weton.showResult(els.resultSection);
   }
 
   function init(root) {
@@ -110,8 +110,6 @@
       dots: byId("m-dots"),
       sources: byId("m-sources"),
       reset: byId("m-reset"),
-      shareTop: byId("m-share"),
-      shareBottom: byId("m-share-bottom"),
     };
     Weton.bindInputs(els.inputs);
     Object.values(els.inputs).forEach((node) => {
@@ -137,7 +135,6 @@
       step = 1;
       Weton.reset();
     });
-    Weton.bindShare([els.shareTop, els.shareBottom], Weton.lahirShare);
     let frame = null;
     els.cards.addEventListener("scroll", () => {
       if (frame) cancelAnimationFrame(frame);

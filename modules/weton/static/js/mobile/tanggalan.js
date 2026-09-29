@@ -70,7 +70,6 @@
       note: byId("m-cal-note"),
       disclaimer: byId("m-cal-disclaimer"),
       today: byId("m-cal-today"),
-      share: byId("m-cal-share"),
       lahirFields: {
         lahir_tanggal: byId("m-lahir-tanggal"),
         lahir_jam: byId("m-lahir-jam"),
@@ -87,7 +86,6 @@
     Weton.calendar.bindNav(els, (iso) => Weton.patchResult({ selected: iso }));
     els.submit.addEventListener("click", () => Weton.calendar.submitWetonan(els));
     els.clear.addEventListener("click", () => Weton.calendar.clearWetonan((form) => Weton.syncInputs(els.lahirFields, form)));
-    Weton.bindShare([els.share], (result) => Weton.calendarShare(result, result.selected));
   }
 
   function activate(state) {

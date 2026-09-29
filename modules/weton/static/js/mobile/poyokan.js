@@ -43,7 +43,6 @@
     const result = state.result;
     els.formSection.hidden = Boolean(result);
     els.story.hidden = !result;
-    els.shareTop.hidden = !result;
     window.setButtonLoading(els.submit, state.loading, "Menyiapkan roasting...");
     if (result) {
       renderStory(result);
@@ -65,7 +64,7 @@
     Weton.showError(els.error, message);
     if (message) return;
     current = 0;
-    await Weton.submit();
+    if (await Weton.submit()) Weton.showResult(els.story);
   }
 
   function init(root) {
@@ -86,8 +85,6 @@
       prev: byId("m-story-prev"),
       next: byId("m-story-next"),
       reset: byId("m-roast-reset"),
-      shareTop: byId("m-roast-share"),
-      shareBottom: byId("m-roast-share-bottom"),
       disclaimer: byId("m-roast-disclaimer"),
       fields: {},
     };
@@ -117,7 +114,6 @@
       current = 0;
       Weton.reset();
     });
-    Weton.bindShare([els.shareTop, els.shareBottom], (result) => (slides[current] ? Weton.roastShare(result, slides[current].text) : null));
   }
 
   function activate(state) {

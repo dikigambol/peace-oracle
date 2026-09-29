@@ -80,17 +80,21 @@
     els.city.addEventListener("input", () => Shio.updateForm({ city: els.city.value }));
     els.submit.addEventListener("click", async () => {
       const data = await Shio.destiny.submit();
-      if (data) Shio.scrollIntoView(els.result);
+      if (data) Shio.showResult(els.result);
     });
     window.addEventListener("resize", () => Shio.destiny.refreshChartHints(els.result));
   }
 
-  function activate(state) {
+  function syncForm(state) {
     Shio.setDesktopDate(picker, els.date, state.form.date);
     els.city.value = state.form.city || "";
+  }
+
+  function activate(state) {
+    syncForm(state);
     renderedResult = null;
     render(state);
   }
 
-  Shio.registerRenderer("desktop", { init: init, render: render, activate: activate });
+  Shio.registerRenderer("desktop", { init: init, render: render, activate: activate, syncForm: syncForm });
 })();

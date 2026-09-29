@@ -38,7 +38,6 @@
     const result = state.result;
     els.stepsSection.hidden = Boolean(result);
     els.resultSection.hidden = !result;
-    els.shareTop.hidden = !result;
     if (!result) {
       renderSteps(state);
       Weton.showError(els.error, state.error);
@@ -53,6 +52,7 @@
     const ok = await Weton.submit();
     if (!ok) step = 2;
     render(Weton.getState());
+    if (ok) Weton.showResult(els.resultSection);
   }
 
   function goNext() {
@@ -98,8 +98,6 @@
       note: byId("m-dina-note"),
       disclaimer: byId("m-dina-disclaimer"),
       reset: byId("m-dina-reset"),
-      shareTop: byId("m-dina-share"),
-      shareBottom: byId("m-dina-share-bottom"),
       fields: {
         dari: byId("m-dina-dari"),
         sampai: byId("m-dina-sampai"),
@@ -131,7 +129,6 @@
       step = 1;
       Weton.reset();
     });
-    Weton.bindShare([els.shareTop, els.shareBottom], Weton.dinaShare);
   }
 
   function activate(state) {

@@ -21,7 +21,7 @@
     root.querySelectorAll("[data-shio]").forEach((button) => {
       button.addEventListener("click", () => {
         Shio.cookie.pick(button.dataset.shio);
-        Shio.scrollIntoView(els.view);
+        Shio.focusResult(els.view);
       });
     });
     Shio.cookie.bindCrack(els.stage);

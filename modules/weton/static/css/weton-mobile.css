@@ -44,10 +44,6 @@
   text-decoration: none;
 }
 
-.wt-m-icon[hidden] {
-  display: none;
-}
-
 .wt-m-main {
   padding: 16px;
 }
@@ -221,6 +217,10 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 8px;
+}
+
+.wt-m-result-actions > :only-child {
+  grid-column: 1 / -1;
 }
 
 .wt-m-lens {
@@ -558,6 +558,25 @@
 .wt-m-story-hint {
   margin: 0 0 14px;
   text-align: center;
+}
+
+.wt-m-main .wt-today {
+  gap: 4px;
+  margin-bottom: 12px;
+  padding: 16px;
+}
+
+.wt-m-main .wt-today-title {
+  font-size: 1.5rem;
+}
+
+.wt-m-main .wt-today-list li {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.wt-m-main .wt-today-when {
+  text-align: left;
 }
 
 .wt-m-hub {
