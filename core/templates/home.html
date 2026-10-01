@@ -1,59 +1,70 @@
-{% extends 'base.html' %} {% block title %}Peace Oracle - Gerbang Takdir
-Kosmik{% endblock %} {% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
-{% endblock %}
+{% extends 'base.html' %}
+{% block title %}Peace Oracle - Gerbang Takdir Kosmik{% endblock %}
+{% block body_class %}co-home{% endblock %}
 {% block content %}
-<div class="home-container">
-  <div class="home-header">
-    <h1>Peace Oracle</h1>
-    <p>Pilih Gerbang Menuju Takdir Kosmik Anda</p>
+{% set modes = [
+  {'key': 'zodiak', 'endpoint': 'zodiak.home', 'icon': 'fa-moon', 'title': 'Zodiak Barat', 'text': 'Singkap misteri bintang-bintang dan pelajari kepribadian astrologi Anda.'},
+  {'key': 'shio', 'endpoint': 'shio.shio_index', 'icon': 'fa-dragon', 'title': 'Shio Timur', 'text': 'Temukan energi elemen dan kebijaksanaan oriental Anda.'},
+  {'key': 'weton', 'endpoint': 'weton.weton_index', 'icon': 'fa-scroll', 'title': 'Weton Jawa', 'text': 'Hitung neptu dan selaraskan energi spiritual leluhur nusantara.'},
+] %}
+{% set tarot = {'icon': 'fa-wand-magic-sparkles', 'title': 'Kartu Tarot', 'text': 'Buka tabir masa depan melalui arkana dan sinkronisitas kartu.'} %}
+{% macro cards() %}
+  {% for mode in modes if mode.key in installed_modes %}
+  <a href="{{ url_for(mode.endpoint) }}" class="mode-card {{ mode.key }}">
+    <i class="fa-solid {{ mode.icon }}" aria-hidden="true"></i>
+    <div class="card-text">
+      <h2>{{ mode.title }}</h2>
+      <p>{{ mode.text }}</p>
+    </div>
+  </a>
+  {% endfor %}
+  <div class="mode-card tarot locked" aria-disabled="true">
+    <div class="coming-soon-badge">SOON</div>
+    <i class="fa-solid {{ tarot.icon }}" aria-hidden="true"></i>
+    <div class="card-text">
+      <h2>{{ tarot.title }}</h2>
+      <p>{{ tarot.text }}</p>
+    </div>
   </div>
-  <div class="mode-grid">
-    <a href="{{ url_for('zodiak.home') }}" class="mode-card zodiak">
-      <i class="fa-solid fa-moon"></i>
-      <div class="card-text">
-        <h2>Zodiak Barat</h2>
-        <p>
-          Singkap misteri bintang-bintang dan pelajari kepribadian astrologi
-          Anda.
-        </p>
-      </div>
-    </a>
-    <a href="{{ url_for('shio.shio_index') }}" class="mode-card shio">
-      <div class="beta-badge">BETA</div>
-      <i class="fa-solid fa-dragon"></i>
-      <div class="card-text">
-        <h2>Shio Timur</h2>
-        <p>Temukan energi elemen dan kebijaksanaan oriental Anda.</p>
-      </div>
-    </a>
-    <a href="#" class="mode-card weton locked" onclick="event.preventDefault()">
-      <div class="coming-soon-badge">SOON</div>
-      <i class="fa-solid fa-scroll"></i>
-      <div class="card-text">
-        <h2>Weton Jawa</h2>
-        <p>Hitung neptu dan selaraskan energi spiritual leluhur nusantara.</p>
-      </div>
-    </a>
-    <a href="#" class="mode-card tarot locked" onclick="event.preventDefault()">
-      <div class="coming-soon-badge">SOON</div>
-      <i class="fa-solid fa-wand-magic-sparkles"></i>
-      <div class="card-text">
-        <h2>Kartu Tarot</h2>
-        <p>Buka tabir masa depan melalui arkana dan sinkronisitas kartu.</p>
-      </div>
-    </a>
+{% endmacro %}
+{% macro footer() %}
+  <p class="co-footer-text">
+    Diciptakan dari kegabutan tingkat kosmis oleh orang-orang di
+    <strong>Peace Server</strong>
+    <span class="planet-trigger">
+      <span class="planet-emoji">🪐</span>
+      <span class="secret-copyright">© 2026 Hak Cipta Alam Semesta.</span>
+    </span>
+  </p>
+{% endmacro %}
+<div class="co-layout co-layout-desktop">
+  <div class="co-page co-d-home">
+    <div class="co-d-header">
+      <h1>Peace Oracle</h1>
+      <p>Pilih Gerbang Menuju Takdir Kosmik Anda</p>
+    </div>
+    <div class="co-d-grid">
+      {{ cards() }}
+    </div>
+    <div class="co-d-footer">
+      {{ footer() }}
+    </div>
   </div>
-  <div class="home-footer">
-    <p>
-      Diciptakan dari kegabutan tingkat kosmis oleh orang-orang di
-      <strong>Peace Server</strong>
-      <span class="planet-trigger">
-        <span class="planet-emoji">🪐</span>
-        <span class="secret-copyright">© 2026 Hak Cipta Alam Semesta.</span>
-      </span>
-    </p>
+</div>
+<div class="co-layout co-layout-mobile">
+  <div class="co-page co-m-home">
+    <header class="co-m-appbar">
+      <h1>Peace Oracle</h1>
+    </header>
+    <main class="co-m-main">
+      <p class="co-m-lead">Pilih gerbang menuju takdir kosmik Anda.</p>
+      <div class="co-m-list">
+        {{ cards() }}
+      </div>
+    </main>
+    <div class="co-m-footer">
+      {{ footer() }}
+    </div>
   </div>
 </div>
 {% endblock %}

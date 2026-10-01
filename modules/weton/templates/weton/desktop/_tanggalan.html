@@ -1,0 +1,53 @@
+<div class="wt-d-shell">
+  {{ desktop_header("Kalender Jawa Harian", "Weton, wuku, tanggal Jawa, dan pranata mangsa tiap hari, plus hari istimewa dan hari pantangan yang tercatat di primbon.", "kalender") }}
+
+  <div class="wt-d-cal">
+    <section class="wt-card wt-d-cal-main" aria-labelledby="d-cal-month">
+      <div class="wt-d-cal-toolbar">
+        <button class="wt-btn wt-btn-ghost wt-d-cal-nav" id="d-cal-prev" type="button" aria-label="Bulan sebelumnya">
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <div class="wt-d-cal-heading">
+          <h2 class="wt-card-title" id="d-cal-month"></h2>
+          <p class="wt-result-sub" id="d-cal-jawa"></p>
+        </div>
+        <button class="wt-btn wt-btn-ghost wt-d-cal-nav" id="d-cal-next" type="button" aria-label="Bulan berikutnya">
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </button>
+        <div class="wt-d-cal-jump">
+          <button class="wt-btn wt-btn-ghost" id="d-cal-today" type="button">Hari ini</button>
+          <label class="wt-sr-only" for="d-cal-date">Lompat ke tanggal</label>
+          <input class="wt-input" id="d-cal-date" placeholder="Lompat ke tanggal" readonly autocomplete="off"
+                 data-min="{{ first_date }}" data-max="{{ last_date }}" />
+        </div>
+      </div>
+      <div class="wt-d-cal-weekdays" aria-hidden="true">
+        {% for name in ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'] %}<span>{{ name }}</span>{% endfor %}
+      </div>
+      <div class="wt-d-cal-grid" id="d-cal-grid"></div>
+      <ul class="wt-cal-legend" aria-label="Keterangan tanda">
+        <li><span class="wt-mark wt-mark-istimewa" aria-hidden="true"></span> Hari istimewa</li>
+        <li><span class="wt-mark wt-mark-pantangan" aria-hidden="true"></span> Hari pantangan</li>
+        <li><span class="wt-mark wt-mark-wetonan" aria-hidden="true"></span> Wetonanmu</li>
+      </ul>
+      <p class="wt-error" id="d-cal-error" role="alert" hidden></p>
+      <p class="wt-note" id="d-cal-note"></p>
+    </section>
+
+    <aside class="wt-d-cal-side">
+      <div id="d-cal-detail" aria-live="polite"></div>
+      <form class="wt-card wt-d-wetonan" id="d-wetonan-form" novalidate>
+        <h2 class="wt-card-title">Tandai wetonanmu</h2>
+        <p class="wt-hint">Isi tanggal lahirmu, nanti hari dengan weton yang sama ditandai di kalender.</p>
+        {{ desktop_date("d-lahir-tanggal") }}
+        {{ desktop_time_city("d-lahir") }}
+        <div class="wt-d-wetonan-actions">
+          <button class="wt-btn wt-btn-primary" id="d-wetonan-submit" type="submit">Tandai</button>
+          <button class="wt-btn wt-btn-ghost" id="d-wetonan-clear" type="button" hidden>Hapus tanda</button>
+        </div>
+        <div id="d-wetonan-summary" hidden></div>
+      </form>
+    </aside>
+  </div>
+  <p class="wt-sources" id="d-cal-disclaimer"></p>
+</div>

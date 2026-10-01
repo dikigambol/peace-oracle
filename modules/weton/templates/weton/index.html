@@ -1,0 +1,51 @@
+{% extends 'weton/_dhasar.html' %}
+{% block title %}Weton - Peace Oracle{% endblock %}
+{% block description %}Weton Oracle: cek weton lahir, kecocokan weton, kalender Jawa harian, dan roasting weton, semuanya dihitung dari kalender dan primbon.{% endblock %}
+{% block content %}
+<div class="wt-app" id="wt-app">
+  <div class="wt-layout wt-layout-desktop" data-layout="desktop">
+    <div class="wt-d-shell">
+      <header class="wt-d-header">
+        <div class="wt-d-brand">
+          <h1 class="wt-d-title">Weton Oracle</h1>
+          <p class="wt-d-lead">Tanggal lahirmu punya kode, dan weton adalah cara bacanya. Neptu, watak, sampai kecocokan dihitung langsung dari primbon.</p>
+        </div>
+      </header>
+      {{ today_card(today, "d") }}
+      <nav class="wt-d-hub" aria-label="Fitur Weton">
+        {% for feature in features %}
+        <a class="wt-card wt-hub-card" href="{{ url_for(feature.endpoint) }}">
+          <i class="fa-solid {{ feature.icon }} wt-result-icon" aria-hidden="true"></i>
+          <span class="wt-hub-title">{{ feature.title }}</span>
+          <span class="wt-hub-text">{{ feature.text }}</span>
+          <span class="wt-hub-go">Buka <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
+        </a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+  <div class="wt-layout wt-layout-mobile" data-layout="mobile">
+    <div class="wt-m-shell" data-bottom-nav>
+      <header class="wt-m-appbar">
+        <span aria-hidden="true"></span>
+        <h1 class="wt-m-title">Weton Oracle</h1>
+        <span aria-hidden="true"></span>
+      </header>
+      <main class="wt-m-main">
+        <p class="wt-m-help">Tanggal lahirmu punya kode, weton cara bacanya. Pilih fitur yang mau kamu coba.</p>
+        {{ today_card(today, "m") }}
+        <nav class="wt-m-hub" aria-label="Fitur Weton">
+          {% for feature in features %}
+          <a class="wt-card wt-hub-card" href="{{ url_for(feature.endpoint) }}">
+            <i class="fa-solid {{ feature.icon }} wt-result-icon" aria-hidden="true"></i>
+            <span class="wt-hub-title">{{ feature.title }}</span>
+            <span class="wt-hub-text">{{ feature.text }}</span>
+          </a>
+          {% endfor %}
+        </nav>
+      </main>
+      {{ mobile_tabbar("hub") }}
+    </div>
+  </div>
+</div>
+{% endblock %}

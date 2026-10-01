@@ -1,0 +1,56 @@
+{% set signs = [
+  ("aries", "♈", "Aries", "21 Mar - 19 Apr", "fire", "Api"),
+  ("taurus", "♉", "Taurus", "20 Apr - 20 Mei", "earth", "Tanah"),
+  ("gemini", "♊", "Gemini", "21 Mei - 20 Jun", "air", "Udara"),
+  ("cancer", "♋", "Cancer", "21 Jun - 22 Jul", "water", "Air"),
+  ("leo", "♌", "Leo", "23 Jul - 22 Agu", "fire", "Api"),
+  ("virgo", "♍", "Virgo", "23 Agu - 22 Sep", "earth", "Tanah"),
+  ("libra", "♎", "Libra", "23 Sep - 22 Okt", "air", "Udara"),
+  ("scorpio", "♏", "Scorpio", "23 Okt - 21 Nov", "water", "Air"),
+  ("sagittarius", "♐", "Sagittarius", "22 Nov - 21 Des", "fire", "Api"),
+  ("capricorn", "♑", "Capricorn", "22 Des - 19 Jan", "earth", "Tanah"),
+  ("aquarius", "♒", "Aquarius", "20 Jan - 18 Feb", "air", "Udara"),
+  ("pisces", "♓", "Pisces", "19 Feb - 20 Mar", "water", "Air"),
+] %}
+
+{% macro zodiac_grid() %}
+<div class="zodiac-grid" id="zodiac-grid">
+  {% for key, symbol, name, dates, element, element_label in signs %}
+  <button class="zodiac-card" data-sign="{{ key }}">
+    <span class="zodiac-symbol">{{ symbol }}</span>
+    <h3 class="zodiac-name">{{ name }}</h3>
+    <p class="zodiac-dates">{{ dates }}</p>
+    <span class="element-badge {{ element }}">{{ element_label }}</span>
+  </button>
+  {% endfor %}
+</div>
+{% endmacro %}
+
+{% macro sign_select(id, placeholder="Pilih Zodiak", with_dates=False, allow_empty=False) %}
+<select id="{{ id }}" class="custom-select-large">
+  <option value=""{% if not allow_empty %} disabled{% endif %} selected>{{ placeholder }}</option>
+  {% for key, symbol, name, dates, element, element_label in signs %}
+  <option value="{{ key }}">{{ name }} ({{ dates if with_dates else symbol }})</option>
+  {% endfor %}
+</select>
+{% endmacro %}
+
+{% macro loader(id, text, icon="fa-atom", tone="") %}
+<div class="details-loader hidden" id="{{ id }}">
+  <div class="cosmic-spinner-wrapper">
+    <i class="fa-solid {{ icon }} cosmic-spinner{% if tone %} {{ tone }}{% endif %}"></i>
+  </div>
+  <p class="loader-text">{{ text }}</p>
+</div>
+{% endmacro %}
+
+{% macro details_header(prefix) %}
+<div class="details-header">
+  <span class="details-symbol" id="{{ prefix }}-symbol">♈</span>
+  <div class="details-title-wrapper">
+    <h3 class="details-name" id="{{ prefix }}-name">Aries</h3>
+    <p class="details-dates" id="{{ prefix }}-dates">21 Maret - 19 April</p>
+  </div>
+  <span class="details-element-badge fire" id="{{ prefix }}-element-badge">Api</span>
+</div>
+{% endmacro %}

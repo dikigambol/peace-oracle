@@ -1,0 +1,35 @@
+<div class="wt-d-shell">
+  {{ desktop_header("Cek Weton Lahir", "Tanggal lahirmu dibaca pakai kalender Jawa: weton, neptu, wuku, tanggal Jawa, sampai pranata mangsa dan gaya kerjamu.", "lahir") }}
+
+  <div class="wt-d-body">
+    <form class="wt-d-form wt-card" id="d-form" novalidate>
+      <h2 class="wt-card-title">Data lahir</h2>
+      <label class="wt-field" for="d-tanggal">
+        <span class="wt-label">Tanggal lahir</span>
+        <input class="wt-input" id="d-tanggal" placeholder="Pilih tanggal" readonly autocomplete="off"
+               data-min="{{ first_date }}" data-max="{{ last_date }}" />
+      </label>
+      <label class="wt-field" for="d-jam">
+        <span class="wt-label">Jam lahir <em class="wt-optional">opsional</em></span>
+        <input class="wt-input" id="d-jam" type="time" />
+      </label>
+      <label class="wt-field" for="d-kota">
+        <span class="wt-label">Kota lahir <em class="wt-optional">opsional</em></span>
+        <input class="wt-input" id="d-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
+      </label>
+      <p class="wt-hint">Hari Jawa berganti saat maghrib. Jam dan kota dipakai untuk menghitung waktu matahari terbenam di tempat lahirmu.</p>
+      <button class="wt-btn wt-btn-primary wt-btn-block" id="d-submit" type="submit">Baca wetonku</button>
+      <p class="wt-error" id="d-error" role="alert" hidden></p>
+    </form>
+
+    <section class="wt-d-result" id="d-result" aria-live="polite">
+      <div class="wt-d-empty wt-card" id="d-empty">
+        <i class="fa-solid fa-scroll" aria-hidden="true"></i>
+        <p>Isi tanggal lahirmu di kiri. Hasilnya muncul di sini: mulai dari weton dan neptu sampai watak menurut primbon.</p>
+      </div>
+      <div class="wt-note" id="d-note" hidden></div>
+      <div class="wt-d-grid" id="d-cards"></div>
+      <p class="wt-sources" id="d-sources" hidden></p>
+    </section>
+  </div>
+</div>

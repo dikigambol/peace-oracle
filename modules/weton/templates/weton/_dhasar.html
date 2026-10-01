@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% macro desktop_header(title, lead, active) %}
+<header class="wt-d-header">
+  <a class="wt-d-back" href="{{ url_for('weton.weton_index') }}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Weton</a>
+  <div class="wt-d-brand">
+    <p class="wt-eyebrow">Weton Oracle</p>
+    <h1 class="wt-d-title">{{ title }}</h1>
+    <p class="wt-d-lead">{{ lead }}</p>
+  </div>
+  <nav class="wt-d-tabs" aria-label="Fitur Weton">
+    {% for feature in features %}
+    <a class="wt-d-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+      <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i> {{ feature.short }}
+    </a>
+    {% endfor %}
+  </nav>
+</header>
+{% endmacro %}
+
+{% macro today_card(today, prefix) %}
+<section class="wt-card wt-today" aria-labelledby="{{ prefix }}-today-title">
+  <div class="wt-today-main">
+    <p class="wt-eyebrow">Hari ini · {{ today.label }}</p>
+    <h2 class="wt-today-title" id="{{ prefix }}-today-title">{{ today.weton.label }}</h2>
+    <p class="wt-today-meta">{{ today.jawa.tanggal }} {{ today.jawa.sasi }} {{ today.jawa.tahun }} · wuku {{ today.wuku.name }} · mangsa {{ today.mangsa.name }}</p>
+    {% if today.istimewa or today.pantangan %}
+    <div class="wt-cal-badges">
+      {% for item in today.istimewa %}<span class="wt-badge wt-badge-istimewa">{{ item.name }}</span>{% endfor %}
+      {% for item in today.pantangan %}<span class="wt-badge wt-badge-pantangan">{{ item.name }}</span>{% endfor %}
+    </div>
+    {% endif %}
+    <p class="wt-today-maghrib" data-after="{{ 'true' if today.maghrib.after else 'false' }}">{{ today.maghrib.text }}</p>
+  </div>
+  {% if today.upcoming %}
+  <div class="wt-today-next">
+    <p class="wt-label">Segera</p>
+    <ul class="wt-today-list">
+      {% for item in today.upcoming %}
+      <li>
+        <span class="wt-today-name">{{ item.name }}</span>
+        <span class="wt-today-when">{{ item.label }} · {% if item.days == 1 %}besok{% else %}{{ item.days }} hari lagi{% endif %}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</section>
+{% endmacro %}
+
+{% macro mobile_appbar(title) %}
+<header class="wt-m-appbar">
+  <a class="wt-m-icon" href="{{ url_for('weton.weton_index') }}" aria-label="Kembali ke menu Weton">
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+  </a>
+  <h1 class="wt-m-title">{{ title }}</h1>
+  <span aria-hidden="true"></span>
+</header>
+{% endmacro %}
+
+{% macro mobile_tabbar(active) %}
+<nav class="wt-m-tabbar" aria-label="Fitur Weton">
+  {% for feature in features %}
+  <a class="wt-m-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+    <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i><span>{{ feature.short }}</span>
+  </a>
+  {% endfor %}
+</nav>
+{% endmacro %}
+
+{% macro name_field(id, placeholder, size="") %}
+<label class="wt-field" for="{{ id }}">
+  <span class="wt-label">Nama <em class="wt-optional">opsional</em></span>
+  <input class="wt-input{{ size }}" id="{{ id }}" maxlength="24" placeholder="{{ placeholder }}" autocomplete="off" />
+</label>
+{% endmacro %}
+
+{% macro desktop_date(id, label="Tanggal lahir") %}
+<label class="wt-field" for="{{ id }}">
+  <span class="wt-label">{{ label }}</span>
+  <input class="wt-input" id="{{ id }}" placeholder="Pilih tanggal" readonly autocomplete="off"
+         data-min="{{ first_date }}" data-max="{{ last_date }}" />
+</label>
+{% endmacro %}
+
+{% macro desktop_time_city(prefix, suffix="") %}
+<div class="wt-d-person-row">
+  <label class="wt-field" for="{{ prefix }}-jam">
+    <span class="wt-label">Jam{{ suffix }} <em class="wt-optional">opsional</em></span>
+    <input class="wt-input" id="{{ prefix }}-jam" type="time" />
+  </label>
+  <label class="wt-field" for="{{ prefix }}-kota">
+    <span class="wt-label">Kota{{ suffix }} <em class="wt-optional">opsional</em></span>
+    <input class="wt-input" id="{{ prefix }}-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
+  </label>
+</div>
+{% endmacro %}
+
+{% macro mobile_date(id, label="Tanggal lahir") %}
+<label class="wt-field" for="{{ id }}">
+  <span class="wt-label">{{ label }}</span>
+  <input class="wt-input wt-input-lg" id="{{ id }}" type="date" min="{{ first_date }}" max="{{ last_date }}" />
+</label>
+{% endmacro %}
+
+{% macro mobile_time_city(prefix, summary="Jam &amp; kota lahir") %}
+<details class="wt-m-more">
+  <summary>{{ summary|safe }} <em class="wt-optional">opsional</em></summary>
+  <label class="wt-field" for="{{ prefix }}-jam">
+    <span class="wt-label">Jam lahir</span>
+    <input class="wt-input wt-input-lg" id="{{ prefix }}-jam" type="time" />
+  </label>
+  <label class="wt-field" for="{{ prefix }}-kota">
+    <span class="wt-label">Kota lahir</span>
+    <input class="wt-input wt-input-lg" id="{{ prefix }}-kota" list="wt-city-options" placeholder="Default: Jakarta" autocomplete="off" />
+  </label>
+</details>
+{% endmacro %}
+{% block backdrop %}<div class="wt-backdrop" aria-hidden="true"></div>{% endblock %}
+{% block backdrop_js %}{% endblock %}
+{% block extra_css %}
+{% if page %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+{% endif %}
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-base.css') }}" />
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-desktop.css') }}" media="(min-width: 769px)" />
+<link rel="stylesheet" href="{{ url_for('weton.static', filename='css/weton-mobile.css') }}" media="(max-width: 768px)" />
+{% endblock %}
+{% block content %}
+<div class="wt-app" id="wt-app" data-page="{{ page }}" data-api="{{ url_for(page_api) }}"{% for name, value in (page_data or {}).items() %} data-{{ name }}="{{ value }}"{% endfor %}>
+  <div class="wt-layout wt-layout-desktop" data-layout="desktop">
+    {% include 'weton/desktop/_' ~ page_file ~ '.html' %}
+  </div>
+  <div class="wt-layout wt-layout-mobile" data-layout="mobile">
+    {% include 'weton/mobile/_' ~ page_file ~ '.html' %}
+  </div>
+  <datalist id="wt-city-options">
+    {% for city in cities %}
+    <option value="{{ city.name }}">{{ city.province }} · {{ city.zone }}</option>
+    {% endfor %}
+  </datalist>
+  {% block page_scripts %}{% endblock %}
+</div>
+{% endblock %}
+{% block extra_js %}
+{% if page %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+{% endif %}
+<script src="{{ url_for('weton.static', filename='js/weton-core.js') }}"></script>
+{% if page %}
+<script src="{{ url_for('weton.static', filename='js/desktop/' ~ page_file ~ '.js') }}"></script>
+<script src="{{ url_for('weton.static', filename='js/mobile/' ~ page_file ~ '.js') }}"></script>
+{% endif %}
+{% endblock %}

@@ -19,9 +19,12 @@
   </div>
   <nav class="app-nav">
     <a href="{{ url_for('zodiak.home') }}" class="nav-item"><span class="nav-sigil">I</span> Ramalan</a>
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span> Keselarasan</a>
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><span class="nav-sigil">III</span> Arketipe</a>
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Pengadilan Jiwa</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span>
+      Keselarasan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><span class="nav-sigil">III</span>
+      Arketipe</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Pengadilan
+      Jiwa</a>
   </nav>
 </header>
 
@@ -99,7 +102,8 @@
         </div>
         <h2 class="gothic-panel-title">Codex Arketipe Belum Disingkap</h2>
         <p class="gothic-panel-desc">
-          Pilih salah satu segel konstelasi pada dial di atas untuk menyingkap intisari karakter, aura biologis, dan sifat primordial zodiak.
+          Pilih salah satu segel konstelasi pada dial di atas untuk menyingkap intisari karakter, aura biologis, dan
+          sifat primordial zodiak.
         </p>
       </div>
 
@@ -154,27 +158,35 @@
           <!-- Hewan Jiwa -->
           <div class="triad-box">
             <h4 class="triad-title"><span class="sigil-bullet">🜚</span> Hewan Jiwa (Totem)</h4>
-            <h5 id="gen-animal-name" style="font-family: var(--font-epigraphy); color: var(--gold-foil); font-size: 1.1rem; margin-bottom: 0.5rem;">Nama Hewan</h5>
-            <p id="gen-animal-desc" style="font-family: var(--font-manuscript); color: var(--ink-parchment); font-size: 0.95rem; line-height: 1.6;">Deskripsi...</p>
+            <h5 id="gen-animal-name"
+              style="font-family: var(--font-epigraphy); color: var(--gold-foil); font-size: 1.1rem; margin-bottom: 0.5rem;">
+              Nama Hewan</h5>
+            <p id="gen-animal-desc"
+              style="font-family: var(--font-manuscript); color: var(--ink-parchment); font-size: 0.95rem; line-height: 1.6;">
+              Deskripsi...</p>
           </div>
 
           <!-- Dapur Kosmik -->
           <div class="triad-box">
             <h4 class="triad-title"><span class="sigil-bullet">🜃</span> Nutrisi Alkimia</h4>
-            <div style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
+            <div
+              style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
               <div>Profil Rasa: <strong id="gen-pantry-profile" style="color: var(--gold-foil);">...</strong></div>
               <div>Makanan Pilihan: <strong id="gen-pantry-food" style="color: var(--gold-foil);">...</strong></div>
-              <div style="font-style: italic; color: var(--ink-muted); margin-top: 0.25rem;" id="gen-pantry-habit">...</div>
+              <div style="font-style: italic; color: var(--ink-muted); margin-top: 0.25rem;" id="gen-pantry-habit">...
+              </div>
             </div>
           </div>
 
           <!-- Suaka Ruang -->
           <div class="triad-box">
             <h4 class="triad-title"><span class="sigil-bullet">🜄</span> Suaka Ruang Batin</h4>
-            <div style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
+            <div
+              style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
               <div>Gaya: <strong id="gen-decor-style" style="color: var(--gold-foil);">...</strong></div>
               <div>Elemen Utama: <strong id="gen-decor-elements" style="color: var(--gold-foil);">...</strong></div>
-              <div style="font-style: italic; color: var(--ink-muted); margin-top: 0.25rem;" id="gen-decor-vibe">...</div>
+              <div style="font-style: italic; color: var(--ink-muted); margin-top: 0.25rem;" id="gen-decor-vibe">...
+              </div>
             </div>
           </div>
         </div>

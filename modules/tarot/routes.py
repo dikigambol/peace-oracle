@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, jsonify
 from .data import get_random_card
 
 tarot_bp = Blueprint(

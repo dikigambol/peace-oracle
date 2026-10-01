@@ -1,0 +1,57 @@
+<div class="wt-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Kecocokan Weton") }}
+
+  <main class="wt-m-main">
+    <section class="wt-m-steps" id="m-match-steps" aria-live="polite">
+      <div class="wt-m-progress">
+        <span class="wt-m-progress-text" id="m-match-progress-text">Langkah 1 dari 3</span>
+        <div class="wt-m-progress-bar" aria-hidden="true"><span id="m-match-progress-fill"></span></div>
+      </div>
+
+      <div class="wt-m-step" data-step="1">
+        <p class="wt-eyebrow">Kecocokan Weton</p>
+        <h2 class="wt-m-question">Hubungan kalian apa?</h2>
+        <p class="wt-m-help">Petung aslinya untuk jodoh. Untuk pertemanan dan kerja, tafsirnya kami terjemahkan dengan bahasa netral.</p>
+        <div class="wt-m-lens" role="radiogroup" aria-label="Jenis hubungan">
+          {% for key, lens in lenses.items() %}
+          <button class="wt-m-lens-option" type="button" role="radio" data-lens="{{ key }}" aria-checked="false">
+            <i class="fa-solid {{ lens.icon }}" aria-hidden="true"></i>
+            <span>{{ lens.label }}</span>
+          </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% for side, step, title in [('a', 2, 'Orang pertama'), ('b', 3, 'Orang kedua')] %}
+      <div class="wt-m-step" data-step="{{ step }}" hidden>
+        <p class="wt-eyebrow">{{ title }}</p>
+        <h2 class="wt-m-question">Kapan {{ 'kamu' if side == 'a' else 'dia' }} lahir?</h2>
+        {{ name_field("m-" ~ side ~ "-nama", title, " wt-input-lg") }}
+        {{ mobile_date("m-" ~ side ~ "-tanggal") }}
+        {{ mobile_time_city("m-" ~ side) }}
+      </div>
+      {% endfor %}
+
+      <p class="wt-error" id="m-match-error" role="alert" hidden></p>
+
+      <div class="wt-m-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-match-back" type="button" hidden>Kembali</button>
+        <button class="wt-btn wt-btn-primary wt-btn-block" id="m-match-next" type="button">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="wt-m-result" id="m-match-result" hidden aria-live="polite">
+      <div class="wt-m-chip" id="m-match-chip"></div>
+      <div class="wt-m-duo" id="m-duo"></div>
+      <p class="wt-note" id="m-origin" hidden></p>
+      <div class="wt-m-segment" role="tablist" aria-label="Pilih petung" id="m-segment"></div>
+      <div id="m-petung-panel" role="tabpanel"></div>
+      <div class="wt-m-result-actions">
+        <button class="wt-btn wt-btn-ghost" id="m-match-reset" type="button">Hitung ulang</button>
+      </div>
+      <p class="wt-sources" id="m-disclaimer"></p>
+    </section>
+  </main>
+
+  {{ mobile_tabbar("kecocokan") }}
+</div>

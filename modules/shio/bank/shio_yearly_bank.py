@@ -434,7 +434,7 @@ SHIO_YEARLY_BANK = {
         "saran_utama": "Teruslah membangun fondasi suksesmu secara senyap, biarkan hasilnya yang kelak bergaung keras.",
     },
     ("ular", "macan"): {
-        "karir": "Energi yang berlawanan memicu sedikit gesekan (Harm); waspadai konflik terselubung dengan rekan kerja yang ambisius. Jangan biarkan provokasi membuatmu kehilangan ketenangan khas Ular yang elegan. Mundur selangkah sering kali lebih strategis daripada menyerang secara langsung.",
+        "karir": "Energi yang berlawanan memicu sedikit gesekan (Xiang Xing); waspadai konflik terselubung dengan rekan kerja yang ambisius. Jangan biarkan provokasi membuatmu kehilangan ketenangan khas Ular yang elegan. Mundur selangkah sering kali lebih strategis daripada menyerang secara langsung.",
         "keuangan": "Pengeluaran tak terduga bisa muncul akibat denda, perbaikan mendadak, atau masalah hukum kecil. Lindungi aset yang ada dan hindari spekulasi yang bergantung pada fluktuasi emosional.",
         "asmara": "Tarik-ulur emosional bisa melelahkan batin; kamu mendambakan kepastian sementara situasi menuntut kebebasan. Belajarlah berkompromi dan jangan memendam kecemburuan yang bisa meledak menjadi kemarahan besar.",
         "kesehatan": "Stres psikologis sangat tinggi, rentan memicu migrain atau masalah pencernaan psikosomatis. Sangat dianjurkan untuk mengikuti kelas meditasi, terapi pernapasan, atau sekadar berlibur ke alam.",
@@ -525,7 +525,7 @@ SHIO_YEARLY_BANK = {
         "saran_utama": "Inilah saatnya berpacu di padang luas; keberuntungan besar berpihak pada yang bernyali emas.",
     },
     ("kuda", "kelinci"): {
-        "karir": "Suasana yang tenang dari Kelinci mungkin membuat Kuda yang hiperaktif merasa sedikit bosan atau kurang tertantang (Punishment). Kamu dituntut memperbaiki relasi interpersonal alih-alih hanya berfokus pada target angka. Jagalah tutur kata agar tidak melukai rekan kerja yang berhati sensitif.",
+        "karir": "Suasana yang tenang dari Kelinci mungkin membuat Kuda yang hiperaktif merasa sedikit bosan atau kurang tertantang (Liu Po). Kamu dituntut memperbaiki relasi interpersonal alih-alih hanya berfokus pada target angka. Jagalah tutur kata agar tidak melukai rekan kerja yang berhati sensitif.",
         "keuangan": "Cukup stabil, namun bisa terjadi kebocoran dana untuk keperluan estetika atau merawat kesehatan keluarga. Hindari berhutang untuk membeli barang mewah yang nilai jual kembalinya rendah.",
         "asmara": "Sensitivitas pasangan sedang tinggi, sedikit kelalaian darimu bisa memicu kesalahpahaman yang berkepanjangan. Belajarlah menunjukkan kasih sayang secara verbal dan lebih sering memberi hadiah kecil.",
         "kesehatan": "Masalah pada saluran pernapasan atau alergi udara patut diwaspadai di pergantian musim. Terapi relaksasi dan spa akan mengembalikan keseimbangan chi dalam tubuh.",
@@ -638,7 +638,7 @@ SHIO_YEARLY_BANK = {
     },
     ("kambing", "kambing"): {
         "karir": "Tahun Tai Sui (Ben Ming Nian) mendesakmu untuk introspeksi; kemajuan karier mungkin terasa tertahan oleh birokrasi internal. Hindari perilaku impulsif seperti tiba-tiba resign atau melancarkan protes pada manajemen. Tingkatkan kapasitas diri melalui pelatihan dan tunggu momentum dengan sabar.",
-        "keuangan": "Sangat disarankan menahan pengeluaran pada hal-hal yang tidak krusial, simpan kekayaanmu di instrumen berisiko sangat rendah. Beli asuransi kesehatan atau jiwa sebagai bentuk buang sial (ciong) yang rasional.",
+        "keuangan": "Sangat disarankan menahan pengeluaran pada hal-hal yang tidak krusial, simpan kekayaanmu di instrumen berisiko sangat rendah. Beli asuransi kesehatan atau jiwa sebagai bentuk berjaga-jaga yang rasional.",
         "asmara": "Suasana hati yang fluktuatif (moody) bisa membuat pasangan merasa lelah meladeni drama emosionalmu. Belajarlah untuk mengelola stres sendiri tanpa menjadikannya sebagai beban orang terkasih.",
         "kesehatan": "Risiko kambuhnya penyakit bawaan atau cedera otot punggung cukup memprihatinkan; jangan memforsir tenaga fisik. Perbanyak beribadah, meditasi, dan aktivitas spiritual untuk menstabilkan kondisi batin.",
         "saran_utama": "Menyelam ke dalam diri sendiri lebih bermakna daripada memaksa berenang melawan arus dunia luar.",
@@ -716,7 +716,7 @@ SHIO_YEARLY_BANK = {
     ("monyet", "kuda"): {
         "karir": "Dinamika tahun Kuda memacu Monyet untuk berlari lebih kencang mengejar ambisi yang tertunda. Banyak perjalanan bisnis atau perpindahan yang akan membawa perspektif baru dalam karir. Adaptasi yang cepat terhadap perubahan akan menjadi kunci kesuksesanmu.",
         "keuangan": "Perputaran uang sangat cepat; pendapatan meningkat, namun godaan untuk berbelanja juga besar. Rencanakan anggaran dengan cermat agar hasil jerih payah tidak menguap begitu saja. Peluang bagus muncul dari sektor yang melibatkan perjalanan atau logistik.",
-        "asmara": "Kehidupan sosial yang sibuk membuatmu bertemu dengan banyak karakter menarik. Bagi yang berpasangan, ren পুনরায় liburan bersama untuk menjaga api asmara tetap menyala. Jangan biarkan jarak atau kesibukan mendinginkan kehangatan hati.",
+        "asmara": "Kehidupan sosial yang sibuk membuatmu bertemu dengan banyak karakter menarik. Bagi yang berpasangan, rencanakan liburan bersama untuk menjaga api asmara tetap menyala. Jangan biarkan jarak atau kesibukan mendinginkan kehangatan hati.",
         "kesehatan": "Kecepatan tahun ini bisa membuatmu kehabisan napas dan rentan terhadap kelelahan kronis. Pastikan ada jeda di antara jadwal padat untuk memulihkan energi fisik dan mental. Jaga hidrasi tubuh dan konsumsi vitamin untuk menjaga stamina.",
         "saran_utama": "Pacu kudamu dengan keberanian, namun jangan lupakan kendali kebijaksanaan di tanganmu.",
     },
@@ -1006,5 +1006,109 @@ SHIO_YEARLY_BANK = {
         "asmara": "Emosi yang fluktuatif mudah memicu konflik batin maupun perdebatan tak perlu dengan pasangan. Tahan ego dan latihlah kesabaran ekstra; belajarlah mendengarkan tanpa harus segera merespons. Berserah diri pada aliran waktu adalah obat terbaik bagi asmara yang sedang diuji.",
         "kesehatan": "Sistem imunitas rentan menurun; perhatikan kualitas diet, tidur, dan manajemen stres harianmu. Jangan remehkan penyakit ringan, segera tangani sebelum berkembang menjadi keluhan serius. Pemeriksaan kesehatan secara menyeluruh (medical check-up) sangat direkomendasikan tahun ini.",
         "saran_utama": "Jadilah pengamat yang hening di tahun refleksi ini; kebijaksanaan tertinggi adalah tahu kapan harus diam.",
+    },
+}
+
+
+YEARLY_RELATION_BANK = {
+    "ben_ming": {
+        "label": "Ben Ming Nian",
+        "name_id": "Tahun Shio Sendiri",
+        "hanzi": "本命年",
+        "tai_sui": "Menghadap Tai Sui (值太歲)",
+        "code": "bad",
+        "note": "Shio tahun ini sama dengan shiomu. Dalam tradisi ini kamu sedang berhadapan langsung dengan Tai Sui, salah satu dari lima bentuk pelanggaran terhadap Tai Sui (犯太歲), dan tahun seperti ini memang dianggap berat.",
+    },
+    "zi_xing": {
+        "label": "Ben Ming Nian + Zi Xing",
+        "name_id": "Tahun Shio Sendiri yang Menghukum Diri",
+        "hanzi": "本命年・自刑",
+        "tai_sui": "Menghadap Tai Sui (值太歲) sekaligus Menghukum Tai Sui (刑太歲)",
+        "code": "bad",
+        "note": "Shio tahun ini sama dengan shiomu, jadi kamu sedang di tahun shio sendiri (本命年). Cabangmu juga termasuk yang menghukum dirinya sendiri, sehingga tekanannya datang dua arah: dari tahunnya, dan dari kebiasaanmu sendiri.",
+    },
+    "chong": {
+        "label": "Chong",
+        "name_id": "Berseberangan Lurus",
+        "hanzi": "沖",
+        "tai_sui": "Berbenturan dengan Tai Sui (沖太歲)",
+        "code": "bad",
+        "note": "Shio tahun ini berseberangan lurus dengan shiomu. Bentuk pelanggaran terhadap Tai Sui (犯太歲) yang paling terasa: perubahan datang mendadak dan jarang bisa ditawar.",
+    },
+    "xiang_xing": {
+        "label": "Xiang Xing",
+        "name_id": "Saling Menghukum",
+        "hanzi": "相刑",
+        "tai_sui": "Menghukum Tai Sui (刑太歲)",
+        "code": "bad",
+        "note": "Shiomu dan shio tahun ini saling menghukum. Gesekannya pelan tapi terus-menerus, sering lewat urusan aturan, perjanjian, atau orang yang berwenang.",
+    },
+    "liu_hai": {
+        "label": "Liu Hai",
+        "name_id": "Saling Menyakiti",
+        "hanzi": "六害",
+        "tai_sui": "Melukai Tai Sui (害太歲)",
+        "code": "bad",
+        "note": "Bentuk pelanggaran terhadap Tai Sui (犯太歲) yang paling halus. Kerugiannya jarang kelihatan di awal dan biasanya datang dari arah yang kamu percaya.",
+    },
+    "liu_po": {
+        "label": "Liu Po",
+        "name_id": "Saling Merusak",
+        "hanzi": "六破",
+        "tai_sui": "Merusak Tai Sui (破太歲)",
+        "code": "bad",
+        "note": "Yang sudah tersusun rapi gampang retak tahun ini. Rencana tetap bisa jalan, tapi perlu diperiksa ulang lebih sering dari biasanya.",
+    },
+    "san_he": {
+        "label": "San He",
+        "name_id": "Satu Kelompok Tiga Harmoni",
+        "hanzi": "三合",
+        "tai_sui": "",
+        "code": "good",
+        "note": "Shiomu dan shio tahun ini satu kelompok tiga harmoni. Bukan pelanggaran terhadap Tai Sui (犯太歲) — tahun ini justru menopang arah yang sudah kamu tuju.",
+    },
+    "liu_he": {
+        "label": "Liu He",
+        "name_id": "Pasangan Enam Harmoni",
+        "hanzi": "六合",
+        "tai_sui": "",
+        "code": "good",
+        "note": "Pasangan enam harmoni, ikatan paling erat di antara dua belas cabang. Tahun yang enak dipakai untuk mengunci sesuatu yang serius.",
+    },
+    "netral": {
+        "label": "Ping",
+        "name_id": "Tanpa Relasi Khusus",
+        "hanzi": "平",
+        "tai_sui": "",
+        "code": "neutral",
+        "note": "Tidak ada relasi khusus antara shiomu dan shio tahun ini. Tahun netral: hasilnya lebih ditentukan pilihanmu daripada oleh energi tahunnya.",
+    },
+}
+
+YEAR_STEM_LAYER_BANK = {
+    "setara": {
+        "title": "Seirama",
+        "summary": "Elemen {year_element} pada batang tahun {year_pillar} sama dengan elemen bawaan Shio {shio}. Energi tahun ini bergerak searah denganmu, tanpa dorongan maupun tahanan tambahan.",
+        "advice": "Yang menonjol jadi makin menonjol, termasuk kelemahannya. Jangan andalkan tahun ini untuk mengoreksi dirimu — koreksinya harus kamu yang mulai.",
+    },
+    "menerima": {
+        "title": "Ditopang",
+        "summary": "Elemen {year_element} pada batang tahun {year_pillar} menghidupi elemen {shio_element} milik Shio {shio}. Tahun ini memberi lebih banyak daripada yang diminta.",
+        "advice": "Tahun paling murah biaya untuk memulai: belajar, pindah jalur, atau menambah keahlian. Bantuan datang lebih mudah dari biasanya, jadi berani minta.",
+    },
+    "memberi": {
+        "title": "Menguras",
+        "summary": "Elemen {shio_element} milik Shio {shio} justru menghidupi elemen {year_element} pada batang tahun {year_pillar}. Kamu yang lebih banyak mengeluarkan tenaga.",
+        "advice": "Produktif, tapi melelahkan. Pastikan ada yang mengisi balik — istirahat, bayaran, atau pengakuan — sebelum tahun ini habis.",
+    },
+    "menekan": {
+        "title": "Kamu Memegang Kendali",
+        "summary": "Elemen {shio_element} milik Shio {shio} mengekang elemen {year_element} pada batang tahun {year_pillar}. Keadaan lebih sering mengikuti keputusanmu.",
+        "advice": "Tahun yang cocok untuk mengambil alih dan merapikan hal yang berantakan. Hati-hati memakai kendali itu sampai orang lain kehabisan ruang.",
+    },
+    "ditekan": {
+        "title": "Ditekan Keadaan",
+        "summary": "Elemen {year_element} pada batang tahun {year_pillar} mengekang elemen {shio_element} milik Shio {shio}. Banyak hal terasa harus menyesuaikan, bukan ditentukan.",
+        "advice": "Bukan tahun untuk memaksa. Pilih satu hal yang benar-benar kamu pertahankan, lalu lenturkan sisanya tanpa merasa kalah.",
     },
 }

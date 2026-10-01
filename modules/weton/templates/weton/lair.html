@@ -1,0 +1,9 @@
+{% extends 'weton/_dhasar.html' %}
+{% set page = 'lahir' %}
+{% set page_file = 'lair' %}
+{% set page_api = 'weton.weton_birth_api' %}
+{% block title %}Priksa Weton Lair - Peace Oracle{% endblock %}
+{% block description %}Cek weton lahirmu: hari, pasaran, neptu, wuku, tanggal Jawa, dan pranata mangsa, dihitung presisi sampai pergantian hari saat maghrib.{% endblock %}
+{% block page_scripts %}
+<script type="application/json" id="wt-glossary">{{ glossary|tojson }}</script>
+{% endblock %}

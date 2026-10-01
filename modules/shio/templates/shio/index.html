@@ -1,104 +1,101 @@
-{% extends 'base.html' %}
-{% block title %}Mode Shio - Peace Oracle{% endblock %}
-{% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
-<link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio.css') }}" />
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
-{% endblock %}
-{% block content %}
-<div class="shio-container" id="shio-bg">
-  <canvas id="particle-canvas"></canvas>
-  <div class="shio-content-wrapper">
-    <div class="bagua-wrapper">
-      <div class="bagua-center"><i class="fa-solid fa-yin-yang"></i></div>
-      <div class="trigram t1">☰</div>
-      <div class="trigram t2">☴</div>
-      <div class="trigram t3">☵</div>
-      <div class="trigram t4">☶</div>
-      <div class="trigram t5">☷</div>
-      <div class="trigram t6">☳</div>
-      <div class="trigram t7">☲</div>
-      <div class="trigram t8">☱</div>
-    </div>
-    <h1 class="shio-title">Shio Oracle</h1>
-    <p class="shio-subtitle">
-      Decode elemen bawaanmu, <i>align</i> dengan energi kosmik, dan capai
-      <i>inner peace</i>.
-    </p>
-    <div id="view-selection" class="shio-view active">
-      <div class="choice-cards">
-        <a href="javascript:void(0)" class="choice-card unavailable">
-          <span class="badge badge-soon">SOON</span>
-          <i class="fa-solid fa-calendar-days"></i>
-          <span>Baca Gulungan Takdir (Ming Li)</span>
-          <small>Kalkulasi Bintang Otomatis</small>
-        </a>
-        <button class="choice-card" id="btn-daily">
-          <i class="fa-solid fa-calendar-day"></i>
-          <span>Almanak Harian (Tong Shu)</span>
-          <small>Navigasi Energi Harian & Pemilihan Waktu</small>
+{% extends 'shio/_jichu.html' %}
+{% block title %}Shengxiao - Peace Oracle{% endblock %}
+{% block description %}Shio Oracle: Ming Li, almanak harian, ramalan tahunan, kecocokan, quiz bareng, roasting, penjaga spiritual, dan kue keberuntungan.{% endblock %}
+{% block shio_app %}
+<div class="sh-app" id="sh-app" data-page="shio" data-api="{{ url_for('shio.shio_daily_api') }}" data-static="{{ url_for('shio.static', filename='') }}">
+  <div class="sh-layout sh-layout-desktop" data-layout="desktop">
+    <div class="sh-d-shell">
+      {{ desktop_header(title='Shio Oracle', lead='Shio kamu bukan sekadar hewan di kalender. Ming Li, energi tahunan, sampai kecocokan dihitung langsung dari kalender Tionghoa.') }}
+
+      <section class="sh-d-hub" data-view="menu">
+        {{ hub_cards("d") }}
+      </section>
+
+      <section data-view="almanac" hidden>
+        <button class="sh-d-back" type="button" data-action="menu">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Kembali ke menu
         </button>
-        <a href="{{ url_for('shio.shio_yearly_page') }}" class="choice-card">
-          <i class="fa-solid fa-clock-rotate-left"></i>
-          <span>Teropong Energi Tahunan (Liu Nian)</span>
-          <small>Proyeksi Keberuntungan</small>
-        </a>
-        <a href="{{ url_for('shio.shio_compatibility') }}" class="choice-card">
-          <i class="fa-solid fa-heart-pulse"></i>
-          <span>Sinergi Jodoh Kosmik (He Hun)</span>
-          <small>Kalkulasi Kompatibilitas Asmara &amp; Kemitraan Profesional</small>
-        </a>
-        <a href="{{ url_for('shio.shio_roasting_page') }}" class="choice-card">
-          <i class="fa-solid fa-fire"></i>
-          <span>Roasting Shio (Tu Cao)</span>
-          <small>Kenyataan Pahit Karakter Anda</small>
-        </a>
-        <a href="{{ url_for('shio.guardian_spiritual') }}" class="choice-card">
-          <i class="fa-solid fa-dragon"></i>
-          <span>Afinitas Penjaga Spiritual (Ben Ming Fo)</span>
-          <small>Temukan Entitas Pelindung Berdasarkan Konstelasi Anda</small>
-        </a>
-        <a href="{{ url_for('shio.shio_fortune_cookie_page') }}" class="choice-card">
-          <i class="fa-solid fa-cookie-bite"></i>
-          <span>Kue Keberuntungan (Xing Yun Bing)</span>
-          <small>Pesan Harian &amp; Benda Hoki dari Balik Kue</small>
-        </a>
-      </div>
-    </div>
-    <div id="view-daily" class="shio-view hidden">
-      <button class="back-btn" id="back-to-start-from-daily">
-        <i class="fa-solid fa-arrow-left"></i> Kembali
-      </button>
-      <div class="daily-header">
-        <div class="daily-icon"><span id="daily-master-icon">✨</span></div>
-        <h2 class="view-title daily-view-title">
-          Almanak Kosmik: <span id="daily-master-name">...</span>
-        </h2>
-        <p id="daily-date-str">...</p>
-<div class="daily-date-controls">
-          <div class="daily-date-wrapper" id="daily-date-wrapper">
-            <i class="fa-solid fa-calendar-day daily-date-icon"></i>
-            <input type="text" id="daily-date-input" placeholder="Pilih Tanggal..." />
-            <i class="fa-solid fa-chevron-down daily-date-chevron"></i>
+        <div class="sh-d-body">
+          <aside class="sh-card sh-d-panel sh-d-almanac-panel">
+            <div class="sh-almanac-head">
+              <button class="sh-daily-icon daily-icon-tappable" type="button" id="d-daily-icon" data-board-trigger aria-label="Ikon shio hari ini">
+                <span class="icon-hanzi" data-part="icon">✨</span>
+              </button>
+              <div>
+                <p class="sh-eyebrow">Almanak kosmik</p>
+                <h2 class="sh-card-title sh-almanac-name" id="d-daily-name">...</h2>
+              </div>
+            </div>
+            <label class="sh-field" for="d-daily-date">
+              <span class="sh-label">Tanggal</span>
+              <input class="sh-input" id="d-daily-date" placeholder="Pilih tanggal" readonly autocomplete="off" />
+            </label>
+            <button class="sh-btn sh-btn-ghost sh-btn-block" type="button" id="d-daily-today">
+              <i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Kembali ke hari ini
+            </button>
+            <div class="daily-pillar sh-d-daily-pillar" id="d-daily-pillar" hidden></div>
+          </aside>
+          <div class="sh-d-results">
+            <p class="sh-hint">Lihat bagaimana energi kosmik hari itu memengaruhi ke-12 shio.</p>
+            <div class="daily-grid" id="d-daily-grid"></div>
           </div>
-          <button id="btn-today-reset" title="Kembali ke Hari Ini">
-            <i class="fa-solid fa-rotate-left"></i>
-          </button>
         </div>
-        <p class="daily-subtitle">
-          Lihat bagaimana energi kosmik pada hari tersebut mempengaruhi ke-12
-          Shio.
-        </p>
-      </div>
-      <div id="daily-pillar" class="daily-pillar hidden"></div>
-      <div id="daily-grid" class="daily-grid"></div>
+      </section>
+    </div>
+  </div>
+  <div class="sh-layout sh-layout-mobile" data-layout="mobile">
+    <div class="sh-m-shell" data-bottom-nav>
+      <header class="sh-m-appbar">
+        <span class="sh-m-slot">
+          <button class="sh-m-icon" type="button" id="m-almanac-back" data-action="menu" aria-label="Kembali ke menu Shio" hidden>
+            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          </button>
+        </span>
+        <h1 class="sh-m-title" id="m-hub-title">Shio Oracle</h1>
+        <span aria-hidden="true"></span>
+      </header>
+
+      <main class="sh-m-main">
+        <section data-view="menu">
+          <p class="sh-m-lead">Shio kamu bukan sekadar hewan di kalender. Pilih fitur yang mau kamu coba.</p>
+          <div class="sh-m-hub">
+            {{ hub_cards("m") }}
+          </div>
+        </section>
+
+        <section data-view="almanac" hidden>
+          <div class="sh-card sh-almanac-head sh-m-almanac-head">
+            <button class="sh-daily-icon daily-icon-tappable" type="button" id="m-daily-icon" data-board-trigger aria-label="Ikon shio hari ini">
+              <span class="icon-hanzi" data-part="icon">✨</span>
+            </button>
+            <div>
+              <p class="sh-eyebrow">Almanak kosmik</p>
+              <h2 class="sh-almanac-name" id="m-daily-name">...</h2>
+            </div>
+          </div>
+          <div class="sh-m-date-row">
+            <label class="sh-field" for="m-daily-date">
+              <span class="sh-label">Tanggal</span>
+              <input class="sh-input" id="m-daily-date" type="date" data-no-max />
+            </label>
+            <button class="sh-btn sh-btn-ghost" type="button" id="m-daily-today">Hari ini</button>
+          </div>
+          <div class="daily-pillar" id="m-daily-pillar" hidden></div>
+          <div class="sh-m-daily-list" id="m-daily-list"></div>
+        </section>
+      </main>
+
+      {{ mobile_tabbar('index') }}
+    </div>
+  </div>
+  <div class="board-overlay" id="sh-board-overlay" hidden>
+    <div class="board-modal" role="dialog" aria-modal="true" aria-label="Papan Peringkat Shio Hari Ini">
+      <button type="button" class="board-close" id="sh-board-close" aria-label="Tutup papan peringkat">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+      <div class="daily-board" id="sh-board"></div>
+      <div class="board-countdown"><span class="board-countdown-bar" id="sh-board-countdown"></span></div>
     </div>
   </div>
 </div>
-{% endblock %}
-{% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
-<script src="{{ url_for('shio.static', filename='js/shio.js') }}"></script>
 {% endblock %}

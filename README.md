@@ -1,142 +1,125 @@
 <div align="center">
-  <img src="https://img.icons8.com/?size=100&id=102558&format=png&color=FFFFFF" alt="Peace Oracle Logo" width="80" height="80">
-  <br>
+  <img src="https://img.icons8.com/?size=100&id=102558&format=png&color=FFFFFF" alt="Peace Oracle" width="80" height="80">
   <h1>Peace Oracle</h1>
-  <p><b>✨ Temukan Ketenangan Lewat Penyelarasan Kosmik, Oriental, Primbon Nusantara, & Tarot ✨</b></p>
-  
+  <p>Zodiak, Shio, Weton, dan Tarot (soon) dalam satu app.</p>
+
   <p>
-    <img src="https://img.shields.io/badge/Frontend-Vanilla_JS_&_CSS-orange.svg?style=for-the-badge&logo=javascript&logoColor=white" alt="Frontend">
-    <img src="https://img.shields.io/badge/Python-3.9+-blue.svg?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-    <img src="https://img.shields.io/badge/Framework-Flask-black.svg?style=for-the-badge&logo=flask&logoColor=white" alt="Flask">
-    <img src="https://img.shields.io/badge/Database-MySQL-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
-    <br>
-    <img src="https://img.shields.io/badge/Deployment-Vercel-black.svg?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
-    <img src="https://img.shields.io/badge/Status-Beta-success.svg?style=for-the-badge" alt="Status">
+    <img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=flat-square&labelColor=30363D&logo=python&logoColor=FFD43B" alt="Python 3.13+">
+    <img src="https://img.shields.io/badge/Flask-009688?style=flat-square&labelColor=30363D&logo=flask&logoColor=white" alt="Flask">
+    <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&labelColor=30363D&logo=mysql&logoColor=white" alt="MySQL">
+    <img src="https://img.shields.io/badge/Vercel-7B5CFF?style=flat-square&labelColor=30363D&logo=vercel&logoColor=white" alt="Vercel">
+    <img src="https://img.shields.io/badge/Status-Beta-FF8C42?style=flat-square&labelColor=30363D" alt="Beta">
   </p>
 </div>
 
-<br>
+Peace Oracle lahir dari ide simpel: kenapa harus buka banyak situs cuma buat cek ramalan dari tradisi yang beda-beda? Jadi semuanya kami kumpulin di satu tempat. Sekarang sudah ada Zodiak, Shio, dan Weton. Tarot lagi on progress.
 
-**Peace Oracle** adalah aplikasi web interaktif yang menyajikan 4 pilar takdir kosmik: panduan astrologi barat (Zodiak), kebijaksanaan oriental (Shio), primbon nusantara (Weton), dan bacaan misteri arcana (Tarot). Dibangun dengan desain antarmuka yang sangat estetik, modern, dan dilengkapi efek *easter-egg* dinamis untuk memanjakan visual pengguna.
+UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa responsif. Hasilnya, di HP rasanya kayak pakai native app.
 
----
+## Fitur
 
-## 🌟 Fitur Utama
+**Zodiak**
+- Ramalan harian yang di-generate AI via OpenRouter. Kalau kuota harian habis, otomatis fallback ke bank ramalan yang sudah disiapkan.
+- Profil karakter tiap zodiak.
+- Cek kecocokan buat asmara, sahabat, atau rekan kerja. Ada Quiz Room juga buat main berdua, hasilnya di-review AI.
+- Roasting, solo atau bareng pasangan. Kurang pedas? Tinggal reroll.
 
-### 🌌 Landing Page (Hub Utama)
-* **Portal Nebula 3D:** Halaman beranda dilengkapi animasi CSS *Nebula* interaktif sebagai gerbang sentral untuk memilih 4 jalan takdir Anda.
-* **Mode Switcher:** Navigasi melayang (*floating mode switcher*) untuk pindah alam semesta kapan saja.
-* **Easter Eggs Kosmik:** Interaksi tersembunyi pada teks *footer* planet 🪐 dan perlindungan anti-bot (*troll routes*) yang unik.
+**Shio**
+- Ming Li: baca Empat Pilar Ba Zi (八字) dari tanggal, jam, dan kota lahir.
+- Tong Shu: almanak harian, 12 dewa harian, plus ranking shio hari ini.
+- Liu Nian: forecast energi tahunan per shio.
+- Pei Dui: cek kecocokan dua orang, bisa pilih mode asmara, pertemanan, atau kerja.
+- Tu Cao: roasting per shio, solo atau berdua.
+- Ben Ming Fo: figur pelindung, mantra, dan tips Feng Shui.
+- Xing Yun Bing: fortune cookie harian.
+- Ju Hui: kuis bareng teman (ramalan pasangan, ramalan grup, dan tebak shio teman).
 
-### 🌙 Mode Zodiak (Barat)
-* **Ramalan Kosmik Harian:** Dihitung secara dinamis berdasarkan fase bulan dan metrik kosmik hari berjalan, disajikan dengan gaya bahasa *Gen Z* dan rekomendasi trek *YouTube*.
-* **Karakteristik General:** Ketahui sifat bawaan fisik, kebiasaan unik, kecocokan *soulmate* hewan, hingga selera *cosmic pantry* dari masing-masing zodiak.
-* **Kalkulator Kecocokan (Asmara, Sahabat, Rekan Kerja):** Analisis komprehensif keharmonisan dua zodiak dalam tiga dimensi sosial berbeda.
-* **Roasting Zodiak:** Butuh hiburan kasar? Terdapat mode *roasting* pedas (personal & pasangan) khusus untuk setiap zodiak!
-* **Kuis Pasangan Real-Time (Live Room):** Fitur kuis interaktif (*multiplayer*)! Buat *room* privat, undang pasangan, jawab pertanyaan sinkronisasi bersama, dan dapatkan analisis *chemistry* berbasis AI secara langsung.
+**Weton**
+- Kartu "Hari ini" di halaman depan: weton, tanggal Jawa, wuku, dan mangsa hari ini, lengkap dengan info kapan harinya ganti pas maghrib dan hari istimewa terdekat.
+- Cek weton lahir: neptu, wuku lengkap dengan lambang kayu dan burungnya, tanggal Jawa, pranata mangsa plus tanda alamnya, watak, sampai gaya kerja. Lahir setelah maghrib? Hari wetonnya otomatis geser ke hari berikutnya, dihitung sesuai kota lahir.
+- Kecocokan weton pakai empat metode petung sekaligus (sisa bagi 8, 5, 4, dan 7).
+- Kalender Jawa: weton harian, hari istimewa (termasuk Garebeg keraton dan Rebo Wekasan), hari pantangan, dan reminder wetonan.
+- Roasting berdasarkan hari, pasaran, dan neptu.
+- Cari hari baik buat nikah, pindah rumah, bangun rumah, buka usaha, atau transaksi besar. Hari pantangan disaring, sasi nikah dan petung Pancasuda ikut dihitung, lengkap dengan alasan dan sumbernya.
 
-### 🐉 Mode Shio (Oriental)
-* **Almanak Harian (Tong Shu):** Dasbor harian *real-time* yang menghitung pilar hari (siklus 60 batang-cabang), elemen hari, dan **Dua Belas Dewa Harian** (建除十二神) lengkap dengan daftar *Cocok Untuk* / *Sebaiknya Hindari*. Relasi tiap Shio terhadap hari dipetakan ke sembilan kategori klasik (Chong, San He, Liu He, Ben Ming, Zi Xing, Xiang Xing, Liu Hai, Liu Po, Ping) beserta interaksi lima elemen dan *daily tip*.
-* **Sinergi Jodoh Kosmik (He Hun):** Kalkulator kecocokan dua shio dengan visualisasi persentase *neon circular progress bar*, berbasis tabel relasi cabang bumi.
-* **Teropong Energi Tahunan (Liu Nian):** Proyeksi karir, keuangan, asmara, dan kesehatan untuk kombinasi shio-mu dengan shio tahun mana pun.
-* **Roasting Shio (Tu Cao):** Butuh ditampar realita? Sindiran pedas soal *toxic traits*, dosa finansial, dan *red flag* asmara tiap Shio.
-* **Kue Keberuntungan (Xing Yun Bing):** Belah kue digitalnya untuk satu pesan harian dan *lucky item*, dengan rotasi yang dijamin tidak mengulang sebelum semua pesan habis.
-* **Afinitas Penjaga Spiritual (Ben Ming Fo):** Eksplorasi delapan figur pelindung — Bodhisattva, Buddha, dan Raja Kebijaksanaan — lengkap dengan mantra, arah sakral, dan tips Feng Shui.
-* **Segera Hadir (SOON):** Baca Gulungan Takdir (Ming Li / Kalkulator Ba Zi).
-* **Latar Belakang Interaktif:** Tampilan *partikel galaksi 3D* interaktif.
+**Tarot** masih tahap scaffolding, jadi card-nya di landing page masih ke-lock.
 
-### 🔜 Mode Mendatang (Terkunci / Coming Soon)
-* **Weton (Kejawen):** Perhitungan primbon berdasarkan neptu hari dan pasaran Jawa (Kerangka dasar/Blueprint sudah aktif).
-* **Tarot:** Pembacaan nasib lewat *spread* kartu Arcana (Kerangka dasar/Blueprint sudah aktif).
+Di landing page ada floating button buat switch mode, plus beberapa easter egg kecil. Good luck nyarinya.
 
----
+## Arsitektur
 
-## 🏗️ Arsitektur Proyek (Modular)
+Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma depend ke `core/` dan nggak saling import, jadi satu modul bisa dicabut tanpa bikin yang lain rusak. Navigasi dan landing page otomatis nyesuain modul yang ter-install.
 
-Aplikasi ini menggunakan arsitektur **Flask Blueprints** untuk memastikan skalabilitas dan kebersihan kode (*clean architecture*). Seluruh sistem ramalan dan teks ditenagai oleh **Dynamic Data Bank** yang memastikan setiap respons (*roasting*, nasib harian, hingga profil karakter) tidak repetitif dan terasa lebih personal.
+AI cuma dipakai di Zodiak. Shio dan Weton full dihitung di server pakai data dan rumus sendiri, zero API call.
+
+MySQL dipakai buat nyimpen kuota AI dan room kuis. Kalau database lagi down, app tetap jalan: kuota AI pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi.
 
 ```text
 peace-oracle/
-├── app.py                # Main Entry Point (Blueprint Registration)
-├── core/                 # Shared Assets, Base Templates, & Landing Page
-├── modules/              # Core Feature Logic (Isolated per astrology system)
-│   ├── zodiak/           # Western Astrology Module
-│   ├── shio/             # Eastern (Chinese) Astrology Module
-│   ├── weton/            # (WIP) Eastern (Javanese) Astrology Module
-│   └── tarot/            # (WIP) Tarot Reading Module
-├── api/                  # Serverless entry points (Vercel)
-└── vercel.json           # Serverless configuration
+├── app.py            # entry point, register blueprint
+├── core/             # core.py, base template, landing page, shared assets
+├── modules/
+│   ├── zodiak/
+│   ├── shio/
+│   ├── weton/
+│   └── tarot/        # WIP
+├── api/index.py      # entry point Vercel
+├── vercel.json
+└── .python-version
 ```
 
----
+## Setup lokal
 
-## 🚀 Instalasi & Menjalankan Lokal
+Pastikan Python kamu minimal 3.13.
 
-Pastikan Anda telah menginstal **Python 3.9+**.
+```bash
+git clone https://github.com/dikigambol/peace-oracle.git
+cd peace-oracle
 
-1. **Clone repository ini:**
-   ```bash
-   git clone https://github.com/dikigambol/peace-oracle.git
-   cd peace-oracle
-   ```
+python -m venv venv
+source venv/bin/activate        # Linux / Mac
+source venv/Scripts/activate    # Windows (Git Bash)
+venv\Scripts\activate           # Windows (CMD / PowerShell)
 
-2. **Buat Virtual Environment (Opsional tapi disarankan):**
-   ```bash
-   python -m venv venv
+pip install -r requirements.txt
+cp .env.example .env
+```
 
-   source venv/bin/activate      # Linux / Mac
-   source venv/Scripts/activate  # Windows + Git Bash
-   venv\Scripts\activate         # Windows + CMD / PowerShell
-   ```
+Lalu isi `.env`. Yang penting:
 
-3. **Install Dependensi:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+| Variabel | Keterangan |
+| --- | --- |
+| `SECRET_KEY` | Wajib. Generate pakai `python -c "import secrets; print(secrets.token_hex(32))"` |
+| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak |
+| `MYSQL_HOST`, `MYSQL_DB`, `MYSQL_USER`, `MYSQL_PASSWORD` | Koneksi database. Kalau kosong, Quiz Room nggak aktif |
+| `FLASK_ENV` | Set `production` di server biar debug mode selalu off |
 
-4. **Konfigurasi Environment (`.env`):**
-   Salin berkas contoh yang sudah disediakan, lalu isi nilainya:
-   ```bash
-   cp .env.example .env
-   ```
+Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `MYSQL_PORT` (3306), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DB_OFFLINE_COOLDOWN` (60 detik), `MEMORY_STORE_MAX` (5000).
 
-5. **Jalankan Aplikasi:**
-   ```bash
-   python app.py
-   # ATAU menggunakan Flask CLI:
-   # flask --app app.py run
-   ```
-   > Aplikasi akan berjalan di `http://127.0.0.1:5000/`
+Terus run:
 
----
+```bash
+python app.py
+```
 
-## ☁️ Deployment (Vercel)
+Buka `http://127.0.0.1:5000/` dan selesai.
 
-Proyek ini sudah dikonfigurasi sepenuhnya agar berjalan lancar sebagai **Serverless Functions** di Vercel. Anda tidak perlu melakukan *setting* tambahan pada file Python.
+## Deploy ke Vercel
 
-1. Hubungkan *repository* GitHub Anda dengan [Vercel](https://vercel.com).
-2. Buat proyek baru (*Add New Project*) dan pilih *repository* ini.
-3. Vercel akan secara otomatis mendeteksi konfigurasi dari file `vercel.json` dan menjadikan `api/index.py` sebagai *entry point*.
-4. Biarkan pengaturan *Framework Preset* pada opsi default (Vercel akan mendeteksinya sebagai Python Serverless).
-5. Klik **Deploy**! Aplikasi Anda kini *live*.
+Connect repo ke [Vercel](https://vercel.com), copy semua environment variable dari `.env`, lalu deploy. Config-nya sudah siap di `vercel.json`, nggak perlu setting tambahan.
 
----
+## Hak cipta
 
----
+© 2026 Peace Oracle. All rights reserved.
 
-## 📄 Hak Cipta
+Repo ini public supaya kodenya bisa dibaca dan dipelajari, tapi **bukan open source**. Menyalin, memodifikasi, mendistribusikan, atau menayangkan ulang sebagian maupun seluruhnya wajib dapat izin tertulis dari pemilik.
 
-**© 2026 Peace Oracle — Seluruh hak dilindungi.**
+Aset ikon di mode Shio dibuat dengan bantuan generative AI.
 
-Repositori ini dibuka agar bisa dibaca dan dipelajari. Isinya **tidak
-dilisensikan untuk penggunaan ulang**: dilarang menyalin, memodifikasi,
-mendistribusikan, atau menayangkan ulang sebagian maupun seluruhnya tanpa
-izin tertulis dari pemilik.
-
-> Gambar ikonografi pada mode Shio dihasilkan dengan bantuan AI generatif.
+Data kota kelahiran untuk Shio dan Weton (nama, bujur, lintang, zona waktu) diambil dari [GeoNames](https://www.geonames.org/) di bawah lisensi [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) pada 18 September 2026 (data lintang untuk Weton pada 25 September 2026). Data tersebut tetap milik GeoNames dan nggak termasuk dalam pembatasan hak cipta di atas.
 
 ---
 
 <div align="center">
-  <p><b>Peace Oracle</b> • Dibuat dengan ❤️, <i>overthinking</i> tengah malam, dan sedikit paksaan dari Merkurius Retrograde.</p>
+  <sub>Built with overthinking tengah malam dan sedikit dorongan dari Merkurius Retrograde.</sub>
 </div>

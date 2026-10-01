@@ -1,7 +1,26 @@
-import os
-import requests
-import json
-from .horoscope_bank import get_openrouter_api_key
+import datetime
+import math
+
+import ephem
+
+from .ai_client import ask_openrouter, get_openrouter_api_key
+
+SIGN_ORDER = [
+    "aries",
+    "taurus",
+    "gemini",
+    "cancer",
+    "leo",
+    "virgo",
+    "libra",
+    "scorpio",
+    "sagittarius",
+    "capricorn",
+    "aquarius",
+    "pisces",
+]
+
+WIB_OFFSET = datetime.timedelta(hours=7)
 
 ROASTING_DATA = {
     "aries": {
@@ -163,41 +182,30 @@ ROASTING_DATA = {
 }
 
 
-def determine_zodiac(day, month):
-    """Menentukan Zodiak berdasarkan hari dan bulan lahir."""
-    try:
-        day = int(day)
-        month = int(month)
-    except (ValueError, TypeError):
-        return "aries"
-    if (month == 3 and day >= 21) or (month == 4 and day <= 19):
-        return "aries"
-    elif (month == 4 and day >= 20) or (month == 5 and day <= 20):
-        return "taurus"
-    elif (month == 5 and day >= 21) or (month == 6 and day <= 20):
-        return "gemini"
-    elif (month == 6 and day >= 21) or (month == 7 and day <= 22):
-        return "cancer"
-    elif (month == 7 and day >= 23) or (month == 8 and day <= 22):
-        return "leo"
-    elif (month == 8 and day >= 23) or (month == 9 and day <= 22):
-        return "virgo"
-    elif (month == 9 and day >= 23) or (month == 10 and day <= 22):
-        return "libra"
-    elif (month == 10 and day >= 23) or (month == 11 and day <= 21):
-        return "scorpio"
-    elif (month == 11 and day >= 22) or (month == 12 and day <= 21):
-        return "sagittarius"
-    elif (month == 12 and day >= 22) or (month == 1 and day <= 19):
-        return "capricorn"
-    elif (month == 1 and day >= 20) or (month == 2 and day <= 18):
-        return "aquarius"
-    else:
-        return "pisces"
+def sign_name(sign_key, fallback):
+    from .data import ZODIAC_DATA
+
+    return ZODIAC_DATA[sign_key]["name"] if sign_key in ZODIAC_DATA else fallback
 
 
-def get_roast(sign_key, refresh=False):
-    return get_ai_roast(sign_key, refresh=refresh)
+def sign_element(sign_key):
+    from .data import ZODIAC_DATA
+
+    return ZODIAC_DATA[sign_key]["element"].lower() if sign_key in ZODIAC_DATA else "api"
+
+
+def get_sun_longitude(moment_utc):
+    epoch = ephem.Date(moment_utc)
+    sun = ephem.Sun()
+    sun.compute(epoch)
+    apparent = ephem.Equatorial(sun.ra, sun.dec, epoch=epoch)
+    return math.degrees(float(ephem.Ecliptic(apparent, epoch=epoch).lon)) % 360
+
+
+def determine_zodiac_from_date(birth_date):
+    noon_wib = datetime.datetime(birth_date.year, birth_date.month, birth_date.day, 12)
+    longitude = get_sun_longitude(noon_wib - WIB_OFFSET)
+    return SIGN_ORDER[int(longitude // 30) % 12]
 
 
 ZODIAC_SYMBOLS = {
@@ -220,11 +228,11 @@ AI_PAIR_ROAST_CACHE = {}
 
 def get_ai_roast(sign_key, refresh=False):
     sign_key = sign_key.lower()
-    sign_name = SIGN_NAMES.get(sign_key, sign_key.capitalize())
+    display_name = sign_name(sign_key, sign_key.capitalize())
     symbol = ZODIAC_SYMBOLS.get(sign_key, "✨")
     from .ai_limiter import check_ai_quota, increment_ai_quota
 
-    is_allowed, count, limit, notice = check_ai_quota()
+    is_allowed, notice = check_ai_quota()
     if not is_allowed:
         fallback = ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"]).copy()
         fallback["ai_notice"] = notice
@@ -237,77 +245,43 @@ def get_ai_roast(sign_key, refresh=False):
     api_key = get_openrouter_api_key()
     if not api_key:
         return ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"])
-    prompt = f"""Eksplorasi secara bebas dan buatlah ulasan roasting humoristis Gen Z yang kreatif, lucu, dan natural tentang karakter zodiak **{sign_name}**.
+    prompt = f"""Eksplorasi secara bebas dan buatlah ulasan roasting humoristis Gen Z yang kreatif, lucu, dan natural tentang karakter zodiak **{display_name}**.
 Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks/markdown lain):
 {{ 
-  "sign_name": "{sign_name} ({symbol})",
-  "headline": "1 kalimat roasting utama paling kocak, santai, dan relatable tentang keunikan {sign_name}.",
+  "sign_name": "{display_name} ({symbol})",
+  "headline": "1 kalimat roasting utama paling kocak, santai, dan relatable tentang keunikan {display_name}.",
   "toxic_traits": [
     "Red flag/kebiasaan kocak 1",
     "Red flag/kebiasaan kocak 2",
     "Red flag/kebiasaan kocak 3"
   ],
-  "financial_sin": "Dosa finansial / kebiasaan belanja kocak khas zodiak {sign_name}.",
+  "financial_sin": "Dosa finansial / kebiasaan belanja kocak khas zodiak {display_name}.",
   "love_red_flag": "Keunikan/red flag kocak zodiak ini dalam urusan asmara.",
-  "catchphrase": "Alasan ngeles paling khas yang sering diucapkan {sign_name}.",
-  "survival_tip": "Tips santai dan kocak untuk teman agar bisa awet bergaul dengan {sign_name}."
+  "catchphrase": "Alasan ngeles paling khas yang sering diucapkan {display_name}.",
+  "survival_tip": "Tips santai dan kocak untuk teman agar bisa awet bergaul dengan {display_name}."
 }} """
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia",
-    }
-    models = ["google/gemini-2.5-flash-lite"]
-    for model in models:
-        try:
-            payload = {
-                "model": model,
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "Kamu adalah komika dan pengamat karakter Gen Z Indonesia yang cerdas, humoris, kreatif, dan menghibur. Berikan ulasan roasting zodiak yang sangat unik, bebas mengeksplorasi ide-ide kocak dan relatable ala anak muda, dengan bahasa Indonesia yang sangat natural, santai, mengalir, dan 100% bebas dari unsur SARA atau kata kasar. Kembalikan respons HANYA dalam format JSON valid.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.85,
-            }
-            resp = requests.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=9,
-            )
-            if resp.status_code == 200:
-                res_data = resp.json()
-                content = res_data["choices"][0]["message"]["content"].strip()
-                if content.startswith("```"):
-                    content = content.split("\n", 1)[-1]
-                    if content.endswith("```"):
-                        content = content.rsplit("```", 1)[0]
-                    content = content.strip()
-                if content.startswith("json"):
-                    content = content[4:].strip()
-                parsed = json.loads(content)
-                if all(
-                    k in parsed
-                    for k in [
-                        "headline",
-                        "toxic_traits",
-                        "financial_sin",
-                        "love_red_flag",
-                        "catchphrase",
-                        "survival_tip",
-                    ]
-                ):
-                    parsed["sign_name"] = f"{sign_name} ({symbol})"
-                    parsed["ai_notice"] = None
-                    parsed["is_ai_quota_exceeded"] = False
-                    increment_ai_quota()
-                    AI_ROAST_CACHE[sign_key] = parsed
-                    return parsed
-        except Exception:
-            pass
+    try:
+        parsed = ask_openrouter(api_key, "Kamu adalah komika dan pengamat karakter Gen Z Indonesia yang cerdas, humoris, kreatif, dan menghibur. Berikan ulasan roasting zodiak yang sangat unik, bebas mengeksplorasi ide-ide kocak dan relatable ala anak muda, dengan bahasa Indonesia yang sangat natural, santai, mengalir, dan 100% bebas dari unsur SARA atau kata kasar. Kembalikan respons HANYA dalam format JSON valid.", prompt, 0.85)
+        if parsed is not None:
+            if all(
+                k in parsed
+                for k in [
+                    "headline",
+                    "toxic_traits",
+                    "financial_sin",
+                    "love_red_flag",
+                    "catchphrase",
+                    "survival_tip",
+                ]
+            ):
+                parsed["sign_name"] = f"{display_name} ({symbol})"
+                parsed["ai_notice"] = None
+                parsed["is_ai_quota_exceeded"] = False
+                increment_ai_quota()
+                AI_ROAST_CACHE[sign_key] = parsed
+                return parsed
+    except Exception:
+        pass
     return ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"])
 
 
@@ -315,11 +289,11 @@ def get_ai_relationship_roast(sign_a, sign_b, refresh=False):
     sa = sign_a.lower()
     sb = sign_b.lower()
     cache_key = f"{sa}_{sb}"
-    name_a = SIGN_NAMES.get(sa, sa.capitalize())
-    name_b = SIGN_NAMES.get(sb, sb.capitalize())
+    name_a = sign_name(sa, sa.capitalize())
+    name_b = sign_name(sb, sb.capitalize())
     from .ai_limiter import check_ai_quota, increment_ai_quota
 
-    is_allowed, count, limit, notice = check_ai_quota()
+    is_allowed, notice = check_ai_quota()
     if not is_allowed:
         fallback = get_relationship_roast(sa, sb).copy()
         fallback["ai_notice"] = notice
@@ -344,94 +318,30 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
   "desc": "Ulasan 2-3 kalimat kocak & natural tentang benturan ego, kebiasaan lucu, atau momen konyol saat {name_a} dan {name_b} bersama.",
   "verdict": "Vonis akhir kocak dan menghibur untuk hubungan {name_a} dan {name_b}."
 }} """
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://zodiak-data-asia.local",
-        "X-OpenRouter-Title": "Zodiak Data Asia",
-    }
-    models = ["google/gemini-2.5-flash-lite"]
-    for model in models:
-        try:
-            payload = {
-                "model": model,
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "Kamu adalah komika dan pengamat dinamika hubungan Gen Z Indonesia yang cerdas, humoris, dan menggemaskan. Berikan ulasan roasting hubungan pasangan secara lucu, santai, relatable, penuh candaan hangat tanpa kata kasar, dan 100% bebas dari unsur SARA. Kembalikan respons HANYA dalam format JSON valid.",
-                    },
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.8,
-            }
-            resp = requests.post(
-                "https://openrouter.ai/api/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=9,
-            )
-            if resp.status_code == 200:
-                res_data = resp.json()
-                content = res_data["choices"][0]["message"]["content"].strip()
-                if content.startswith("```"):
-                    content = content.split("\n", 1)[-1]
-                    if content.endswith("```"):
-                        content = content.rsplit("```", 1)[0]
-                    content = content.strip()
-                if content.startswith("json"):
-                    content = content[4:].strip()
-                parsed = json.loads(content)
-                if all(k in parsed for k in ["badge", "headline", "desc", "verdict"]):
-                    parsed["sign_a_name"] = name_a
-                    parsed["sign_b_name"] = name_b
-                    parsed["ai_notice"] = None
-                    parsed["is_ai_quota_exceeded"] = False
-                    increment_ai_quota()
-                    AI_PAIR_ROAST_CACHE[cache_key] = parsed
-                    return parsed
-        except Exception:
-            pass
+    try:
+        parsed = ask_openrouter(api_key, "Kamu adalah komika dan pengamat dinamika hubungan Gen Z Indonesia yang cerdas, humoris, dan menggemaskan. Berikan ulasan roasting hubungan pasangan secara lucu, santai, relatable, penuh candaan hangat tanpa kata kasar, dan 100% bebas dari unsur SARA. Kembalikan respons HANYA dalam format JSON valid.", prompt, 0.8)
+        if parsed is not None:
+            if all(k in parsed for k in ["badge", "headline", "desc", "verdict"]):
+                parsed["sign_a_name"] = name_a
+                parsed["sign_b_name"] = name_b
+                parsed["ai_notice"] = None
+                parsed["is_ai_quota_exceeded"] = False
+                increment_ai_quota()
+                AI_PAIR_ROAST_CACHE[cache_key] = parsed
+                return parsed
+    except Exception:
+        pass
     return get_relationship_roast(sa, sb)
-
-
-SIGN_ELEMENTS = {
-    "aries": "api",
-    "leo": "api",
-    "sagittarius": "api",
-    "taurus": "tanah",
-    "virgo": "tanah",
-    "capricorn": "tanah",
-    "gemini": "udara",
-    "libra": "udara",
-    "aquarius": "udara",
-    "cancer": "air",
-    "scorpio": "air",
-    "pisces": "air",
-}
-SIGN_NAMES = {
-    "aries": "Aries",
-    "taurus": "Taurus",
-    "gemini": "Gemini",
-    "cancer": "Cancer",
-    "leo": "Leo",
-    "virgo": "Virgo",
-    "libra": "Libra",
-    "scorpio": "Scorpio",
-    "sagittarius": "Sagittarius",
-    "capricorn": "Capricorn",
-    "aquarius": "Aquarius",
-    "pisces": "Pisces",
-}
 
 
 def get_relationship_roast(sign_a, sign_b):
     """Menghasilkan roasting hubungan sarkastik antara Zodiak A dan Zodiak B."""
     sa = sign_a.lower()
     sb = sign_b.lower()
-    name_a = SIGN_NAMES.get(sa, "Zodiak A")
-    name_b = SIGN_NAMES.get(sb, "Zodiak B")
-    elem_a = SIGN_ELEMENTS.get(sa, "api")
-    elem_b = SIGN_ELEMENTS.get(sb, "api")
+    name_a = sign_name(sa, "Zodiak A")
+    name_b = sign_name(sb, "Zodiak B")
+    elem_a = sign_element(sa)
+    elem_b = sign_element(sb)
     if sa == sb:
         res = {
             "sign_a_name": name_a,

@@ -1,0 +1,5 @@
+{% extends 'shio/_jichu.html' %}
+{% set page = 'juhui' %}
+{% set page_data = {'room-code': room_code} if room_code else {} %}
+{% block title %}Ju Hui{% if room_code %} {{ room_code }}{% endif %} - Peace Oracle{% endblock %}
+{% block description %}{% if room_code %}Room Quiz Shio Bareng {{ room_code }}. Gabung, jawab, dan lihat hasil ramalan bareng teman.{% else %}Quiz shio bareng teman: satu kode room untuk ramalan pasangan, ramalan kelompok, atau tebak shio teman.{% endif %}{% endblock %}

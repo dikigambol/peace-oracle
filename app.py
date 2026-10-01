@@ -1,9 +1,21 @@
 import os
 import secrets
+import sys
+
+MINIMUM_PYTHON = (3, 13)
+
+if sys.version_info < MINIMUM_PYTHON:
+    raise RuntimeError(
+        "Peace Oracle membutuhkan Python "
+        f"{MINIMUM_PYTHON[0]}.{MINIMUM_PYTHON[1]} atau lebih baru, "
+        f"terpasang {sys.version.split()[0]}."
+    )
+
 from dotenv import load_dotenv
 
 load_dotenv()
 from flask import Flask, render_template
+from core.core import init_app
 from modules.zodiak.routes import zodiak_bp
 from modules.shio.routes import shio_bp
 from modules.weton.routes import weton_bp
@@ -19,6 +31,7 @@ app.register_blueprint(zodiak_bp)
 app.register_blueprint(shio_bp)
 app.register_blueprint(weton_bp)
 app.register_blueprint(tarot_bp)
+init_app(app)
 
 @app.route("/")
 def home():

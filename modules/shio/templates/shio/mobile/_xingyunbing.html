@@ -1,0 +1,18 @@
+<div class="sh-m-shell" data-bottom-nav>
+  {{ appbar("Xing Yun Bing", "m-cookie-home", "m-cookie-back", "Pilih shio lain") }}
+
+  <main class="sh-m-main">
+    <section id="m-cookie-pick">
+      <h2 class="sh-m-question">Shio kamu apa?</h2>
+      <p class="sh-m-help">Pilih shio-mu, lalu belah kuenya. Satu pesan untuk satu hari.</p>
+      {{ shio_picker('sh-m-shio-picker') }}
+    </section>
+
+    <section id="m-cookie-view" hidden aria-live="polite">
+      {{ cookie_stage("m", "cookie-stage sh-m-cookie-stage") }}
+      <button class="sh-btn sh-btn-ghost sh-btn-block" type="button" id="m-cookie-reset" hidden>Pilih shio lain</button>
+    </section>
+  </main>
+
+  {{ mobile_tabbar('xingyunbing') }}
+</div>

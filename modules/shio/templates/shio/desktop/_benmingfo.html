@@ -1,0 +1,20 @@
+<div class="sh-d-shell">
+  {{ desktop_header(title='Siapa Penjaga Spiritualmu?', lead='Ben Ming Fo adalah Buddha atau Bodhisattva pelindung tiap shio. Pilih shio-mu untuk melihat mantra, nasihat perlindungan, dan arah sakralnya.', active='benmingfo') }}
+
+  <div class="sh-d-body">
+    <aside class="sh-card sh-d-panel">
+      <h2 class="sh-card-title">Pilih shio kamu</h2>
+      {{ shio_picker('sh-d-shio-picker') }}
+      <p class="sh-hint">Klik salah satu shio, kartu penjaganya langsung muncul di kanan.</p>
+    </aside>
+
+    <section class="sh-d-results" aria-live="polite">
+      <div class="sh-card sh-empty" id="d-guardian-empty">
+        <i class="fa-solid fa-hands-praying" aria-hidden="true"></i>
+        <p>Penjaga, mantra, dan tips feng shui untuk shio-mu akan tampil di sini.</p>
+      </div>
+      <div id="d-guardian-loading" hidden></div>
+      <div class="sh-result" id="d-guardian-result" hidden></div>
+    </section>
+  </div>
+</div>

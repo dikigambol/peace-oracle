@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const Zodiak = window.Zodiak;
   const escapeHtml = (value) =>
     String(value ?? "").replace(
       /[&<>"']/g,
@@ -33,12 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const modePills = document.querySelectorAll(".relation-pill");
   let currentMode = "romance";
   let lastFetchedData = null;
-  const elemClassMap = {
-    api: "fire",
-    tanah: "earth",
-    udara: "air",
-    air: "water",
-  };
   modePills.forEach((pill) => {
     pill.addEventListener("click", () => {
       modePills.forEach((p) => p.classList.remove("active"));
@@ -54,55 +49,27 @@ document.addEventListener("DOMContentLoaded", () => {
       const signOne = document.getElementById("sign-one-select-large").value;
       const signTwo = document.getElementById("sign-two-select-large").value;
       if (!signOne || !signTwo) {
-        alert("Harap pilih kedua zodiak terlebih dahulu.");
+        window.showErrorToast("Harap pilih kedua zodiak terlebih dahulu.");
         return;
       }
       const loaderPanel = document.getElementById("comp-details-loader");
-      const origBtnText = btnCalc.innerHTML;
-      if (instructionPanel) instructionPanel.classList.add("hidden");
-      if (contentPanel) contentPanel.classList.add("hidden");
       if (quickViz) quickViz.classList.add("hidden");
-      if (loaderPanel) loaderPanel.classList.remove("hidden");
-      btnCalc.disabled = true;
-      btnCalc.innerHTML = '<i class="fa-solid fa-atom fa-spin"></i> Menghitung';
-      if (window.innerWidth <= 968) {
-        const detailsContainer = document.querySelector(
-          ".details-panel-container",
-        );
-        if (detailsContainer) {
-          detailsContainer.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      }
+      Zodiak.showLoading({ instruction: instructionPanel, content: contentPanel, loader: loaderPanel });
+      window.setButtonLoading(btnCalc, true, "Menghitung");
       try {
-        const response = await fetch(
-          `/api/zodiak/compatibility/${signOne}/${signTwo}`,
-        );
-        if (!response.ok) throw new Error("Gagal memproses kecocokan zodiak");
-        const data = await response.json();
+        const data = await window.fetchJson(`/api/zodiak/compatibility/${signOne}/${signTwo}`);
         lastFetchedData = data;
         setTimeout(() => {
-          if (loaderPanel) loaderPanel.classList.add("hidden");
+          loaderPanel.classList.add("hidden");
           displayCompatibilityDetails(data);
-          if (
-            data.modes &&
-            data.modes.ai_notice &&
-            typeof window.showAiQuotaToast === "function"
-          ) {
-            window.showAiQuotaToast(data.modes.ai_notice);
-          }
-          btnCalc.disabled = false;
-          btnCalc.innerHTML = origBtnText;
+          if (data.modes) Zodiak.notifyQuota(data.modes.ai_notice);
+          window.setButtonLoading(btnCalc, false);
         }, 300);
       } catch (err) {
-        console.error(err);
-        if (loaderPanel) loaderPanel.classList.add("hidden");
-        if (instructionPanel) instructionPanel.classList.remove("hidden");
-        btnCalc.disabled = false;
-        btnCalc.innerHTML = origBtnText;
-        alert("Gagal memuat analisis kecocokan. Silakan coba lagi.");
+        loaderPanel.classList.add("hidden");
+        instructionPanel.classList.remove("hidden");
+        window.setButtonLoading(btnCalc, false);
+        window.showErrorToast("Gagal memuat analisis kecocokan. Silakan coba lagi.");
       }
     });
   }
@@ -110,16 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (quickViz) quickViz.classList.remove("hidden");
     if (instructionPanel) instructionPanel.classList.add("hidden");
     if (contentPanel) contentPanel.classList.remove("hidden");
-    const clsOne = elemClassMap[data.element_one.toLowerCase()] || "fire";
-    const clsTwo = elemClassMap[data.element_two.toLowerCase()] || "water";
-    if (badgeOne) {
-      badgeOne.className = `element-badge ${clsOne}`;
-      badgeOne.innerText = data.element_one;
-    }
-    if (badgeTwo) {
-      badgeTwo.className = `element-badge ${clsTwo}`;
-      badgeTwo.innerText = data.element_two;
-    }
+    Zodiak.setElementBadge(badgeOne, data.element_one, "element-badge", "fire");
+    Zodiak.setElementBadge(badgeTwo, data.element_two, "element-badge", "water");
     renderSelectedMode(data, currentMode);
   }
   function renderSelectedMode(data, mode) {
@@ -158,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 50);
     }
-    animateCount("result-percentage-large", score);
+    Zodiak.animateCount("result-percentage-large", score);
     if (resultStatus) resultStatus.innerText = modeInfo.status;
     if (narrativeText) narrativeText.innerText = modeInfo.summary;
     const metrics = modeInfo.metrics || {
@@ -177,37 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (trustBar) trustBar.style.width = `${metrics.trust}%`;
       if (futureBar) futureBar.style.width = `${metrics.future}%`;
     }, 150);
-    if (strengthsList) {
-      strengthsList.innerHTML = "";
-      (modeInfo.strengths || []).forEach((str) => {
-        const li = document.createElement("li");
-        li.innerText = str;
-        strengthsList.appendChild(li);
-      });
-    }
-    if (challengesList) {
-      challengesList.innerHTML = "";
-      (modeInfo.challenges || []).forEach((ch) => {
-        const li = document.createElement("li");
-        li.innerText = ch;
-        challengesList.appendChild(li);
-      });
-    }
-  }
-  function animateCount(elementId, targetValue) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    let current = 0;
-    const duration = 1000;
-    const stepTime = Math.abs(Math.floor(duration / Math.max(1, targetValue)));
-    const timer = setInterval(() => {
-      current += 1;
-      element.innerText = `${current}%`;
-      if (current >= targetValue) {
-        clearInterval(timer);
-        element.innerText = `${targetValue}%`;
-      }
-    }, stepTime);
+    Zodiak.fillList(strengthsList, modeInfo.strengths);
+    Zodiak.fillList(challengesList, modeInfo.challenges);
   }
   const tabBtnStandard = document.getElementById("tab-btn-standard");
   const tabBtnQuiz = document.getElementById("tab-btn-quiz");
@@ -249,6 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const stepLoader = document.getElementById("quiz-step-loader");
   const stepWaiting = document.getElementById("quiz-step-waiting");
   const stepResult = document.getElementById("quiz-step-result");
+  function showQuizLoader(message) {
+    showQuizStep(stepLoader);
+    const loaderDesc = document.getElementById("quiz-loader-desc");
+    if (loaderDesc) loaderDesc.innerText = message;
+  }
   function showQuizStep(targetStep) {
     [stepInit, stepQuestions, stepLoader, stepWaiting, stepResult].forEach(
       (s) => {
@@ -288,22 +223,17 @@ document.addEventListener("DOMContentLoaded", () => {
       const name = inputName ? inputName.value.trim() : "";
       const sign = selectSign ? selectSign.value : "";
       if (!name || !sign) {
-        alert("Harap isi Nama dan Zodiak Anda terlebih dahulu.");
+        window.showErrorToast("Harap isi Nama dan Zodiak Anda terlebih dahulu.");
         return;
       }
-      const origText = btnStartQuiz.innerHTML;
-      btnStartQuiz.disabled = true;
-      btnStartQuiz.innerHTML =
-        '<i class="fa-solid fa-atom fa-spin"></i> Memproses...';
+      window.setButtonLoading(btnStartQuiz, true, "Memproses...");
       if (!isJoinMode) {
         try {
-          const res = await fetch("/api/zodiak/quiz/create_room", {
+          const data = await window.fetchJson("/api/zodiak/quiz/create_room", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ host_name: name, host_sign: sign }),
           });
-          if (!res.ok) throw new Error("Gagal membuat room.");
-          const data = await res.json();
           currentRoomCode = data.room_code;
           currentShareUrl = data.share_url;
           currentRole = "host";
@@ -311,9 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
           const displayCode = document.getElementById("display-room-code");
           if (displayCode) displayCode.innerText = currentRoomCode;
         } catch (err) {
-          alert("Gagal membuat room. Silakan coba lagi.");
-          btnStartQuiz.disabled = false;
-          btnStartQuiz.innerHTML = origText;
+          window.showErrorToast("Gagal membuat room. Silakan coba lagi.");
+          window.setButtonLoading(btnStartQuiz, false);
           return;
         }
       } else {
@@ -321,17 +250,14 @@ document.addEventListener("DOMContentLoaded", () => {
           ? inputRoomCode.value.trim().toUpperCase()
           : "";
         if (!code || code.length < 5) {
-          alert(
-            "Harap masukkan Kode Room pasangan yang valid (Contoh: RO-8X92K).",
-          );
-          btnStartQuiz.disabled = false;
-          btnStartQuiz.innerHTML = origText;
+          window.showErrorToast("Harap masukkan Kode Room pasangan yang valid (Contoh: RO-8X92K).");
+          window.setButtonLoading(btnStartQuiz, false);
           return;
         }
         currentRoomCode = code;
         currentRole = "partner";
         try {
-          const res = await fetch("/api/zodiak/quiz/join_room", {
+          const resData = await window.fetchJson("/api/zodiak/quiz/join_room", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -340,33 +266,21 @@ document.addEventListener("DOMContentLoaded", () => {
               partner_sign: sign,
             }),
           });
-          if (!res.ok) throw new Error("Kode Room tidak valid.");
-          const resData = await res.json();
           if (resData.status === "completed") {
-            showQuizStep(stepLoader);
-            const loaderDesc = document.getElementById("quiz-loader-desc");
-            if (loaderDesc) {
-              loaderDesc.innerHTML =
-                "✨ Kode Room ini telah selesai! Memuat hasil analisis kecocokan kalian...";
-            }
+            showQuizLoader("✨ Kode Room ini telah selesai! Memuat hasil analisis kecocokan kalian...");
             setTimeout(() => {
               renderQuizResult(resData);
-              btnStartQuiz.disabled = false;
-              btnStartQuiz.innerHTML = origText;
+              window.setButtonLoading(btnStartQuiz, false);
             }, 600);
             return;
           }
         } catch (err) {
-          alert(
-            "Kode Room tidak ditemukan. Pastikan kode room pasangan benar.",
-          );
-          btnStartQuiz.disabled = false;
-          btnStartQuiz.innerHTML = origText;
+          window.showErrorToast("Kode Room tidak ditemukan. Pastikan kode room pasangan benar.");
+          window.setButtonLoading(btnStartQuiz, false);
           return;
         }
       }
-      btnStartQuiz.disabled = false;
-      btnStartQuiz.innerHTML = origText;
+      window.setButtonLoading(btnStartQuiz, false);
       currentQuizIndex = 0;
       quizUserAnswers = new Array(quizQuestions.length).fill(null);
       showQuizStep(stepQuestions);
@@ -446,14 +360,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   async function submitQuizForm() {
-    showQuizStep(stepLoader);
-    const loaderDesc = document.getElementById("quiz-loader-desc");
-    if (loaderDesc) {
-      loaderDesc.innerHTML =
-        "Mohon tunggu sebentar, 10 jawabanmu sedang disimpan &amp; disinkronkan ke room pasangan... ✨";
-    }
+    showQuizLoader("Mohon tunggu sebentar, 10 jawabanmu sedang disimpan & disinkronkan ke room pasangan... ✨");
     try {
-      const res = await fetch("/api/zodiak/quiz/submit_answers", {
+      const data = await window.fetchJson("/api/zodiak/quiz/submit_answers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -462,13 +371,8 @@ document.addEventListener("DOMContentLoaded", () => {
           answers: quizUserAnswers,
         }),
       });
-      if (!res.ok) throw new Error("Gagal mengirimkan jawaban.");
-      const data = await res.json();
       if (data.status === "completed") {
-        if (loaderDesc) {
-          loaderDesc.innerHTML =
-            "✨ Kedua pasangan telah selesai! AI sedang menyusun analisis chemistry kecocokan kalian...";
-        }
+        showQuizLoader("✨ Kedua pasangan telah selesai! AI sedang menyusun analisis chemistry kecocokan kalian...");
         setTimeout(() => {
           renderQuizResult(data);
         }, 800);
@@ -486,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (err) {
       showQuizStep(stepQuestions);
-      alert("Gagal menyimpan jawaban. Silakan coba lagi.");
+      window.showErrorToast("Gagal menyimpan jawaban. Silakan coba lagi.");
     }
   }
   function startPollingForPartner() {
@@ -498,12 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const data = await res.json();
           if (data.status === "completed") {
             clearInterval(pollingInterval);
-            showQuizStep(stepLoader);
-            const loaderDesc = document.getElementById("quiz-loader-desc");
-            if (loaderDesc) {
-              loaderDesc.innerHTML =
-                "✨ Pasanganmu baru saja selesai menjawab! Memuat hasil kecocokan kalian...";
-            }
+            showQuizLoader("✨ Pasanganmu baru saja selesai menjawab! Memuat hasil kecocokan kalian...");
             setTimeout(() => {
               renderQuizResult(data);
             }, 700);
@@ -526,7 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnCopy) {
       btnCopy.onclick = () => {
         navigator.clipboard.writeText(shareUrl);
-        alert("Link Room berhasil disalin! Silakan bagikan ke pasangan Anda.");
+        window.showToast("Link Room berhasil disalin! Silakan bagikan ke pasangan Anda.", "info");
       };
     }
   }
@@ -570,8 +469,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (zodiacScoreCircle)
       zodiacScoreCircle.style.strokeDashoffset =
         maxDash - (maxDash * zScore) / 100;
-    animateCount("res-quiz-percent", qScore);
-    animateCount("res-zodiac-percent", zScore);
+    Zodiak.animateCount("res-quiz-percent", qScore);
+    Zodiak.animateCount("res-zodiac-percent", zScore);
     if (breakdownList && data.breakdown) {
       breakdownList.innerHTML = "";
       data.breakdown.forEach((item, idx) => {
@@ -626,12 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (tabBtnQuiz) tabBtnQuiz.click();
     if (btnModeJoin) btnModeJoin.click();
     if (inputRoomCode) inputRoomCode.value = roomParam.trim().toUpperCase();
-    showQuizStep(stepLoader);
-    const loaderDesc = document.getElementById("quiz-loader-desc");
-    if (loaderDesc) {
-      loaderDesc.innerHTML =
-        "✨ Memeriksa status room &amp; memuat hasil kecocokan partner...";
-    }
+    showQuizLoader("✨ Memeriksa status room & memuat hasil kecocokan partner...");
     fetch(`/api/zodiak/quiz/room/${roomParam.trim().toUpperCase()}`)
       .then((res) => res.json())
       .then((data) => {
