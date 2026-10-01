@@ -54,20 +54,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const loaderPanel = document.getElementById("comp-details-loader");
       if (quickViz) quickViz.classList.add("hidden");
-      Zodiak.showLoading({ instruction: instructionPanel, content: contentPanel, loader: loaderPanel });
+      if (Zodiak && Zodiak.showLoading) {
+        Zodiak.showLoading({ instruction: instructionPanel, content: contentPanel, loader: loaderPanel });
+      } else {
+        if (instructionPanel) instructionPanel.classList.add("hidden");
+        if (contentPanel) contentPanel.classList.add("hidden");
+        if (loaderPanel) loaderPanel.classList.remove("hidden");
+      }
       window.setButtonLoading(btnCalc, true, "Menghitung");
       try {
         const data = await window.fetchJson(`/api/zodiak/compatibility/${signOne}/${signTwo}`);
         lastFetchedData = data;
         setTimeout(() => {
-          loaderPanel.classList.add("hidden");
+          if (loaderPanel) loaderPanel.classList.add("hidden");
           displayCompatibilityDetails(data);
-          if (data.modes) Zodiak.notifyQuota(data.modes.ai_notice);
+          if (data.modes && Zodiak && Zodiak.notifyQuota) Zodiak.notifyQuota(data.modes.ai_notice);
           window.setButtonLoading(btnCalc, false);
         }, 300);
       } catch (err) {
-        loaderPanel.classList.add("hidden");
-        instructionPanel.classList.remove("hidden");
+        if (loaderPanel) loaderPanel.classList.add("hidden");
+        if (instructionPanel) instructionPanel.classList.remove("hidden");
         window.setButtonLoading(btnCalc, false);
         window.showErrorToast("Gagal memuat analisis kecocokan. Silakan coba lagi.");
       }
@@ -77,8 +83,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (quickViz) quickViz.classList.remove("hidden");
     if (instructionPanel) instructionPanel.classList.add("hidden");
     if (contentPanel) contentPanel.classList.remove("hidden");
-    Zodiak.setElementBadge(badgeOne, data.element_one, "element-badge", "fire");
-    Zodiak.setElementBadge(badgeTwo, data.element_two, "element-badge", "water");
+    if (Zodiak && Zodiak.setElementBadge) {
+      Zodiak.setElementBadge(badgeOne, data.element_one, "element-badge", "fire");
+      Zodiak.setElementBadge(badgeTwo, data.element_two, "element-badge", "water");
+    }
     renderSelectedMode(data, currentMode);
   }
   function renderSelectedMode(data, mode) {
@@ -117,7 +125,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }, 50);
     }
-    Zodiak.animateCount("result-percentage-large", score);
+    if (Zodiak && Zodiak.animateCount) {
+      Zodiak.animateCount("result-percentage-large", score);
+    } else {
+      const pct = document.getElementById("result-percentage-large");
+      if (pct) pct.innerText = `${score}%`;
+    }
     if (resultStatus) resultStatus.innerText = modeInfo.status;
     if (narrativeText) narrativeText.innerText = modeInfo.summary;
     const metrics = modeInfo.metrics || {
@@ -136,8 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (trustBar) trustBar.style.width = `${metrics.trust}%`;
       if (futureBar) futureBar.style.width = `${metrics.future}%`;
     }, 150);
-    Zodiak.fillList(strengthsList, modeInfo.strengths);
-    Zodiak.fillList(challengesList, modeInfo.challenges);
+    if (Zodiak && Zodiak.fillList) {
+      Zodiak.fillList(strengthsList, modeInfo.strengths);
+      Zodiak.fillList(challengesList, modeInfo.challenges);
+    }
   }
   const tabBtnStandard = document.getElementById("tab-btn-standard");
   const tabBtnQuiz = document.getElementById("tab-btn-quiz");
@@ -469,8 +484,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (zodiacScoreCircle)
       zodiacScoreCircle.style.strokeDashoffset =
         maxDash - (maxDash * zScore) / 100;
-    Zodiak.animateCount("res-quiz-percent", qScore);
-    Zodiak.animateCount("res-zodiac-percent", zScore);
+    if (Zodiak && Zodiak.animateCount) {
+      Zodiak.animateCount("res-quiz-percent", qScore);
+      Zodiak.animateCount("res-zodiac-percent", zScore);
+    } else {
+      const qEl = document.getElementById("res-quiz-percent");
+      if (qEl) qEl.innerText = `${qScore}%`;
+      const zEl = document.getElementById("res-zodiac-percent");
+      if (zEl) zEl.innerText = `${zScore}%`;
+    }
     if (breakdownList && data.breakdown) {
       breakdownList.innerHTML = "";
       data.breakdown.forEach((item, idx) => {

@@ -1847,6 +1847,184 @@ hr.separator::after,
   font-size: 1.1rem;
 }
 
+/* Roasting Sub-sections, Quote & Tip Scrolls */
+.sin-sub-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-dark);
+}
+
+.sin-sub-label {
+  font-family: var(--font-epigraphy);
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-antique);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.sin-sub-text {
+  font-family: var(--font-manuscript);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--ink-parchment);
+}
+
+.roast-quote-box,
+.prophetic-quote-scroll {
+  background: rgba(10, 8, 16, 0.9);
+  border-left: 3px solid var(--wine-garnet);
+  padding: 1.5rem 1.75rem;
+  margin: 1.75rem 0;
+  position: relative;
+}
+
+.quote-icon {
+  font-size: 1.2rem;
+  color: var(--gold-antique);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.roast-quote-text {
+  font-family: var(--font-manuscript);
+  font-size: 1.15rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75;
+  color: var(--ink-parchment);
+  margin-bottom: 0.65rem;
+}
+
+.quote-author {
+  font-family: var(--font-epigraphy);
+  font-size: 0.76rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.roast-tip-scroll {
+  background: rgba(197, 160, 89, 0.08);
+  border: 1px solid var(--border-filigree);
+  border-radius: 0;
+  padding: 1.25rem 1.75rem;
+  margin-top: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.tip-sigil-icon {
+  color: var(--gold-foil);
+  font-size: 1.3rem;
+  line-height: 1;
+  margin-top: 0.2rem;
+}
+
+.tip-label {
+  font-family: var(--font-epigraphy);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-foil);
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.tip-text,
+.roast-tip-text {
+  font-family: var(--font-manuscript);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-parchment);
+}
+
+.pair-roast-standalone-card,
+.toxic-crucible-panel {
+  background: var(--bg-codex);
+  border: 2px solid var(--border-filigree);
+  outline: 1px solid var(--border-dark);
+  outline-offset: -7px;
+  border-radius: 0;
+  padding: 2.5rem;
+  margin-top: 3rem;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+}
+
+.pair-roast-desc {
+  font-family: var(--font-manuscript);
+  font-size: 1.08rem;
+  color: var(--ink-muted);
+  font-style: normal;
+  text-align: center;
+  margin-bottom: 1.75rem;
+  line-height: 1.7;
+}
+
+.pair-roast-desc b {
+  color: var(--gold-foil);
+}
+
+.pair-select-group {
+  max-width: 550px;
+  margin: 0 auto 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pair-roast-result {
+  border: 1px solid var(--wine-garnet);
+  background: rgba(136, 19, 55, 0.15);
+  border-radius: 0;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.pair-roast-badge {
+  display: inline-block;
+  font-family: var(--font-epigraphy);
+  font-size: 0.76rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #fca5a5;
+  border: 1px solid var(--wine-garnet);
+  padding: 0.3rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.pair-roast-headline {
+  font-family: var(--font-manuscript);
+  font-size: 1.35rem;
+  font-weight: 600;
+  font-style: normal;
+  color: #ffe4e6;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.pair-roast-desc-text {
+  font-family: var(--font-manuscript);
+  font-size: 1.05rem;
+  color: var(--ink-parchment);
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+.pair-roast-verdict {
+  font-family: var(--font-epigraphy);
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-foil);
+  border-top: 1px solid var(--border-dark);
+  padding-top: 0.75rem;
+}
+
 /* ==========================================================================
    IX. FOOTER (EPILOGUS ASTRALIS)
    ========================================================================== */
@@ -1914,5 +2092,809 @@ hr.separator::after,
   stroke: var(--gold-foil);
   color: var(--gold-foil);
   filter: drop-shadow(0 0 20px rgba(223, 190, 118, 0.6));
+}
+
+/* ==========================================================================
+   XI. MOBILE RESPONSIVE OPTIMIZATIONS (FONT SIZES, PADDING & SPACING)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* 1. Global Page Spacing & Typography */
+  body {
+    font-size: 0.95rem !important;
+    line-height: 1.65 !important;
+  }
+
+  .main-content {
+    padding: 1.25rem 0.85rem 3rem;
+  }
+
+  .app-header {
+    padding: 1.5rem 0.85rem 1rem;
+  }
+
+  .gothic-sigil-mark {
+    font-size: 1.65rem;
+  }
+
+  .logo-title {
+    font-size: 1.45rem;
+    letter-spacing: 0.1em;
+  }
+
+  .gothic-subtitle {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+  }
+
+  .app-nav {
+    gap: 0.35rem;
+    margin-top: 1rem;
+  }
+
+  .nav-item {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    gap: 0.35rem;
+  }
+
+  .nav-sigil {
+    font-size: 0.78rem;
+  }
+
+  /* 2. Zodiac Astrolabe Ribbon */
+  .gothic-sigil-strip-wrapper {
+    margin-bottom: 1.75rem;
+  }
+
+  .strip-label-banner {
+    margin-bottom: 0.65rem;
+  }
+
+  .strip-label-text {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    padding: 0 0.5rem;
+  }
+
+  .strip-label-text::before,
+  .strip-label-text::after {
+    content: "✦ ──";
+    margin: 0 0.4rem;
+  }
+
+  .gothic-sigil-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .sigil-btn,
+  .zodiac-card {
+    padding: 0.7rem 0.2rem;
+    gap: 0.15rem;
+  }
+
+  .sigil-glyph {
+    font-size: 1.35rem;
+  }
+
+  .sigil-name {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  /* 3. Codex Folios & Cards Padding */
+  .panel,
+  .glass-panel,
+  .gothic-grimoire-card,
+  .grimoire-folio {
+    padding: 1.5rem 1rem;
+    outline-offset: -4px;
+    margin-bottom: 1.75rem;
+    box-shadow: 
+      0 0 0 1px rgba(0, 0, 0, 0.9),
+      0 15px 35px rgba(0, 0, 0, 0.9),
+      inset 0 0 40px rgba(0, 0, 0, 0.7);
+  }
+
+  .grimoire-filigree-corner.tl { top: 6px; left: 8px; }
+  .grimoire-filigree-corner.tr { top: 6px; right: 8px; }
+  .grimoire-filigree-corner.bl { bottom: 6px; left: 8px; }
+  .grimoire-filigree-corner.br { bottom: 6px; right: 8px; }
+
+  .grimoire-header-badge {
+    margin-bottom: 1rem;
+  }
+
+  .grimoire-numeral {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    padding: 0.25rem 0.9rem;
+  }
+
+  .gothic-panel-title,
+  .section-title {
+    font-size: 1.45rem;
+    letter-spacing: 0.06em;
+    line-height: 1.3;
+  }
+
+  .gothic-panel-desc,
+  .compatibility-desc {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+
+  .details-instruction,
+  .gothic-details-empty {
+    padding: 2.25rem 0.85rem;
+  }
+
+  .details-loader,
+  .gothic-details-loader {
+    padding: 2.5rem 0.85rem;
+  }
+
+  .gothic-occult-seal {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 1.25rem;
+  }
+
+  .seal-glyph {
+    font-size: 1.4rem;
+  }
+
+  .gothic-rune-spinner {
+    font-size: 2.2rem;
+  }
+
+  .gothic-loader-text,
+  .loader-text {
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    margin-top: 1rem;
+  }
+
+  /* 4. Reading Details Header */
+  .details-header {
+    padding-bottom: 1.25rem;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .details-title-container {
+    gap: 0.85rem;
+    width: 100%;
+  }
+
+  .details-name {
+    font-size: 1.55rem;
+    letter-spacing: 0.08em;
+  }
+
+  .details-dates {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+  }
+
+  .details-symbol {
+    font-size: 2.5rem;
+  }
+
+  .details-symbol .celestial-sigil-svg,
+  #details-symbol .celestial-sigil-svg,
+  #gen-symbol .celestial-sigil-svg,
+  #roast-symbol .celestial-sigil-svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .details-meta-right {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .element-badge,
+  .details-element-badge {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .ruler-info {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  /* 5. Codex Columns (Ramalan Harian) */
+  .codex-two-columns {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .codex-column-left {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .manuscript-lead-quote {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    padding-left: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .codex-section-heading {
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+    margin: 1.25rem 0 0.6rem;
+  }
+
+  .gothic-narrative-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .gothic-tags-block {
+    margin-bottom: 1rem;
+  }
+
+  .gothic-tag-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  .tag {
+    font-size: 0.82rem;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .codex-column-right {
+    gap: 1.25rem;
+  }
+
+  .gothic-ratings-box,
+  .cosmic-context-panel {
+    padding: 1rem 0.85rem;
+  }
+
+  .stat-header {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .cosmic-context-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 0.75rem;
+  }
+
+  .info-grid {
+    gap: 0.5rem;
+  }
+
+  .info-box {
+    padding: 0.65rem 0.4rem;
+  }
+
+  .info-box .info-icon {
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .info-box .info-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+  }
+
+  .info-box .info-val {
+    font-size: 0.78rem;
+  }
+
+  .music-track-card {
+    padding: 0.85rem;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 0.75rem;
+  }
+
+  .music-title {
+    font-size: 0.88rem;
+  }
+
+  .music-artist {
+    font-size: 0.8rem;
+  }
+
+  .btn-youtube {
+    padding: 0.55rem 1rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    justify-content: center;
+    display: inline-flex;
+    width: 100%;
+  }
+
+  /* 6. Keselarasan & Quiz Tab Switcher */
+  .compatibility-tab-switcher,
+  .gothic-tab-switcher {
+    flex-direction: column;
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .comp-tab-btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    border-right: none;
+    border-bottom: 1px solid var(--border-dark);
+    width: 100%;
+  }
+
+  .comp-tab-btn:last-child {
+    border-bottom: none;
+  }
+
+  .gothic-portal-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .gothic-field-label {
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+  }
+
+  .gothic-select,
+  .custom-select-large {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+  }
+
+  .gothic-nexus-circle {
+    padding: 0.3rem 0.85rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+  }
+
+  .relation-pill {
+    padding: 0.55rem 0.25rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+  }
+
+  .pill-sigil {
+    font-size: 0.88rem;
+  }
+
+  .btn-calculate,
+  .gothic-submit-btn {
+    padding: 0.85rem 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    margin-top: 1.25rem;
+  }
+
+  .radial-progress-svg,
+  .gothic-svg-gauge {
+    width: 110px;
+    height: 110px;
+  }
+
+  .gothic-gauge-number,
+  .result-number-large {
+    font-size: 1.5rem;
+  }
+
+  .gothic-status-text,
+  .compatibility-status-text {
+    font-size: 0.95rem;
+    letter-spacing: 0.12em;
+  }
+
+  .comp-header-detail {
+    padding-bottom: 1rem;
+  }
+
+  .comp-title-main {
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
+  }
+
+  .bullet-list-section,
+  .gothic-bullet-duo {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  .bullet-block,
+  .gothic-bullet-block {
+    padding: 1.1rem 0.85rem;
+  }
+
+  .bullet-title,
+  .gothic-block-title {
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.75rem;
+  }
+
+  .bullet-list li,
+  .gothic-bullet-list li {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    padding-left: 1.15rem;
+  }
+
+  /* Quiz Mobile */
+  .gothic-quiz-mode-grid,
+  .quiz-init-options {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .quiz-mode-card,
+  .gothic-mode-card {
+    padding: 1.25rem 1rem;
+  }
+
+  .gothic-mode-sigil {
+    font-size: 1.8rem;
+    margin-bottom: 0.45rem;
+  }
+
+  .quiz-mode-card h4,
+  .gothic-mode-card h4 {
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+  }
+
+  .quiz-mode-card p,
+  .gothic-mode-card p {
+    font-size: 0.85rem;
+  }
+
+  .quiz-form-group,
+  .gothic-quiz-form {
+    padding: 1.25rem 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .form-row-2 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .custom-input,
+  .gothic-input {
+    padding: 0.75rem 0.75rem 0.75rem 2.4rem;
+    font-size: 0.88rem;
+  }
+
+  .field-icon,
+  .gothic-input-glyph {
+    left: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .quiz-question-text {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+
+  .quiz-option-btn {
+    padding: 0.8rem 0.85rem;
+    font-size: 0.88rem;
+    gap: 0.75rem;
+  }
+
+  .quiz-option-letter {
+    width: 1.85rem;
+    height: 1.85rem;
+    font-size: 0.78rem;
+  }
+
+  .waiting-box,
+  .gothic-waiting-box {
+    padding: 1.5rem 0.85rem;
+  }
+
+  .room-code-display,
+  .gothic-code-vault {
+    padding: 1rem 1.5rem;
+    margin: 1.25rem 0;
+    width: 100%;
+  }
+
+  .room-code-val,
+  .gothic-code-text {
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+  }
+
+  .result-scores-grid,
+  .gothic-scores-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .score-card-pink,
+  .score-card-purple,
+  .gothic-score-pod {
+    padding: 1.25rem 1rem;
+  }
+
+  .score-circle-svg {
+    width: 95px;
+    height: 95px;
+    margin-bottom: 0.85rem;
+  }
+
+  .score-num {
+    font-size: 1.45rem;
+  }
+
+  .ai-couple-box,
+  .gothic-ai-box {
+    padding: 1.25rem 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .ai-verdict-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.1rem;
+  }
+
+  .ai-two-columns,
+  .gothic-ai-duo {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .ai-col-good,
+  .ai-col-challenge {
+    padding: 1rem 0.85rem;
+  }
+
+  .breakdown-answers-grid {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .result-footer-actions {
+    flex-direction: column;
+    gap: 0.75rem !important;
+  }
+
+  .result-footer-actions button {
+    width: 100% !important;
+  }
+
+  /* 7. Arketipe (General) */
+  .archetype-traits-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .physical-trait-item {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.88rem;
+  }
+
+  .codex-triad-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 1.25rem 0;
+  }
+
+  .triad-box {
+    padding: 1.1rem 0.85rem;
+  }
+
+  .triad-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.6rem;
+  }
+
+  #gen-animal-name {
+    font-size: 1rem !important;
+  }
+
+  #gen-animal-desc {
+    font-size: 0.88rem !important;
+    line-height: 1.55 !important;
+  }
+
+  /* 8. Roasting (Pengadilan Jiwa) */
+  .sin-headline-scroll,
+  .roast-headline-card,
+  .sin-headline-folio {
+    padding: 1.25rem 0.85rem;
+    margin: 1.25rem 0;
+  }
+
+  .sin-headline-text,
+  .roast-headline-text {
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .roast-card-tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+  }
+
+  .sin-tablets-duo,
+  .roast-grid-2col {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin: 1.25rem 0;
+  }
+
+  .sin-tablet {
+    padding: 1.25rem 0.85rem;
+    outline-offset: -3px;
+  }
+
+  .sin-tablet-title {
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .toxic-sins-list {
+    gap: 0.75rem;
+  }
+
+  .toxic-sins-list li {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    padding-left: 1.5rem;
+  }
+
+  .toxic-sins-list li::before {
+    font-size: 0.95rem;
+  }
+
+  .sin-sub-section {
+    margin-top: 1.25rem;
+  }
+
+  .sin-sub-label {
+    font-size: 0.74rem;
+  }
+
+  .sin-sub-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+  }
+
+  .roast-quote-box,
+  .prophetic-quote-scroll {
+    padding: 1rem 0.85rem;
+    margin: 1.25rem 0;
+  }
+
+  .roast-quote-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .roast-tip-scroll {
+    padding: 1rem 0.85rem;
+    margin-top: 1.25rem;
+    gap: 0.65rem;
+  }
+
+  .tip-text,
+  .roast-tip-text {
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
+
+  .pair-roast-standalone-card,
+  .toxic-crucible-panel {
+    padding: 1.25rem 0.85rem;
+    margin-top: 1.75rem;
+    outline-offset: -4px;
+  }
+
+  .pair-roast-desc {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+
+  .pair-select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pair-roast-result {
+    padding: 1.1rem 0.85rem;
+    margin-top: 1.25rem;
+  }
+
+  .pair-roast-badge {
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .pair-roast-headline {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+
+  .pair-roast-desc-text {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    margin-bottom: 1rem;
+  }
+
+  .pair-roast-verdict {
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    padding-top: 0.6rem;
+  }
+
+  .app-footer {
+    padding: 2rem 1rem;
+  }
+
+  .app-footer p {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+}
+
+/* Extra small mobile devices (<= 420px) */
+@media (max-width: 420px) {
+  .logo-title {
+    font-size: 1.2rem;
+    letter-spacing: 0.05em;
+  }
+
+  .gothic-sigil-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .nav-item {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.68rem;
+  }
+
+  .gothic-panel-title,
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .details-name {
+    font-size: 1.35rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
 }
 

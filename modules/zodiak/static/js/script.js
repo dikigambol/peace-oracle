@@ -24,10 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
   function setText(id, value) {
-    document.getElementById(id).innerText = value;
+    const el = document.getElementById(id);
+    if (el) el.innerText = value ?? "";
   }
   function displayZodiacDetails(data) {
-    panels.content.classList.remove("hidden");
+    if (panels.content) panels.content.classList.remove("hidden");
     setText("details-name", data.name);
     setText("details-dates", data.date_range);
     setText("details-ruler", data.ruler);
@@ -63,11 +64,14 @@ document.addEventListener("DOMContentLoaded", () => {
       aquarius: "♒",
       pisces: "♓",
     };
-    const signKey = data.name.toLowerCase();
-    if (typeof window.getZodiacSvg === "function") {
-      document.getElementById("details-symbol").innerHTML = window.getZodiacSvg(signKey, 64);
-    } else {
-      document.getElementById("details-symbol").innerText = symbols[signKey] || "";
+    const signKey = (data.name || "").toLowerCase();
+    const symbolEl = document.getElementById("details-symbol");
+    if (symbolEl) {
+      if (typeof window.getZodiacSvg === "function") {
+        symbolEl.innerHTML = window.getZodiacSvg(signKey, 64);
+      } else {
+        symbolEl.innerText = symbols[signKey] || "";
+      }
     }
     const elementClasses = {
       api: "fire",
@@ -75,11 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
       udara: "air",
       air: "water",
     };
-    const elemKey = data.element.toLowerCase();
+    const elemKey = (data.element || "").toLowerCase();
     const cssClass = elementClasses[elemKey] || "fire";
     const elementBadge = document.getElementById("details-element-badge");
-    elementBadge.className = `details-element-badge element-badge ${cssClass}`;
-    elementBadge.innerText = data.element;
+    if (elementBadge) {
+      elementBadge.className = `details-element-badge element-badge ${cssClass}`;
+      elementBadge.innerText = data.element;
+    }
     if (data.cosmic) {
       const c = data.cosmic;
       setText("cosmic-date-text", `Ramalan: ${c.date}`);
@@ -87,26 +93,38 @@ document.addEventListener("DOMContentLoaded", () => {
       setText("cosmic-moon-text", `${c.moon_phase} (${c.moon_illumination}%)`);
       const rulerIcon = document.getElementById("cosmic-ruler");
       const rulerText = document.getElementById("cosmic-ruler-text");
-      rulerText.innerText = `${data.ruler}: ${c.ruler_status}`;
+      if (rulerText) rulerText.innerText = `${data.ruler}: ${c.ruler_status}`;
       const retro = c.ruler_is_retrograde;
-      rulerIcon.style.borderColor = retro ? "rgba(239, 68, 68, 0.3)" : "";
-      rulerIcon.style.background = retro ? "rgba(239, 68, 68, 0.06)" : "";
-      rulerIcon.querySelector("i").style.color = retro ? "#f87171" : "";
-      rulerText.style.color = retro ? "#fca5a5" : "";
+      if (rulerIcon) {
+        rulerIcon.style.borderColor = retro ? "rgba(239, 68, 68, 0.3)" : "";
+        rulerIcon.style.background = retro ? "rgba(239, 68, 68, 0.06)" : "";
+        const iconI = rulerIcon.querySelector("i");
+        if (iconI) iconI.style.color = retro ? "#f87171" : "";
+      }
+      if (rulerText) rulerText.style.color = retro ? "#fca5a5" : "";
       setText("cosmic-weather-text", c.weather);
     }
     ["love", "career", "health"].forEach((key) => {
-      document.getElementById(`${key}-bar`).style.width = "0%";
+      const bar = document.getElementById(`${key}-bar`);
+      if (bar) bar.style.width = "0%";
       setText(`${key}-percent`, "0%");
     });
     setTimeout(() => {
       ["love", "career", "health"].forEach((key) => {
-        document.getElementById(`${key}-bar`).style.width = `${data.ratings[key]}%`;
-        Zodiak.animateCount(`${key}-percent`, data.ratings[key]);
+        const rating = data.ratings ? data.ratings[key] : 0;
+        const bar = document.getElementById(`${key}-bar`);
+        if (bar) bar.style.width = `${rating}%`;
+        if (Zodiak && Zodiak.animateCount) {
+          Zodiak.animateCount(`${key}-percent`, rating);
+        } else {
+          setText(`${key}-percent`, `${rating}%`);
+        }
       });
     }, 150);
-    Zodiak.fillList(document.getElementById("strengths-tags"), data.strengths, "tag");
-    Zodiak.fillList(document.getElementById("weaknesses-tags"), data.weaknesses, "tag");
+    if (Zodiak && Zodiak.fillList) {
+      Zodiak.fillList(document.getElementById("strengths-tags"), data.strengths, "tag");
+      Zodiak.fillList(document.getElementById("weaknesses-tags"), data.weaknesses, "tag");
+    }
   }
   Zodiak.bindBackToGrid(document.getElementById("btn-back-grid-index"));
 });

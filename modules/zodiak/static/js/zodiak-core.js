@@ -64,9 +64,10 @@
   }
 
   function showLoading(panels) {
-    panels.instruction.classList.add("hidden");
-    panels.content.classList.add("hidden");
-    panels.loader.classList.remove("hidden");
+    if (!panels) return;
+    if (panels.instruction) panels.instruction.classList.add("hidden");
+    if (panels.content) panels.content.classList.add("hidden");
+    if (panels.loader) panels.loader.classList.remove("hidden");
     scrollToDetailsOnMobile();
   }
 
