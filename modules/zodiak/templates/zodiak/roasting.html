@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Iudicium Animae - Pengadilan Jiwa &amp; Roasting Zodiak{% endblock %}
+{% block title %}Roasting Zodiak - Zodiak Oracle{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}?v=gothic-v2">
@@ -9,37 +9,35 @@
 {% block content %}
 <div class="stars-bg"></div>
 
-<!-- Grand Gothic Oraculum Header -->
+<!-- Grand Header -->
 <header class="app-header">
   <div class="header-container">
     <div class="gothic-brand">
-      <span class="gothic-sigil-mark">🜏</span>
-      <h1 class="logo-title">ORACULUM ZODIACALIS</h1>
-      <span class="gothic-subtitle">Pengadilan Jiwa &amp; Kitab Dosa Zodiak</span>
+      <span class="gothic-sigil-mark">🔥</span>
+      <h1 class="logo-title">ZODIAK ORACLE</h1>
+      <span class="gothic-subtitle">Roasting Zodiak Lucu &amp; Sindiran Sifat Toksik</span>
     </div>
   </div>
   <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><span class="nav-sigil">I</span> Ramalan</a>
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span>
-      Keselarasan</a>
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><span class="nav-sigil">III</span> Arketipe</a>
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"><span class="nav-sigil">IV</span> Pengadilan
-      Jiwa</a>
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-heart"></i> Kecocokan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><i class="fa-solid fa-compass"></i> Karakter</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
   </nav>
 </header>
 
 <main class="main-content">
-  <!-- Dadu Takdir Altar Bar (Interactive) -->
+  <!-- Interactive Dice Bar -->
   <div class="roasting-altar-bar">
     <button type="button" class="roasting-dice-btn" id="btn-roll-dice-roast">
-      <span class="sigil-bullet">🜚</span> Kocok Dadu Takdir (Pilih Acak Jiwa) <span class="sigil-bullet">🜏</span>
+      <i class="fa-solid fa-dice"></i> Acak Zodiak (Roll Dice) <i class="fa-solid fa-fire"></i>
     </button>
   </div>
 
-  <!-- Astrological Dial Selector (No Cards) -->
+  <!-- Astrological Dial Strip -->
   <div class="gothic-sigil-strip-wrapper" id="zodiac-grid">
     <div class="strip-label-banner">
-      <span class="strip-label-text">Pilih Jiwa yang Hendak Diadili</span>
+      <span class="strip-label-text">Pilih Zodiak yang Ingin Di-roast</span>
     </div>
     <div class="gothic-sigil-strip">
       <button type="button" class="sigil-btn zodiac-card" data-sign="aries" title="Aries">
@@ -93,7 +91,7 @@
     </div>
   </div>
 
-  <!-- Grand Tribunal Codex Folio: The Book of Sins -->
+  <!-- The Reading Folio -->
   <div class="details-panel-container">
     <div class="grimoire-folio" id="roast-details-panel">
       <!-- Engraved Filigree Corners -->
@@ -106,25 +104,24 @@
       <div class="details-instruction gothic-details-empty" id="roast-instruction">
         <div class="gothic-occult-seal"
           style="background: radial-gradient(circle, rgba(136, 19, 55, 0.4) 0%, rgba(10, 8, 18, 0.95) 70%);">
-          <span class="seal-glyph">🜏</span>
+          <span class="seal-glyph">🔥</span>
         </div>
-        <h2 class="gothic-panel-title">Kitab Pengadilan Jiwa Belum Terbuka</h2>
+        <h2 class="gothic-panel-title">Pilih Zodiak untuk Di-roast</h2>
         <p class="gothic-panel-desc">
-          Pilih salah satu segel zodiak pada dial di atas atau kocok dadu takdir untuk memanggil jiwa yang akan diadili
-          di altar orakel.
+          Pilih salah satu zodiak di atas atau gunakan tombol acak untuk melihat sindiran pedas, red flags, dan kebiasaan buruknya.
         </p>
       </div>
 
       <!-- Loader State -->
       <div class="details-loader hidden gothic-details-loader" id="roast-loader">
-        <div class="gothic-rune-spinner">🜏</div>
-        <p class="loader-text gothic-loader-text">Membuka Lembaran Dosa &amp; Menimbang Pengadilan Jiwa...</p>
+        <div class="gothic-rune-spinner">🔥</div>
+        <p class="loader-text gothic-loader-text">Menyiapkan Roasting Pedas Zodiak...</p>
       </div>
 
       <!-- Content State -->
       <div class="details-content hidden" id="roast-content">
         <div class="grimoire-header-badge">
-          <span class="grimoire-numeral">LIBER PECCATORUM • IUDICIUM ANIMAIS</span>
+          <span class="grimoire-numeral">ROASTING ZODIAK • RED FLAGS &amp; SIFAT TOKSIK</span>
         </div>
 
         <!-- Heading Banner -->
@@ -141,41 +138,41 @@
           </div>
         </div>
 
-        <!-- Grand Sin Verdict Headline Scroll -->
+        <!-- Headline Card -->
         <div class="roast-headline-card sin-headline-folio">
-          <div class="roast-card-tag"><span class="sigil-bullet">🜏</span> VONIS PENGADILAN JIWA</div>
+          <div class="roast-card-tag"><span class="sigil-bullet">🔥</span> ROASTING UTAMA</div>
           <p class="roast-headline-text" id="roast-headline-text">Kalimat roasting pedas...</p>
         </div>
 
-        <!-- Dual Sin Folios (Dosa Terbesar vs Pengadilan Batin) -->
+        <!-- Dual Sin Folios -->
         <div class="sin-tablets-duo">
           <!-- Folio 1: Dosa Terbesar -->
           <div class="sin-tablet">
-            <h3 class="sin-tablet-title"><span class="sigil-bullet">🜏</span> Dosa Tabiat Primordial</h3>
+            <h3 class="sin-tablet-title"><span class="sigil-bullet">🔥</span> Red Flags &amp; Kebiasaan Buruk</h3>
             <ul class="toxic-sins-list" id="roast-toxic-list"></ul>
 
             <div class="sin-sub-section">
-              <span class="sin-sub-label"><span class="sigil-bullet">🜃</span> Dosa Finansial &amp; Ketamakan</span>
+              <span class="sin-sub-label"><span class="sigil-bullet">💸</span> Dosa Finansial</span>
               <p class="sin-sub-text" id="roast-financial-text">Dosa uang...</p>
             </div>
           </div>
 
-          <!-- Folio 2: Pengadilan Asmara & Nasihat -->
+          <!-- Folio 2: Love Red Flag & Nasihat -->
           <div class="sin-tablet">
-            <h3 class="sin-tablet-title"><span class="sigil-bullet">🜂</span> Borok Asmara &amp; Hubungan Toksik</h3>
+            <h3 class="sin-tablet-title"><span class="sigil-bullet">💔</span> Love Red Flag (Sifat Toksik Asmara)</h3>
             <p class="sin-sub-text" id="roast-love-text" style="font-style: italic; line-height: 1.7;">Borok asmara...
             </p>
 
             <div class="roast-quote-box prophetic-quote-scroll">
               <span class="quote-icon">“</span>
               <p class="roast-quote-text" id="roast-quote-text">Kutipan pengadilan...</p>
-              <div class="quote-author">— Sabda Sang Orakel</div>
+              <div class="quote-author">— Pembelaan Khas Zodiak Kamu</div>
             </div>
 
             <div class="roast-tip-scroll">
-              <div class="tip-sigil-icon">✦</div>
+              <div class="tip-sigil-icon">💡</div>
               <div>
-                <span class="tip-label">Hukuman Tobat &amp; Nasihat Jiwa</span>
+                <span class="tip-label">Tips Bertahan Hidup &amp; Nasihat</span>
                 <p class="tip-text" id="roast-tip-text">Tips tobat...</p>
               </div>
             </div>
@@ -184,15 +181,15 @@
       </div>
     </div>
 
-    <!-- Alchemical Toxic Pair Crucible -->
+    <!-- Pair Roast Panel -->
     <div class="pair-roast-standalone-card toxic-crucible-panel hidden" id="pair-roast-card-panel">
       <div class="grimoire-header-badge">
-        <span class="grimoire-numeral">CRUCIBULUM VENENUM • DINAMIKA TOKSIK DUA JIWA</span>
+        <span class="grimoire-numeral">ROASTING PASANGAN ZODIAK</span>
       </div>
 
-      <h3 class="gothic-panel-title" style="font-size: 1.8rem;">Kombinasi Paling Menghancurkan</h3>
+      <h3 class="gothic-panel-title" style="font-size: 1.8rem;">Roasting Hubungan Dua Zodiak</h3>
       <p class="pair-roast-desc">
-        Uji apa yang terjadi jika <b id="pair-sign-a-name">Zodiak Ini</b> bersatu dengan zodiak pilihanmu di bawah ini:
+        Lihat apa yang terjadi jika <b id="pair-sign-a-name">Zodiak Ini</b> berpasangan atau berteman dengan zodiak pilihanmu:
       </p>
 
       <div class="pair-select-group">
@@ -212,23 +209,23 @@
           <option value="pisces">Pisces</option>
         </select>
         <button type="button" class="btn-calculate gothic-submit-btn" id="btn-calc-pair-roast">
-          Singkap Malapetaka Hubungan <span class="sigil-bullet">🜏</span>
+          Roast Hubungan Ini <span class="sigil-bullet">🔥</span>
         </button>
       </div>
 
       <div class="pair-roast-result hidden" id="pair-roast-result">
-        <span class="pair-roast-badge" id="pair-roast-badge">Vonis Toksik</span>
+        <span class="pair-roast-badge" id="pair-roast-badge">Hasil Roasting Hubungan</span>
         <h4 class="pair-roast-headline" id="pair-roast-headline">Judul Malapetaka</h4>
         <p class="pair-roast-desc-text" id="pair-roast-desc">Deskripsi dinamika kehancuran...</p>
-        <div class="pair-roast-verdict" id="pair-roast-verdict">Saran Pengadilan Jiwa</div>
+        <div class="pair-roast-verdict" id="pair-roast-verdict">Kesimpulan Hubungan</div>
       </div>
     </div>
   </div>
 </main>
 
 <footer class="app-footer">
-  <div class="footer-sigil">✦ 🜏 ✦</div>
-  <p>&copy; 2026 Oraculum Zodiacalis. Termaktub dalam kitab dosa bintang.</p>
+  <div class="footer-sigil">✦ 🔥 ✦</div>
+  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
 </footer>
 {% endblock %}
 

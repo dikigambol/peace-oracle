@@ -154,7 +154,7 @@
 
 .toxic-sins-list li::before,
 .roast-list li::before {
-  content: "🜏";
+  content: "🚩";
   position: absolute;
   left: 0.85rem;
   top: 0.8rem;

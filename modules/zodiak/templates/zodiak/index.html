@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Liber Fati - Ramalan Harian Oraculum Zodiacalis{% endblock %}
+{% block title %}Ramalan Harian - Zodiak Oracle{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}?v=gothic-v2">
@@ -8,30 +8,28 @@
 {% block content %}
 <div class="stars-bg"></div>
 
-<!-- Grand Gothic Oraculum Header -->
+<!-- Grand Header -->
 <header class="app-header">
   <div class="header-container">
     <div class="gothic-brand">
-      <span class="gothic-sigil-mark">🜂</span>
-      <h1 class="logo-title">ORACULUM ZODIACALIS</h1>
-      <span class="gothic-subtitle">Grimoire Astrologi Esoteris &amp; Horoskop Okultisme</span>
+      <span class="gothic-sigil-mark">✨</span>
+      <h1 class="logo-title">ZODIAK ORACLE</h1>
+      <span class="gothic-subtitle">Ramalan Bintang Harian &amp; Horoskop Astrologi</span>
     </div>
   </div>
   <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item active"><span class="nav-sigil">I</span> Ramalan</a>
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span>
-      Keselarasan</a>
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><span class="nav-sigil">III</span> Arketipe</a>
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Pengadilan
-      Jiwa</a>
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item active"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-heart"></i> Kecocokan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><i class="fa-solid fa-compass"></i> Karakter</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
   </nav>
 </header>
 
 <main class="main-content">
-  <!-- The Astrological Astrolabe Strip (No Cards, Pure Dial) -->
+  <!-- Astrological Dial Strip -->
   <div class="gothic-sigil-strip-wrapper" id="zodiac-grid">
     <div class="strip-label-banner">
-      <span class="strip-label-text">Pilih Segel Falak Konstelasi</span>
+      <span class="strip-label-text">Pilih Zodiak Anda</span>
     </div>
     <div class="gothic-sigil-strip">
       <button type="button" class="sigil-btn zodiac-card" data-sign="aries" title="Aries">
@@ -85,7 +83,7 @@
     </div>
   </div>
 
-  <!-- The Grand Codex Folio (Centerstage Reading Tome) -->
+  <!-- The Reading Folio -->
   <div class="details-panel-container">
     <div class="grimoire-folio" id="details-panel">
       <!-- Engraved Corner Filigrees -->
@@ -97,26 +95,25 @@
       <!-- Instruction Empty State -->
       <div class="details-instruction gothic-details-empty" id="details-instruction">
         <div class="gothic-occult-seal">
-          <span class="seal-glyph">☽ 🜂 ☾</span>
+          <span class="seal-glyph">✨</span>
         </div>
-        <h2 class="gothic-panel-title">Kitab Falak Belum Disingkap</h2>
+        <h2 class="gothic-panel-title">Ramalan Zodiak Anda</h2>
         <p class="gothic-panel-desc">
-          Pilih salah satu segel zodiak pada dial falak di atas untuk membaca sabda bintang dan pergerakan nasib hari
-          ini.
+          Pilih salah satu zodiak di atas untuk melihat ramalan harian, peruntungan asmara, karir, dan kesehatan Anda hari ini.
         </p>
       </div>
 
       <!-- Loader State -->
       <div class="details-loader hidden gothic-details-loader" id="details-loader">
-        <div class="gothic-rune-spinner">🜂</div>
-        <p class="loader-text gothic-loader-text">Menyelaraskan Garis Falak &amp; Membaca Takdir...</p>
+        <div class="gothic-rune-spinner">✨</div>
+        <p class="loader-text gothic-loader-text">Membaca Rasi Bintang &amp; Ramalan Harian...</p>
       </div>
 
       <!-- Content State -->
       <div class="details-content hidden" id="details-content">
-        <!-- Rubric Top Banner -->
+        <!-- Header Badge -->
         <div class="grimoire-header-badge">
-          <span class="grimoire-numeral">LIBER FATI • CAPITULUM ASTRALIS</span>
+          <span class="grimoire-numeral">RAMALAN HARIAN • HOROSKOP BINTANG</span>
         </div>
 
         <!-- Heading: Symbol, Name, Planetary Ruler -->
@@ -130,49 +127,48 @@
           </div>
           <div class="details-meta-right">
             <span class="details-element-badge element-badge" id="details-element-badge">Elemen</span>
-            <div class="ruler-info">Penguasa Planet: <strong id="details-ruler">Mars</strong></div>
+            <div class="ruler-info">Planet Pelindung: <strong id="details-ruler">Mars</strong></div>
           </div>
         </div>
 
-        <!-- Lead Prophetic Summary -->
-        <p class="manuscript-lead-quote" id="details-summary">Ringkasan ramalan kosmik...</p>
+        <!-- Lead Summary -->
+        <p class="manuscript-lead-quote" id="details-summary">Ringkasan ramalan harian...</p>
 
-        <!-- Two-Column Codex Spread -->
+        <!-- Two-Column Spread -->
         <div class="codex-two-columns">
-          <!-- Left Folio Column: Narrative & Virtues -->
+          <!-- Left Column: Narrative & Traits -->
           <div class="codex-column-left">
-            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Garis Asmara &amp; Hubungan Jiwa</h3>
+            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Asmara &amp; Hubungan</h3>
             <p class="gothic-narrative-text" id="genz-love-text">Pembacaan asmara...</p>
 
-            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Takdir Karir &amp; Ambisi Duniawi</h3>
+            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Karir &amp; Keuangan</h3>
             <p class="gothic-narrative-text" id="genz-career-text">Pembacaan karir...</p>
 
-            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Vitalitas Raga &amp; Ketenangan Batin
-            </h3>
+            <h3 class="codex-section-heading"><span class="sigil-bullet">✦</span> Kesehatan &amp; Kebugaran</h3>
             <p class="gothic-narrative-text" id="genz-health-text">Pembacaan kesehatan...</p>
 
             <hr class="separator" />
 
             <div class="gothic-tags-block">
-              <span class="gothic-tag-label"><span class="sigil-bullet">🜚</span> Keutamaan Falak (Kekuatan)</span>
+              <span class="gothic-tag-label"><span class="sigil-bullet">✦</span> Kelebihan &amp; Kekuatan</span>
               <div class="tags-container" id="strengths-tags"></div>
             </div>
 
             <div class="gothic-tags-block">
-              <span class="gothic-tag-label"><span class="sigil-bullet">🜏</span> Kerentanan Jiwa (Kelemahan)</span>
+              <span class="gothic-tag-label"><span class="sigil-bullet">✦</span> Kelemahan &amp; Tantangan</span>
               <div class="tags-container" id="weaknesses-tags"></div>
             </div>
           </div>
 
-          <!-- Right Folio Column: Calibrated Gauges & Cosmic Ephemeris -->
+          <!-- Right Column: Gauges & Context -->
           <div class="codex-column-right">
-            <!-- Brass Rating Bars -->
+            <!-- Rating Bars -->
             <div class="gothic-ratings-box">
-              <h4 class="codex-section-heading"><span class="sigil-bullet">✦</span> Matriks Resonansi Bintang</h4>
+              <h4 class="codex-section-heading"><span class="sigil-bullet">✦</span> Energi &amp; Peruntungan Harian</h4>
 
               <div class="stat-row">
                 <div class="stat-header">
-                  <span>Energi Asmara</span>
+                  <span>Cinta &amp; Asmara</span>
                   <span class="stat-percentage" id="love-percent">0%</span>
                 </div>
                 <div class="progress-bar-container">
@@ -182,7 +178,7 @@
 
               <div class="stat-row">
                 <div class="stat-header">
-                  <span>Arus Karir</span>
+                  <span>Karir &amp; Kerja</span>
                   <span class="stat-percentage" id="career-percent">0%</span>
                 </div>
                 <div class="progress-bar-container">
@@ -192,7 +188,7 @@
 
               <div class="stat-row">
                 <div class="stat-header">
-                  <span>Vitalitas Hayat</span>
+                  <span>Kesehatan &amp; Vitalitas</span>
                   <span class="stat-percentage" id="health-percent">0%</span>
                 </div>
                 <div class="progress-bar-container">
@@ -201,9 +197,9 @@
               </div>
             </div>
 
-            <!-- Cosmic Context Ephemeris -->
+            <!-- Daily Context -->
             <div class="cosmic-context-panel">
-              <h4 class="cosmic-context-title"><span class="sigil-bullet">✦</span> Efemeris Hari Ini</h4>
+              <h4 class="cosmic-context-title"><span class="sigil-bullet">✦</span> Kondisi Hari Ini</h4>
               <p class="ruler-info" id="cosmic-date-text" style="margin-bottom: 0.85rem;">Ramalan Hari Ini</p>
 
               <div class="info-grid">
@@ -219,30 +215,30 @@
                 </div>
                 <div class="info-box">
                   <div class="info-icon"><i class="fa-solid fa-cloud-sun"></i></div>
-                  <span class="info-label">Hawa Kosmik</span>
+                  <span class="info-label">Suasana Hari Ini</span>
                   <div class="info-val" id="cosmic-weather-text">Tenang</div>
                 </div>
               </div>
 
               <div
                 style="margin-top: 1.25rem; display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--ink-muted);">
-                <div>Angka Sakral: <strong id="details-lucky-number" style="color: var(--gold-foil);">7</strong></div>
-                <div>Warna Alkimia: <strong id="details-lucky-color" style="color: var(--gold-foil);">Emas</strong>
+                <div>Angka Hoki: <strong id="details-lucky-number" style="color: var(--gold-foil);">7</strong></div>
+                <div>Warna Hoki: <strong id="details-lucky-color" style="color: var(--gold-foil);">Emas</strong>
                 </div>
               </div>
             </div>
 
-            <!-- Celestial Hymn -->
+            <!-- Music Vibe -->
             <div class="music-track-card">
               <div>
-                <div class="music-genre" id="music-genre">Hymn Kosmik</div>
-                <div class="music-title" id="music-title">Lagu Pengiring Jiwa</div>
-                <div class="music-artist" id="music-artist">Musisi Bintang</div>
+                <div class="music-genre" id="music-genre">Musik Hari Ini</div>
+                <div class="music-title" id="music-title">Rekomendasi Lagu</div>
+                <div class="music-artist" id="music-artist">Nama Artis</div>
                 <div style="font-size: 0.8rem; color: var(--ink-muted); font-style: italic; margin-top: 0.25rem;"
                   id="music-vibe-reason"></div>
               </div>
               <a href="#" target="_blank" rel="noopener noreferrer" class="btn-youtube" id="music-youtube-btn">
-                Dengarkan <span class="sigil-bullet">▶</span>
+                Putar Musik <span class="sigil-bullet">▶</span>
               </a>
             </div>
           </div>
@@ -253,9 +249,8 @@
 </main>
 
 <footer class="app-footer">
-  <div class="footer-sigil">✦ 🜂 ✦</div>
-  <p>&copy; 2026 Oraculum Zodiacalis. Termaktub dalam hukum rahasia bintang.</p>
-</footer>
+  <div class="footer-sigil">✦ ✨ ✦</div>
+  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
 {% endblock %}
 
 {% block extra_js %}

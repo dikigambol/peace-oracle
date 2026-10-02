@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Codex Naturarum - Arketipe Astrologi Oraculum Zodiacalis{% endblock %}
+{% block title %}Karakter Zodiak - Zodiak Oracle{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}?v=gothic-v2">
@@ -8,31 +8,28 @@
 {% block content %}
 <div class="stars-bg"></div>
 
-<!-- Grand Gothic Oraculum Header -->
+<!-- Grand Header -->
 <header class="app-header">
   <div class="header-container">
     <div class="gothic-brand">
-      <span class="gothic-sigil-mark">🜂</span>
-      <h1 class="logo-title">ORACULUM ZODIACALIS</h1>
-      <span class="gothic-subtitle">Grimoire Esoteris &amp; Horoskop Okultisme</span>
+      <span class="gothic-sigil-mark">✨</span>
+      <h1 class="logo-title">ZODIAK ORACLE</h1>
+      <span class="gothic-subtitle">Profil Karakter &amp; Sifat Lengkap Zodiak</span>
     </div>
   </div>
   <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><span class="nav-sigil">I</span> Ramalan</a>
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span>
-      Keselarasan</a>
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><span class="nav-sigil">III</span>
-      Arketipe</a>
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Pengadilan
-      Jiwa</a>
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-heart"></i> Kecocokan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><i class="fa-solid fa-compass"></i> Karakter</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
   </nav>
 </header>
 
 <main class="main-content">
-  <!-- Astrological Dial Selector (No Cards) -->
+  <!-- Astrological Dial Strip -->
   <div class="gothic-sigil-strip-wrapper" id="zodiac-grid">
     <div class="strip-label-banner">
-      <span class="strip-label-text">Pilih Segel Arketipe Konstelasi</span>
+      <span class="strip-label-text">Pilih Zodiak Anda</span>
     </div>
     <div class="gothic-sigil-strip">
       <button type="button" class="sigil-btn zodiac-card" data-sign="aries" title="Aries">
@@ -86,7 +83,7 @@
     </div>
   </div>
 
-  <!-- Grand Codex Folio: The Codex of Archetypes -->
+  <!-- The Reading Folio -->
   <div class="details-panel-container">
     <div class="grimoire-folio" id="details-panel">
       <!-- Engraved Filigree Corners -->
@@ -98,25 +95,24 @@
       <!-- Instruction Empty State -->
       <div class="details-instruction gothic-details-empty" id="gen-instruction">
         <div class="gothic-occult-seal">
-          <span class="seal-glyph">☽ 🜂 ☾</span>
+          <span class="seal-glyph">✨</span>
         </div>
-        <h2 class="gothic-panel-title">Codex Arketipe Belum Disingkap</h2>
+        <h2 class="gothic-panel-title">Pilih Zodiak Anda</h2>
         <p class="gothic-panel-desc">
-          Pilih salah satu segel konstelasi pada dial di atas untuk menyingkap intisari karakter, aura biologis, dan
-          sifat primordial zodiak.
+          Pilih salah satu zodiak di atas untuk melihat kepribadian, ciri fisik, kebiasaan unik, dan profil lengkapnya.
         </p>
       </div>
 
       <!-- Loader State -->
       <div class="details-loader hidden gothic-details-loader" id="gen-loader">
-        <div class="gothic-rune-spinner">🜂</div>
-        <p class="loader-text gothic-loader-text">Membuka Lembaran Arketipe Kuno...</p>
+        <div class="gothic-rune-spinner">✨</div>
+        <p class="loader-text gothic-loader-text">Memuat Profil &amp; Karakter Zodiak...</p>
       </div>
 
       <!-- Content State -->
       <div class="details-content hidden" id="gen-content">
         <div class="grimoire-header-badge">
-          <span class="grimoire-numeral">CODEX NATURARUM • PROFIL ESOTERIS</span>
+          <span class="grimoire-numeral">PROFIL LENGKAP • KARAKTER ZODIAK</span>
         </div>
 
         <!-- Heading Banner -->
@@ -133,31 +129,31 @@
           </div>
         </div>
 
-        <!-- Manifestasi Fisik / Aura Biologis -->
+        <!-- Ciri Fisik -->
         <h3 class="codex-section-heading" style="margin-top: 2rem;">
-          <span class="sigil-bullet">✦</span> Ciri Fisik &amp; Manifestasi Aura Batin
+          <span class="sigil-bullet">✦</span> Ciri Khas Fisik &amp; Penampilan
         </h3>
         <div class="archetype-traits-grid" id="gen-physical-tags"></div>
 
-        <!-- Kepribadian Mendalam -->
+        <!-- Kepribadian Utama -->
         <h3 class="codex-section-heading">
-          <span class="sigil-bullet">✦</span> Esensi Karakter &amp; Hakikat Jiwa
+          <span class="sigil-bullet">✦</span> Kepribadian Utama
         </h3>
         <p class="manuscript-lead-quote" id="gen-personality-text">Deskripsi kepribadian...</p>
 
         <!-- Kebiasaan Unik -->
         <h3 class="codex-section-heading">
-          <span class="sigil-bullet">✦</span> Kebiasaan &amp; Pola Batin Bawaan
+          <span class="sigil-bullet">✦</span> Kebiasaan Unik
         </h3>
         <ul class="bullet-list gothic-bullet-list" id="gen-habits-list" style="margin-bottom: 2.5rem;"></ul>
 
         <hr class="separator" />
 
-        <!-- Triad Korespondensi Esoteris -->
+        <!-- Triad Details -->
         <div class="codex-triad-grid">
-          <!-- Hewan Jiwa -->
+          <!-- Spirit Animal -->
           <div class="triad-box">
-            <h4 class="triad-title"><span class="sigil-bullet">🜚</span> Hewan Jiwa (Totem)</h4>
+            <h4 class="triad-title"><span class="sigil-bullet">✦</span> Spirit Animal</h4>
             <h5 id="gen-animal-name"
               style="font-family: var(--font-epigraphy); color: var(--gold-foil); font-size: 1.1rem; margin-bottom: 0.5rem;">
               Nama Hewan</h5>
@@ -166,21 +162,21 @@
               Deskripsi...</p>
           </div>
 
-          <!-- Dapur Kosmik -->
+          <!-- Makanan Favorit -->
           <div class="triad-box">
-            <h4 class="triad-title"><span class="sigil-bullet">🜃</span> Nutrisi Alkimia</h4>
+            <h4 class="triad-title"><span class="sigil-bullet">✦</span> Makanan &amp; Selera Rasa</h4>
             <div
               style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
               <div>Profil Rasa: <strong id="gen-pantry-profile" style="color: var(--gold-foil);">...</strong></div>
-              <div>Makanan Pilihan: <strong id="gen-pantry-food" style="color: var(--gold-foil);">...</strong></div>
+              <div>Makanan Favorit: <strong id="gen-pantry-food" style="color: var(--gold-foil);">...</strong></div>
               <div style="font-style: italic; color: var(--ink-muted); margin-top: 0.25rem;" id="gen-pantry-habit">...
               </div>
             </div>
           </div>
 
-          <!-- Suaka Ruang -->
+          <!-- Ruangan Favorit -->
           <div class="triad-box">
-            <h4 class="triad-title"><span class="sigil-bullet">🜄</span> Suaka Ruang Batin</h4>
+            <h4 class="triad-title"><span class="sigil-bullet">✦</span> Gaya Ruangan Favorit</h4>
             <div
               style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
               <div>Gaya: <strong id="gen-decor-style" style="color: var(--gold-foil);">...</strong></div>
@@ -191,9 +187,9 @@
           </div>
         </div>
 
-        <!-- Fakta Rahasia -->
+        <!-- Fakta Menarik -->
         <div class="sin-headline-scroll" style="margin-top: 2.5rem;">
-          <span class="roast-card-tag"><span class="sigil-bullet">✦</span> RAHASIA TERSEMBUNYI FALAK</span>
+          <span class="roast-card-tag"><span class="sigil-bullet">✦</span> FAKTA UNIK TERSEMBUNYI</span>
           <p class="sin-headline-text" id="gen-fun-fact-text" style="color: var(--gold-foil);">Fakta menarik...</p>
         </div>
       </div>
@@ -202,8 +198,8 @@
 </main>
 
 <footer class="app-footer">
-  <div class="footer-sigil">✦ 🜂 ✦</div>
-  <p>&copy; 2026 Oraculum Zodiacalis. Termaktub dalam hukum rahasia bintang.</p>
+  <div class="footer-sigil">✦ ✨ ✦</div>
+  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
 </footer>
 {% endblock %}
 

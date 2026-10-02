@@ -9,7 +9,7 @@
     {% for endpoint, icon, label in [
       ('zodiak.home', 'fa-wand-magic-sparkles', 'Ramalan'),
       ('zodiak.compatibility_page', 'fa-calculator', 'Kecocokan'),
-      ('zodiak.general_page', 'fa-compass', 'General'),
+      ('zodiak.general_page', 'fa-compass', 'Karakter'),
       ('zodiak.roasting_page', 'fa-fire-flame-curved', 'Roasting'),
     ] %}
     <a href="{{ url_for(endpoint) }}" class="nav-item{% if request.endpoint == endpoint %} active{% endif %}"><i class="fa-solid {{ icon }}"></i> {{ label }}</a>
