@@ -1839,7 +1839,7 @@ hr.separator::after,
 }
 
 .toxic-sins-list li::before {
-  content: "🚩";
+  content: "🜏";
   position: absolute;
   left: 0;
   top: 0;

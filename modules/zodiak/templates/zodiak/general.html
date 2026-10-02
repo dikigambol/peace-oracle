@@ -12,16 +12,16 @@
 <header class="app-header">
   <div class="header-container">
     <div class="gothic-brand">
-      <span class="gothic-sigil-mark">✨</span>
+      <span class="gothic-sigil-mark">🜂</span>
       <h1 class="logo-title">ZODIAK ORACLE</h1>
       <span class="gothic-subtitle">Profil Karakter &amp; Sifat Lengkap Zodiak</span>
     </div>
   </div>
   <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-heart"></i> Kecocokan</a>
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><i class="fa-solid fa-compass"></i> Karakter</a>
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><span class="nav-sigil">I</span> Ramalan Harian</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span> Kecocokan Pasangan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item active"><span class="nav-sigil">III</span> Karakter &amp; Sifat</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Roasting Zodiak</a>
   </nav>
 </header>
 
@@ -95,7 +95,7 @@
       <!-- Instruction Empty State -->
       <div class="details-instruction gothic-details-empty" id="gen-instruction">
         <div class="gothic-occult-seal">
-          <span class="seal-glyph">✨</span>
+          <span class="seal-glyph">☽ 🜂 ☾</span>
         </div>
         <h2 class="gothic-panel-title">Pilih Zodiak Anda</h2>
         <p class="gothic-panel-desc">
@@ -105,7 +105,7 @@
 
       <!-- Loader State -->
       <div class="details-loader hidden gothic-details-loader" id="gen-loader">
-        <div class="gothic-rune-spinner">✨</div>
+        <div class="gothic-rune-spinner">🜂</div>
         <p class="loader-text gothic-loader-text">Memuat Profil &amp; Karakter Zodiak...</p>
       </div>
 
@@ -153,7 +153,7 @@
         <div class="codex-triad-grid">
           <!-- Spirit Animal -->
           <div class="triad-box">
-            <h4 class="triad-title"><span class="sigil-bullet">✦</span> Spirit Animal</h4>
+            <h4 class="triad-title"><span class="sigil-bullet">🜚</span> Spirit Animal</h4>
             <h5 id="gen-animal-name"
               style="font-family: var(--font-epigraphy); color: var(--gold-foil); font-size: 1.1rem; margin-bottom: 0.5rem;">
               Nama Hewan</h5>
@@ -164,7 +164,7 @@
 
           <!-- Makanan Favorit -->
           <div class="triad-box">
-            <h4 class="triad-title"><span class="sigil-bullet">✦</span> Makanan &amp; Selera Rasa</h4>
+            <h4 class="triad-title"><span class="sigil-bullet">🜃</span> Makanan &amp; Selera Rasa</h4>
             <div
               style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
               <div>Profil Rasa: <strong id="gen-pantry-profile" style="color: var(--gold-foil);">...</strong></div>
@@ -176,7 +176,7 @@
 
           <!-- Ruangan Favorit -->
           <div class="triad-box">
-            <h4 class="triad-title"><span class="sigil-bullet">✦</span> Gaya Ruangan Favorit</h4>
+            <h4 class="triad-title"><span class="sigil-bullet">🜄</span> Gaya Ruangan Favorit</h4>
             <div
               style="font-size: 0.92rem; color: var(--ink-parchment); display: flex; flex-direction: column; gap: 0.4rem;">
               <div>Gaya: <strong id="gen-decor-style" style="color: var(--gold-foil);">...</strong></div>
@@ -198,7 +198,7 @@
 </main>
 
 <footer class="app-footer">
-  <div class="footer-sigil">✦ ✨ ✦</div>
+  <div class="footer-sigil">✦ 🜂 ✦</div>
   <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
 </footer>
 {% endblock %}

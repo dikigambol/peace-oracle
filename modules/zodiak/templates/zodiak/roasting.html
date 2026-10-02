@@ -13,16 +13,16 @@
 <header class="app-header">
   <div class="header-container">
     <div class="gothic-brand">
-      <span class="gothic-sigil-mark">🔥</span>
+      <span class="gothic-sigil-mark">🜏</span>
       <h1 class="logo-title">ZODIAK ORACLE</h1>
       <span class="gothic-subtitle">Roasting Zodiak Lucu &amp; Sindiran Sifat Toksik</span>
     </div>
   </div>
   <nav class="app-nav">
-    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> Ramalan</a>
-    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><i class="fa-solid fa-heart"></i> Kecocokan</a>
-    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><i class="fa-solid fa-compass"></i> Karakter</a>
-    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"><i class="fa-solid fa-fire-flame-curved"></i> Roasting</a>
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><span class="nav-sigil">I</span> Ramalan Harian</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item"><span class="nav-sigil">II</span> Kecocokan Pasangan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><span class="nav-sigil">III</span> Karakter &amp; Sifat</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item active"><span class="nav-sigil">IV</span> Roasting Zodiak</a>
   </nav>
 </header>
 
@@ -30,7 +30,7 @@
   <!-- Interactive Dice Bar -->
   <div class="roasting-altar-bar">
     <button type="button" class="roasting-dice-btn" id="btn-roll-dice-roast">
-      <i class="fa-solid fa-dice"></i> Acak Zodiak (Roll Dice) <i class="fa-solid fa-fire"></i>
+      <span class="sigil-bullet">🜚</span> Acak Zodiak (Roll Dice) <span class="sigil-bullet">🜏</span>
     </button>
   </div>
 
@@ -104,7 +104,7 @@
       <div class="details-instruction gothic-details-empty" id="roast-instruction">
         <div class="gothic-occult-seal"
           style="background: radial-gradient(circle, rgba(136, 19, 55, 0.4) 0%, rgba(10, 8, 18, 0.95) 70%);">
-          <span class="seal-glyph">🔥</span>
+          <span class="seal-glyph">🜏</span>
         </div>
         <h2 class="gothic-panel-title">Pilih Zodiak untuk Di-roast</h2>
         <p class="gothic-panel-desc">
@@ -114,7 +114,7 @@
 
       <!-- Loader State -->
       <div class="details-loader hidden gothic-details-loader" id="roast-loader">
-        <div class="gothic-rune-spinner">🔥</div>
+        <div class="gothic-rune-spinner">🜏</div>
         <p class="loader-text gothic-loader-text">Menyiapkan Roasting Pedas Zodiak...</p>
       </div>
 
@@ -140,7 +140,7 @@
 
         <!-- Headline Card -->
         <div class="roast-headline-card sin-headline-folio">
-          <div class="roast-card-tag"><span class="sigil-bullet">🔥</span> ROASTING UTAMA</div>
+          <div class="roast-card-tag"><span class="sigil-bullet">🜏</span> ROASTING UTAMA</div>
           <p class="roast-headline-text" id="roast-headline-text">Kalimat roasting pedas...</p>
         </div>
 
@@ -148,18 +148,18 @@
         <div class="sin-tablets-duo">
           <!-- Folio 1: Dosa Terbesar -->
           <div class="sin-tablet">
-            <h3 class="sin-tablet-title"><span class="sigil-bullet">🔥</span> Red Flags &amp; Kebiasaan Buruk</h3>
+            <h3 class="sin-tablet-title"><span class="sigil-bullet">🜏</span> Red Flags &amp; Kebiasaan Buruk</h3>
             <ul class="toxic-sins-list" id="roast-toxic-list"></ul>
 
             <div class="sin-sub-section">
-              <span class="sin-sub-label"><span class="sigil-bullet">💸</span> Dosa Finansial</span>
+              <span class="sin-sub-label"><span class="sigil-bullet">🜃</span> Dosa Finansial</span>
               <p class="sin-sub-text" id="roast-financial-text">Dosa uang...</p>
             </div>
           </div>
 
           <!-- Folio 2: Love Red Flag & Nasihat -->
           <div class="sin-tablet">
-            <h3 class="sin-tablet-title"><span class="sigil-bullet">💔</span> Love Red Flag (Sifat Toksik Asmara)</h3>
+            <h3 class="sin-tablet-title"><span class="sigil-bullet">🜂</span> Love Red Flag (Sifat Toksik Asmara)</h3>
             <p class="sin-sub-text" id="roast-love-text" style="font-style: italic; line-height: 1.7;">Borok asmara...
             </p>
 
@@ -170,7 +170,7 @@
             </div>
 
             <div class="roast-tip-scroll">
-              <div class="tip-sigil-icon">💡</div>
+              <div class="tip-sigil-icon">✦</div>
               <div>
                 <span class="tip-label">Tips Bertahan Hidup &amp; Nasihat</span>
                 <p class="tip-text" id="roast-tip-text">Tips tobat...</p>
@@ -209,8 +209,14 @@
           <option value="pisces">Pisces</option>
         </select>
         <button type="button" class="btn-calculate gothic-submit-btn" id="btn-calc-pair-roast">
-          Roast Hubungan Ini <span class="sigil-bullet">🔥</span>
+          Roast Hubungan Ini <span class="sigil-bullet">🜏</span>
         </button>
+      </div>
+
+      <!-- Pair Roast Loader -->
+      <div class="pair-loader hidden" id="pair-roast-loader" style="text-align: center; padding: 2rem 1rem;">
+        <div class="gothic-rune-spinner">🜏</div>
+        <p class="loader-text gothic-loader-text">Menganalisis Dinamika Hubungan...</p>
       </div>
 
       <div class="pair-roast-result hidden" id="pair-roast-result">
@@ -224,7 +230,7 @@
 </main>
 
 <footer class="app-footer">
-  <div class="footer-sigil">✦ 🔥 ✦</div>
+  <div class="footer-sigil">✦ 🜏 ✦</div>
   <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
 </footer>
 {% endblock %}
