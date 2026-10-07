@@ -4,7 +4,7 @@
   <p>Zodiak, Shio, Weton, dan Tarot dalam satu app.</p>
 
   <p>
-    <img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=flat-square&labelColor=30363D&logo=python&logoColor=FFD43B" alt="Python 3.13+">
+    <img src="https://img.shields.io/badge/Python-3.12+-3776AB?style=flat-square&labelColor=30363D&logo=python&logoColor=FFD43B" alt="Python 3.12+">
     <img src="https://img.shields.io/badge/Flask-009688?style=flat-square&labelColor=30363D&logo=flask&logoColor=white" alt="Flask">
     <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&labelColor=30363D&logo=mysql&logoColor=white" alt="MySQL">
     <img src="https://img.shields.io/badge/Vercel-7B5CFF?style=flat-square&labelColor=30363D&logo=vercel&logoColor=white" alt="Vercel">
@@ -78,7 +78,7 @@ peace-oracle/
 
 ## Setup lokal
 
-Pastikan Python kamu minimal 3.13.
+Pastikan Python kamu minimal 3.12.
 
 ```bash
 git clone https://github.com/dikigambol/peace-oracle.git
