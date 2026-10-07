@@ -1,451 +1,492 @@
-{% extends 'zodiak/_base.html' %}
-{% import 'zodiak/_macros.html' as z %}
-{% block title %}Zodiak Peace - Kalkulator Kecocokan
-Kosmik{% endblock %}
-{% block zodiak_content %}
+{% extends 'base.html' %}
+{% block title %}Kecocokan Zodiak - Zodiak Oracle{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}?v=gothic-v2">
+{% endblock %}
+
+{% block content %}
+<div class="stars-bg"></div>
+
+<!-- Grand Header -->
+<header class="app-header">
+  <div class="header-container">
+    <div class="gothic-brand">
+      <span class="gothic-sigil-mark">🜂</span>
+      <h1 class="logo-title">ZODIAK ORACLE</h1>
+      <span class="gothic-subtitle">Cek Kecocokan Pasangan &amp; Hubungan Zodiak</span>
+    </div>
+  </div>
+  <nav class="app-nav">
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item"><span class="nav-sigil">I</span> Ramalan</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item active"><span class="nav-sigil">II</span> Kecocokan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item"><span class="nav-sigil">III</span> Karakter</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item"><span class="nav-sigil">IV</span> Roasting</a>
+  </nav>
+</header>
+
 <main class="main-content">
-  <div class="compatibility-tab-switcher">
-    <button
-      type="button"
-      class="comp-tab-btn active"
-      id="tab-btn-standard"
-      data-tab="standard"
-    >
-      <i class="fa-solid fa-people-arrows"></i> <span>Kalkulator</span>
+  <!-- Tab Switcher -->
+  <div class="compatibility-tab-switcher gothic-tab-switcher">
+    <button type="button" class="comp-tab-btn active" id="tab-btn-standard" data-tab="standard">
+      <span class="tab-sigil">☿</span> <span>Kalkulator Kecocokan</span>
     </button>
-    <button
-      type="button"
-      class="comp-tab-btn"
-      id="tab-btn-quiz"
-      data-tab="quiz"
-    >
-      <i class="fa-solid fa-heart-circle-check"></i> <span>Quiz Room</span>
+    <button type="button" class="comp-tab-btn" id="tab-btn-quiz" data-tab="quiz">
+      <span class="tab-sigil">🜁</span> <span>Kuis Kecocokan Pasangan (10 Pertanyaan)</span>
     </button>
   </div>
-  <section class="portal-grid" id="standard-compatibility-section">
+
+  <!-- SECTION 1: Standard Compatibility -->
+  <section class="portal-grid gothic-portal-grid" id="standard-compatibility-section">
+    <!-- Left Input Panel -->
     <div class="zodiac-selector-container">
-      <div class="panel">
-        <h2 class="section-title">
-          <i class="fa-solid fa-people-arrows"></i> Uji Keselarasan
-        </h2>
-        <p class="compatibility-desc">
-          Pilih zodiak Anda dan zodiak pasangan untuk menganalisis kecocokan
-          elemen secara mendalam.
+      <div class="grimoire-folio" id="compatibility-input-panel">
+        <div class="grimoire-filigree-corner tl">✦</div>
+        <div class="grimoire-filigree-corner tr">✦</div>
+        <div class="grimoire-filigree-corner bl">✦</div>
+        <div class="grimoire-filigree-corner br">✦</div>
+
+        <div class="grimoire-header-badge">
+          <span class="grimoire-numeral">ANALISIS KECOCOKAN PASANGAN</span>
+        </div>
+
+        <h2 class="gothic-panel-title">Cek Kecocokan Zodiak</h2>
+        <p class="gothic-panel-desc">
+          Pilih dua zodiak untuk melihat tingkat kecocokan asmara, komunikasi, dan dinamika hubungan kalian.
         </p>
-        <div class="compatibility-selector-large">
+
+        <div class="compatibility-selector-large gothic-selector-box">
           <div class="select-wrapper-large">
-            <label for="sign-one-select-large">Zodiak Pertama</label>
-            {{ z.sign_select("sign-one-select-large") }}
+            <label for="sign-one-select-large" class="gothic-field-label">
+              <span class="sigil-bullet">☽</span> Zodiak Pertama
+            </label>
+            <select id="sign-one-select-large" class="custom-select-large gothic-select">
+              <option value="" disabled selected>Pilih Zodiak Pertama</option>
+              <option value="aries">Aries (Api)</option>
+              <option value="taurus">Taurus (Tanah)</option>
+              <option value="gemini">Gemini (Udara)</option>
+              <option value="cancer">Cancer (Air)</option>
+              <option value="leo">Leo (Api)</option>
+              <option value="virgo">Virgo (Tanah)</option>
+              <option value="libra">Libra (Udara)</option>
+              <option value="scorpio">Scorpio (Air)</option>
+              <option value="sagittarius">Sagittarius (Api)</option>
+              <option value="capricorn">Capricorn (Tanah)</option>
+              <option value="aquarius">Aquarius (Udara)</option>
+              <option value="pisces">Pisces (Air)</option>
+            </select>
           </div>
-          <div class="heart-divider-large">
-            <div class="vs-circle-pink">VS</div>
-          </div>
-          <div class="select-wrapper-large">
-            <label for="sign-two-select-large">Zodiak Kedua</label>
-            {{ z.sign_select("sign-two-select-large") }}
-          </div>
-        </div>
-        <div class="relation-mode-container">
-          <label class="relation-mode-label"
-            ><i class="fa-solid fa-layer-group"></i> Tipe Hubungan
-            Kosmik:</label
-          >
-          <div class="relation-mode-pills">
-            <button
-              type="button"
-              class="relation-pill active"
-              data-mode="romance"
-            >
-              <i class="fa-solid fa-heart"></i> <span>Pasangan (Asmara)</span>
-            </button>
-            <button type="button" class="relation-pill" data-mode="friendship">
-              <i class="fa-solid fa-user-group"></i>
-              <span>Sahabat (Bestie)</span>
-            </button>
-            <button type="button" class="relation-pill" data-mode="work">
-              <i class="fa-solid fa-briefcase"></i> <span>Rekan Kerja</span>
-            </button>
-          </div>
-        </div>
-        <button class="btn-calculate" id="btn-calculate-compatibility-large">
-          Hitung Kecocokan Detail <i class="fa-solid fa-sparkles"></i>
-        </button>
-        <div class="quick-visualization-container hidden" id="quick-viz">
-          <hr class="separator" />
-          <div class="result-visualization-large">
-            <svg class="radial-progress-svg" viewBox="0 0 100 100">
-              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
-              <circle
-                class="fg-circle"
-                id="result-svg-circle-large"
-                cx="50"
-                cy="50"
-                r="40"
-                stroke-dasharray="251.2"
-                stroke-dashoffset="251.2"
-              ></circle>
-            </svg>
-            <div class="result-number-large" id="result-percentage-large">
-              0%
+
+          <div class="heart-divider-large gothic-nexus-wrapper">
+            <div class="gothic-nexus-circle">
+              <span class="nexus-symbol">✦</span>
+              <span class="nexus-text">&amp;</span>
+              <span class="nexus-symbol">✦</span>
             </div>
           </div>
-          <h3 class="compatibility-status-text" id="result-status-large">
-            Sangat Harmonis
-          </h3>
+
+          <div class="select-wrapper-large">
+            <label for="sign-two-select-large" class="gothic-field-label">
+              <span class="sigil-bullet">☾</span> Zodiak Kedua
+            </label>
+            <select id="sign-two-select-large" class="custom-select-large gothic-select">
+              <option value="" disabled selected>Pilih Zodiak Kedua</option>
+              <option value="aries">Aries (Api)</option>
+              <option value="taurus">Taurus (Tanah)</option>
+              <option value="gemini">Gemini (Udara)</option>
+              <option value="cancer">Cancer (Air)</option>
+              <option value="leo">Leo (Api)</option>
+              <option value="virgo">Virgo (Tanah)</option>
+              <option value="libra">Libra (Udara)</option>
+              <option value="scorpio">Scorpio (Air)</option>
+              <option value="sagittarius">Sagittarius (Api)</option>
+              <option value="capricorn">Capricorn (Tanah)</option>
+              <option value="aquarius">Aquarius (Udara)</option>
+              <option value="pisces">Pisces (Air)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="relation-mode-container gothic-mode-container">
+          <label class="relation-mode-label gothic-field-label">
+            <span class="sigil-bullet">🜂</span> Tipe Hubungan:
+          </label>
+          <div class="relation-mode-pills gothic-relation-pills">
+            <button type="button" class="relation-pill active" data-mode="romance">
+              <span class="pill-sigil">🜂</span> <span>Asmara</span>
+            </button>
+            <button type="button" class="relation-pill" data-mode="friendship">
+              <span class="pill-sigil">🜄</span> <span>Sahabat</span>
+            </button>
+            <button type="button" class="relation-pill" data-mode="work">
+              <span class="pill-sigil">🜃</span> <span>Rekan Kerja</span>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-calculate gothic-submit-btn" id="btn-calculate-compatibility-large">
+          Hitung Kecocokan <span class="sigil-bullet">✦</span>
+        </button>
+
+        <div class="quick-visualization-container hidden" id="quick-viz">
+          <hr class="separator gothic-separator" />
+          <div class="result-visualization-large gothic-viz-box">
+            <svg class="radial-progress-svg gothic-svg-gauge" viewBox="0 0 100 100">
+              <circle class="bg-circle" cx="50" cy="50" r="40"></circle>
+              <circle class="fg-circle" id="result-svg-circle-large" cx="50" cy="50" r="40" stroke-dasharray="251.2"
+                stroke-dashoffset="251.2"></circle>
+            </svg>
+            <div class="result-number-large gothic-gauge-number" id="result-percentage-large">0%</div>
+          </div>
+          <h3 class="compatibility-status-text gothic-status-text" id="result-status-large">Sangat Harmonis</h3>
         </div>
       </div>
     </div>
+
+    <!-- Right Reading Details -->
     <div class="details-panel-container">
-      <div class="panel">
-        <div class="details-instruction" id="comp-details-instruction">
-          <i class="fa-solid fa-heart-pulse cosmic-icon animated-float"></i>
-          <h3>Hasil Kecocokan Detail</h3>
-          <p>
-            Masukkan dua zodiak di sebelah kiri dan tekan tombol untuk
-            memunculkan analisis ramalan keselarasan hubungan secara menyeluruh.
+      <div class="grimoire-folio" id="compatibility-details-panel">
+        <div class="grimoire-filigree-corner tl">✦</div>
+        <div class="grimoire-filigree-corner tr">✦</div>
+        <div class="grimoire-filigree-corner bl">✦</div>
+        <div class="grimoire-filigree-corner br">✦</div>
+
+        <!-- Instruction State -->
+        <div class="details-instruction gothic-details-empty" id="comp-details-instruction">
+          <div class="gothic-occult-seal">
+            <span class="seal-glyph">☽ 🜂 ☾</span>
+          </div>
+          <h3 class="gothic-panel-title">Hasil Kecocokan Belum Dipilih</h3>
+          <p class="gothic-panel-desc">
+            Pilih dua zodiak di sebelah kiri dan klik Hitung Kecocokan untuk melihat analisis hubungan secara lengkap.
           </p>
         </div>
-        {{ z.loader("comp-details-loader", "Menganalisis Keselarasan Energi Kosmik...") }}
+
+        <!-- Loader State -->
+        <div class="details-loader hidden gothic-details-loader" id="comp-details-loader">
+          <div class="gothic-rune-spinner">🜂</div>
+          <p class="loader-text gothic-loader-text">Menghitung Kecocokan Kedua Zodiak...</p>
+        </div>
+
+        <!-- Reading Content State -->
         <div class="details-content hidden" id="comp-details-content">
           <div class="comp-header-detail">
-            <span class="comp-title-main">Analisis Hubungan</span>
-            <div class="comp-badge-wrapper">
+            <span class="comp-title-main">Analisis Kecocokan Pasangan</span>
+            <div>
               <span class="element-badge" id="comp-badge-one">Api</span>
-              <i
-                class="fa-solid fa-link-slash icon-between-badges"
-              ></i>
+              <span class="gothic-link-sigil" id="comp-badge-link">✦ &amp; ✦</span>
               <span class="element-badge" id="comp-badge-two">Air</span>
             </div>
           </div>
-          <hr class="separator" />
-          <div class="forecast-section">
-            <h4><i class="fa-solid fa-quote-left"></i> Hubungan Kosmik</h4>
-            <p class="forecast-text" id="comp-narrative">Kombinasi antara...</p>
+
+          <div class="forecast-section" style="margin: 2rem 0;">
+            <h4 class="codex-section-heading"><span class="sigil-bullet">✦</span> Gambaran Hubungan</h4>
+            <p class="manuscript-lead-quote" id="comp-narrative">Kombinasi antara...</p>
           </div>
-          <div class="stats-section">
-            <h4><i class="fa-solid fa-sliders"></i> Pembagian Parameter</h4>
+
+          <div class="stats-section gothic-ratings-box" style="margin-bottom: 2rem;">
+            <h4 class="codex-section-heading" style="margin-top: 0;"><span class="sigil-bullet">✦</span> Skor Kecocokan Detail</h4>
+
             <div class="stat-row">
               <div class="stat-header">
-                <span>Kemesraan & Cinta</span>
+                <span>Asmara &amp; Romansa</span>
                 <span class="stat-percentage" id="param-love-percent">0%</span>
               </div>
               <div class="progress-bar-container">
                 <div class="progress-bar love-bar" id="param-love-bar"></div>
               </div>
             </div>
+
             <div class="stat-row">
               <div class="stat-header">
-                <span>Komunikasi & Kelancaran</span>
+                <span>Komunikasi</span>
                 <span class="stat-percentage" id="param-comm-percent">0%</span>
               </div>
               <div class="progress-bar-container">
                 <div class="progress-bar career-bar" id="param-comm-bar"></div>
               </div>
             </div>
+
             <div class="stat-row">
               <div class="stat-header">
-                <span>Kepercayaan & Rasa Aman</span>
+                <span>Kepercayaan</span>
                 <span class="stat-percentage" id="param-trust-percent">0%</span>
               </div>
               <div class="progress-bar-container">
                 <div class="progress-bar health-bar" id="param-trust-bar"></div>
               </div>
             </div>
+
             <div class="stat-row">
               <div class="stat-header">
-                <span>Prospek Masa Depan</span>
-                <span class="stat-percentage" id="param-future-percent"
-                  >0%</span
-                >
+                <span>Komitmen &amp; Masa Depan</span>
+                <span class="stat-percentage" id="param-future-percent">0%</span>
               </div>
               <div class="progress-bar-container">
-                <div
-                  class="progress-bar future-bar"
-                  id="param-future-bar"
-                ></div>
+                <div class="progress-bar future-bar" id="param-future-bar"></div>
               </div>
             </div>
           </div>
-          <div class="bullet-list-section">
-            <div class="bullet-block">
-              <h5 class="bullet-title strengths-title">
-                <i class="fa-solid fa-circle-check"></i> Kekuatan Hubungan
+
+          <div class="bullet-list-section gothic-bullet-duo">
+            <div class="bullet-block gothic-bullet-block">
+              <h5 class="bullet-title strengths-title gold-title">
+                <span class="sigil-bullet">🜚</span> Kekuatan Hubungan
               </h5>
-              <ul class="bullet-list" id="comp-strengths-list"></ul>
+              <ul class="bullet-list gothic-bullet-list" id="comp-strengths-list"></ul>
             </div>
-            <div class="bullet-block">
-              <h5 class="bullet-title challenges-title">
-                <i class="fa-solid fa-triangle-exclamation"></i> Tantangan
-                Hubungan
+            <div class="bullet-block gothic-bullet-block">
+              <h5 class="bullet-title challenges-title wine-title">
+                <span class="sigil-bullet">🜏</span> Tantangan Hubungan
               </h5>
-              <ul class="bullet-list" id="comp-challenges-list"></ul>
+              <ul class="bullet-list gothic-bullet-list" id="comp-challenges-list"></ul>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- SECTION 2: Kuis Pasangan (Quiz Room) -->
   <section class="quiz-room-section hidden" id="quiz-room-section">
-    <div class="panel quiz-main-panel">
-      <div id="quiz-step-init">
-        <div class="quiz-step-header">
-          <span class="quiz-badge-pink"
-            ><i class="fa-solid fa-heart-circle-bolt"></i> Quiz Partner
-            Kosmik</span
-          >
-          <h2 class="quiz-title">10 Pertanyaan Kecocokan Partner</h2>
-          <p class="quiz-desc">
-            Buat room baru atau masukkan kode dari pasanganmu untuk menjawab 10
-            pertanyaan seru dan lihat analisis AI kecocokan hubungan kalian!
+    <div class="grimoire-folio quiz-main-panel">
+      <div class="grimoire-filigree-corner tl">✦</div>
+      <div class="grimoire-filigree-corner tr">✦</div>
+      <div class="grimoire-filigree-corner bl">✦</div>
+      <div class="grimoire-filigree-corner br">✦</div>
+
+      <!-- Step 1: Init / Setup -->
+      <div class="quiz-step" id="quiz-step-init">
+        <div class="quiz-step-header" style="text-align: center; margin-bottom: 2.5rem;">
+          <div class="grimoire-header-badge">
+            <span class="grimoire-numeral">KUIS KECOCOKAN PASANGAN</span>
+          </div>
+          <h2 class="gothic-panel-title">10 Pertanyaan Kecocokan Pasangan</h2>
+          <p class="gothic-panel-desc">
+            Buat room baru atau masukkan kode room dari pasanganmu untuk menjawab 10 pertanyaan dan melihat kecocokan kalian.
           </p>
         </div>
-        <div class="quiz-init-options">
-          <button
-            type="button"
-            class="quiz-mode-card active"
-            id="btn-mode-create"
-          >
-            <i class="fa-solid fa-plus-circle"></i>
+
+        <div class="quiz-init-options gothic-quiz-mode-grid">
+          <button type="button" class="quiz-mode-card active gothic-mode-card" id="btn-mode-create">
+            <span class="gothic-mode-sigil">🜚</span>
             <h4>Buat Room Baru</h4>
-            <p>Jawab 10 pertanyaan dulu, lalu bagikan link ke pasanganmu.</p>
+            <p>Jawab 10 pertanyaan terlebih dahulu, lalu bagikan kode room ke pasanganmu.</p>
           </button>
-          <button type="button" class="quiz-mode-card" id="btn-mode-join">
-            <i class="fa-solid fa-right-to-bracket"></i>
-            <h4>Masuk via Kode Room</h4>
-            <p>Punya kode dari pasangan? Masukkan kode room di sini.</p>
+          <button type="button" class="quiz-mode-card gothic-mode-card" id="btn-mode-join">
+            <span class="gothic-mode-sigil">🗝</span>
+            <h4>Gabung via Kode Room</h4>
+            <p>Sudah dapat kode room dari pasanganmu? Masukkan kode di sini untuk mulai.</p>
           </button>
         </div>
-        <div class="quiz-form-group">
-          <div class="form-field hidden" id="field-room-code">
-            <label for="quiz-input-room-code"
-              ><i class="fa-solid fa-key"></i> Kode Room Pasangan</label
-            >
+
+        <div class="quiz-form-group gothic-quiz-form">
+          <div class="form-field hidden" id="field-room-code" style="margin-bottom: 1.25rem;">
+            <label for="quiz-input-room-code" class="gothic-field-label">
+              <span class="sigil-bullet">🗝</span> Kode Room Pasangan
+            </label>
             <div class="input-with-icon">
-              <input
-                type="text"
-                id="quiz-input-room-code"
-                placeholder="Contoh: RO-8X92K"
-                maxlength="12"
-                class="custom-input uppercase-input"
-              />
-              <i class="fa-solid fa-hashtag field-icon"></i>
+              <input type="text" id="quiz-input-room-code" placeholder="Contoh: RO-8X92K" maxlength="12"
+                class="custom-input uppercase-input gothic-input">
+              <span class="field-icon gothic-input-glyph">🗝</span>
             </div>
           </div>
-          <div class="form-row-2 quiz-form-gap">
+
+          <div class="form-row-2">
             <div class="form-field">
-              <label for="quiz-input-name"
-                ><i class="fa-solid fa-user-large"></i> Nama Panggilan
-                Anda</label
-              >
+              <label for="quiz-input-name" class="gothic-field-label">
+                <span class="sigil-bullet">☽</span> Nama Panggilan Anda
+              </label>
               <div class="input-with-icon">
-                <input
-                  type="text"
-                  id="quiz-input-name"
-                  placeholder="Contoh: Bintang / Alex"
-                  class="custom-input"
-                />
-                <i class="fa-solid fa-signature field-icon"></i>
+                <input type="text" id="quiz-input-name" placeholder="Contoh: Bintang / Alex"
+                  class="custom-input gothic-input">
+                <span class="field-icon gothic-input-glyph">☽</span>
               </div>
             </div>
             <div class="form-field">
-              <label for="quiz-select-sign"
-                ><i class="fa-solid fa-moon"></i> Zodiak Anda</label
-              >
-              {{ z.sign_select("quiz-select-sign") }}
+              <label for="quiz-select-sign" class="gothic-field-label">
+                <span class="sigil-bullet">☾</span> Zodiak Anda
+              </label>
+              <select id="quiz-select-sign" class="custom-select-large gothic-select">
+                <option value="" disabled selected>Pilih Zodiak</option>
+                <option value="aries">Aries (Api)</option>
+                <option value="taurus">Taurus (Tanah)</option>
+                <option value="gemini">Gemini (Udara)</option>
+                <option value="cancer">Cancer (Air)</option>
+                <option value="leo">Leo (Api)</option>
+                <option value="virgo">Virgo (Tanah)</option>
+                <option value="libra">Libra (Udara)</option>
+                <option value="scorpio">Scorpio (Air)</option>
+                <option value="sagittarius">Sagittarius (Api)</option>
+                <option value="capricorn">Capricorn (Tanah)</option>
+                <option value="aquarius">Aquarius (Udara)</option>
+                <option value="pisces">Pisces (Air)</option>
+              </select>
             </div>
           </div>
         </div>
-        <button type="button" class="btn-calculate" id="btn-start-quiz">
-          Mulai Jawab 10 Pertanyaan <i class="fa-solid fa-arrow-right"></i>
+
+        <button type="button" class="btn-calculate gothic-submit-btn" id="btn-start-quiz">
+          Mulai Jawab 10 Pertanyaan <span class="sigil-bullet">🜂</span>
         </button>
       </div>
-      <div class="hidden" id="quiz-step-questions">
+
+      <!-- Step 2: Questions -->
+      <div class="quiz-step hidden" id="quiz-step-questions">
         <div class="quiz-progress-container">
           <div class="quiz-progress-info">
-            <span class="quiz-cat-badge" id="quiz-cat-badge">Komunikasi</span>
-            <span class="quiz-step-counter"
-              >Pertanyaan <strong id="quiz-q-num">1</strong> dari 10</span
-            >
+            <span class="quiz-cat-badge gothic-quiz-cat" id="quiz-cat-badge">Komunikasi</span>
+            <span class="quiz-step-counter gothic-quiz-counter">Pertanyaan <strong id="quiz-q-num">1</strong> dari
+              10</span>
           </div>
-          <div class="quiz-progress-track">
-            <div
-              class="quiz-progress-fill quiz-fill-start"
-              id="quiz-progress-fill"
-            ></div>
+          <div class="progress-bar-container">
+            <div class="progress-bar quiz-progress-fill" id="quiz-progress-fill"></div>
           </div>
         </div>
+
         <h3 class="quiz-question-text" id="quiz-q-text">Pertanyaan...</h3>
         <div class="quiz-options-grid" id="quiz-options-container"></div>
+
         <div class="quiz-nav-btns">
-          <button type="button" class="btn-quiz-prev hidden" id="btn-quiz-prev">
-            <i class="fa-solid fa-arrow-left"></i> Kembali
+          <button type="button" class="btn-quiz-prev hidden gothic-btn-alt" id="btn-quiz-prev">
+            ← Kembali
           </button>
-          <button
-            type="button"
-            class="btn-calculate"
-            id="btn-quiz-next"
-            disabled
-          >
-            Lanjut <i class="fa-solid fa-arrow-right"></i>
+          <button type="button" class="btn-calculate gothic-submit-btn" id="btn-quiz-next"
+            style="margin-top: 0; width: auto; padding: 0.85rem 2rem;" disabled>
+            Lanjut <span class="sigil-bullet">🜂</span>
           </button>
         </div>
       </div>
-      <div class="hidden" id="quiz-step-loader">
-        <div class="waiting-box quiz-waiting-lg">
-          <div class="pulse-heart-wrapper">
-            <i
-              class="fa-solid fa-atom cosmic-spinner quiz-loader-icon"
-            ></i>
-          </div>
-          <h3 class="quiz-waiting-title-gap">
-            Menyimpan Jawaban &amp; Menganalisis...
-          </h3>
-          <p id="quiz-loader-desc">
-            Mohon tunggu sebentar, AI sedang menghitung persentase kembaran 10
-            jawaban &amp; menyusun ulasan chemistry pasangan kalian ✨
+
+      <!-- Step 3: Loader -->
+      <div class="quiz-step hidden" id="quiz-step-loader">
+        <div class="waiting-box gothic-waiting-box">
+          <div class="gothic-rune-spinner">🜂</div>
+          <h3 class="gothic-panel-title" style="margin-top: 1.5rem;">Menyimpan Jawaban...</h3>
+          <p class="gothic-panel-desc" id="quiz-loader-desc">
+            Mohon tunggu sebentar, sistem sedang menghitung kecocokan jawaban kalian...
           </p>
-          <div
-            class="quiz-progress-track quiz-loader-track"
-          >
-            <div
-              class="quiz-progress-fill quiz-loader-fill"
-            ></div>
-          </div>
         </div>
       </div>
-      <div class="hidden" id="quiz-step-waiting">
-        <div class="waiting-box">
-          <div class="pulse-heart-wrapper">
-            <i class="fa-solid fa-heart pulse-heart"></i>
+
+      <!-- Step 4: Waiting -->
+      <div class="quiz-step hidden" id="quiz-step-waiting">
+        <div class="waiting-box gothic-waiting-box">
+          <div class="gothic-occult-seal" style="width: 100px; height: 100px;">
+            <span class="seal-glyph" style="font-size: 2.4rem;">☽ 🜂 ☾</span>
           </div>
-          <h3>Room Berhasil Dibuat!</h3>
-          <p>
-            Jawaban 10 pertanyaanmu telah tersimpan. Sekarang bagikan link atau
-            kode room ini ke pasanganmu untuk mulai mencocokkan!
+          <h3 class="gothic-panel-title">Room Berhasil Dibuat!</h3>
+          <p class="gothic-panel-desc">
+            Jawaban kamu sudah tersimpan! Sekarang bagikan kode room ini ke pasanganmu agar ia bisa ikut menjawab 10 pertanyaan yang sama.
           </p>
-          <div class="room-code-display">
+          <div class="room-code-display gothic-code-vault">
             <span class="room-code-label">KODE ROOM:</span>
-            <strong class="room-code-val" id="display-room-code"
-              >RO-XXXXX</strong
-            >
+            <strong class="room-code-val gothic-code-text" id="display-room-code">RO-XXXXX</strong>
           </div>
           <div class="share-actions">
-            <button type="button" class="btn-share-wa" id="btn-copy-wa-link">
-              <i class="fa-brands fa-whatsapp"></i> Bagikan Ke WhatsApp
+            <button type="button" class="btn-share-wa gothic-wa-btn" id="btn-copy-wa-link">
+              Bagikan ke WhatsApp
             </button>
-            <button type="button" class="btn-copy-link" id="btn-copy-link-only">
-              <i class="fa-solid fa-copy"></i> Salin Link
+            <button type="button" class="btn-copy-link gothic-copy-btn" id="btn-copy-link-only">
+              Salin Link Room
             </button>
           </div>
-          <div class="polling-status-box">
-            <p id="polling-text">
-              Menunggu pasangan bergabung & menjawab quiz...
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="hidden" id="quiz-step-result">
-        <div class="result-header-box">
-          <span class="quiz-badge-pink"
-            ><i class="fa-solid fa-sparkles"></i> Hasil Kecocokan Partner</span
-          >
-          <h2 class="result-couples-names" id="res-couple-names">
-            Aria (Leo) & Bintang (Aquarius)
-          </h2>
-          <p class="result-headline" id="res-ai-headline">
-            Headline kecocokan AI...
+          <p id="polling-text"
+            style="font-family: var(--font-epigraphy); font-size: 0.85rem; color: var(--gold-antique); text-transform: uppercase;">
+            Menunggu pasangan menjawab pertanyaan...
           </p>
         </div>
-        <div class="result-scores-grid">
-          <div class="score-card-pink">
+      </div>
+
+      <!-- Step 5: Results -->
+      <div class="quiz-step hidden" id="quiz-step-result">
+        <div class="result-header-box" style="text-align: center; margin-bottom: 2.5rem;">
+          <div class="grimoire-header-badge">
+            <span class="grimoire-numeral">HASIL KECOCOKAN PASANGAN</span>
+          </div>
+          <h2 class="gothic-panel-title" id="res-couple-names">Aria &amp; Bintang</h2>
+          <p class="manuscript-lead-quote" id="res-ai-headline" style="max-width: 800px; margin: 0 auto;">Headline
+            kecocokan AI...</p>
+        </div>
+
+        <div class="result-scores-grid gothic-scores-grid">
+          <div class="score-card-pink gothic-score-pod">
             <div class="score-circle-svg">
               <svg viewBox="0 0 100 100">
                 <circle class="bg-c" cx="50" cy="50" r="40"></circle>
-                <circle
-                  class="fg-c"
-                  id="circle-quiz-score"
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke-dasharray="251.2"
-                  stroke-dashoffset="251.2"
-                ></circle>
+                <circle class="fg-c" id="circle-quiz-score" cx="50" cy="50" r="40" stroke-dasharray="251.2"
+                  stroke-dashoffset="251.2"></circle>
               </svg>
               <span class="score-num" id="res-quiz-percent">0%</span>
             </div>
-            <h4>Kembaran Jawaban Quiz</h4>
-            <p>Kesesuaian 10 Vibe Hubungan</p>
+            <h4 class="codex-section-heading" style="justify-content: center; margin-bottom: 0.25rem;">Kecocokan Kuis</h4>
+            <p style="font-size: 0.85rem; color: var(--ink-muted);">Kesesuaian 10 Pilihan Jawaban</p>
           </div>
-          <div class="score-card-purple">
+
+          <div class="score-card-purple gothic-score-pod">
             <div class="score-circle-svg">
               <svg viewBox="0 0 100 100">
                 <circle class="bg-c" cx="50" cy="50" r="40"></circle>
-                <circle
-                  class="fg-c"
-                  id="circle-zodiac-score"
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke-dasharray="251.2"
-                  stroke-dashoffset="251.2"
-                ></circle>
+                <circle class="fg-c" id="circle-zodiac-score" cx="50" cy="50" r="40" stroke-dasharray="251.2"
+                  stroke-dashoffset="251.2"></circle>
               </svg>
               <span class="score-num" id="res-zodiac-percent">0%</span>
             </div>
-            <h4>Astrologi Zodiak</h4>
-            <p>Keselarasan Elemen Zodiak</p>
+            <h4 class="codex-section-heading" style="justify-content: center; margin-bottom: 0.25rem;">Kecocokan Zodiak</h4>
+            <p style="font-size: 0.85rem; color: var(--ink-muted);">Kesesuaian Karakter &amp; Elemen</p>
           </div>
         </div>
-        <div class="ai-couple-box">
-          <div class="ai-box-title">
-            <i class="fa-solid fa-wand-magic-sparkles"></i> Analisis AI Pasangan
-            Kosmik
-          </div>
-          <p class="ai-verdict-text" id="res-ai-verdict">
-            Ulasan chemistry AI...
-          </p>
-          <div class="ai-two-columns">
+
+        <div class="ai-couple-box gothic-ai-box">
+          <h4 class="codex-section-heading" style="margin-top: 0;"><span class="sigil-bullet">🜚</span> Analisis
+            Kecocokan Hubungan</h4>
+          <p class="ai-verdict-text" id="res-ai-verdict">Ulasan chemistry AI...</p>
+
+          <div class="ai-two-columns gothic-ai-duo">
             <div class="ai-col-good">
-              <h5>
-                <i class="fa-solid fa-circle-check"></i> Kekuatan Chemistry
-              </h5>
-              <p id="res-ai-strengths">...</p>
+              <h5><span class="sigil-bullet">🜚</span> Kekuatan Hubungan Kalian</h5>
+              <p id="res-ai-strengths" style="font-size: 0.95rem; color: var(--ink-parchment);">...</p>
             </div>
             <div class="ai-col-challenge">
-              <h5>
-                <i class="fa-solid fa-triangle-exclamation"></i> Potensi
-                Tantangan
-              </h5>
-              <p id="res-ai-challenge">...</p>
+              <h5><span class="sigil-bullet">🜏</span> Hal yang Perlu Diperhatikan</h5>
+              <p id="res-ai-challenge" style="font-size: 0.95rem; color: var(--ink-parchment);">...</p>
             </div>
           </div>
-          <div class="ai-couple-tip-box">
-            <i class="fa-solid fa-lightbulb"></i>
-            <span
-              ><strong>Tips Hubungan:</strong>
-              <span id="res-ai-tip">...</span></span
-            >
+
+          <div
+            style="border-top: 1px solid var(--border-dark); padding-top: 1rem; margin-top: 1rem; color: var(--gold-foil); font-size: 0.95rem;">
+            <strong>Saran &amp; Tips Hubungan:</strong> <span id="res-ai-tip"
+              style="color: var(--ink-parchment); font-style: italic;">...</span>
           </div>
         </div>
-        <div class="breakdown-section">
-          <h3>
-            <i class="fa-solid fa-list-check"></i> Detail 10 Jawaban Partner
-          </h3>
+
+        <div class="breakdown-section" style="margin-bottom: 2.5rem;">
+          <h3 class="codex-section-heading"><span class="sigil-bullet">🜂</span> Perbandingan 10 Jawaban Kuis</h3>
           <div class="breakdown-list" id="res-breakdown-list"></div>
         </div>
-        <div class="result-footer-actions">
-          <button type="button" class="btn-share-wa" id="btn-share-result-wa">
-            <i class="fa-brands fa-whatsapp"></i> Bagikan Hasil Ke WhatsApp
+
+        <div class="result-footer-actions" style="display: flex; justify-content: center; gap: 1.5rem;">
+          <button type="button" class="btn-share-wa gothic-wa-btn" id="btn-share-result-wa">
+            Bagikan Hasil ke WhatsApp
           </button>
-          <button type="button" class="btn-calculate" id="btn-reset-quiz">
-            <i class="fa-solid fa-rotate-left"></i> Buat Quiz Baru
+          <button type="button" class="btn-calculate gothic-submit-btn" id="btn-reset-quiz"
+            style="margin-top: 0; width: auto;">
+            Mulai Kuis Baru <span class="sigil-bullet">🜂</span>
           </button>
         </div>
       </div>
     </div>
   </section>
 </main>
+
+<footer class="app-footer">
+  <div class="footer-sigil">✦ 🜂 ✦</div>
+  <p>&copy; 2026 Zodiak Peace. Dibuat dengan penuh keindahan kosmik.</p>
+</footer>
 {% endblock %}
-{% block zodiak_js %}
+
+{% block extra_js %}
+<script src="{{ url_for('zodiak.static', filename='js/zodiak-core.js') }}"></script>
+<script src="{{ url_for('zodiak.static', filename='js/zodiac-icons.js') }}"></script>
 <script src="{{ url_for('zodiak.static', filename='js/kecocokan.js') }}"></script>
 {% endblock %}

@@ -1,18 +1,16 @@
 <div class="stars-bg"></div>
 <header class="app-header">
   <div class="header-container">
-    <h1 class="logo-title">
-      <i class="fa-solid fa-bahai logo-icon"></i>&nbsp;Zodiak Oracle
-    </h1>
+    <div class="gothic-brand">
+      <span class="gothic-sigil-mark">🜂</span>
+      <h1 class="logo-title">ZODIAK ORACLE</h1>
+      <span class="gothic-subtitle">Astrologi &amp; Horoskop Bintang</span>
+    </div>
   </div>
   <nav class="app-nav">
-    {% for endpoint, icon, label in [
-      ('zodiak.home', 'fa-wand-magic-sparkles', 'Ramalan'),
-      ('zodiak.compatibility_page', 'fa-calculator', 'Kecocokan'),
-      ('zodiak.general_page', 'fa-compass', 'General'),
-      ('zodiak.roasting_page', 'fa-fire-flame-curved', 'Roasting'),
-    ] %}
-    <a href="{{ url_for(endpoint) }}" class="nav-item{% if request.endpoint == endpoint %} active{% endif %}"><i class="fa-solid {{ icon }}"></i> {{ label }}</a>
-    {% endfor %}
+    <a href="{{ url_for('zodiak.home') }}" class="nav-item{% if request.endpoint == 'zodiak.home' %} active{% endif %}"><span class="nav-sigil">I</span> Ramalan Harian</a>
+    <a href="{{ url_for('zodiak.compatibility_page') }}" class="nav-item{% if request.endpoint == 'zodiak.compatibility_page' %} active{% endif %}"><span class="nav-sigil">II</span> Kecocokan Pasangan</a>
+    <a href="{{ url_for('zodiak.general_page') }}" class="nav-item{% if request.endpoint == 'zodiak.general_page' %} active{% endif %}"><span class="nav-sigil">III</span> Karakter &amp; Sifat</a>
+    <a href="{{ url_for('zodiak.roasting_page') }}" class="nav-item{% if request.endpoint == 'zodiak.roasting_page' %} active{% endif %}"><span class="nav-sigil">IV</span> Roasting Zodiak</a>
   </nav>
 </header>
