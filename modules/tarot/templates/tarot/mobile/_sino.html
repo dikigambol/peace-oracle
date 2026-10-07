@@ -1,0 +1,37 @@
+<div class="tr-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Ya atau Tidak") }}
+
+  <main class="tr-m-main">
+    <section class="tr-m-steps" id="m-steps" aria-live="polite">
+      {{ step_marks(2) }}
+
+      <div class="tr-m-step" data-step="1">
+        <p class="tr-eyebrow">Tarot Oracle</p>
+        <h2 class="tr-m-question">Apa pertanyaanmu?</h2>
+        {{ question_field("m-question", yesno_hint, required=True, size=" tr-input-lg") }}
+        {{ reversed_toggle("m-reversed") }}
+      </div>
+
+      <div class="tr-m-step" data-step="2" hidden>
+        {{ deck_fan("m", 1, "Ambil satu kartu") }}
+      </div>
+
+      <p class="tr-error" id="m-error" role="alert" hidden></p>
+
+      <div class="tr-m-actions">
+        <button class="tr-btn tr-btn-ghost" id="m-back" type="button" hidden>Kembali</button>
+        <button class="tr-btn tr-btn-primary tr-btn-block" id="m-next" type="button">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="tr-m-result" id="m-result" hidden aria-live="polite">
+      <div id="m-cards"></div>
+      {{ result_footer("m") }}
+      <div class="tr-result-actions">
+        <button class="tr-btn tr-btn-ghost tr-btn-block" id="m-reset" type="button">Tanya lagi</button>
+      </div>
+    </section>
+  </main>
+
+  {{ mobile_tabbar("yatidak") }}
+</div>

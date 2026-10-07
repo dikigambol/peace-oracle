@@ -1,0 +1,82 @@
+{% extends 'tarot/_tavola.html' %}
+{% set numerals = ['I', 'II', 'III', 'IV', 'V'] %}
+{% block title %}Tarot - Peace Oracle{% endblock %}
+{% block description %}Tarot Oracle: kartu harian, bacaan spread, ya atau tidak, bacaan hubungan, kartu lahir, dan ensiklopedia 78 kartu Rider-Waite.{% endblock %}
+{% block layouts %}
+  <div class="tr-layout tr-layout-desktop" data-layout="desktop">
+    <div class="tr-d-shell">
+      <header class="tr-d-header tr-d-header-hub">
+        {% if april_fools %}
+        <div class="tr-d-topbar tr-d-topbar-end">
+          {{ deck_picker("d") }}
+        </div>
+        {% endif %}
+        <div class="tr-d-masthead">
+          <h1 class="tr-d-title tr-d-title-hub">Tarot Oracle</h1>
+          {{ flourish() }}
+          <p class="tr-d-lead">Tujuh puluh delapan kartu, satu pertanyaan yang ingin kamu pahami. Setiap bacaan memakai makna Rider-Waite dan dikocok ulang untukmu.</p>
+        </div>
+      </header>
+
+      <section class="tr-today" aria-labelledby="d-today-title">
+        <div class="tr-today-art">
+          {{ card_back() }}
+        </div>
+        <div class="tr-today-main">
+          <p class="tr-eyebrow">Kartu harian</p>
+          <h2 class="tr-today-title" id="d-today-title">Satu kartu untuk hari ini</h2>
+          <p class="tr-today-text">Kartumu sudah menunggu dan akan tetap sama sampai besok. Buka dengan tenang, lalu bawa pesannya sepanjang hari.</p>
+          <a class="tr-btn tr-btn-primary" href="{{ url_for('tarot.tarot_daily_page') }}">Buka kartu hari ini</a>
+        </div>
+      </section>
+
+      <nav class="tr-tiles" aria-label="Fitur Tarot">
+        {% for feature in features if feature.key != 'harian' %}
+        <a class="tr-tile" href="{{ url_for(feature.endpoint) }}">
+          <span class="tr-tile-num" aria-hidden="true">{{ numerals[loop.index0] }}</span>
+          <i class="fa-solid {{ feature.icon }} tr-tile-icon" aria-hidden="true"></i>
+          <span class="tr-tile-title">{{ feature.title }}</span>
+          <span class="tr-tile-text">{{ feature.text }}</span>
+        </a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+  <div class="tr-layout tr-layout-mobile" data-layout="mobile">
+    <div class="tr-m-shell" data-bottom-nav>
+      <header class="tr-m-appbar">
+        <span aria-hidden="true"></span>
+        <h1 class="tr-m-title">Tarot Oracle</h1>
+        {{ deck_toggle() }}
+      </header>
+      <main class="tr-m-main">
+        <p class="tr-m-help tr-m-help-center">Tujuh puluh delapan kartu, satu pertanyaan yang ingin kamu pahami. Pilih cara membaca yang kamu butuhkan.</p>
+        <section class="tr-today" aria-labelledby="m-today-title">
+          <div class="tr-today-art">
+            {{ card_back() }}
+          </div>
+          <div class="tr-today-main">
+            <p class="tr-eyebrow">Kartu harian</p>
+            <h2 class="tr-today-title" id="m-today-title">Satu kartu untuk hari ini</h2>
+            <a class="tr-btn tr-btn-primary tr-btn-block" href="{{ url_for('tarot.tarot_daily_page') }}">Buka kartu hari ini</a>
+          </div>
+        </section>
+        {{ flourish() }}
+        <nav class="tr-tiles" aria-label="Fitur Tarot">
+          {% for feature in features if feature.key != 'harian' %}
+          <a class="tr-tile" href="{{ url_for(feature.endpoint) }}">
+            <span class="tr-tile-num" aria-hidden="true">{{ numerals[loop.index0] }}</span>
+            <i class="fa-solid {{ feature.icon }} tr-tile-icon" aria-hidden="true"></i>
+            <span class="tr-tile-title">{{ feature.title }}</span>
+            <span class="tr-tile-text">{{ feature.text }}</span>
+          </a>
+          {% endfor %}
+        </nav>
+        {% if april_fools %}
+        <p class="tr-m-deck-note">Hari ini 1 April, jadi kartu tampil dengan dek Oracolo. Ketuk ikon di pojok kanan atas kalau ingin kembali ke Rider-Waite.</p>
+        {% endif %}
+      </main>
+      {{ mobile_tabbar("hub") }}
+    </div>
+  </div>
+{% endblock %}

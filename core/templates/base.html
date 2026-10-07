@@ -88,10 +88,12 @@
         <span>Weton</span>
       </a>
       {% endif %}
-      <a href="#" class="mode-item locked" title="Segera Hadir">
+      {% if 'tarot' in installed_modes %}
+      <a href="{{ url_for('tarot.tarot_index') }}" class="mode-item">
         <i class="fa-solid fa-wand-magic-sparkles"></i>
         <span>Tarot</span>
       </a>
+      {% endif %}
     </div>
   </div>
   {% block content %}{% endblock %}

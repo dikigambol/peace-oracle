@@ -1,0 +1,31 @@
+<div class="tr-d-shell">
+  {{ desktop_header("Kartu Lahir", "Tanggal lahirmu dihitung menjadi kartu Arcana Mayor yang menggambarkan cara kamu tampil dan pelajaran yang bekerja di dalam dirimu.", "lahir") }}
+
+  <div class="tr-d-stack">
+    <form class="tr-card tr-d-form" id="d-form" novalidate>
+      <h2 class="tr-card-title">Data lahir</h2>
+      <label class="tr-field" for="d-tanggal">
+        <span class="tr-label">Tanggal lahir</span>
+        <input class="tr-input" id="d-tanggal" type="date" min="{{ first_date }}" max="{{ last_date }}" />
+      </label>
+      <label class="tr-field" for="d-tahun">
+        <span class="tr-label">Tahun untuk kartu tahunan <em class="tr-optional">opsional</em></span>
+        <input class="tr-input" id="d-tahun" type="number" inputmode="numeric" min="{{ year_first }}" max="{{ year_last }}" placeholder="{{ this_year }}" />
+      </label>
+      <p class="tr-hint">{{ birth_note }}</p>
+      <button class="tr-btn tr-btn-primary tr-btn-block" id="d-submit" type="submit">Hitung kartuku</button>
+      <p class="tr-error" id="d-error" role="alert" hidden></p>
+    </form>
+
+    <section class="tr-d-result" id="d-result" aria-live="polite">
+      <div class="tr-card tr-d-empty" id="d-empty">
+        <i class="fa-solid fa-star" aria-hidden="true"></i>
+        <p>Isi tanggal lahirmu di kiri. Kartu kepribadian, kartu jiwa, dan kartu tahunmu akan muncul di sini beserta cara menghitungnya.</p>
+      </div>
+      <div id="d-cards"></div>
+      <div id="d-footer" hidden>
+        {{ result_footer("d") }}
+      </div>
+    </section>
+  </div>
+</div>

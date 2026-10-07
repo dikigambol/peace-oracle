@@ -1,0 +1,27 @@
+<div class="tr-d-shell">
+  {{ desktop_header("Kartu Harian", "Satu kartu untuk menemani harimu. Kartunya dipilih sekali per hari dan tetap sama sampai besok.", "harian") }}
+
+  <div class="tr-d-stack">
+    <form class="tr-card tr-d-form tr-daily-stage" id="d-form" novalidate>
+      <p class="tr-eyebrow">{{ today_label }}</p>
+      <div class="tr-daily-card" id="d-stage">
+        {{ card_back() }}
+      </div>
+      {{ reversed_toggle("d-reversed") }}
+      <button class="tr-btn tr-btn-primary tr-btn-block" id="d-submit" type="submit">Buka kartu hari ini</button>
+      <p class="tr-error" id="d-error" role="alert" hidden></p>
+      <p class="tr-hint tr-hint-end">{{ daily_note }}</p>
+    </form>
+
+    <section class="tr-d-result" id="d-result" aria-live="polite">
+      <div class="tr-card tr-d-empty" id="d-empty">
+        <i class="fa-solid fa-sun" aria-hidden="true"></i>
+        <p>Kartumu akan muncul di sini. Ambil napas sebentar, pikirkan harimu, lalu buka kartunya.</p>
+      </div>
+      <div id="d-cards"></div>
+      <div id="d-footer" hidden>
+        {{ result_footer("d") }}
+      </div>
+    </section>
+  </div>
+</div>

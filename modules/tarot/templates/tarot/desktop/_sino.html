@@ -1,0 +1,28 @@
+<div class="tr-d-shell">
+  {{ desktop_header("Ya atau Tidak", "Untuk pertanyaan tertutup. Fokus pada pertanyaanmu, lalu ambil satu kartu dari dek.", "yatidak") }}
+
+  <form class="tr-card tr-d-draw-form" id="d-form" novalidate>
+    <div class="tr-d-form-grid">
+      <div>
+        {{ question_field("d-question", yesno_hint, required=True) }}
+      </div>
+      <div>
+        {{ reversed_toggle("d-reversed") }}
+        <p class="tr-hint">Setiap kartu punya kecenderungan jawaban menurut maknanya. Kartu terbalik biasanya melemahkan atau menunda jawaban kartu tegaknya.</p>
+      </div>
+    </div>
+    {{ deck_fan("d", 1, "Ambil satu kartu") }}
+    <div class="tr-d-actions">
+      <button class="tr-btn tr-btn-primary" id="d-submit" type="submit" disabled>Lihat jawabannya</button>
+      <p class="tr-error" id="d-error" role="alert" hidden></p>
+    </div>
+  </form>
+
+  <section class="tr-d-result" id="d-result" aria-live="polite" hidden>
+    <div id="d-cards"></div>
+    {{ result_footer("d") }}
+    <div class="tr-result-actions">
+      <button class="tr-btn tr-btn-ghost" id="d-reset" type="button"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Tanya lagi</button>
+    </div>
+  </section>
+</div>

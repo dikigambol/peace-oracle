@@ -1,0 +1,42 @@
+<div class="tr-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Kartu Lahir") }}
+
+  <main class="tr-m-main">
+    <section class="tr-m-steps" id="m-steps" aria-live="polite">
+      {{ step_marks(2) }}
+
+      <div class="tr-m-step" data-step="1">
+        <p class="tr-eyebrow">Tarot Oracle</p>
+        <h2 class="tr-m-question">Kapan kamu lahir?</h2>
+        <p class="tr-m-help">{{ birth_note }}</p>
+        <label class="tr-sr-only" for="m-tanggal">Tanggal lahir</label>
+        <input class="tr-input tr-input-lg" id="m-tanggal" type="date" min="{{ first_date }}" max="{{ last_date }}" />
+      </div>
+
+      <div class="tr-m-step" data-step="2" hidden>
+        <p class="tr-eyebrow">Opsional</p>
+        <h2 class="tr-m-question">Kartu tahun berapa?</h2>
+        <p class="tr-m-help">Kartu tahunan dihitung dari tanggal ulang tahunmu di tahun tersebut. Kalau kosong, kami pakai tahun {{ this_year }}.</p>
+        <label class="tr-sr-only" for="m-tahun">Tahun</label>
+        <input class="tr-input tr-input-lg" id="m-tahun" type="number" inputmode="numeric" min="{{ year_first }}" max="{{ year_last }}" placeholder="{{ this_year }}" />
+      </div>
+
+      <p class="tr-error" id="m-error" role="alert" hidden></p>
+
+      <div class="tr-m-actions">
+        <button class="tr-btn tr-btn-ghost" id="m-back" type="button" hidden>Kembali</button>
+        <button class="tr-btn tr-btn-primary tr-btn-block" id="m-next" type="button">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="tr-m-result" id="m-result" hidden aria-live="polite">
+      <div id="m-cards"></div>
+      {{ result_footer("m") }}
+      <div class="tr-result-actions">
+        <button class="tr-btn tr-btn-ghost tr-btn-block" id="m-reset" type="button">Hitung tanggal lain</button>
+      </div>
+    </section>
+  </main>
+
+  {{ mobile_tabbar("lahir") }}
+</div>

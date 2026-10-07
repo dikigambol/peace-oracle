@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% set features = [
-  {"key": "mingli", "endpoint": "shio.shio_destiny_page", "icon": "fa-calendar-days", "short": "Ming Li",
+  {"key": "mingli", "endpoint": "shio.shio_destiny_page", "icon": "fa-calendar-days", "short": "Ming Li", "hanzi": "命理",
    "title": "Baca Gulungan Takdir (Ming Li)", "text": "Breakdown empat pilar Ming Li dari tanggal, jam, dan kota lahirmu."},
-  {"key": "liunian", "endpoint": "shio.shio_yearly_page", "icon": "fa-clock-rotate-left", "short": "Tahunan",
+  {"key": "liunian", "endpoint": "shio.shio_yearly_page", "icon": "fa-clock-rotate-left", "short": "Tahunan", "hanzi": "流年",
    "title": "Teropong Energi Tahunan (Liu Nian)", "text": "Forecast tahun ini per shio: karier, asmara, keuangan, dan kesehatan."},
-  {"key": "peidui", "endpoint": "shio.shio_compatibility_page", "icon": "fa-heart-pulse", "short": "Cocok",
+  {"key": "peidui", "endpoint": "shio.shio_compatibility_page", "icon": "fa-heart-pulse", "short": "Cocok", "hanzi": "配對",
    "title": "Timbangan Kecocokan (Pei Dui)", "text": "Cek kecocokan dua orang buat asmara, pertemanan, atau partner kerja."},
-  {"key": "juhui", "endpoint": "shio.shio_quiz_page", "icon": "fa-people-group", "short": "Quiz",
+  {"key": "juhui", "endpoint": "shio.shio_quiz_page", "icon": "fa-people-group", "short": "Quiz", "hanzi": "聚會",
    "title": "Quiz Shio Bareng (Ju Hui)", "text": "Main kuis bareng teman lewat kode room, bisa berdua atau satu geng."},
-  {"key": "tucao", "endpoint": "shio.shio_roasting_page", "icon": "fa-fire", "short": "Roasting",
+  {"key": "tucao", "endpoint": "shio.shio_roasting_page", "icon": "fa-fire", "short": "Roasting", "hanzi": "吐槽",
    "title": "Roasting Shio (Tu Cao)", "text": "Roasting pedas sesuai shio kamu, solo atau bareng partner."},
-  {"key": "benmingfo", "endpoint": "shio.shio_guardian_page", "icon": "fa-dragon", "short": "Penjaga",
+  {"key": "benmingfo", "endpoint": "shio.shio_guardian_page", "icon": "fa-dragon", "short": "Penjaga", "hanzi": "本命佛",
    "title": "Afinitas Penjaga Spiritual (Ben Ming Fo)", "text": "Kenalan sama penjaga shio kamu, lengkap dengan mantra dan tips Feng Shui."},
-  {"key": "xingyunbing", "endpoint": "shio.shio_fortune_cookie_page", "icon": "fa-cookie-bite", "short": "Kue",
+  {"key": "xingyunbing", "endpoint": "shio.shio_fortune_cookie_page", "icon": "fa-cookie-bite", "short": "Kue", "hanzi": "幸運餅",
    "title": "Kue Keberuntungan (Xing Yun Bing)", "text": "Buka fortune cookie harian buat dapat pesan dan lucky item hari ini."},
 ] %}
 {% set tabbar_main = ["mingli", "peidui", "juhui"] %}
@@ -20,13 +20,13 @@
 
 {% macro hub_cards(prefix) %}
 <button class="sh-card sh-hub-card sh-hub-card-wide" type="button" data-action="almanac" id="{{ prefix }}-open-almanac">
-  <i class="fa-solid fa-calendar-day" aria-hidden="true"></i>
+  <span class="sh-hub-hanzi" aria-hidden="true">通書</span>
   <span class="sh-hub-title">Almanak Harian (Tong Shu)</span>
   <span class="sh-hub-text">Cek energi hari ini, dewa harian, plus aktivitas yang pas dan yang mending di-skip.</span>
 </button>
 {% for feature in features %}
 <a class="sh-card sh-hub-card" href="{{ url_for(feature.endpoint) }}">
-  <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i>
+  <span class="sh-hub-hanzi" aria-hidden="true">{{ feature.hanzi }}</span>
   <span class="sh-hub-title">{{ feature.title }}</span>
   <span class="sh-hub-text">{{ feature.text }}</span>
 </a>
@@ -56,11 +56,11 @@
   {% if active %}
   <nav class="sh-d-tabs" aria-label="Fitur Shio">
     <a class="sh-d-tab" href="{{ url_for('shio.shio_index') }}">
-      <i class="fa-solid fa-yin-yang" aria-hidden="true"></i> Beranda
+      <span class="sh-d-seal" aria-hidden="true">首頁</span><span class="sh-d-tab-label">Beranda</span>
     </a>
     {% for feature in features %}
     <a class="sh-d-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
-      <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i> {{ feature.short }}
+      <span class="sh-d-seal" aria-hidden="true">{{ feature.hanzi }}</span><span class="sh-d-tab-label">{{ feature.short }}</span>
     </a>
     {% endfor %}
   </nav>
@@ -120,7 +120,7 @@
 
 {% macro progress(prefix, total) %}
 <div class="sh-m-progress">
-  <span class="sh-m-progress-text" id="m-{{ prefix }}-progress-text">Langkah 1 dari {{ total }}</span>
+  <span class="sh-m-progress-text" id="m-{{ prefix }}-progress-text" data-cn="一">Langkah 1 dari {{ total }}</span>
   <div class="sh-m-progress-bar" aria-hidden="true"><span id="m-{{ prefix }}-progress-fill"></span></div>
 </div>
 {% endmacro %}

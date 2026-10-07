@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://img.icons8.com/?size=100&id=102558&format=png&color=FFFFFF" alt="Peace Oracle" width="80" height="80">
   <h1>Peace Oracle</h1>
-  <p>Zodiak, Shio, Weton, dan Tarot (soon) dalam satu app.</p>
+  <p>Zodiak, Shio, Weton, dan Tarot dalam satu app.</p>
 
   <p>
     <img src="https://img.shields.io/badge/Python-3.13+-3776AB?style=flat-square&labelColor=30363D&logo=python&logoColor=FFD43B" alt="Python 3.13+">
@@ -12,7 +12,7 @@
   </p>
 </div>
 
-Peace Oracle lahir dari ide simpel: kenapa harus buka banyak situs cuma buat cek ramalan dari tradisi yang beda-beda? Jadi semuanya kami kumpulin di satu tempat. Sekarang sudah ada Zodiak, Shio, dan Weton. Tarot lagi on progress.
+Peace Oracle lahir dari ide simpel: kenapa harus buka banyak situs cuma buat cek ramalan dari tradisi yang beda-beda? Jadi semuanya kami kumpulin di satu tempat. Sekarang sudah ada Zodiak, Shio, Weton, dan Tarot.
 
 UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa responsif. Hasilnya, di HP rasanya kayak pakai native app.
 
@@ -42,7 +42,15 @@ UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa respon
 - Roasting berdasarkan hari, pasaran, dan neptu.
 - Cari hari baik buat nikah, pindah rumah, bangun rumah, buka usaha, atau transaksi besar. Hari pantangan disaring, sasi nikah dan petung Pancasuda ikut dihitung, lengkap dengan alasan dan sumbernya.
 
-**Tarot** masih tahap scaffolding, jadi card-nya di landing page masih ke-lock.
+**Tarot**
+- Kartu harian: satu kartu per perangkat per hari, tetap sama sampai besok, lengkap dengan makna umum, cinta, karier, dan keuangan.
+- Bacaan tarot: pilih topik dan spread (satu kartu, Lalu-Kini-Nanti, Situasi-Tindakan-Hasil, atau Celtic Cross versi Waite), lalu ambil sendiri kartunya dari 78 kartu tertutup. Dek dikocok ulang di server tiap bacaan.
+- Sintesis bacaan dihitung dari pola kartunya: dominasi Arcana Mayor, suit yang paling banyak atau absen, angka yang berulang, kartu istana, proporsi kartu terbalik, plus relasi antar posisi di Celtic Cross.
+- Ya atau tidak: satu kartu untuk pertanyaan tertutup, jawabannya ditetapkan per kartu dan per orientasi.
+- Bacaan hubungan: tujuh posisi buat kamu, dia, kebutuhan masing-masing, tantangan, dan arah hubungan.
+- Kartu lahir: kartu kepribadian, kartu jiwa, dan kartu tahunan dengan metode Mary K. Greer, lengkap dengan langkah hitungnya.
+- Ensiklopedia 78 kartu: simbol Rider-Waite, korespondensi astrologi dan huruf Ibrani versi Golden Dawn, serta makna tegak dan terbalik per topik.
+- Kartu terbalik bisa dimatikan. Dek default-nya scan asli Rider-Waite 1909. Khusus 1 April (April Mop), semua kartu berganti ke Oracolo, dek SVG buatan sendiri, dan bisa dikembalikan ke Rider-Waite lewat pemilih dek.
 
 Di landing page ada floating button buat switch mode, plus beberapa easter egg kecil. Good luck nyarinya.
 
@@ -50,7 +58,7 @@ Di landing page ada floating button buat switch mode, plus beberapa easter egg k
 
 Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma depend ke `core/` dan nggak saling import, jadi satu modul bisa dicabut tanpa bikin yang lain rusak. Navigasi dan landing page otomatis nyesuain modul yang ter-install.
 
-AI cuma dipakai di Zodiak. Shio dan Weton full dihitung di server pakai data dan rumus sendiri, zero API call.
+AI cuma dipakai di Zodiak. Shio, Weton, dan Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
 
 MySQL dipakai buat nyimpen kuota AI dan room kuis. Kalau database lagi down, app tetap jalan: kuota AI pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi.
 
@@ -62,7 +70,7 @@ peace-oracle/
 │   ├── zodiak/
 │   ├── shio/
 │   ├── weton/
-│   └── tarot/        # WIP
+│   └── tarot/
 ├── api/index.py      # entry point Vercel
 ├── vercel.json
 └── .python-version
@@ -115,6 +123,8 @@ Connect repo ke [Vercel](https://vercel.com), copy semua environment variable da
 Repo ini public supaya kodenya bisa dibaca dan dipelajari, tapi **bukan open source**. Menyalin, memodifikasi, mendistribusikan, atau menayangkan ulang sebagian maupun seluruhnya wajib dapat izin tertulis dari pemilik.
 
 Aset ikon di mode Shio dibuat dengan bantuan generative AI.
+
+Gambar dek Rider-Waite di mode Tarot adalah ilustrasi Pamela Colman Smith untuk dek yang terbit pertama kali tahun 1909. Scan-nya berasal dari cetakan awal bertanggal 1910, berstatus domain publik, dan diambil dari [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:Rider-Waite-Smith_tarot_deck_(TaionWC)). Gambar tersebut nggak termasuk dalam pembatasan hak cipta di atas. Makna kartu disusun ulang dari A. E. Waite, *The Pictorial Key to the Tarot* (1910), korespondensi Golden Dawn, dan metode kartu lahir Mary K. Greer.
 
 Data kota kelahiran untuk Shio dan Weton (nama, bujur, lintang, zona waktu) diambil dari [GeoNames](https://www.geonames.org/) di bawah lisensi [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) pada 18 September 2026 (data lintang untuk Weton pada 25 September 2026). Data tersebut tetap milik GeoNames dan nggak termasuk dalam pembatasan hak cipta di atas.
 

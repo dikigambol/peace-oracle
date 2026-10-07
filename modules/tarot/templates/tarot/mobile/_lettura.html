@@ -1,0 +1,50 @@
+{% set default_count = (spreads|selectattr('key', 'equalto', default_spread)|first).positions|length %}
+<div class="tr-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Bacaan Tarot") }}
+
+  <main class="tr-m-main">
+    <section class="tr-m-steps" id="m-steps" aria-live="polite">
+      {{ step_marks(3) }}
+
+      <div class="tr-m-step" data-step="1">
+        <p class="tr-eyebrow">Tarot Oracle</p>
+        <h2 class="tr-m-question">Apa yang ingin kamu pahami?</h2>
+        {{ question_field("m-question", question_hint, size=" tr-input-lg") }}
+        {{ topic_chips("m-topic") }}
+      </div>
+
+      <div class="tr-m-step" data-step="2" hidden>
+        <p class="tr-eyebrow">Susunan kartu</p>
+        <h2 class="tr-m-question">Pilih spread</h2>
+        {{ spread_options("m-spread") }}
+        {{ reversed_toggle("m-reversed") }}
+      </div>
+
+      <div class="tr-m-step" data-step="3" hidden>
+        {{ deck_fan("m", default_count, "Ambil kartumu") }}
+      </div>
+
+      <p class="tr-error" id="m-error" role="alert" hidden></p>
+
+      <div class="tr-m-actions">
+        <button class="tr-btn tr-btn-ghost" id="m-back" type="button" hidden>Kembali</button>
+        <button class="tr-btn tr-btn-primary tr-btn-block" id="m-next" type="button">Lanjut</button>
+      </div>
+    </section>
+
+    <section class="tr-m-result" id="m-result" hidden aria-live="polite">
+      <div class="tr-card tr-summary" id="m-summary"></div>
+      <div class="tr-card tr-board-card">
+        <div class="tr-board" id="m-board"></div>
+      </div>
+      <div class="tr-insights" id="m-insights"></div>
+      <div class="tr-m-list" id="m-cards"></div>
+      {{ result_footer("m") }}
+      <div class="tr-result-actions">
+        <button class="tr-btn tr-btn-ghost tr-btn-block" id="m-reset" type="button">Bacaan baru</button>
+      </div>
+    </section>
+  </main>
+
+  {{ mobile_tabbar("bacaan") }}
+</div>

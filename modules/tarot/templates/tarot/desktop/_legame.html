@@ -1,0 +1,44 @@
+<div class="tr-d-shell">
+  {{ desktop_header("Bacaan Hubungan", "Tujuh kartu untuk membaca posisimu, posisi dia, kebutuhan kalian berdua, dan ke mana hubungan ini bergerak.", "hubungan") }}
+
+  <form class="tr-card tr-d-draw-form" id="d-form" novalidate>
+    <div class="tr-d-form-grid">
+      <div class="tr-d-names">
+        <label class="tr-field" for="d-nama-a">
+          <span class="tr-label">Namamu <em class="tr-optional">opsional</em></span>
+          <input class="tr-input" id="d-nama-a" maxlength="24" placeholder="Kamu" autocomplete="off" />
+        </label>
+        <label class="tr-field" for="d-nama-b">
+          <span class="tr-label">Nama dia <em class="tr-optional">opsional</em></span>
+          <input class="tr-input" id="d-nama-b" maxlength="24" placeholder="Dia" autocomplete="off" />
+        </label>
+      </div>
+      <div>
+        {{ reversed_toggle("d-reversed") }}
+      </div>
+    </div>
+    <ol class="tr-position-list">
+      {% for position in positions %}
+      <li><strong>{{ position.label }}</strong> <span>{{ position.prompt }}</span></li>
+      {% endfor %}
+    </ol>
+    {{ deck_fan("d", positions|length, "Ambil tujuh kartu") }}
+    <div class="tr-d-actions">
+      <button class="tr-btn tr-btn-primary" id="d-submit" type="submit" disabled>Buka kartu</button>
+      <p class="tr-error" id="d-error" role="alert" hidden></p>
+    </div>
+  </form>
+
+  <section class="tr-d-result" id="d-result" aria-live="polite" hidden>
+    <div class="tr-card tr-summary" id="d-summary"></div>
+    <div class="tr-card tr-board-card">
+      <div class="tr-board" id="d-board"></div>
+    </div>
+    <div class="tr-insights" id="d-insights"></div>
+    <div class="tr-d-grid" id="d-cards"></div>
+    {{ result_footer("d") }}
+    <div class="tr-result-actions">
+      <button class="tr-btn tr-btn-ghost" id="d-reset" type="button"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Bacaan baru</button>
+    </div>
+  </section>
+</div>

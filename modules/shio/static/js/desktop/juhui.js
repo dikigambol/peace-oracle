@@ -101,7 +101,7 @@
         els.idleText.textContent = state.missing ? "Room ini tidak ada atau sudah kedaluwarsa." : "Memuat room...";
         return;
       }
-      els.idleText.textContent = view.me ? Room.describeLobby(view) : flags.canJoin ? "Isi nama dan tanggal lahir di kiri untuk ikut main." : Room.describeLobby(view);
+      els.idleText.textContent = view.me ? Room.describeLobby(view) : flags.canJoin ? "Isi nama dan tanggal lahir di atas untuk ikut main." : Room.describeLobby(view);
       if (flags.canJoin) {
         els.joinInfo.textContent = Room.describeJoin(view);
       }

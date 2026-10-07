@@ -128,6 +128,7 @@
     });
     nodes.progressText.textContent = "Langkah " + step + " dari " + total;
     nodes.progressFill.style.width = (step / total) * 100 + "%";
+    nodes.progressFill.parentNode.style.setProperty("--steps", String(total));
     nodes.back.hidden = step === 1;
   }
 
