@@ -1,0 +1,24 @@
+<div class="tr-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Kartu Harian") }}
+
+  <main class="tr-m-main">
+    <form class="tr-card tr-m-stage" id="m-form" novalidate>
+      <p class="tr-eyebrow">{{ today_label }}</p>
+      <h2 class="tr-m-question">Kartumu hari ini</h2>
+      <div class="tr-daily-card" id="m-stage">
+        {{ card_back() }}
+      </div>
+      {{ reversed_toggle("m-reversed") }}
+      <button class="tr-btn tr-btn-primary tr-btn-block" id="m-submit" type="submit">Buka kartu hari ini</button>
+      <p class="tr-error" id="m-error" role="alert" hidden></p>
+      <p class="tr-hint tr-hint-end">{{ daily_note }}</p>
+    </form>
+
+    <section class="tr-m-result" id="m-result" hidden aria-live="polite">
+      <div id="m-cards"></div>
+      {{ result_footer("m") }}
+    </section>
+  </main>
+
+  {{ mobile_tabbar("harian") }}
+</div>

@@ -1,0 +1,40 @@
+<div class="tr-m-shell" data-bottom-nav>
+  {{ mobile_appbar("Ensiklopedia Kartu") }}
+
+  <main class="tr-m-main">
+    <p class="tr-m-help">Ketuk kartu untuk membaca simbol, korespondensi, dan maknanya.</p>
+    <div class="tr-filter tr-m-filter" role="group" aria-label="Saring kartu">
+      <button class="tr-filter-btn is-active" type="button" data-filter="semua" aria-pressed="true">Semua</button>
+      {% for group in groups %}
+      <button class="tr-filter-btn" type="button" data-filter="{{ group.key }}" aria-pressed="false">{{ group.title.split(' (')[0] }}</button>
+      {% endfor %}
+    </div>
+
+    {% for group in groups %}
+    <section class="tr-arcani-group" data-group="{{ group.key }}" aria-labelledby="m-group-{{ group.key }}">
+      <h2 class="tr-group-title" id="m-group-{{ group.key }}">{{ group.title }}</h2>
+      {% if group.domain %}<p class="tr-group-text">Wilayahnya {{ group.domain }}.</p>{% endif %}
+      <ul class="tr-arcani-grid">
+        {% for card in group.cards %}
+        <li>
+          <a class="tr-arcani-item" href="{{ url_for('tarot.tarot_card_page', slug=card.slug) }}">
+            {{ card_img(card.slug, card.name) }}
+            <span class="tr-arcani-name">{{ card.name }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+
+    <details class="tr-glossary">
+      <summary>Istilah yang perlu kamu tahu</summary>
+      {% for key, label in [('arcana_mayor', 'Arcana Mayor'), ('arcana_minor', 'Arcana Minor'), ('kartu_istana', 'Kartu istana'), ('terbalik', 'Kartu terbalik'), ('korespondensi', 'Korespondensi')] %}
+      <p><strong>{{ label }}.</strong> {{ glossary[key] }}</p>
+      {% endfor %}
+    </details>
+    <p class="tr-sources">Sumber: {{ sources.waite }}; {{ sources.golden_dawn }}. Gambar: {{ sources.deck }}.</p>
+  </main>
+
+  {{ mobile_tabbar("arcani") }}
+</div>

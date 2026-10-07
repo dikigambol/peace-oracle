@@ -58,7 +58,7 @@ from .weton_roasting_bank import (
     ROAST_DISCLAIMER,
     ROAST_SOURCE,
 )
-from .weton_dinabecik_bank import (
+from .weton_good_day_bank import (
     PANCASUDA,
     HAJAT,
     DEFAULT_HAJAT,

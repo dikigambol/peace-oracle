@@ -1,19 +1,35 @@
 :root {
-  --wt-gold: #e5b95c;
-  --wt-gold-rgb: 229, 185, 92;
-  --wt-sogan: #a0662f;
-  --wt-sogan-rgb: 160, 102, 47;
-  --wt-cream: #f6ecd9;
-  --wt-cream-rgb: 246, 236, 217;
-  --wt-night: #120e1a;
-  --wt-night-rgb: 18, 14, 26;
-  --wt-leaf: #9ccf8f;
-  --wt-leaf-rgb: 156, 207, 143;
-  --wt-rose: #ef9a86;
-  --wt-rose-rgb: 239, 154, 134;
-  --wt-ink: #1d140c;
-  --wt-bg-top: #24160d;
-  --wt-bg-bottom: #0a0916;
+  --wt-gold: #d6a446;
+  --wt-gold-rgb: 214, 164, 70;
+  --wt-sogan: #7d3a1c;
+  --wt-sogan-rgb: 125, 58, 28;
+  --wt-cream: #f4e6c8;
+  --wt-cream-rgb: 244, 230, 200;
+  --wt-night: #140c07;
+  --wt-night-rgb: 20, 12, 7;
+  --wt-leaf: #a8c98a;
+  --wt-leaf-rgb: 168, 201, 138;
+  --wt-rose: #e48a6a;
+  --wt-rose-rgb: 228, 138, 106;
+  --wt-ink: #1d1009;
+  --wt-bg-top: #2a170b;
+  --wt-bg-bottom: #0a0604;
+  --wt-prada: #d6a446;
+  --wt-blencong: #e8892e;
+  --wt-blencong-rgb: 232, 137, 46;
+  --wt-kelir: #f1dfb6;
+  --wt-kelir-rgb: 241, 223, 182;
+  --wt-kelir-ink: #2e1a0d;
+  --wt-kelir-ink-rgb: 46, 26, 13;
+  --wt-kelir-gold: #805010;
+  --wt-kelir-gold-rgb: 128, 80, 16;
+  --wt-kelir-leaf: #3d6b2c;
+  --wt-kelir-leaf-rgb: 61, 107, 44;
+  --wt-kelir-rose: #9a3418;
+  --wt-kelir-rose-rgb: 154, 52, 24;
+  --wt-tumpal: conic-gradient(from -45deg at 50% 100%, rgba(var(--wt-gold-rgb), 0.55) 0 90deg, transparent 0) top left / 16px 8px repeat-x;
+  --wt-tumpal-up: conic-gradient(from 135deg at 50% 0, rgba(var(--wt-gold-rgb), 0.55) 0 90deg, transparent 0) bottom left / 16px 8px repeat-x;
+  --wt-gunungan: polygon(50% 0, 60% 10%, 72% 26%, 84% 46%, 92% 66%, 96% 84%, 90% 100%, 10% 100%, 4% 84%, 8% 66%, 16% 46%, 28% 26%, 40% 10%);
 
   --wt-surface: rgba(var(--wt-night-rgb), 0.82);
   --wt-surface-strong: rgba(var(--wt-night-rgb), 0.95);
@@ -23,12 +39,11 @@
   --wt-faint: rgba(var(--wt-cream-rgb), 0.5);
   --wt-shadow: 0 18px 40px rgba(var(--wt-night-rgb), 0.55);
 
-  --wt-font-head: "Space Grotesk", "Plus Jakarta Sans", sans-serif;
+  --wt-font-head: "Alegreya", Georgia, serif;
   --wt-font-body: "Plus Jakarta Sans", sans-serif;
-  --wt-radius-sm: 8px;
-  --wt-radius-md: 14px;
-  --wt-radius-lg: 22px;
-  --wt-radius-pill: 999px;
+  --wt-radius-sm: 3px;
+  --wt-radius-md: 5px;
+  --wt-radius-lg: 6px;
   --bottom-nav-height: 64px;
 }
 
@@ -38,7 +53,8 @@
   z-index: -10;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% -10%, rgba(var(--wt-sogan-rgb), 0.35), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% -6%, rgba(var(--wt-blencong-rgb), 0.28), transparent 70%),
+    radial-gradient(ellipse at 50% -10%, rgba(var(--wt-sogan-rgb), 0.45), transparent 60%),
     linear-gradient(180deg, var(--wt-bg-top), var(--wt-night) 55%, var(--wt-bg-bottom));
 }
 
@@ -100,28 +116,40 @@
 }
 
 .wt-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 6px;
   font-family: var(--wt-font-head);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-size: 1rem;
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--wt-gold);
 }
 
+.wt-eyebrow::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 11px;
+  height: 15px;
+  background: var(--wt-gold);
+  clip-path: var(--wt-gunungan);
+}
+
 .wt-card {
-  background: var(--wt-surface);
+  background: var(--wt-tumpal), var(--wt-surface);
   border: 1px solid var(--wt-line);
+  border-top: 2px solid var(--wt-gold);
   border-radius: var(--wt-radius-lg);
-  padding: 22px;
+  padding: 26px 22px 22px;
   box-shadow: var(--wt-shadow);
-  backdrop-filter: blur(10px);
 }
 
 .wt-card-title {
   margin: 0 0 16px;
   font-family: var(--wt-font-head);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   color: var(--wt-cream);
 }
 
@@ -214,15 +242,23 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  box-sizing: border-box;
   min-height: 48px;
-  padding: 12px 20px;
-  border-radius: var(--wt-radius-pill);
+  padding: 12px 32px;
+  border-radius: 0;
   border: 1px solid transparent;
+  clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 50%, calc(100% - 16px) 100%, 16px 100%, 0 50%);
   font-family: var(--wt-font-head);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.wt-btn:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 3px var(--wt-blencong);
 }
 
 .wt-btn:disabled {
@@ -231,14 +267,16 @@
 }
 
 .wt-btn-primary {
-  background: linear-gradient(135deg, var(--wt-gold), var(--wt-sogan));
-  color: var(--wt-ink);
-  box-shadow: 0 10px 24px rgba(var(--wt-sogan-rgb), 0.35);
+  background:
+    linear-gradient(180deg, rgba(var(--wt-gold-rgb), 0.95) 0 3px, transparent 3px calc(100% - 3px), rgba(var(--wt-gold-rgb), 0.95) calc(100% - 3px)),
+    linear-gradient(180deg, var(--wt-sogan), rgba(var(--wt-sogan-rgb), 0.85));
+  color: var(--wt-cream);
 }
 
 .wt-btn-ghost {
-  background: transparent;
-  border-color: var(--wt-line-strong);
+  background:
+    linear-gradient(180deg, var(--wt-line-strong) 0 1px, transparent 1px calc(100% - 1px), var(--wt-line-strong) calc(100% - 1px)),
+    rgba(var(--wt-night-rgb), 0.35);
   color: var(--wt-cream);
 }
 
@@ -413,7 +451,7 @@
   display: inline-flex;
   align-items: center;
   padding: 4px 10px;
-  border-radius: var(--wt-radius-pill);
+  border-radius: var(--wt-radius-sm);
   font-size: 0.75rem;
   font-weight: 700;
   white-space: nowrap;
@@ -527,7 +565,7 @@
   gap: 8px;
   min-height: 44px;
   padding: 10px 18px;
-  border-radius: var(--wt-radius-pill);
+  border-radius: var(--wt-radius-sm);
   border: 1px solid var(--wt-line-strong);
   color: var(--wt-muted);
   cursor: pointer;
@@ -535,9 +573,10 @@
 }
 
 .wt-lens-option input:checked + span {
-  background: linear-gradient(135deg, var(--wt-gold), var(--wt-sogan));
+  background: var(--wt-sogan);
   border-color: var(--wt-gold);
-  color: var(--wt-ink);
+  color: var(--wt-cream);
+  box-shadow: inset 0 -3px 0 var(--wt-gold);
 }
 
 .wt-lens-option input:focus-visible + span {
@@ -613,7 +652,7 @@
   display: inline-flex;
   align-items: center;
   padding: 4px 10px;
-  border-radius: var(--wt-radius-pill);
+  border-radius: var(--wt-radius-sm);
   font-size: 0.75rem;
   font-weight: 700;
 }
@@ -783,8 +822,13 @@
 .wt-today {
   display: grid;
   gap: 16px;
-  border-color: var(--wt-line-strong);
-  background: linear-gradient(160deg, rgba(var(--wt-sogan-rgb), 0.35), var(--wt-surface));
+  border: none;
+  border-radius: 50% 50% var(--wt-radius-lg) var(--wt-radius-lg) / 44px 44px var(--wt-radius-lg) var(--wt-radius-lg);
+  padding-top: 40px;
+  background:
+    radial-gradient(ellipse 60% 70% at 50% 0%, rgba(var(--wt-blencong-rgb), 0.35), transparent 70%),
+    var(--wt-kelir);
+  box-shadow: 0 0 0 6px var(--wt-sogan), 0 0 0 7px var(--wt-prada), 0 0 50px rgba(var(--wt-blencong-rgb), 0.35);
 }
 
 .wt-today-main {
@@ -857,4 +901,41 @@
 
 .wt-result-target:focus {
   outline: none;
+}
+
+.wt-today,
+.wt-d-result,
+.wt-d-results,
+.wt-d-match-result,
+.wt-m-result {
+  --wt-cream: var(--wt-kelir-ink);
+  --wt-cream-rgb: var(--wt-kelir-ink-rgb);
+  --wt-gold: var(--wt-kelir-gold);
+  --wt-gold-rgb: var(--wt-kelir-gold-rgb);
+  --wt-leaf: var(--wt-kelir-leaf);
+  --wt-leaf-rgb: var(--wt-kelir-leaf-rgb);
+  --wt-rose: var(--wt-kelir-rose);
+  --wt-rose-rgb: var(--wt-kelir-rose-rgb);
+  --wt-night-rgb: var(--wt-kelir-rgb);
+  --wt-surface: rgba(var(--wt-kelir-ink-rgb), 0.045);
+  --wt-surface-strong: var(--wt-kelir);
+  --wt-line: rgba(var(--wt-kelir-gold-rgb), 0.3);
+  --wt-line-strong: rgba(var(--wt-kelir-gold-rgb), 0.6);
+  --wt-muted: rgba(var(--wt-kelir-ink-rgb), 0.8);
+  --wt-faint: rgba(var(--wt-kelir-ink-rgb), 0.66);
+  --wt-shadow: none;
+  color: var(--wt-kelir-ink);
+}
+
+.wt-d-result,
+.wt-d-results,
+.wt-d-match-result,
+.wt-m-result {
+  box-sizing: border-box;
+  padding: 26px;
+  border-radius: var(--wt-radius-lg);
+  background:
+    radial-gradient(ellipse 60% 220px at 50% 0%, rgba(var(--wt-blencong-rgb), 0.3), transparent 70%),
+    var(--wt-kelir);
+  box-shadow: 0 0 0 6px var(--wt-sogan), 0 0 0 7px var(--wt-prada), 0 0 60px rgba(var(--wt-blencong-rgb), 0.3);
 }

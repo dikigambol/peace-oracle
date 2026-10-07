@@ -180,11 +180,14 @@
     node.textContent = message || "";
   }
 
+  const STEP_NUMERALS = ["一", "二", "三", "四", "五"];
+
   function renderStepper(nodes, step, total) {
     nodes.steps.forEach((node) => {
       node.hidden = Number(node.dataset.step) !== step;
     });
     nodes.progressText.textContent = "Langkah " + step + " dari " + total;
+    nodes.progressText.dataset.cn = STEP_NUMERALS[step - 1] || String(step);
     nodes.progressFill.style.width = (step / total) * 100 + "%";
     nodes.back.hidden = step === 1;
   }

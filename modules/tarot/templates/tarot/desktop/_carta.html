@@ -1,0 +1,21 @@
+<div class="tr-d-shell">
+  {{ desktop_header(card.name, card.name_id ~ ". " ~ card.symbolism, "arcani") }}
+
+  <div class="tr-carta">
+    {{ carta_art(card) }}
+    <div class="tr-carta-body">
+      <section class="tr-card">
+        <p class="tr-eyebrow">{{ card.arcana_label }}{% if card.suit_info %} · {{ card.suit_info.name_id }} ({{ card.suit_info.name_it }}){% endif %}</p>
+        {{ carta_facts(card) }}
+        {% if card.suit_info %}<p class="tr-hint tr-hint-end">Suit {{ card.suit_info.name_id }} membawa elemen {{ card.element_label|lower }} dan berbicara tentang {{ card.suit_info.domain }}.</p>{% endif %}
+      </section>
+      <div class="tr-carta-sides">
+        {{ carta_side(card, "up", "Tegak", "d") }}
+        {{ carta_side(card, "rev", "Terbalik", "d") }}
+      </div>
+    </div>
+  </div>
+
+  {{ carta_nav(card) }}
+  <p class="tr-sources">Sumber: {{ sources.waite }}; {{ sources.golden_dawn }}; {{ sources.pollack }}. Gambar: {{ sources.deck }}.</p>
+</div>

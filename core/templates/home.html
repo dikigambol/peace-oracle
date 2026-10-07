@@ -6,8 +6,8 @@
   {'key': 'zodiak', 'endpoint': 'zodiak.home', 'icon': 'fa-moon', 'title': 'Zodiak Barat', 'text': 'Singkap misteri bintang-bintang dan pelajari kepribadian astrologi Anda.'},
   {'key': 'shio', 'endpoint': 'shio.shio_index', 'icon': 'fa-dragon', 'title': 'Shio Timur', 'text': 'Temukan energi elemen dan kebijaksanaan oriental Anda.'},
   {'key': 'weton', 'endpoint': 'weton.weton_index', 'icon': 'fa-scroll', 'title': 'Weton Jawa', 'text': 'Hitung neptu dan selaraskan energi spiritual leluhur nusantara.'},
+  {'key': 'tarot', 'endpoint': 'tarot.tarot_index', 'icon': 'fa-wand-magic-sparkles', 'title': 'Kartu Tarot', 'text': 'Baca 78 kartu Rider-Waite untuk pertanyaan, hubungan, dan kartu lahir Anda.'},
 ] %}
-{% set tarot = {'icon': 'fa-wand-magic-sparkles', 'title': 'Kartu Tarot', 'text': 'Buka tabir masa depan melalui arkana dan sinkronisitas kartu.'} %}
 {% macro cards() %}
   {% for mode in modes if mode.key in installed_modes %}
   <a href="{{ url_for(mode.endpoint) }}" class="mode-card {{ mode.key }}">
@@ -18,14 +18,6 @@
     </div>
   </a>
   {% endfor %}
-  <div class="mode-card tarot locked" aria-disabled="true">
-    <div class="coming-soon-badge">SOON</div>
-    <i class="fa-solid {{ tarot.icon }}" aria-hidden="true"></i>
-    <div class="card-text">
-      <h2>{{ tarot.title }}</h2>
-      <p>{{ tarot.text }}</p>
-    </div>
-  </div>
 {% endmacro %}
 {% macro footer() %}
   <p class="co-footer-text">

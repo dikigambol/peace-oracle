@@ -1,5 +1,43 @@
 :root {
   --bottom-nav-height: 64px;
+  --sh-lacquer: #8e1b1b;
+  --sh-lacquer-rgb: 142, 27, 27;
+  --sh-lacquer-deep: #4a0b0d;
+  --sh-ink: #0e0a09;
+  --sh-ink-rgb: 14, 10, 9;
+  --sh-cinnabar: #c8312a;
+  --sh-cinnabar-rgb: 200, 49, 42;
+  --sh-leaf: #d8a93b;
+  --sh-leaf-rgb: 216, 169, 59;
+  --sh-leaf-deep: #8a6a22;
+  --sh-paper: #f3e2c0;
+  --sh-paper-rgb: 243, 226, 192;
+  --sh-lacquer-fill: linear-gradient(180deg, var(--sh-lacquer), var(--sh-lacquer-deep));
+  --sh-brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7C20 3 48 2 80 3.5S150 4 176 3.2C188 2.8 196 4 198 6C196 9 182 9.5 160 9.2S90 10 52 10.4C28 10.6 10 10.5 3 9.5C1 9 1 8 2 7Z' fill='black'/%3E%3C/svg%3E");
+  --sh-lattice: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='black' stroke-width='1.2'%3E%3Cpath d='M0 12H18V0M30 0V12H48M0 36H18V48M30 48V36H48M18 12V36M30 12V36M18 24H30'/%3E%3C/g%3E%3C/svg%3E");
+  --sh-corners:
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) left 8px top 8px / 16px 1px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) left 8px top 8px / 1px 16px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) right 8px top 8px / 16px 1px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) right 8px top 8px / 1px 16px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) left 8px bottom 8px / 16px 1px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) left 8px bottom 8px / 1px 16px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) right 8px bottom 8px / 16px 1px no-repeat,
+    linear-gradient(var(--sh-leaf), var(--sh-leaf)) right 8px bottom 8px / 1px 16px no-repeat;
+}
+
+.sh-stage {
+  --gold: var(--sh-leaf);
+  --gold-rgb: var(--sh-leaf-rgb);
+  --cream: var(--sh-paper);
+  --cream-rgb: var(--sh-paper-rgb);
+  --amber: var(--sh-cinnabar);
+  --amber-rgb: var(--sh-cinnabar-rgb);
+  --on-gold: var(--sh-paper);
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-pill: 4px;
 }
 
 .sh-backdrop {
@@ -8,8 +46,8 @@
   z-index: -10;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% -10%, rgba(var(--blood-rgb), 0.45), transparent 60%),
-    linear-gradient(180deg, #1c0505, #0e0303 55%, #050101);
+    radial-gradient(ellipse 70% 50% at 50% -10%, rgba(var(--sh-lacquer-rgb), 0.55), transparent 70%),
+    linear-gradient(180deg, var(--sh-lacquer-deep), var(--sh-ink) 45%, var(--sh-ink));
 }
 
 .sh-backdrop::before,
@@ -20,8 +58,8 @@
 }
 
 .sh-backdrop::before {
-  background: var(--gold);
-  opacity: 0.09;
+  background: var(--sh-leaf);
+  opacity: 0.08;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='120' viewBox='0 0 160 120'%3E%3Cg fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M30 38a4 4 0 1 1 8 0a8 8 0 1 1 -16 0a12 12 0 1 1 24 0c8 0 12 8 24 8h30'/%3E%3Cpath d='M59 26a3 3 0 1 1 6 0a6 6 0 1 1 -12 0a9 9 0 1 1 18 0c5 0 8 5 16 5h12'/%3E%3Cpath d='M104.8 89.2a3.2 3.2 0 1 1 6.4 0a6.4 6.4 0 1 1 -12.8 0a9.6 9.6 0 1 1 19.2 0c6.4 0 9.6 6.4 19.2 6.4h24.0'/%3E%3Cpath d='M128.0 79.6a2.4 2.4 0 1 1 4.8 0a4.8 4.8 0 1 1 -9.6 0a7.2 7.2 0 1 1 14.4 0c4.0 0 6.4 4.0 12.8 4.0h9.6'/%3E%3C/g%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='120' viewBox='0 0 160 120'%3E%3Cg fill='none' stroke='black' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M30 38a4 4 0 1 1 8 0a8 8 0 1 1 -16 0a12 12 0 1 1 24 0c8 0 12 8 24 8h30'/%3E%3Cpath d='M59 26a3 3 0 1 1 6 0a6 6 0 1 1 -12 0a9 9 0 1 1 18 0c5 0 8 5 16 5h12'/%3E%3Cpath d='M104.8 89.2a3.2 3.2 0 1 1 6.4 0a6.4 6.4 0 1 1 -12.8 0a9.6 9.6 0 1 1 19.2 0c6.4 0 9.6 6.4 19.2 6.4h24.0'/%3E%3Cpath d='M128.0 79.6a2.4 2.4 0 1 1 4.8 0a4.8 4.8 0 1 1 -9.6 0a7.2 7.2 0 1 1 14.4 0c4.0 0 6.4 4.0 12.8 4.0h9.6'/%3E%3C/g%3E%3C/svg%3E");
   -webkit-mask-size: 160px 120px;
@@ -52,27 +90,37 @@
 }
 
 .sh-eyebrow {
-  margin: 0 0 4px;
-  font-family: "Space Grotesk", sans-serif;
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--sh-cinnabar);
+  box-shadow: inset 0 0 0 1px rgba(var(--sh-paper-rgb), 0.45);
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xs);
   font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--amber);
+  letter-spacing: 0.12em;
+  color: var(--sh-paper);
+  transform: rotate(-2deg);
 }
 
 .sh-card {
-  background: rgba(20, 5, 5, 0.82);
-  border: 1px solid rgba(var(--gold-rgb), 0.22);
+  background:
+    var(--sh-corners),
+    linear-gradient(180deg, rgba(var(--sh-lacquer-rgb), 0.18), transparent 45%),
+    rgba(var(--sh-ink-rgb), 0.94);
+  border: 1px solid rgba(var(--gold-rgb), 0.55);
   border-radius: var(--radius-lg);
   padding: 24px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 3px rgba(var(--sh-ink-rgb), 0.9), inset 0 0 0 4px rgba(var(--sh-lacquer-rgb), 0.85),
+    0 16px 36px rgba(0, 0, 0, 0.55);
 }
 
 .sh-card-title {
   margin: 0 0 16px;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  padding-bottom: 8px;
+  background: linear-gradient(90deg, var(--sh-cinnabar), rgba(var(--sh-cinnabar-rgb), 0)) left bottom / 96px 2px no-repeat;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   color: var(--gold);
 }
@@ -103,9 +151,10 @@
   box-sizing: border-box;
   min-height: 48px;
   padding: 12px 16px;
-  border-radius: var(--radius-md);
-  border: 1px solid rgba(var(--gold-rgb), 0.45);
-  background: rgba(0, 0, 0, 0.45);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(var(--gold-rgb), 0.3);
+  border-bottom-color: var(--gold);
+  background: rgba(var(--sh-ink-rgb), 0.8);
   color: var(--cream);
   font: inherit;
   font-size: var(--fs-base);
@@ -179,9 +228,10 @@ select.sh-input option {
   padding: 12px 20px;
   border-radius: var(--radius-pill);
   border: 1px solid transparent;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Noto Serif TC", serif;
   font-weight: 700;
   font-size: var(--fs-base);
+  letter-spacing: 0.06em;
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
@@ -197,15 +247,17 @@ select.sh-input option {
 }
 
 .sh-btn-primary {
-  background: linear-gradient(135deg, var(--gold), var(--amber));
+  background: var(--sh-lacquer-fill);
+  border-color: var(--gold);
   color: var(--on-gold);
-  box-shadow: 0 10px 24px rgba(var(--amber-rgb), 0.3);
+  box-shadow: inset 0 0 0 3px rgba(var(--sh-ink-rgb), 0.35), inset 0 0 0 4px rgba(var(--gold-rgb), 0.45),
+    0 8px 18px rgba(0, 0, 0, 0.5);
 }
 
 .sh-btn-ghost {
-  background: transparent;
-  border-color: rgba(var(--gold-rgb), 0.45);
-  color: var(--cream);
+  background: rgba(var(--sh-ink-rgb), 0.6);
+  border-color: rgba(var(--gold-rgb), 0.6);
+  color: var(--gold);
 }
 
 .sh-btn-block {
@@ -260,7 +312,7 @@ select.sh-input option {
   padding: 48px 0;
   text-align: center;
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
 }
 
 .sh-loading i {
@@ -426,7 +478,7 @@ select.sh-input option {
 }
 
 .shio-item .name {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-weight: bold;
 }
 
@@ -442,7 +494,6 @@ select.sh-input option {
   border-radius: var(--radius-md);
   padding: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(5px);
   transition: transform 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
@@ -467,7 +518,7 @@ select.sh-input option {
 
 .daily-card-name {
   margin: 0;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
 }
 
@@ -558,7 +609,7 @@ select.sh-input option {
 }
 
 .res-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-xl);
   margin-top: 0;
@@ -677,7 +728,6 @@ select.sh-input option {
   background: rgba(15, 5, 25, 0.95) !important;
   border: 1px solid rgba(var(--gold-rgb), 0.3) !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
-  backdrop-filter: blur(10px);
   font-family: "Plus Jakarta Sans", sans-serif !important;
 }
 
@@ -745,7 +795,7 @@ select.sh-input option {
 .flatpickr-time .flatpickr-am-pm {
   color: var(--gold) !important;
   font-size: var(--fs-lg) !important;
-  font-family: "Cinzel", "Noto Serif TC", serif !important;
+  font-family: "Noto Serif TC", serif !important;
   font-weight: bold !important;
   background: rgba(0, 0, 0, 0.5) !important;
   border-radius: var(--radius-sm) !important;
@@ -812,7 +862,6 @@ select.sh-input option {
   padding: 24px 24px;
   margin: 0 auto 28px;
   max-width: 900px;
-  backdrop-filter: blur(10px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -860,7 +909,7 @@ select.sh-input option {
 
 .pillar-value {
   display: block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xs);
   color: rgba(255, 255, 255, 0.85);
   margin-top: 4px;
@@ -897,7 +946,7 @@ select.sh-input option {
 }
 
 .yiji-col h4 {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xs);
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -1025,7 +1074,6 @@ select.sh-input option {
   padding: 24px 16px;
   box-sizing: border-box;
   background: rgba(3, 1, 0, 0.78);
-  backdrop-filter: blur(6px);
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -1156,7 +1204,6 @@ body.board-locked {
   background: linear-gradient(145deg, rgba(20, 10, 4, 0.7), rgba(0, 0, 0, 0.8));
   border: 1px solid rgba(var(--gold-rgb), 0.25);
   border-radius: var(--radius-md);
-  backdrop-filter: blur(10px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -1219,7 +1266,7 @@ body.board-locked {
 }
 
 .board-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: var(--gold);
   text-align: center;
@@ -1263,7 +1310,7 @@ body.board-locked {
 }
 
 .podium-name {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: var(--cream);
 }
@@ -1299,7 +1346,7 @@ body.board-locked {
 }
 
 .board-rank {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xs);
   color: rgba(var(--cream-rgb), 0.5);
   text-align: right;
@@ -1469,8 +1516,8 @@ body.board-locked {
 }
 
 .choice-chip {
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba(var(--gold-rgb), 0.25);
+  background: rgba(var(--sh-ink-rgb), 0.6);
+  border: 1px solid rgba(var(--gold-rgb), 0.35);
   border-radius: var(--radius-pill);
   color: var(--cream);
   font-family: inherit;
@@ -1486,7 +1533,7 @@ body.board-locked {
 }
 
 .choice-chip.active {
-  background: linear-gradient(135deg, var(--gold), var(--amber));
+  background: var(--sh-lacquer-fill);
   border-color: var(--gold);
   color: var(--on-gold);
   font-weight: 700;
@@ -1552,7 +1599,7 @@ body.board-locked {
 .destiny-notice strong {
   display: block;
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   margin-bottom: 4px;
 }
@@ -1584,7 +1631,7 @@ body.board-locked {
 }
 
 .destiny-heading {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-md);
   margin: 0 0 8px;
@@ -1666,7 +1713,7 @@ body.board-locked {
 }
 
 .destiny-two-col h4 {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: rgba(var(--gold-rgb), 0.85);
   font-size: var(--fs-sm);
   margin: 0 0 8px;
@@ -1726,7 +1773,7 @@ body.board-locked {
 }
 
 .destiny-chart-rowhead {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: rgba(var(--gold-rgb), 0.7);
   font-size: var(--fs-sm);
   width: 104px;
@@ -1816,7 +1863,7 @@ body.board-locked {
   align-items: baseline;
   gap: 8px;
   flex-wrap: wrap;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-sm);
   margin: 0 0 8px;
@@ -1860,7 +1907,7 @@ body.board-locked {
 .destiny-star-title,
 .destiny-luck-title,
 .destiny-relation-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
   margin: 0;
@@ -1886,7 +1933,7 @@ body.board-locked {
 }
 
 .destiny-element-name {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
 }
@@ -1973,7 +2020,7 @@ body.board-locked {
 }
 
 .destiny-destiny-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
   margin: 0 0 12px;
@@ -2020,7 +2067,7 @@ body.board-locked {
 }
 
 .destiny-alter h4 {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-sm);
   margin: 0 0 8px;
@@ -2187,7 +2234,7 @@ body.board-locked {
 
 .year-number {
   display: block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xl);
   font-weight: 700;
   color: var(--gold);
@@ -2208,7 +2255,6 @@ body.board-locked {
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(var(--gold-rgb), 0.05);
   border-radius: var(--radius-md);
   padding: 32px;
-  backdrop-filter: blur(12px);
   animation: yFadeIn 0.5s ease-out;
 }
 
@@ -2262,7 +2308,7 @@ body.board-locked {
 .yearly-shio-name {
   display: block;
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   margin-top: 4px;
 }
@@ -2276,7 +2322,7 @@ body.board-locked {
 
 .yearly-arrow {
   color: rgba(var(--gold-rgb), 0.6);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   font-style: italic;
 }
@@ -2316,7 +2362,6 @@ body.board-locked {
 
 .yearly-cat {
   background: rgba(20, 20, 20, 0.6);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-top: 3px solid transparent;
   border-radius: var(--radius-md);
@@ -2365,7 +2410,7 @@ body.board-locked {
 .yearly-cat:nth-child(4) .cat-icon { background: rgba(var(--success-rgb), 0.15); color: var(--success); border: 1px solid rgba(var(--success-rgb), 0.3); }
 
 .yearly-cat h3 {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   margin: 0 0 16px;
   letter-spacing: 1px;
@@ -2404,7 +2449,7 @@ body.board-locked {
 }
 .yearly-badge {
   display: inline-block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   letter-spacing: 0.5px;
   padding: 8px 16px;
@@ -2476,7 +2521,7 @@ body.board-locked {
 
 .yearly-stem-title,
 .compat-dynamic-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
   margin: 0 0 8px;
@@ -2513,7 +2558,6 @@ body.board-locked {
   border-radius: var(--radius-md);
   padding: 32px;
   margin-top: 20px;
-  backdrop-filter: blur(10px);
 }
 
 .compat-header {
@@ -2527,7 +2571,7 @@ body.board-locked {
 
 .compat-rel-type {
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
 }
 
@@ -2542,7 +2586,7 @@ body.board-locked {
   color: var(--gold);
   font-size: var(--fs-md);
   margin-bottom: 16px;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
 }
 
 .score-label-sub {
@@ -2597,7 +2641,7 @@ body.board-locked {
 
 .percentage {
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-2xl);
   font-weight: 700;
   text-shadow: 0 0 15px rgba(var(--gold-rgb), 0.5);
@@ -2630,7 +2674,7 @@ body.board-locked {
 
 .compat-box h4 {
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   margin: 0 0 8px;
   font-size: var(--fs-base);
 }
@@ -2660,7 +2704,7 @@ body.board-locked {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xl);
   font-weight: bold;
 }
@@ -2755,7 +2799,7 @@ body.board-locked {
 
 .dyn-name {
   display: block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-base);
 }
@@ -2860,7 +2904,7 @@ body.board-locked {
 
 .relation-hanzi {
   flex-shrink: 0;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xl);
   line-height: 1;
   color: var(--gold);
@@ -2874,7 +2918,7 @@ body.board-locked {
 
 .relation-title {
   display: block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: rgba(var(--cream-rgb), 0.95);
   margin-bottom: 4px;
@@ -2912,7 +2956,7 @@ body.board-locked {
 }
 
 .bazi-pillar {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-lg);
   line-height: 1;
   color: var(--gold);
@@ -2952,7 +2996,7 @@ body.board-locked {
 }
 
 .useful-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: rgba(var(--cream-rgb), 0.95);
 }
@@ -2977,7 +3021,7 @@ body.board-locked {
 
 .useful-side-name,
 .star-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: var(--gold);
 }
@@ -3098,13 +3142,12 @@ body.board-locked {
   padding: 20px;
   box-sizing: border-box;
   text-align: left;
-  backdrop-filter: blur(8px);
 }
 
 .quiz-card-title,
 .quiz-section-title,
 .quiz-room-mode {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-size: var(--fs-md);
   margin: 0 0 12px;
@@ -3129,7 +3172,7 @@ body.board-locked {
 .quiz-code-input {
   text-transform: uppercase;
   letter-spacing: 4px;
-  font-family: "Space Grotesk", monospace;
+  font-family: ui-monospace, "Cascadia Mono", monospace;
 }
 
 .quiz-modes {
@@ -3150,7 +3193,7 @@ body.board-locked {
   border: 2px solid var(--blood);
   border-radius: var(--radius-md);
   color: var(--cream);
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Noto Serif TC", serif;
   text-align: center;
   cursor: pointer;
   transition: border-color 0.2s, transform 0.2s, background 0.2s;
@@ -3213,7 +3256,7 @@ body.board-locked {
 }
 
 .quiz-code {
-  font-family: "Space Grotesk", monospace;
+  font-family: ui-monospace, "Cascadia Mono", monospace;
   font-size: var(--fs-xl);
   font-weight: 700;
   letter-spacing: 6px;
@@ -3254,7 +3297,7 @@ body.board-locked {
 }
 
 .quiz-count {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: rgba(var(--cream-rgb), 0.6);
 }
@@ -3410,7 +3453,7 @@ body.board-locked {
 }
 
 .quiz-points {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--gold);
   font-weight: 700;
 }
@@ -3479,7 +3522,7 @@ body.board-locked {
 }
 
 .quiz-score {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 3rem;
   font-weight: 700;
   color: var(--gold);
@@ -3487,7 +3530,7 @@ body.board-locked {
 }
 
 .quiz-verdict-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   color: var(--cream);
   font-size: var(--fs-lg);
   margin: 8px 0;
@@ -3615,7 +3658,7 @@ body.board-locked {
 }
 
 .quiz-role-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: var(--gold);
   text-align: right;
@@ -3682,7 +3725,6 @@ body.board-locked {
     inset 0 0 25px rgba(var(--flame-rgb), 0.06);
   border-radius: var(--radius-md);
   padding: 32px;
-  backdrop-filter: blur(12px);
   animation: rFadeIn 0.5s ease-out;
 }
 
@@ -3701,7 +3743,7 @@ body.board-locked {
 }
 
 .roast-shio-name {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-lg);
   color: var(--gold);
   margin: 8px 0 12px;
@@ -3713,7 +3755,7 @@ body.board-locked {
   background: linear-gradient(135deg, rgba(var(--flame-rgb), 0.2), rgba(255, 0, 0, 0.1));
   border: 1px dashed rgba(var(--flame-rgb), 0.6);
   color: var(--ember);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xs);
   font-weight: 700;
   letter-spacing: 2px;
@@ -3747,7 +3789,7 @@ body.board-locked {
 
 .roast-headline p {
   color: #fff;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   line-height: 1.5;
   margin: 0;
@@ -3758,7 +3800,7 @@ body.board-locked {
 }
 
 .roast-section-title {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: var(--ember);
   text-transform: uppercase;
@@ -3837,7 +3879,6 @@ body.board-locked {
 
 .roast-sin-box {
   background: rgba(20, 20, 20, 0.6);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-top: 3px solid transparent;
   border-radius: var(--radius-md);
@@ -3890,7 +3931,7 @@ body.board-locked {
 }
 
 .roast-sin-box h3 {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   margin: 0 0 16px;
   letter-spacing: 1px;
@@ -3930,7 +3971,7 @@ body.board-locked {
 
 .roast-catchphrase p {
   color: var(--gold);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   font-style: italic;
   line-height: 1.6;
@@ -3999,7 +4040,7 @@ body.board-locked {
 
 .weakness-body h3,
 .tip-body h3 {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -4257,7 +4298,7 @@ body.board-locked {
 }
 
 .pair-verdict {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: var(--tangerine);
   margin: 0 0 8px;
@@ -4311,13 +4352,13 @@ body.board-locked {
 
 .dm-title {
   display: block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   color: var(--tangerine);
 }
 
 .dm-headline {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: #ffc400;
   margin: 0 0 8px;
@@ -4382,7 +4423,7 @@ body.board-locked {
 }
 
 .chart-value {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: #ffc400;
 }
@@ -4497,7 +4538,7 @@ body.board-locked {
 
 .cookie-shio-name {
   display: block;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   color: rgba(255, 255, 255, 0.75);
   letter-spacing: 1px;
@@ -4587,7 +4628,7 @@ body.board-locked {
 
 .cookie-hint {
   color: rgba(var(--gold-rgb), 0.75);
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-sm);
   letter-spacing: 0.5px;
   margin: 8px 0 0;
@@ -4656,7 +4697,7 @@ body.board-locked {
 
 .slip-message {
   color: #3b2f1c;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   line-height: 1.65;
   margin: 0 0 24px;
@@ -4672,7 +4713,7 @@ body.board-locked {
 .slip-lucky-label {
   display: block;
   color: #8b6914;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-2xs);
   font-weight: 700;
   text-transform: uppercase;
@@ -4748,7 +4789,7 @@ body.board-locked {
 }
 
 .slip-energy-pillar {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   color: #8b6914;
   letter-spacing: 1px;
@@ -4821,7 +4862,7 @@ body.board-locked {
 }
 
 .slip-hoki-list strong {
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-2xs);
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -4835,6 +4876,7 @@ body.board-locked {
 }
 
 .sh-hub-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -4846,13 +4888,16 @@ body.board-locked {
   transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.sh-hub-card > i {
+.sh-hub-hanzi {
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-xl);
-  color: var(--gold);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--sh-cinnabar);
 }
 
 .sh-hub-title {
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-base);
   font-weight: 700;
   line-height: 1.3;
@@ -4865,8 +4910,14 @@ body.board-locked {
 }
 
 .sh-hub-card-wide {
-  border-color: rgba(var(--gold-rgb), 0.45);
-  background: linear-gradient(135deg, rgba(var(--blood-rgb), 0.55), rgba(20, 5, 5, 0.85));
+  border-color: var(--gold);
+  background:
+    var(--sh-corners),
+    linear-gradient(180deg, rgba(var(--sh-lacquer-rgb), 0.95), rgba(var(--sh-lacquer-rgb), 0.65) 70%, rgba(var(--sh-ink-rgb), 0.95));
+}
+
+.sh-hub-card-wide .sh-hub-hanzi {
+  color: var(--sh-leaf);
 }
 
 .sh-almanac-head {
@@ -4878,7 +4929,7 @@ body.board-locked {
 
 .sh-almanac-name {
   margin: 0;
-  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: var(--fs-md);
   color: var(--gold);
 }

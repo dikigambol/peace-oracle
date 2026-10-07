@@ -1,0 +1,35 @@
+{% set default_count = (spreads|selectattr('key', 'equalto', default_spread)|first).positions|length %}
+<div class="tr-d-shell">
+  {{ desktop_header("Bacaan Tarot", "Tulis pertanyaanmu, pilih topik dan spread, lalu ambil sendiri kartumu dari dek yang sudah dikocok.", "bacaan") }}
+
+  <form class="tr-card tr-d-draw-form" id="d-form" novalidate>
+    <div class="tr-d-form-grid">
+      <div>
+        {{ question_field("d-question", question_hint) }}
+        {{ topic_chips("d-topic") }}
+        {{ reversed_toggle("d-reversed") }}
+      </div>
+      <div>
+        {{ spread_options("d-spread") }}
+      </div>
+    </div>
+    {{ deck_fan("d", default_count, "Ambil kartumu") }}
+    <div class="tr-d-actions">
+      <button class="tr-btn tr-btn-primary" id="d-submit" type="submit" disabled>Buka kartu</button>
+      <p class="tr-error" id="d-error" role="alert" hidden></p>
+    </div>
+  </form>
+
+  <section class="tr-d-result" id="d-result" aria-live="polite" hidden>
+    <div class="tr-card tr-summary" id="d-summary"></div>
+    <div class="tr-card tr-board-card">
+      <div class="tr-board" id="d-board"></div>
+    </div>
+    <div class="tr-insights" id="d-insights"></div>
+    <div class="tr-d-grid" id="d-cards"></div>
+    {{ result_footer("d") }}
+    <div class="tr-result-actions">
+      <button class="tr-btn tr-btn-ghost" id="d-reset" type="button"><i class="fa-solid fa-rotate-left" aria-hidden="true"></i> Bacaan baru</button>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% macro deck_picker(prefix) %}
+{% if april_fools %}
+<div class="tr-deck-picker" role="radiogroup" aria-label="Dek kartu" id="{{ prefix }}-deck-picker">
+  <span class="tr-deck-picker-label" aria-hidden="true">Dek</span>
+  {% for deck, label in [('oracolo', 'Oracolo'), ('rider', 'Rider-Waite 1909')] %}
+  <button class="tr-deck-option{% if deck == default_deck %} is-active{% endif %}" type="button" role="radio" aria-checked="{{ 'true' if deck == default_deck else 'false' }}" data-deck-choice="{{ deck }}">{{ label }}</button>
+  {% endfor %}
+</div>
+{% endif %}
+{% endmacro %}
+
+{% macro flourish() %}
+<span class="tr-flourish" aria-hidden="true"><i></i><b></b><i></i></span>
+{% endmacro %}
+
+{% macro desktop_header(title, lead, active) %}
+<header class="tr-d-header">
+  <div class="tr-d-topbar">
+    <a class="tr-d-back" href="{{ url_for('tarot.tarot_index') }}"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Tarot Oracle</a>
+    {{ deck_picker("d") }}
+  </div>
+  <div class="tr-d-masthead">
+    <h1 class="tr-d-title">{{ title }}</h1>
+    {{ flourish() }}
+    <p class="tr-d-lead">{{ lead }}</p>
+  </div>
+  <nav class="tr-d-nav" aria-label="Fitur Tarot">
+    {% for feature in features %}
+    <a class="tr-d-navlink{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>{{ feature.short }}</a>
+    {% endfor %}
+  </nav>
+</header>
+{% endmacro %}
+
+{% macro step_marks(total) %}
+{% set numerals = ['I', 'II', 'III', 'IV'] %}
+<div class="tr-m-progress">
+  <span class="tr-sr-only" id="m-progress-text">Langkah 1 dari {{ total }}</span>
+  <ol class="tr-m-marks" id="m-step-marks" aria-hidden="true">
+    {% for index in range(total) %}
+    <li class="{{ 'is-current' if loop.first else '' }}">{{ numerals[index] }}</li>
+    {% endfor %}
+  </ol>
+</div>
+{% endmacro %}
+
+{% macro spread_diagram(key, count) %}
+{% set layout = 'satu' if key == 'satu' else 'celtic' if key == 'celtic' else 'tiga' %}
+<span class="tr-mini tr-mini-{{ layout }}" aria-hidden="true">
+  {% for index in range(count) %}<i class="tr-mini-{{ index + 1 }}"></i>{% endfor %}
+</span>
+{% endmacro %}
+
+{% macro mobile_appbar(title, back=None) %}
+<header class="tr-m-appbar">
+  <a class="tr-m-icon" href="{{ back or url_for('tarot.tarot_index') }}" aria-label="{{ 'Kembali' if back else 'Kembali ke menu Tarot' }}">
+    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+  </a>
+  <h1 class="tr-m-title">{{ title }}</h1>
+  {{ deck_toggle() }}
+</header>
+{% endmacro %}
+
+{% macro deck_toggle() %}
+{% if april_fools %}
+<button class="tr-m-icon tr-m-deck" type="button" data-deck-toggle aria-label="Ganti dek kartu, sekarang Oracolo">
+  <i class="fa-solid fa-clone" aria-hidden="true"></i>
+</button>
+{% else %}
+<span aria-hidden="true"></span>
+{% endif %}
+{% endmacro %}
+
+{% macro mobile_tabbar(active) %}
+<nav class="tr-m-tabbar" aria-label="Fitur Tarot">
+  {% for feature in features %}
+  <a class="tr-m-tab{% if active == feature.key %} is-active{% endif %}" href="{{ url_for(feature.endpoint) }}"{% if active == feature.key %} aria-current="page"{% endif %}>
+    <i class="fa-solid {{ feature.icon }}" aria-hidden="true"></i><span>{{ feature.short }}</span>
+  </a>
+  {% endfor %}
+</nav>
+{% endmacro %}
+
+{% macro card_img(slug, name, extra_class="", fixed_deck=None) %}
+{% set deck = fixed_deck or default_deck %}
+<img class="tr-card-img{{ extra_class }}" data-card="{{ slug }}"{% if fixed_deck %} data-fixed-deck="{{ fixed_deck }}"{% endif %}
+     src="{{ url_for('tarot.static', filename='images/' ~ deck ~ '/' ~ slug ~ ('.webp' if deck == 'rider' else '.svg')) }}"
+     alt="{{ name }}" width="360" height="620" loading="lazy" decoding="async" />
+{% endmacro %}
+
+{% macro card_back(extra_class="") %}
+<img class="tr-card-img tr-card-back{{ extra_class }}" data-back
+     src="{{ url_for('tarot.static', filename='images/' ~ default_deck ~ '/retro.svg') }}"
+     alt="" width="360" height="620" decoding="async" />
+{% endmacro %}
+
+{% macro question_field(id, hint, required=False, size="") %}
+<label class="tr-field" for="{{ id }}">
+  <span class="tr-label">Pertanyaanmu{% if not required %} <em class="tr-optional">opsional</em>{% endif %}</span>
+  <textarea class="tr-input tr-textarea{{ size }}" id="{{ id }}" rows="3" maxlength="{{ question_max }}" placeholder="Tulis dengan kalimatmu sendiri" autocomplete="off"></textarea>
+</label>
+<p class="tr-hint">{{ hint }}</p>
+{% endmacro %}
+
+{% macro topic_chips(name) %}
+<fieldset class="tr-chips">
+  <legend class="tr-label">Topik</legend>
+  {% for key, topic in topics.items() %}
+  <label class="tr-chip">
+    <input type="radio" name="{{ name }}" value="{{ key }}"{% if key == default_topic %} checked{% endif %} />
+    <span><i class="fa-solid {{ topic.icon }}" aria-hidden="true"></i> {{ topic.label }}</span>
+  </label>
+  {% endfor %}
+</fieldset>
+{% endmacro %}
+
+{% macro spread_options(name) %}
+<fieldset class="tr-spreads">
+  <legend class="tr-label">Spread</legend>
+  {% for spread in spreads %}
+  <label class="tr-spread">
+    <input type="radio" name="{{ name }}" value="{{ spread.key }}" data-count="{{ spread.positions|length }}"{% if spread.key == default_spread %} checked{% endif %} />
+    <span class="tr-spread-box">
+      {{ spread_diagram(spread.key, spread.positions|length) }}
+      <span class="tr-spread-name">{{ spread.name }} <em>{{ spread.short }}</em></span>
+      <span class="tr-spread-text">{{ spread.text }}</span>
+    </span>
+  </label>
+  {% endfor %}
+</fieldset>
+{% endmacro %}
+
+{% macro reversed_toggle(id) %}
+<label class="tr-toggle" for="{{ id }}">
+  <input type="checkbox" id="{{ id }}" checked />
+  <span>
+    <strong>Baca kartu terbalik</strong>
+    <small>Matikan kalau kamu ingin semua kartu dibaca tegak.</small>
+  </span>
+</label>
+{% endmacro %}
+
+{% macro deck_fan(prefix, count, label) %}
+<section class="tr-fan-wrap" aria-labelledby="{{ prefix }}-fan-title">
+  <div class="tr-fan-head">
+    <div>
+      <h2 class="tr-fan-title" id="{{ prefix }}-fan-title">{{ label }}</h2>
+      <p class="tr-fan-count" id="{{ prefix }}-fan-count" aria-live="polite">0 dari {{ count }} kartu dipilih</p>
+    </div>
+    <button class="tr-btn tr-btn-ghost tr-btn-sm" id="{{ prefix }}-shuffle" type="button">
+      <i class="fa-solid fa-shuffle" aria-hidden="true"></i> Kocok ulang
+    </button>
+  </div>
+  <div class="tr-fan" id="{{ prefix }}-fan" data-count="{{ count }}" data-size="{{ deck_size }}" role="group" aria-label="Dek berisi {{ deck_size }} kartu tertutup"></div>
+  <p class="tr-hint tr-fan-note">{{ draw_note }}</p>
+</section>
+{% endmacro %}
+
+{% macro carta_art(card) %}
+<div class="tr-carta-art{% if not april_fools %} tr-carta-art-single{% endif %}">
+  <figure class="tr-carta-figure">
+    {{ card_img(card.slug, card.name ~ " versi Rider-Waite 1909", fixed_deck="rider") }}
+    <figcaption>Rider-Waite 1909</figcaption>
+  </figure>
+  {% if april_fools %}
+  <figure class="tr-carta-figure">
+    {{ card_img(card.slug, card.name ~ " versi Oracolo", fixed_deck="oracolo") }}
+    <figcaption>Oracolo</figcaption>
+  </figure>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro carta_facts(card) %}
+<dl class="tr-facts">
+  <div class="tr-fact"><dt>Kelompok</dt><dd>{{ card.arcana_label }}{% if card.suit_label %}, suit {{ card.suit_label }}{% endif %}</dd></div>
+  <div class="tr-fact"><dt>{{ 'Nomor' if card.arcana == 'major' else 'Peringkat' }}</dt><dd>{{ card.roman }}</dd></div>
+  {% if card.element_label %}<div class="tr-fact"><dt>Elemen</dt><dd>{{ card.element_label }}</dd></div>{% endif %}
+  {% if card.astrology %}<div class="tr-fact"><dt>Astrologi</dt><dd>{{ card.astrology }}</dd></div>{% endif %}
+  {% if card.hebrew %}<div class="tr-fact"><dt>Huruf Ibrani</dt><dd>{{ card.hebrew }}</dd></div>{% endif %}
+  <div class="tr-fact"><dt>Ya atau tidak</dt><dd>Tegak: {{ card.answer_up_label }} · Terbalik: {{ card.answer_rev_label }}</dd></div>
+</dl>
+{% endmacro %}
+
+{% macro carta_side(card, side, title, prefix) %}
+<section class="tr-card tr-carta-side tr-carta-{{ side }}" aria-labelledby="{{ prefix }}-{{ side }}-title">
+  <h2 class="tr-carta-side-title" id="{{ prefix }}-{{ side }}-title">{{ title }}</h2>
+  <ul class="tr-keywords">
+    {% for word in (card.keywords_up if side == 'up' else card.keywords_rev) %}<li>{{ word }}</li>{% endfor %}
+  </ul>
+  {% for key, topic in topics.items() %}
+  <div class="tr-meaning">
+    <h3 class="tr-meaning-title"><i class="fa-solid {{ topic.icon }}" aria-hidden="true"></i> {{ topic.label }}</h3>
+    <p>{{ card[side][key] }}</p>
+  </div>
+  {% endfor %}
+  <p class="tr-saran"><strong>Saran:</strong> {{ card[side].saran }}</p>
+</section>
+{% endmacro %}
+
+{% macro carta_nav(card) %}
+<nav class="tr-carta-nav" aria-label="Kartu lain">
+  {% if card.prev %}<a class="tr-btn tr-btn-ghost tr-btn-sm" href="{{ url_for('tarot.tarot_card_page', slug=card.prev.slug) }}" data-carta-prev><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> {{ card.prev.name }}</a>{% else %}<span></span>{% endif %}
+  {% if card.next %}<a class="tr-btn tr-btn-ghost tr-btn-sm" href="{{ url_for('tarot.tarot_card_page', slug=card.next.slug) }}" data-carta-next>{{ card.next.name }} <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>{% endif %}
+</nav>
+{% endmacro %}
+
+{% macro result_footer(prefix) %}
+<p class="tr-disclaimer" id="{{ prefix }}-disclaimer">{{ disclaimer }}</p>
+<p class="tr-sources" id="{{ prefix }}-sources"></p>
+{% endmacro %}
+{% block backdrop %}<div class="tr-backdrop" aria-hidden="true"></div>{% endblock %}
+{% block backdrop_js %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" />
+<link rel="stylesheet" href="{{ url_for('tarot.static', filename='css/tarot-base.css') }}" />
+<link rel="stylesheet" href="{{ url_for('tarot.static', filename='css/tarot-desktop.css') }}" media="(min-width: 769px)" />
+<link rel="stylesheet" href="{{ url_for('tarot.static', filename='css/tarot-mobile.css') }}" media="(max-width: 768px)" />
+{% endblock %}
+{% block content %}
+<div class="tr-app" id="tr-app" data-deck="{{ default_deck }}" data-decks="{{ decks|join(' ') }}" data-deck-day="{{ deck_day }}" data-images="{{ url_for('tarot.static', filename='images/') }}" data-cards="{{ url_for('tarot.tarot_cards_page') }}"{% if page %} data-page="{{ page }}"{% endif %}{% if page_api %} data-api="{{ url_for(page_api) }}"{% endif %}{% for name, value in (page_data or {}).items() %} data-{{ name }}="{{ value }}"{% endfor %}>
+  {% block layouts %}
+  <div class="tr-layout tr-layout-desktop" data-layout="desktop">
+    {% include 'tarot/desktop/_' ~ page ~ '.html' %}
+  </div>
+  <div class="tr-layout tr-layout-mobile" data-layout="mobile">
+    {% include 'tarot/mobile/_' ~ page ~ '.html' %}
+  </div>
+  {% endblock %}
+  {% block page_scripts %}{% endblock %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{{ url_for('tarot.static', filename='js/tarot-core.js') }}"></script>
+{% if page %}
+<script src="{{ url_for('tarot.static', filename='js/desktop/' ~ page ~ '.js') }}"></script>
+<script src="{{ url_for('tarot.static', filename='js/mobile/' ~ page ~ '.js') }}"></script>
+{% endif %}
+{% endblock %}

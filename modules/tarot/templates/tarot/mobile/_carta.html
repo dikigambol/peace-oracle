@@ -1,0 +1,18 @@
+<div class="tr-m-shell" data-bottom-nav>
+  {{ mobile_appbar(card.name, url_for('tarot.tarot_cards_page')) }}
+
+  <main class="tr-m-main">
+    {{ carta_art(card) }}
+    <section class="tr-card">
+      <p class="tr-eyebrow">{{ card.name_id }}</p>
+      <p class="tr-carta-symbolism">{{ card.symbolism }}</p>
+      {{ carta_facts(card) }}
+    </section>
+    {{ carta_side(card, "up", "Tegak", "m") }}
+    {{ carta_side(card, "rev", "Terbalik", "m") }}
+    {{ carta_nav(card) }}
+    <p class="tr-sources">Sumber: {{ sources.waite }}; {{ sources.golden_dawn }}. Gambar: {{ sources.deck }}.</p>
+  </main>
+
+  {{ mobile_tabbar("arcani") }}
+</div>
