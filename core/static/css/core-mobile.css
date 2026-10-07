@@ -131,9 +131,9 @@
   margin: 0;
   font-family: "Cinzel", "Noto Serif TC", serif;
   font-size: 1.3rem;
-  color: #ffd700;
+  color: var(--sky-title);
   letter-spacing: 1px;
-  text-shadow: 0 0 16px rgba(255, 215, 0, 0.35);
+  text-shadow: 0 0 16px rgba(var(--sky-gold-rgb), 0.4);
 }
 
 .co-m-main {
@@ -145,7 +145,7 @@
   margin: 0 0 16px;
   font-size: 0.95rem;
   line-height: 1.5;
-  color: rgba(224, 224, 224, 0.85);
+  color: rgba(var(--sky-cream-rgb), 0.85);
 }
 
 .co-m-list {
@@ -159,15 +159,13 @@
   align-items: center;
   gap: 16px;
   min-height: 56px;
-  padding: 16px;
+  padding: 18px 16px;
   text-align: left;
 }
 
-.co-m-list .mode-card i {
-  flex-shrink: 0;
-  width: 40px;
-  font-size: 2rem;
-  text-align: center;
+.co-m-list .co-emblem {
+  width: 46px;
+  height: 46px;
 }
 
 .co-m-list .card-text {
@@ -183,14 +181,18 @@
 }
 
 .co-m-list .mode-card p {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
 }
 
-.co-m-list .coming-soon-badge {
-  order: 3;
-  flex-shrink: 0;
-  padding: 4px 8px;
-  font-size: 0.75rem;
+.co-m-list .mode-card:active {
+  transform: scale(0.98);
+}
+
+.co-astrolabe {
+  top: 86dvh;
+  width: 150vw;
+  height: 150vw;
+  color: rgba(var(--sky-gold-rgb), 0.18);
 }
 
 .co-m-footer {

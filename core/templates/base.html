@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>{% block title %}Peace Oracle{% endblock %}</title>
   <link rel="icon" href="{{ url_for('static', filename='images/web_logo.png') }}" type="image/png" />
-  <meta name="description" content="{% block description %}Temukan ramalan kosmik dan shio Anda.{% endblock %}" />
+  <meta name="description" content="{% block description %}Zodiak, Shio, Weton, dan Tarot dalam satu app.{% endblock %}" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Peace Oracle" />
   <meta property="og:locale" content="id_ID" />
@@ -17,12 +17,16 @@
   <meta property="og:description" content="{{ self.description() }}" />
   <meta property="og:url" content="{{ request.url }}" />
   <meta property="og:image"
-    content="{{ url_for('static', filename='images/web_logo.png', _external=True) }}" />
+    content="{{ url_for('static', filename='images/og-cover.jpg', _external=True) }}" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Peace Oracle: Zodiak, Shio, Weton, dan Tarot" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="{{ self.title() }}" />
   <meta name="twitter:description" content="{{ self.description() }}" />
   <meta name="twitter:image"
-    content="{{ url_for('static', filename='images/web_logo.png', _external=True) }}" />
+    content="{{ url_for('static', filename='images/og-cover.jpg', _external=True) }}" />
   <link rel="canonical" href="{{ request.base_url }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -38,7 +42,68 @@
 </head>
 
 <body class="{% block body_class %}{% endblock %}">
-  {% block backdrop %}<canvas id="webgl-bg"></canvas>{% endblock %}
+  {% block backdrop %}
+  {% set zodiac_signs = ['♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'] %}
+  {% set branches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'] %}
+  {% set pasaran = ['LEGI', 'PAHING', 'PON', 'WAGE', 'KLIWON'] %}
+  {% set arcana = ['0', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XVI', 'XVII', 'XVIII', 'XIX', 'XX', 'XXI'] %}
+  <div class="co-sky" aria-hidden="true">
+    <canvas id="co-stars"></canvas>
+    <svg class="co-astrolabe" viewBox="-500 -500 1000 1000" focusable="false">
+      <g class="co-ring co-ring-zodiak">
+        <circle r="478" />
+        <circle r="470" />
+        <circle r="410" />
+        <circle class="co-ticks" r="474" />
+        {% for sign in zodiac_signs %}
+        <g transform="rotate({{ loop.index0 * 30 }})">
+          <line y1="-470" y2="-410" transform="rotate(15)" />
+          <text y="-440">{{ sign }}&#xFE0E;</text>
+        </g>
+        {% endfor %}
+      </g>
+      <g class="co-ring co-ring-shio">
+        <circle r="400" />
+        <circle r="332" />
+        {% for branch in branches %}
+        <g transform="rotate({{ loop.index0 * 30 + 15 }})">
+          <line y1="-400" y2="-332" transform="rotate(15)" />
+          <text y="-366">{{ branch }}</text>
+        </g>
+        {% endfor %}
+      </g>
+      <g class="co-ring co-ring-weton">
+        <circle r="322" />
+        <circle r="262" />
+        {% for day in pasaran %}
+        <g transform="rotate({{ loop.index0 * 72 }})">
+          <path d="M0 -322 L0 -306 M0 -278 L0 -262" transform="rotate(36)" />
+          <text y="-292">{{ day }}</text>
+        </g>
+        {% endfor %}
+      </g>
+      <g class="co-ring co-ring-tarot">
+        <circle r="252" />
+        <circle r="186" />
+        {% for numeral in arcana %}
+        <g transform="rotate({{ (loop.index0 * 360 / 22)|round(3) }})">
+          <text y="-219">{{ numeral }}</text>
+        </g>
+        {% endfor %}
+      </g>
+      <g class="co-ring co-ring-core">
+        <circle r="176" />
+        <circle class="co-ticks" r="170" />
+        <circle r="44" />
+        {% for spoke in range(8) %}
+        <line y1="-58" y2="-160" transform="rotate({{ spoke * 45 + 22.5 }})" />
+        {% endfor %}
+        <path class="co-star" d="M0 -40 L7 -7 L40 0 L7 7 L0 40 L-7 7 L-40 0 L-7 -7 Z M0 -22 L4 -4 L22 0 L4 4 L0 22 L-4 4 L-22 0 L-4 -4 Z" transform="rotate(22.5)" />
+        <path class="co-star" d="M0 -40 L7 -7 L40 0 L7 7 L0 40 L-7 7 L-40 0 L-7 -7 Z" />
+      </g>
+    </svg>
+  </div>
+  {% endblock %}
   {% set loader_modes = {
     'zodiak': {'icons': ['fa-moon'], 'text': 'Membaca rasi bintang'},
     'shio': {'icons': ['fa-dragon'], 'text': 'Menyusun delapan aksara'},
@@ -97,9 +162,7 @@
     </div>
   </div>
   {% block content %}{% endblock %}
-  {% block backdrop_js %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-  {% endblock %}
+  {% block backdrop_js %}{% endblock %}
   {% block extra_js %}{% endblock %}
 </body>
 

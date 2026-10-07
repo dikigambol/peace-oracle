@@ -49,6 +49,39 @@
 
   --focus-ring: #ffd700;
   --focus-ring-contrast: rgba(10, 10, 26, 0.9);
+
+  --sky-top: #120a22;
+  --sky-mid: #07050f;
+  --sky-deep: #020106;
+  --sky-gold-rgb: 214, 178, 110;
+  --sky-cream: #f1e6cf;
+  --sky-cream-rgb: 241, 230, 207;
+
+  --home-zodiak: #881337;
+  --home-zodiak-rgb: 136, 19, 55;
+  --home-zodiak-deep: #1a0711;
+  --home-zodiak-gold: #e2c582;
+  --home-zodiak-gold-rgb: 226, 197, 130;
+  --home-shio: #8e1b1b;
+  --home-shio-rgb: 142, 27, 27;
+  --home-shio-deep: #3a090b;
+  --home-shio-gold: #d8a93b;
+  --home-shio-gold-rgb: 216, 169, 59;
+  --home-shio-seal: #c8312a;
+  --home-weton: #7d3a1c;
+  --home-weton-rgb: 125, 58, 28;
+  --home-weton-deep: #140c07;
+  --home-weton-gold: #d6a446;
+  --home-weton-gold-rgb: 214, 164, 70;
+  --home-weton-glow-rgb: 232, 137, 46;
+  --home-tarot: #173326;
+  --home-tarot-rgb: 23, 51, 38;
+  --home-tarot-deep: #0e2119;
+  --home-tarot-wood: #2b1d13;
+  --home-tarot-gold: #c9a04e;
+  --home-tarot-gold-rgb: 201, 160, 78;
+  --home-tarot-sage-rgb: 156, 198, 160;
+  --sky-title: #ecc878;
 }
 body {
   margin: 0;
@@ -309,17 +342,13 @@ body.has-bottom-nav .mode-switcher-container {
   flex-direction: row-reverse;
   -webkit-tap-highlight-color: transparent;
 }
-.mode-item:active:not(.locked) {
+.mode-item:active {
   background: var(--accent-color);
   box-shadow: var(--accent-glow);
   transform: translateX(-5px);
 }
 .mode-item i {
   font-size: 1.2rem;
-}
-.mode-item.locked {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 #ai-quota-toast {
   position: fixed;
@@ -428,21 +457,158 @@ button.loading i {
   margin-right: 6px;
 }
 
-#webgl-bg {
+.co-sky {
+  --sky-x: 0px;
+  --sky-y: 0px;
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 30%, var(--sky-top) 0%, var(--sky-mid) 60%, var(--sky-deep) 100%);
+}
+
+.co-sky::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(var(--sky-glow-rgb, var(--sky-gold-rgb)), 0.22), transparent 62%);
+  transition: opacity 0.6s ease;
+}
+
+#co-stars {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  height: 100dvh;
-  z-index: -10;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse at 50% 30%,
-    #15092b 0%,
-    #080514 60%,
-    #030208 100%
-  );
+}
+
+.co-astrolabe {
+  position: absolute;
+  left: 50%;
+  top: 32%;
+  width: min(96vh, 960px);
+  height: min(96vh, 960px);
+  overflow: visible;
+  color: rgba(var(--sky-gold-rgb), 0.22);
+  transform: translate(calc(-50% + var(--sky-x)), calc(-50% + var(--sky-y)));
+}
+
+.co-astrolabe circle,
+.co-astrolabe line,
+.co-astrolabe path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+}
+
+.co-astrolabe .co-star {
+  fill: currentColor;
+  stroke: none;
+}
+
+.co-astrolabe text {
+  fill: currentColor;
+  stroke: none;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.co-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: co-spin 240s linear infinite;
+  transition: color 0.6s ease;
+}
+
+.co-ring .co-ticks {
+  stroke-width: 6;
+  stroke-dasharray: 1 11.6;
+}
+
+.co-ring-zodiak text {
+  font-family: "Segoe UI Symbol", "Noto Sans Symbols 2", "Apple Symbols", serif;
+  font-size: 34px;
+}
+
+.co-ring-shio {
+  animation-duration: 180s;
+  animation-direction: reverse;
+}
+
+.co-ring-shio text {
+  font-family: "Noto Serif TC", serif;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.co-ring-weton {
+  animation-duration: 140s;
+}
+
+.co-ring-weton text {
+  font-family: "Cinzel", serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 4px;
+}
+
+.co-ring-tarot {
+  animation-duration: 300s;
+  animation-direction: reverse;
+}
+
+.co-ring-tarot text {
+  font-family: "Cinzel", serif;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.co-ring-core {
+  animation-duration: 600s;
+}
+
+body:has(.mode-card.zodiak:is(:hover, :focus-visible)) .co-ring-zodiak {
+  color: rgba(var(--home-zodiak-gold-rgb), 0.85);
+}
+
+body:has(.mode-card.shio:is(:hover, :focus-visible)) .co-ring-shio {
+  color: rgba(var(--home-shio-gold-rgb), 0.9);
+}
+
+body:has(.mode-card.weton:is(:hover, :focus-visible)) .co-ring-weton {
+  color: rgba(var(--home-weton-glow-rgb), 0.9);
+}
+
+body:has(.mode-card.tarot:is(:hover, :focus-visible)) .co-ring-tarot {
+  color: rgba(var(--home-tarot-sage-rgb), 0.9);
+}
+
+body:has(.mode-card:is(:hover, :focus-visible)) .co-sky::after {
+  opacity: 1;
+}
+
+body:has(.mode-card.zodiak:is(:hover, :focus-visible)) .co-sky {
+  --sky-glow-rgb: var(--home-zodiak-rgb);
+}
+
+body:has(.mode-card.shio:is(:hover, :focus-visible)) .co-sky {
+  --sky-glow-rgb: var(--home-shio-rgb);
+}
+
+body:has(.mode-card.weton:is(:hover, :focus-visible)) .co-sky {
+  --sky-glow-rgb: var(--home-weton-glow-rgb);
+}
+
+body:has(.mode-card.tarot:is(:hover, :focus-visible)) .co-sky {
+  --sky-glow-rgb: var(--home-tarot-sage-rgb);
+}
+
+@keyframes co-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 body.co-home .mode-switcher-container {
@@ -456,71 +622,139 @@ body.co-home .mode-switcher-container {
 }
 
 .mode-card {
+  --card-gold: var(--sky-cream);
+  --card-gold-rgb: var(--sky-cream-rgb);
+  --card-glow-rgb: var(--sky-gold-rgb);
   position: relative;
   overflow: hidden;
   display: flex;
   box-sizing: border-box;
-  background: rgba(15, 5, 25, 0.5);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 215, 0, 0.15);
-  border-radius: 20px;
-  color: white;
+  border: 1px solid rgba(var(--card-gold-rgb), 0.45);
+  border-radius: 6px;
+  color: var(--sky-cream);
   text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--card-inset, 0 0 transparent), 0 18px 40px rgba(0, 0, 0, 0.45);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
 }
 
-.mode-card i {
-  transition: transform 0.4s;
+.mode-card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(var(--card-gold-rgb), 0.3);
+  border-radius: 3px;
+  pointer-events: none;
 }
 
-.mode-card.zodiak i {
-  color: #8a2be2;
-  text-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+.mode-card > * {
+  position: relative;
 }
 
-.mode-card.shio i {
-  color: #ff4500;
-  text-shadow: 0 0 15px rgba(255, 69, 0, 0.5);
+.mode-card.zodiak {
+  --card-gold: var(--home-zodiak-gold);
+  --card-gold-rgb: var(--home-zodiak-gold-rgb);
+  --card-glow-rgb: var(--home-zodiak-rgb);
+  background:
+    radial-gradient(rgba(var(--home-zodiak-gold-rgb), 0.2) 1px, transparent 1.6px) 0 0 / 37px 41px,
+    radial-gradient(rgba(var(--sky-cream-rgb), 0.12) 1px, transparent 1.6px) 13px 19px / 53px 47px,
+    radial-gradient(ellipse at 50% 0%, rgba(var(--home-zodiak-rgb), 0.75), transparent 70%),
+    var(--home-zodiak-deep);
 }
 
-.mode-card.weton i {
-  color: #ffd700;
-  text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+.mode-card.shio {
+  --card-gold: var(--home-shio-gold);
+  --card-gold-rgb: var(--home-shio-gold-rgb);
+  --card-glow-rgb: var(--home-shio-rgb);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.07), transparent 40%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 18px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.16) 0 1px, transparent 1px 18px),
+    linear-gradient(180deg, var(--home-shio), var(--home-shio-deep));
 }
 
-.mode-card.tarot i {
-  color: #00ffff;
-  text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+.mode-card.weton {
+  --card-gold: var(--home-weton-gold);
+  --card-gold-rgb: var(--home-weton-gold-rgb);
+  --card-glow-rgb: var(--home-weton-glow-rgb);
+  background:
+    conic-gradient(from -45deg at 50% 100%, rgba(var(--home-weton-gold-rgb), 0.6) 0 90deg, transparent 0) top left / 16px 8px repeat-x,
+    radial-gradient(ellipse 60% 45% at 50% 22%, rgba(var(--home-weton-glow-rgb), 0.35), transparent 70%),
+    linear-gradient(180deg, var(--home-weton), var(--home-weton-deep) 85%);
+}
+
+.mode-card.tarot {
+  --card-gold: var(--home-tarot-gold);
+  --card-gold-rgb: var(--home-tarot-gold-rgb);
+  --card-glow-rgb: var(--home-tarot-sage-rgb);
+  --card-inset: inset 0 0 0 5px var(--home-tarot-wood);
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 5px),
+    radial-gradient(ellipse at 50% 40%, var(--home-tarot), var(--home-tarot-deep));
+}
+
+.mode-card .co-emblem {
+  flex-shrink: 0;
+  color: var(--card-gold);
+  filter: drop-shadow(0 0 12px rgba(var(--card-glow-rgb), 0.45));
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.co-emblem .em-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.co-emblem .em-fill {
+  fill: currentColor;
+}
+
+.co-emblem .em-seal {
+  fill: var(--home-shio-seal);
+}
+
+.co-emblem .em-paper {
+  fill: none;
+  stroke: var(--sky-cream);
+  stroke-width: 1.5;
+}
+
+.co-emblem .em-hanzi {
+  fill: var(--sky-cream);
+  font-family: "Noto Serif TC", serif;
+  font-size: 32px;
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.co-emblem .em-ink {
+  fill: none;
+  stroke: var(--home-weton-deep);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.co-emblem .em-back {
+  fill: var(--home-tarot-deep);
+  stroke: currentColor;
+  stroke-width: 2;
 }
 
 .mode-card h2 {
   font-family: "Cinzel", "Noto Serif TC", serif;
-  color: #fff;
+  color: var(--card-gold);
   letter-spacing: 1px;
 }
 
 .mode-card p {
   font-family: "Plus Jakarta Sans", sans-serif;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(var(--sky-cream-rgb), 0.88);
   margin: 0;
   line-height: 1.5;
-}
-
-.mode-card.locked {
-  cursor: not-allowed;
-  filter: grayscale(0.8);
-  opacity: 0.7;
-}
-
-.coming-soon-badge {
-  font-family: "Plus Jakarta Sans", sans-serif;
-  font-weight: 800;
-  letter-spacing: 1px;
-  border-radius: 20px;
-  background: rgba(80, 80, 80, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #e0e0e0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .co-footer-text {
@@ -535,9 +769,9 @@ body.co-home .mode-switcher-container {
 }
 
 .co-footer-text strong {
-  color: #ffd700;
+  color: var(--sky-title);
   font-weight: 700;
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  text-shadow: 0 0 10px rgba(var(--sky-gold-rgb), 0.5);
 }
 
 .planet-trigger {

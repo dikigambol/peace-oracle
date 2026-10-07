@@ -237,119 +237,88 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  const canvas = document.getElementById("webgl-bg");
-  if (!canvas || typeof THREE === "undefined") return;
+  const sky = document.querySelector(".co-sky");
+  const canvas = document.getElementById("co-stars");
+  const context = canvas && canvas.getContext("2d");
+  if (!sky || !context) return;
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000,
-  );
-  camera.position.z = 400;
-  const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true,
-    antialias: false,
-    powerPreference: "high-performance",
+  const reducedMotion = window.prefersReducedMotion();
+  const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+  const palette = ["241, 230, 207", "226, 197, 130", "214, 164, 70", "255, 255, 255"];
+  const stars = Array.from({ length: isMobile ? 80 : 160 }, () => {
+    const bright = Math.random() < 0.08;
+    return {
+      x: Math.random(),
+      y: Math.random(),
+      size: bright ? 1.4 + Math.random() * 0.8 : 0.5 + Math.random() * 0.8,
+      bright,
+      color: palette[Math.floor(Math.random() * palette.length)],
+      speed: 0.3 + Math.random() * 1.2,
+      phase: Math.random() * Math.PI * 2,
+      depth: 0.3 + Math.random() * 0.7,
+    };
   });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1 : 1.5));
-  const particleCount = isMobile ? 500 : 1200;
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
-  const colorPalette = [
-    new THREE.Color("#c084fc"),
-    new THREE.Color("#f472b6"),
-    new THREE.Color("#ffd700"),
-    new THREE.Color("#38bdf8"),
-    new THREE.Color("#ffffff"),
-  ];
-  for (let i = 0; i < particleCount; i++) {
-    const r = 800 * Math.cbrt(Math.random());
-    const theta = Math.random() * 2 * Math.PI;
-    const phi = Math.acos(2 * Math.random() - 1);
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.sin(phi) * Math.sin(theta);
-    const z = r * Math.cos(phi);
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
-    const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-    colors[i * 3] = color.r;
-    colors[i * 3 + 1] = color.g;
-    colors[i * 3 + 2] = color.b;
-  }
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-  const getTexture = () => {
-    const tempCanvas = document.createElement("canvas");
-    tempCanvas.width = 16;
-    tempCanvas.height = 16;
-    const ctx = tempCanvas.getContext("2d");
-    const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
-    gradient.addColorStop(0, "rgba(255,255,255,1)");
-    gradient.addColorStop(0.2, "rgba(255,255,255,0.8)");
-    gradient.addColorStop(0.5, "rgba(255,255,255,0.2)");
-    gradient.addColorStop(1, "rgba(0,0,0,0)");
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 16, 16);
-    const texture = new THREE.Texture(tempCanvas);
-    texture.needsUpdate = true;
-    return texture;
+  const pointer = { x: 0, y: 0 };
+  const offset = { x: 0, y: 0 };
+  let width = 0;
+  let height = 0;
+  let frame = 0;
+  const resize = () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.round(width * ratio);
+    canvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
   };
-  const material = new THREE.PointsMaterial({
-    size: isMobile ? 3 : 4,
-    vertexColors: true,
-    map: getTexture(),
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-  });
-  const particles = new THREE.Points(geometry, material);
-  scene.add(particles);
-  let mouseX = 0;
-  let mouseY = 0;
-  let targetX = 0;
-  let targetY = 0;
-  const windowHalfX = window.innerWidth / 2;
-  const windowHalfY = window.innerHeight / 2;
+  const draw = (time) => {
+    context.clearRect(0, 0, width, height);
+    stars.forEach((star) => {
+      const glow = reducedMotion ? 0.75 : 0.35 + 0.65 * Math.abs(Math.sin(time * 0.0006 * star.speed + star.phase));
+      const x = star.x * width - offset.x * 6 * star.depth;
+      const y = star.y * height - offset.y * 6 * star.depth;
+      context.fillStyle = `rgba(${star.color}, ${(glow * 0.85).toFixed(3)})`;
+      context.beginPath();
+      context.arc(x, y, star.size, 0, Math.PI * 2);
+      context.fill();
+      if (!star.bright) return;
+      const reach = star.size * 5 * glow;
+      context.strokeStyle = `rgba(${star.color}, ${(glow * 0.4).toFixed(3)})`;
+      context.lineWidth = 0.6;
+      context.beginPath();
+      context.moveTo(x - reach, y);
+      context.lineTo(x + reach, y);
+      context.moveTo(x, y - reach);
+      context.lineTo(x, y + reach);
+      context.stroke();
+    });
+  };
+  const loop = (time) => {
+    offset.x += (pointer.x - offset.x) * 0.04;
+    offset.y += (pointer.y - offset.y) * 0.04;
+    sky.style.setProperty("--sky-x", `${(-offset.x * 12).toFixed(2)}px`);
+    sky.style.setProperty("--sky-y", `${(-offset.y * 12).toFixed(2)}px`);
+    draw(time);
+    frame = requestAnimationFrame(loop);
+  };
+  resize();
+  if (reducedMotion) {
+    draw(0);
+    window.addEventListener("resize", () => {
+      resize();
+      draw(0);
+    });
+    return;
+  }
   if (!isMobile) {
     document.addEventListener("mousemove", (event) => {
-      mouseX = event.clientX - windowHalfX;
-      mouseY = event.clientY - windowHalfY;
+      pointer.x = (event.clientX / width) * 2 - 1;
+      pointer.y = (event.clientY / height) * 2 - 1;
     });
   }
-  const clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    const elapsedTime = clock.getElapsedTime();
-    particles.rotation.y = elapsedTime * 0.03;
-    particles.rotation.z = elapsedTime * 0.01;
-    if (!isMobile) {
-      targetX = mouseX * 0.08;
-      targetY = mouseY * 0.08;
-      camera.position.x += (targetX - camera.position.x) * 0.02;
-      camera.position.y += (-targetY - camera.position.y) * 0.02;
-      camera.lookAt(scene.position);
-    } else {
-      camera.lookAt(scene.position);
-    }
-    renderer.render(scene, camera);
-  }
-  const reducedMotion = window.prefersReducedMotion();
-  if (reducedMotion) {
-    camera.lookAt(scene.position);
-    renderer.render(scene, camera);
-  } else {
-    animate();
-  }
-  window.addEventListener("resize", () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    if (reducedMotion) renderer.render(scene, camera);
+  window.addEventListener("resize", resize);
+  document.addEventListener("visibilitychange", () => {
+    cancelAnimationFrame(frame);
+    if (!document.hidden) frame = requestAnimationFrame(loop);
   });
+  frame = requestAnimationFrame(loop);
 });
