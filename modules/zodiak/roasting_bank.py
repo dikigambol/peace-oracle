@@ -3,7 +3,7 @@ import math
 
 import ephem
 
-from .ai_client import ask_openrouter, get_openrouter_api_key
+from .ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
 
 SIGN_ORDER = [
     "aries",
@@ -230,18 +230,14 @@ def get_ai_roast(sign_key, refresh=False):
     sign_key = sign_key.lower()
     display_name = sign_name(sign_key, sign_key.capitalize())
     symbol = ZODIAC_SYMBOLS.get(sign_key, "✨")
-    from .ai_limiter import check_ai_quota, increment_ai_quota
-
+    if not refresh and sign_key in AI_ROAST_CACHE:
+        return AI_ROAST_CACHE[sign_key].copy()
     is_allowed, notice = check_ai_quota()
     if not is_allowed:
         fallback = ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"]).copy()
         fallback["ai_notice"] = notice
         fallback["is_ai_quota_exceeded"] = True
         return fallback
-    if not refresh and sign_key in AI_ROAST_CACHE:
-        cached = AI_ROAST_CACHE[sign_key].copy()
-        increment_ai_quota()
-        return cached
     api_key = get_openrouter_api_key()
     if not api_key:
         return ROASTING_DATA.get(sign_key, ROASTING_DATA["aries"])
@@ -291,18 +287,14 @@ def get_ai_relationship_roast(sign_a, sign_b, refresh=False):
     cache_key = f"{sa}_{sb}"
     name_a = sign_name(sa, sa.capitalize())
     name_b = sign_name(sb, sb.capitalize())
-    from .ai_limiter import check_ai_quota, increment_ai_quota
-
+    if not refresh and cache_key in AI_PAIR_ROAST_CACHE:
+        return AI_PAIR_ROAST_CACHE[cache_key].copy()
     is_allowed, notice = check_ai_quota()
     if not is_allowed:
         fallback = get_relationship_roast(sa, sb).copy()
         fallback["ai_notice"] = notice
         fallback["is_ai_quota_exceeded"] = True
         return fallback
-    if not refresh and cache_key in AI_PAIR_ROAST_CACHE:
-        cached = AI_PAIR_ROAST_CACHE[cache_key].copy()
-        increment_ai_quota()
-        return cached
     api_key = get_openrouter_api_key()
     if not api_key:
         return get_relationship_roast(sa, sb)

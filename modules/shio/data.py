@@ -2479,14 +2479,58 @@ class Transaction:
         )
 
 
+ROOM_SCHEMA = (
+    """CREATE TABLE IF NOT EXISTS shio_rooms (
+        room_code CHAR(6) NOT NULL,
+        mode VARCHAR(16) NOT NULL,
+        relation_type VARCHAR(16) NULL,
+        status VARCHAR(16) NOT NULL,
+        capacity TINYINT UNSIGNED NOT NULL,
+        settings_json TEXT NOT NULL,
+        state_json MEDIUMTEXT NULL,
+        result_json MEDIUMTEXT NULL,
+        creator_device VARCHAR(64) NOT NULL,
+        created_at DATETIME NOT NULL,
+        updated_at DATETIME NOT NULL,
+        expires_at DATETIME NOT NULL,
+        PRIMARY KEY (room_code),
+        INDEX idx_shio_rooms_expires (expires_at),
+        INDEX idx_shio_rooms_creator (creator_device, created_at)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""",
+    """CREATE TABLE IF NOT EXISTS shio_room_participants (
+        room_code CHAR(6) NOT NULL,
+        slot TINYINT UNSIGNED NOT NULL,
+        participant_token CHAR(64) NOT NULL,
+        name VARCHAR(40) NOT NULL,
+        birth_date DATE NOT NULL,
+        shio_key VARCHAR(16) NOT NULL,
+        answers_json TEXT NULL,
+        progress_json MEDIUMTEXT NULL,
+        joined_at DATETIME NOT NULL,
+        PRIMARY KEY (room_code, slot),
+        UNIQUE KEY uq_shio_participant_token (participant_token)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""",
+)
+
+
 class RoomStore:
     transaction_class = Transaction
 
-    def __init__(self, connect, unavailable_errors=(), integrity_errors=(), on_unavailable=None):
+    def __init__(self, connect, unavailable_errors=(), integrity_errors=(), on_unavailable=None, schema=()):
         self.connect = connect
         self.unavailable_errors = tuple(unavailable_errors)
         self.integrity_errors = tuple(integrity_errors)
         self.on_unavailable = on_unavailable
+        self.schema = tuple(schema)
+        self.schema_ready = not self.schema
+
+    def prepare_schema(self, conn):
+        if self.schema_ready:
+            return
+        with conn.cursor() as cursor:
+            for statement in self.schema:
+                cursor.execute(statement)
+        self.schema_ready = True
 
     def begin(self, conn):
         with conn.cursor() as setup:
@@ -2507,6 +2551,7 @@ class RoomStore:
         if conn is None:
             raise QuizUnavailable()
         try:
+            self.prepare_schema(conn)
             self.begin(conn)
             yield self.transaction_class(conn.cursor())
             conn.commit()
@@ -2552,6 +2597,7 @@ def build_mysql_store():
         ),
         integrity_errors=(pymysql.err.IntegrityError,),
         on_unavailable=on_unavailable,
+        schema=ROOM_SCHEMA,
     )
 
 

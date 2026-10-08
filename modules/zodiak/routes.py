@@ -10,6 +10,7 @@ from .data import (
     get_cosmic_context,
     get_daily_horoscope,
     get_daily_youtube_track,
+    rooms_connection,
 )
 
 zodiak_bp = Blueprint(
@@ -375,7 +376,6 @@ from .quiz_bank import (
     calculate_quiz_match,
     get_ai_couple_quiz_analysis,
 )
-from core.core import get_mysql_connection
 
 
 @zodiak_bp.route("/api/zodiak/quiz/questions")
@@ -432,7 +432,7 @@ def load_json_field(row, field, default=None):
 def fetch_quiz_room(conn, room_code):
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM quiz_rooms WHERE room_code = %s;", (room_code,))
+            cursor.execute("SELECT * FROM zodiak_rooms WHERE room_code = %s;", (room_code,))
             return cursor.fetchone()
     except Exception:
         return None
@@ -467,13 +467,13 @@ def create_quiz_room():
         return jsonify({"error": "Nama dan Zodiak Host wajib diisi."}), 400
     code_chars = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
     room_code = f"RO-{code_chars}"
-    conn = get_mysql_connection()
+    conn = rooms_connection()
     if conn:
         try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     """
-                    INSERT INTO quiz_rooms (room_code, host_name, host_sign, host_answers, status)
+                    INSERT INTO zodiak_rooms (room_code, host_name, host_sign, host_answers, status)
                     VALUES (%s, %s, %s, NULL, 'waiting');
                 """,
                     (room_code, host_name, host_sign),
@@ -508,7 +508,7 @@ def join_quiz_room():
             jsonify({"error": "Kode room, nama, dan zodiak partner wajib diisi."}),
             400,
         )
-    conn = get_mysql_connection()
+    conn = rooms_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
     row = fetch_quiz_room(conn, room_code)
@@ -526,7 +526,7 @@ def join_quiz_room():
         with conn.cursor() as cursor:
             cursor.execute(
                 """
-                UPDATE quiz_rooms 
+                UPDATE zodiak_rooms 
                 SET partner_name = %s, partner_sign = %s
                 WHERE room_code = %s;
             """,
@@ -556,7 +556,7 @@ def submit_quiz_answers():
     answers = clean_quiz_answers(data.get("answers"))
     if not room_code or answers is None:
         return jsonify({"error": "Data jawaban 10 pertanyaan tidak lengkap."}), 400
-    conn = get_mysql_connection()
+    conn = rooms_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
     row = fetch_quiz_room(conn, room_code)
@@ -571,10 +571,10 @@ def submit_quiz_answers():
     partner_answers = load_json_field(row, "partner_answers")
     if role == "host":
         host_answers = answers
-        sql_update = "UPDATE quiz_rooms SET host_answers = %s WHERE room_code = %s;"
+        sql_update = "UPDATE zodiak_rooms SET host_answers = %s WHERE room_code = %s;"
     else:
         partner_answers = answers
-        sql_update = "UPDATE quiz_rooms SET partner_answers = %s WHERE room_code = %s;"
+        sql_update = "UPDATE zodiak_rooms SET partner_answers = %s WHERE room_code = %s;"
     try:
         with conn.cursor() as cursor:
             cursor.execute(sql_update, (json.dumps(answers), room_code))
@@ -606,7 +606,7 @@ def submit_quiz_answers():
             with conn.cursor() as cursor:
                 cursor.execute(
                     """
-                    UPDATE quiz_rooms 
+                    UPDATE zodiak_rooms 
                     SET status = 'completed', match_score = %s, breakdown_json = %s, ai_result_json = %s
                     WHERE room_code = %s;
                 """,
@@ -646,7 +646,7 @@ def submit_quiz_answers():
 @zodiak_bp.route("/api/zodiak/quiz/room/<room_code>")
 def get_quiz_room_status(room_code):
     room_code = room_code.strip().upper()
-    conn = get_mysql_connection()
+    conn = rooms_connection()
     if not conn:
         return jsonify({"error": "Database tidak terhubung."}), 500
     row = fetch_quiz_room(conn, room_code)

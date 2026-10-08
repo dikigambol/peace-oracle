@@ -1,7 +1,7 @@
 import hashlib
 import requests
 
-from .ai_client import ask_openrouter, get_openrouter_api_key
+from .ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
 
 HOROSCOPE_BANK = {
     "aries": {
@@ -56565,18 +56565,14 @@ def get_daily_horoscope(sign_key, cosmic):
     sign_key = sign_key.lower()
     date_str = cosmic.get("date", "")
     cache_key = f"{sign_key}_{date_str}"
-    from modules.zodiak.ai_limiter import check_ai_quota, increment_ai_quota
-
+    if cache_key in AI_HOROSCOPE_CACHE:
+        return AI_HOROSCOPE_CACHE[cache_key].copy()
     is_allowed, notice = check_ai_quota()
     if not is_allowed:
         fallback_res = get_fallback_horoscope(sign_key, cosmic)
         fallback_res["ai_notice"] = notice
         fallback_res["is_ai_quota_exceeded"] = True
         return fallback_res
-    if cache_key in AI_HOROSCOPE_CACHE:
-        cached = AI_HOROSCOPE_CACHE[cache_key].copy()
-        increment_ai_quota()
-        return cached
     api_key = get_openrouter_api_key()
     if not api_key:
         return get_fallback_horoscope(sign_key, cosmic)
@@ -56691,6 +56687,8 @@ Format output HARUS berupa JSON valid persis dengan struktur berikut (tanpa teks
                 parsed["ai_notice"] = None
                 parsed["is_ai_quota_exceeded"] = False
                 increment_ai_quota()
+                for stale_key in [key for key in AI_HOROSCOPE_CACHE if not key.endswith("_" + date_str)]:
+                    del AI_HOROSCOPE_CACHE[stale_key]
                 AI_HOROSCOPE_CACHE[cache_key] = parsed
                 return parsed
     except Exception:
@@ -56730,16 +56728,13 @@ def get_ai_compatibility_modes(
     s1_key = s1_key.lower()
     s2_key = s2_key.lower()
     cache_key = f"{s1_key}_{s2_key}"
-    from modules.zodiak.ai_limiter import check_ai_quota, increment_ai_quota
-
+    if cache_key in AI_COMPATIBILITY_CACHE:
+        merge_ai_modes(modes_data, AI_COMPATIBILITY_CACHE[cache_key])
+        return modes_data
     is_allowed, notice = check_ai_quota()
     if not is_allowed:
         modes_data["ai_notice"] = notice
         modes_data["is_ai_quota_exceeded"] = True
-        return modes_data
-    if cache_key in AI_COMPATIBILITY_CACHE:
-        merge_ai_modes(modes_data, AI_COMPATIBILITY_CACHE[cache_key])
-        increment_ai_quota()
         return modes_data
     api_key = get_openrouter_api_key()
     if not api_key:

@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, jsonify, render_template, request
 
-from core.core import get_device_id
+from core.core import get_device_id, get_fingerprint_id
 
 from .bank import (
     BIRTH_NOTE,
@@ -38,6 +38,7 @@ from .data import (
     relationship_positions,
     today_wib,
 )
+from .ai_client import explain_answer, reply_to_reading
 
 tarot_bp = Blueprint(
     "tarot",
@@ -70,6 +71,23 @@ def render_page(template, **extra):
         question_max=QUESTION_MAX_LENGTH,
         **extra,
     )
+
+
+def ai_clients():
+    return (get_device_id(), get_fingerprint_id())
+
+
+def build_answered_reading(payload):
+    reading = build_reading(payload)
+    if reading["question"]:
+        reading["reply"] = reply_to_reading(reading, ai_clients())
+    return reading
+
+
+def build_explained_answer(payload):
+    result = build_answer(payload)
+    result["reply"] = explain_answer(result, ai_clients())
+    return result
 
 
 def api_response(builder, *args):
@@ -109,7 +127,7 @@ def tarot_reading_page():
 
 @tarot_bp.route("/api/tarot/reading", methods=["POST"])
 def tarot_reading_api():
-    return api_response(build_reading)
+    return api_response(build_answered_reading)
 
 
 @tarot_bp.route("/tarot/answer")
@@ -119,7 +137,7 @@ def tarot_answer_page():
 
 @tarot_bp.route("/api/tarot/answer", methods=["POST"])
 def tarot_answer_api():
-    return api_response(build_answer)
+    return api_response(build_explained_answer)
 
 
 @tarot_bp.route("/tarot/relationship")

@@ -229,3 +229,199 @@ BIRTH_NOTE = "Dihitung dengan metode Mary K. Greer: bulan, tanggal, dan tahun la
 
 QUESTION_MAX_LENGTH = 200
 NAME_MAX_LENGTH = 24
+
+PLANET_ELEMENTS = {
+    "Merkurius": "udara",
+    "Bulan": "air",
+    "Venus": "tanah",
+    "Yupiter": "api",
+    "Mars": "api",
+    "Matahari": "api",
+    "Saturnus": "tanah",
+}
+
+QUESTION_PHRASES = {
+    "kenapa": ("apa sebab", "apa sebabnya", "apa alasan", "apa alasannya", "apa penyebab", "apa penyebabnya"),
+    "mana": ("di mana", "ke mana", "dari mana"),
+    "apa": ("yang mana",),
+}
+
+QUESTION_WORDS = {
+    "siapa": ("siapa", "sapa", "siapakah"),
+    "kapan": ("kapan", "kapankah", "bilamana"),
+    "mana": ("mana", "dimana", "kemana", "darimana", "manakah"),
+    "kenapa": ("kenapa", "mengapa", "napa", "knp"),
+    "gimana": ("bagaimana", "gimana", "gmn", "caranya", "bgmn"),
+    "berapa": ("berapa", "brp", "berapakah"),
+    "apa": ("apa", "apaan", "ngapain"),
+}
+
+YES_NO_OPENERS = ("apakah", "apa kah")
+YES_NO_AFTER_APA = (
+    "aku", "saya", "gue", "gua", "gw", "dia", "doi", "kita", "kami", "mereka", "kamu",
+    "iya", "bener", "benar", "mungkin", "bisa", "boleh", "harus", "perlu", "akan", "sudah", "udah",
+)
+
+WORD_REPLIES = {
+    "siapa": {
+        "api": "Orangnya kemungkinan tipe yang berani, hangat, dan gampang bikin suasana hidup.",
+        "air": "Orangnya kemungkinan tipe yang lembut, perasa, dan jago bikin orang lain nyaman.",
+        "udara": "Orangnya kemungkinan tipe yang cerdas, banyak omong, dan cepat nangkap ide.",
+        "tanah": "Orangnya kemungkinan tipe yang kalem, bisa diandalkan, dan nggak suka basa-basi.",
+    },
+    "kapan": {
+        "api": "Temponya cepat, hitungannya hari, bukan bulan.",
+        "air": "Kemungkinan dalam beberapa bulan, pas perasaannya udah siap.",
+        "udara": "Kemungkinan dalam beberapa minggu, begitu ada kabar atau keputusan yang jelas.",
+        "tanah": "Butuh proses yang agak panjang, jadi siapin sabar dan kerjain bagianmu pelan-pelan.",
+    },
+    "mana": {
+        "api": "Arahnya ke tempat yang ramai, terang, dan banyak kegiatan.",
+        "air": "Arahnya ke tempat yang adem dan nyaman, apalagi yang dekat air.",
+        "udara": "Arahnya ke tempat terbuka atau tempat orang ngobrol dan tukar ide, kayak kampus, kantor, atau kafe.",
+        "tanah": "Arahnya ke tempat yang dekat dan akrab, entah rumah, lingkungan sendiri, atau alam.",
+    },
+    "kenapa": {
+        "api": "Pemicunya kemungkinan dorongan atau emosi yang lagi panas-panasnya.",
+        "air": "Pemicunya kemungkinan perasaan yang belum sempat diomongin.",
+        "udara": "Pemicunya kemungkinan pikiran atau omongan yang ditangkap beda.",
+        "tanah": "Pemicunya kemungkinan urusan praktis, kayak waktu, uang, atau rutinitas.",
+    },
+    "gimana": {
+        "api": "Caranya: langsung gerak, jangan kelamaan mikir.",
+        "air": "Caranya: dengerin perasaanmu dulu, baru ambil langkah.",
+        "udara": "Caranya: bikin rencana yang jelas dan omongin terus terang.",
+        "tanah": "Caranya: pelan tapi konsisten, satu langkah kecil tiap hari.",
+    },
+    "berapa": {
+        "api": "Angkanya nggak bisa dihitung pasti, tapi kecenderungannya sedikit dan datang cepat.",
+        "air": "Angkanya nggak bisa dihitung pasti, tapi kecenderungannya pas dan cukup buat bikin hati tenang.",
+        "udara": "Angkanya nggak bisa dihitung pasti, tapi kecenderungannya lebih dari satu dan berubah-ubah.",
+        "tanah": "Angkanya nggak bisa dihitung pasti, tapi kecenderungannya banyak dan bertambah pelan-pelan.",
+    },
+    "apa": {
+        "api": "Jawabannya sesuatu yang bikin semangat dan ada unsur geraknya.",
+        "air": "Jawabannya sesuatu yang bikin hati hangat dan dekat sama orang tersayang.",
+        "udara": "Jawabannya sesuatu yang baru, ringan, dan bikin kepala segar.",
+        "tanah": "Jawabannya sesuatu yang sederhana, nyata, dan bisa langsung kamu pegang.",
+    },
+}
+
+COURT_PEOPLE = {
+    "page": "Kartu ini nunjuk ke orang yang masih muda atau baru kamu kenal.",
+    "knight": "Kartu ini nunjuk ke orang yang gerak cepat dan suka datang tiba-tiba.",
+    "queen": "Kartu ini nunjuk ke orang yang matang, peka, dan punya pengaruh di sekitarnya.",
+    "king": "Kartu ini nunjuk ke orang yang matang, tegas, dan biasa ambil keputusan.",
+}
+
+DELAY_NOTE = "Tapi kartunya terbalik, jadi kemungkinan ada penundaan dulu."
+COUNT_LINE = "Kalau mau angka, kartunya nunjuk ke {angka}."
+REASON_LINE = "Kata kuncinya {a} dan {b}."
+CARD_SOURCE = "Dibaca dari {kartu} di posisi {posisi}."
+ANSWER_SOURCE = "Dibaca dari {kartu}."
+READING_GENERIC = "Untuk pertanyaanmu, kartu penentunya ada di posisi {posisi}: {kartu}. {saran}"
+ANSWER_GENERIC = "{label} untuk pertanyaanmu. {saran}"
+
+PRACTICAL_KEYWORDS = {
+    "makan": (
+        "makan", "makanan", "minum", "minuman", "jajan", "masak", "sarapan", "menu",
+        "kuliner", "lapar", "ngemil", "camilan", "dinner", "lunch",
+    ),
+    "pakai": ("pakai", "pake", "baju", "outfit", "warna", "celana", "sepatu", "dandan", "kostum"),
+    "beli": ("beli", "belanja", "checkout", "hadiah", "kado", "order"),
+    "tempat": ("jalan", "jalan-jalan", "liburan", "nongkrong", "healing", "pergi", "trip"),
+    "waktu": ("jam", "tanggal", "waktunya", "minggu", "bulan"),
+}
+
+PRACTICAL = {
+    "makan": {
+        "api": [
+            "Cari yang pedas atau dibakar, kayak sate, ayam geprek, atau seblak.",
+            "Yang berbumbu kuat dan hangat, misalnya nasi goreng pedas atau mie level.",
+        ],
+        "air": [
+            "Yang berkuah hangat, kayak soto, bakso, atau sup.",
+            "Coba seafood atau yang berkuah segar, misalnya pindang atau tom yum.",
+        ],
+        "udara": [
+            "Yang ringan aja, kayak salad, roti, atau camilan sambil ngobrol.",
+            "Coba menu yang belum pernah kamu cobain, porsinya kecil-kecil biar bisa icip banyak.",
+        ],
+        "tanah": [
+            "Yang mengenyangkan dan rumahan, kayak nasi padang, nasi uduk, atau masakan ibu.",
+            "Nasi plus lauk sederhana yang bikin kenyang lama, nggak usah ribet.",
+        ],
+    },
+    "pakai": {
+        "api": ["Pakai warna merah, oranye, atau yang mencolok biar percaya diri."],
+        "air": ["Pakai warna biru, putih, atau pastel yang adem dan nyaman."],
+        "udara": ["Pakai yang ringan dan simpel, warna kuning atau abu-abu muda."],
+        "tanah": ["Pakai warna netral kayak cokelat, hijau tua, atau hitam, yang rapi dan awet."],
+    },
+    "beli": {
+        "api": ["Kalau udah lama kepengen dan bikin semangat, ambil. Asal jangan beli karena emosi sesaat."],
+        "air": ["Pilih yang ada nilai sentimentalnya atau bikin kamu atau orang lain senang."],
+        "udara": ["Bandingin dulu dua-tiga pilihan, baca review, baru putusin."],
+        "tanah": ["Pilih yang awet dan kepakai lama. Kalau cuma lucu sesaat, tahan dulu."],
+    },
+    "tempat": {
+        "api": ["Ke tempat yang rame dan ada kegiatannya, kayak konser, olahraga, atau pasar malam."],
+        "air": ["Ke tempat yang adem, kayak pantai, danau, atau kafe yang tenang."],
+        "udara": ["Ke tempat terbuka atau yang banyak hal baru, kayak taman kota atau pameran."],
+        "tanah": ["Ke alam atau tempat yang akrab, kayak kebun, gunung, atau rumah teman dekat."],
+    },
+    "waktu": {
+        "api": ["Lebih cepat lebih baik, pagi atau siang pas energimu lagi tinggi."],
+        "air": ["Malam atau pas suasana hatimu lagi tenang."],
+        "udara": ["Pas jadwalmu longgar dan kepala lagi jernih, biasanya pagi."],
+        "tanah": ["Pas semua persiapan udah beres. Jangan dipaksa sebelum siap."],
+    },
+}
+
+VERDICT_LEADS = {
+    "umum": {"ya": "Kartunya bilang ya.", "belum": "Kartunya belum tegas.", "tidak": "Kartunya bilang jangan dulu."},
+    "siapa": {
+        "ya": "Ada, dan kemungkinan udah dekat.",
+        "belum": "Masih samar.",
+        "tidak": "Belum ada di sekitarmu sekarang.",
+    },
+    "kapan": {
+        "ya": "Nggak lama lagi.",
+        "belum": "Masih butuh waktu.",
+        "tidak": "Belum dalam waktu dekat.",
+    },
+    "mana": {
+        "ya": "Arahnya udah kebuka.",
+        "belum": "Tempatnya belum pasti.",
+        "tidak": "Jangan ke tempat yang lagi kamu pikirin dulu.",
+    },
+    "kenapa": {
+        "ya": "Alasannya masuk akal dan bisa kamu terima.",
+        "belum": "Alasannya belum kelihatan utuh.",
+        "tidak": "Alasannya bukan yang kamu kira.",
+    },
+    "gimana": {
+        "ya": "Jalannya ada.",
+        "belum": "Caranya masih perlu dicari.",
+        "tidak": "Cara yang sekarang kayaknya belum pas.",
+    },
+    "berapa": {
+        "ya": "Hasilnya cukup.",
+        "belum": "Jumlahnya belum bisa dipastikan.",
+        "tidak": "Jumlahnya kemungkinan nggak sesuai harapan.",
+    },
+    "apa": {
+        "ya": "Kartunya condong mendukung.",
+        "belum": "Kartunya belum tegas.",
+        "tidak": "Kartunya minta kamu nahan dulu.",
+    },
+    "praktis": {
+        "ya": "Ikutin kata hatimu.",
+        "belum": "Pilihannya masih terbuka.",
+        "tidak": "Jangan yang aneh-aneh dulu.",
+    },
+}
+
+AI_NOTE = "Dirangkum AI dari kartu yang keluar."
+AI_RESTING_NOTE = "AI lagi nggak tersedia, ini bacaan langsung dari kartu."
+AI_LIMIT_NOTE = "Jatah jawaban AI-mu hari ini udah habis, ini bacaan langsung dari kartu."

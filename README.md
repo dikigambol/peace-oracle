@@ -44,9 +44,10 @@ UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa respon
 
 **Tarot**
 - Kartu harian: satu kartu per perangkat per hari, tetap sama sampai besok, lengkap dengan makna umum, cinta, karier, dan keuangan.
-- Bacaan tarot: pilih topik dan spread (satu kartu, Lalu-Kini-Nanti, Situasi-Tindakan-Hasil, atau Celtic Cross versi Waite), lalu ambil sendiri kartunya dari 78 kartu tertutup. Dek dikocok ulang di server tiap bacaan.
+- Bacaan tarot: pilih topik dan spread (satu kartu, Lalu-Kini-Nanti, Situasi-Tindakan-Hasil, atau Celtic Cross versi Waite), lalu ambil sendiri kartunya dari 78 kartu tertutup. Dek dikocok ulang di server tiap bacaan. Kalau kamu nulis pertanyaan, kartunya langsung menjawab pertanyaan itu, mau soal karier sampai "hari ini makan apa?".
 - Sintesis bacaan dihitung dari pola kartunya: dominasi Arcana Mayor, suit yang paling banyak atau absen, angka yang berulang, kartu istana, proporsi kartu terbalik, plus relasi antar posisi di Celtic Cross.
-- Ya atau tidak: satu kartu untuk pertanyaan tertutup, jawabannya ditetapkan per kartu dan per orientasi.
+- Jawaban pertanyaan dirangkum AI via OpenRouter dari kartu yang keluar. Kalau AI lagi down atau jatah harian habis, jawabannya tetap keluar dari bank jawaban yang membaca kata tanya (siapa, kapan, di mana, kenapa, gimana, berapa) dan elemen kartunya.
+- Ya atau tidak: satu kartu untuk pertanyaan tertutup. Vonisnya ditetapkan per kartu dan per orientasi, lalu dijelaskan sesuai pertanyaanmu.
 - Bacaan hubungan: tujuh posisi buat kamu, dia, kebutuhan masing-masing, tantangan, dan arah hubungan.
 - Kartu lahir: kartu kepribadian, kartu jiwa, dan kartu tahunan dengan metode Mary K. Greer, lengkap dengan langkah hitungnya.
 - Ensiklopedia 78 kartu: simbol Rider-Waite, korespondensi astrologi dan huruf Ibrani versi Golden Dawn, serta makna tegak dan terbalik per topik.
@@ -58,9 +59,9 @@ Di landing page ada floating button buat switch mode, plus beberapa easter egg k
 
 Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma depend ke `core/` dan nggak saling import, jadi satu modul bisa dicabut tanpa bikin yang lain rusak. Navigasi dan landing page otomatis nyesuain modul yang ter-install.
 
-AI cuma dipakai di Zodiak. Shio, Weton, dan Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
+AI dipakai di Zodiak dan untuk menjawab pertanyaan di Tarot. Shio, Weton, dan sisa fitur Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
 
-MySQL dipakai buat nyimpen kuota AI dan room kuis. Kalau database lagi down, app tetap jalan: kuota AI pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi.
+MySQL dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Semua tabel (`ai_usage`, `zodiak_rooms`, `shio_rooms`, `shio_room_participants`) dibuat otomatis saat pertama kali dibutuhkan, jadi cukup siapin database kosong.
 
 ```text
 peace-oracle/
@@ -98,11 +99,11 @@ Lalu isi `.env`. Yang penting:
 | Variabel | Keterangan |
 | --- | --- |
 | `SECRET_KEY` | Wajib. Generate pakai `python -c "import secrets; print(secrets.token_hex(32))"` |
-| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak |
+| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, plus jawaban pertanyaan di Tarot (Bacaan dan Ya/Tidak) |
 | `MYSQL_HOST`, `MYSQL_DB`, `MYSQL_USER`, `MYSQL_PASSWORD` | Koneksi database. Kalau kosong, Quiz Room nggak aktif |
 | `FLASK_ENV` | Set `production` di server biar debug mode selalu off |
 
-Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `MYSQL_PORT` (3306), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DB_OFFLINE_COOLDOWN` (60 detik), `MEMORY_STORE_MAX` (5000).
+Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `MYSQL_PORT` (3306), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `DB_OFFLINE_COOLDOWN` (60 detik), `MEMORY_STORE_MAX` (5000).
 
 Terus run:
 
@@ -115,6 +116,8 @@ Buka `http://127.0.0.1:5000/` dan selesai.
 ## Deploy ke Vercel
 
 Connect repo ke [Vercel](https://vercel.com), copy semua environment variable dari `.env`, lalu deploy. Config-nya sudah siap di `vercel.json`, nggak perlu setting tambahan.
+
+Sebagai pengaman terakhir, set credit limit di API key OpenRouter (dashboard OpenRouter, menu Keys). Jadi walaupun ada yang kebobolan di sisi app, tagihannya tetap mentok di angka itu.
 
 ## Hak cipta
 

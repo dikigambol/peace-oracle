@@ -3,6 +3,9 @@ import requests
 import datetime
 import hashlib
 import math
+
+from core.core import get_mysql_connection
+
 from .horoscope_bank import (
     get_daily_horoscope,
     get_daily_youtube_track,
@@ -754,3 +757,63 @@ def generate_dynamic_ratings(base_ratings, cosmic, ruler_planet, sign_key):
         "career": min(99, max(40, career)),
         "health": min(99, max(40, health)),
     }
+
+
+MISSING_TABLE = 1146
+TABLE_EXISTS = 1050
+ROOMS_TABLE_STATE = {"ready": False}
+ROOMS_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS zodiak_rooms (
+    room_code VARCHAR(32) PRIMARY KEY,
+    host_name VARCHAR(100) NOT NULL,
+    host_sign VARCHAR(30) NOT NULL,
+    host_answers TEXT DEFAULT NULL,
+    partner_name VARCHAR(100) DEFAULT NULL,
+    partner_sign VARCHAR(30) DEFAULT NULL,
+    partner_answers TEXT DEFAULT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'waiting',
+    match_score INT DEFAULT 0,
+    breakdown_json LONGTEXT DEFAULT NULL,
+    ai_result_json LONGTEXT DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_status (status)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+"""
+
+
+def error_code(error):
+    return error.args[0] if getattr(error, "args", None) else None
+
+
+def move_legacy_rooms(cursor):
+    try:
+        cursor.execute("RENAME TABLE quiz_rooms TO zodiak_rooms")
+    except Exception as error:
+        code = error_code(error)
+        if code == MISSING_TABLE:
+            return
+        if code != TABLE_EXISTS:
+            raise
+        cursor.execute("INSERT IGNORE INTO zodiak_rooms SELECT * FROM quiz_rooms")
+        cursor.execute("DROP TABLE quiz_rooms")
+
+
+def ensure_rooms_table(conn):
+    if ROOMS_TABLE_STATE["ready"]:
+        return True
+    try:
+        with conn.cursor() as cursor:
+            move_legacy_rooms(cursor)
+            cursor.execute(ROOMS_TABLE_SQL)
+        ROOMS_TABLE_STATE["ready"] = True
+    except Exception:
+        pass
+    return ROOMS_TABLE_STATE["ready"]
+
+
+def rooms_connection():
+    conn = get_mysql_connection()
+    if conn:
+        ensure_rooms_table(conn)
+    return conn

@@ -933,6 +933,26 @@
   color: var(--tr-parchment);
 }
 
+.tr-reply {
+  margin: 0 auto 16px;
+  max-width: 640px;
+}
+
+.tr-reply-text {
+  margin: 0;
+  font-family: var(--tr-font-book);
+  font-size: 1.32rem;
+  line-height: 1.5;
+  color: var(--tr-parchment);
+}
+
+.tr-reply-note {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--tr-faint);
+}
+
 .tr-summary-meta {
   margin: 0 0 14px;
   font-size: 0.82rem;
@@ -1244,6 +1264,14 @@
 .tr-answer .tr-question {
   margin-left: 0;
   font-size: 1.3rem;
+}
+
+.tr-answer .tr-reply {
+  margin-left: 0;
+}
+
+.tr-answer .tr-reply-text {
+  font-size: 1.2rem;
 }
 
 .tr-birth-intro {

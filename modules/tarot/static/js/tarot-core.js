@@ -409,10 +409,18 @@
     return article;
   }
 
+  function replyBlock(reply) {
+    const block = el("div", "tr-reply tr-reply-" + reply.source);
+    block.appendChild(el("p", "tr-reply-text", reply.text));
+    if (reply.note) block.appendChild(el("p", "tr-reply-note", reply.note));
+    return block;
+  }
+
   function renderSummary(node, result, extra) {
     clear(node);
     node.appendChild(el("p", "tr-eyebrow", "Gambaran umum"));
     if (result.question) node.appendChild(el("blockquote", "tr-question", "“" + result.question + "”"));
+    if (result.reply) node.appendChild(replyBlock(result.reply));
     const meta = [result.spread.name, result.spread.short, "topik " + result.topic.label.toLowerCase()];
     if (extra) meta.unshift(extra);
     if (!result.reversed_allowed) meta.push("semua kartu dibaca tegak");
@@ -538,6 +546,7 @@
     text.appendChild(el("blockquote", "tr-question", "“" + result.question + "”"));
     text.appendChild(el("p", "tr-answer-label", result.answer.label));
     text.appendChild(el("p", "tr-answer-text", result.answer.text));
+    if (result.reply) text.appendChild(replyBlock(result.reply));
     text.appendChild(el("h3", "tr-card-name", card.name));
     text.appendChild(el("p", "tr-card-sub", subtitle(card)));
     text.appendChild(badges(card));

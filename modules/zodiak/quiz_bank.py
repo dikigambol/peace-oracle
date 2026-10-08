@@ -1,5 +1,4 @@
-from .ai_client import ask_openrouter, get_openrouter_api_key
-from .ai_limiter import check_ai_quota, increment_ai_quota
+from .ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
 
 PARTNER_QUIZ_QUESTIONS = [
     {
