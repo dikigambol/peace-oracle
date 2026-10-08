@@ -759,8 +759,7 @@ def generate_dynamic_ratings(base_ratings, cosmic, ruler_planet, sign_key):
     }
 
 
-MISSING_TABLE = 1146
-TABLE_EXISTS = 1050
+ROOM_TTL_HOURS = 24
 ROOMS_TABLE_STATE = {"ready": False}
 ROOMS_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS zodiak_rooms (
@@ -782,34 +781,28 @@ CREATE TABLE IF NOT EXISTS zodiak_rooms (
 """
 
 
-def error_code(error):
-    return error.args[0] if getattr(error, "args", None) else None
-
-
-def move_legacy_rooms(cursor):
-    try:
-        cursor.execute("RENAME TABLE quiz_rooms TO zodiak_rooms")
-    except Exception as error:
-        code = error_code(error)
-        if code == MISSING_TABLE:
-            return
-        if code != TABLE_EXISTS:
-            raise
-        cursor.execute("INSERT IGNORE INTO zodiak_rooms SELECT * FROM quiz_rooms")
-        cursor.execute("DROP TABLE quiz_rooms")
-
-
 def ensure_rooms_table(conn):
     if ROOMS_TABLE_STATE["ready"]:
         return True
     try:
         with conn.cursor() as cursor:
-            move_legacy_rooms(cursor)
             cursor.execute(ROOMS_TABLE_SQL)
         ROOMS_TABLE_STATE["ready"] = True
     except Exception:
         pass
     return ROOMS_TABLE_STATE["ready"]
+
+
+def purge_stale_rooms(conn):
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "DELETE FROM zodiak_rooms WHERE status <> 'completed' "
+                "AND created_at <= NOW() - INTERVAL %s HOUR",
+                (ROOM_TTL_HOURS,),
+            )
+    except Exception:
+        pass
 
 
 def rooms_connection():

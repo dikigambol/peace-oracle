@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, jsonify, request
 from .data import (
     ELEMENT_COMPATIBILITY,
     GENERAL_CHARACTERISTICS,
+    ROOM_TTL_HOURS,
     ZODIAC_DATA,
     generate_dynamic_ratings,
     get_ai_compatibility_modes,
@@ -10,6 +11,7 @@ from .data import (
     get_cosmic_context,
     get_daily_horoscope,
     get_daily_youtube_track,
+    purge_stale_rooms,
     rooms_connection,
 )
 
@@ -432,7 +434,11 @@ def load_json_field(row, field, default=None):
 def fetch_quiz_room(conn, room_code):
     try:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM zodiak_rooms WHERE room_code = %s;", (room_code,))
+            cursor.execute(
+                "SELECT * FROM zodiak_rooms WHERE room_code = %s "
+                "AND (status = 'completed' OR created_at > NOW() - INTERVAL %s HOUR);",
+                (room_code, ROOM_TTL_HOURS),
+            )
             return cursor.fetchone()
     except Exception:
         return None
@@ -469,6 +475,7 @@ def create_quiz_room():
     room_code = f"RO-{code_chars}"
     conn = rooms_connection()
     if conn:
+        purge_stale_rooms(conn)
         try:
             with conn.cursor() as cursor:
                 cursor.execute(

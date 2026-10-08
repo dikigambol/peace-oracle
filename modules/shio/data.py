@@ -2728,7 +2728,7 @@ def fetch_participants(tx, room_code):
 
 
 def require_room(room, now):
-    if room is None or read_moment(room["expires_at"]) <= now:
+    if room is None or (room["status"] != STATUS_DONE and read_moment(room["expires_at"]) <= now):
         raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
     return room
 
@@ -2790,10 +2790,13 @@ def purge_expired_rooms(store, now):
     with store.transaction() as tx:
         tx.execute(
             "DELETE FROM shio_room_participants WHERE room_code IN "
-            "(SELECT room_code FROM shio_rooms WHERE expires_at <= %s)",
-            (cutoff,),
+            "(SELECT room_code FROM shio_rooms WHERE expires_at <= %s AND status <> %s)",
+            (cutoff, STATUS_DONE),
         )
-        return tx.execute("DELETE FROM shio_rooms WHERE expires_at <= %s", (cutoff,))
+        return tx.execute(
+            "DELETE FROM shio_rooms WHERE expires_at <= %s AND status <> %s",
+            (cutoff, STATUS_DONE),
+        )
 
 
 def read_room_settings(payload, mode):

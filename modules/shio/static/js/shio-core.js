@@ -2765,7 +2765,7 @@
 
   function describeMeta(view) {
     const expires = new Date(view.expires_at);
-    const expiry = isNaN(expires.getTime()) ? "" :
+    const expiry = view.status === "done" || isNaN(expires.getTime()) ? "" :
       "Berlaku sampai " + expires.toLocaleString("id-ID", { weekday: "long", hour: "2-digit", minute: "2-digit" });
     return view.participant_count + " dari " + view.max_participants + " orang" + (expiry ? " · " + expiry : "");
   }
