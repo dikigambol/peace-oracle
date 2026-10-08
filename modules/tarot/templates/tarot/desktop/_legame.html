@@ -17,11 +17,23 @@
         {{ reversed_toggle("d-reversed") }}
       </div>
     </div>
-    <ol class="tr-position-list">
-      {% for position in positions %}
-      <li><strong>{{ position.label }}</strong> <span>{{ position.prompt }}</span></li>
+    <div class="tr-position-groups">
+      <div class="tr-position-head">
+        <p class="tr-label">Tujuh posisi kartu</p>
+        <p class="tr-position-note">Disusun seperti meja saat kartumu dibuka.</p>
+      </div>
+      {% for title, indexes in [("Sisi kamu", [0, 3]), ("Di antara kalian", [2, 5, 6]), ("Sisi dia", [1, 4])] %}
+      <section class="tr-position-group">
+        <h3 class="tr-position-title">{{ title }}</h3>
+        <ol class="tr-position-list">
+          {% for index in indexes %}
+          {% set position = positions[index] %}
+          <li value="{{ index + 1 }}"><strong>{{ position.label }}</strong> <span>{{ position.prompt }}</span></li>
+          {% endfor %}
+        </ol>
+      </section>
       {% endfor %}
-    </ol>
+    </div>
     {{ deck_fan("d", positions|length, "Ambil tujuh kartu") }}
     <div class="tr-d-actions">
       <button class="tr-btn tr-btn-primary" id="d-submit" type="submit" disabled>Buka kartu</button>

@@ -109,13 +109,12 @@
 .wt-d-tab.is-active::after {
   content: "";
   position: absolute;
-  left: 50%;
-  bottom: -11px;
-  width: 16px;
-  height: 12px;
-  background: var(--wt-blencong);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--wt-radius-sm);
+  background: var(--wt-gold);
 }
 
 .wt-d-body {
@@ -433,7 +432,16 @@
 
 .wt-d-wetonan-actions {
   display: flex;
+  justify-content: center;
   gap: 10px;
+}
+
+.wt-d-match-form > .wt-lens {
+  justify-content: center;
+}
+
+.wt-d-match-form > .wt-lens .wt-label {
+  text-align: center;
 }
 
 .wt-d-wetonan-actions .wt-btn[hidden] {
