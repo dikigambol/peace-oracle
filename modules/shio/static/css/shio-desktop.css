@@ -162,6 +162,12 @@
   margin: 8px auto 0;
 }
 
+.sh-d-panel > #d-destiny-submit {
+  display: inline-flex;
+  width: auto;
+  margin: 8px 0 0;
+}
+
 .sh-d-panel > .sh-d-quiz-join {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
