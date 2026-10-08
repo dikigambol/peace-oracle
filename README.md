@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.icons8.com/?size=100&id=102558&format=png&color=FFFFFF" alt="Peace Oracle" width="80" height="80">
+  <img src="core/static/images/logo.svg" alt="Peace Oracle" width="80" height="80">
   <h1>Peace Oracle</h1>
   <p>Zodiak, Shio, Weton, dan Tarot dalam satu app.</p>
 

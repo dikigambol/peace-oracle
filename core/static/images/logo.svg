@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+<radialGradient id="bg" cx="50%" cy="34%" r="78%"><stop offset="0" stop-color="#211540"/><stop offset="1" stop-color="#07050c"/></radialGradient>
+<radialGradient id="halo" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#d6b26e" stop-opacity=".28"/><stop offset="1" stop-color="#d6b26e" stop-opacity="0"/></radialGradient>
+<linearGradient id="lt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7b0"/><stop offset="1" stop-color="#e2be72"/></linearGradient>
+<linearGradient id="dk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c8963e"/><stop offset="1" stop-color="#8a6326"/></linearGradient>
+<style>.lt{fill:url(#lt)}.dk{fill:url(#dk)}.ring{fill:none;stroke:#d6b26e}</style>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<rect x="6" y="6" width="500" height="500" rx="106" fill="none" stroke="#d6b26e" stroke-opacity=".3" stroke-width="4"/>
+<circle cx="256" cy="256" r="230" fill="url(#halo)"/>
+<circle class="ring" cx="256" cy="256" r="198" stroke-width="14"/>
+<circle class="ring" cx="256" cy="256" r="162" stroke-width="6"/>
+<g fill="#d6b26e"><circle cx="256.0" cy="76.0" r="7"/><circle cx="346.0" cy="100.1" r="4.5"/><circle cx="411.9" cy="166.0" r="4.5"/><circle cx="436.0" cy="256.0" r="7"/><circle cx="411.9" cy="346.0" r="4.5"/><circle cx="346.0" cy="411.9" r="4.5"/><circle cx="256.0" cy="436.0" r="7"/><circle cx="166.0" cy="411.9" r="4.5"/><circle cx="100.1" cy="346.0" r="4.5"/><circle cx="76.0" cy="256.0" r="7"/><circle cx="100.1" cy="166.0" r="4.5"/><circle cx="166.0" cy="100.1" r="4.5"/></g>
+<g opacity=".92"><path class="lt" d="M256 256L267.5 228.3L319.6 192.4Z"/><path class="dk" d="M256 256L319.6 192.4L283.7 244.5Z"/><path class="lt" d="M256 256L283.7 267.5L319.6 319.6Z"/><path class="dk" d="M256 256L319.6 319.6L267.5 283.7Z"/><path class="lt" d="M256 256L244.5 283.7L192.4 319.6Z"/><path class="dk" d="M256 256L192.4 319.6L228.3 267.5Z"/><path class="lt" d="M256 256L228.3 244.5L192.4 192.4Z"/><path class="dk" d="M256 256L192.4 192.4L244.5 228.3Z"/></g>
+<g><path class="lt" d="M256 256L244.5 228.3L256.0 114.0Z"/><path class="dk" d="M256 256L256.0 114.0L267.5 228.3Z"/><path class="lt" d="M256 256L283.7 244.5L398.0 256.0Z"/><path class="dk" d="M256 256L398.0 256.0L283.7 267.5Z"/><path class="lt" d="M256 256L267.5 283.7L256.0 398.0Z"/><path class="dk" d="M256 256L256.0 398.0L244.5 283.7Z"/><path class="lt" d="M256 256L228.3 267.5L114.0 256.0Z"/><path class="dk" d="M256 256L114.0 256.0L228.3 244.5Z"/></g>
+<circle cx="256" cy="256" r="15" fill="#120b22" stroke="#fbe7b0" stroke-width="5"/>
+</svg>

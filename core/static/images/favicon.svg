@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+<radialGradient id="bg" cx="50%" cy="34%" r="78%"><stop offset="0" stop-color="#2a1a4f"/><stop offset="1" stop-color="#07050c"/></radialGradient>
+<style>.lt{fill:#f6dc9a}.dk{fill:#b98432}</style>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<circle cx="256" cy="256" r="196" fill="none" stroke="#d6b26e" stroke-width="34"/>
+<g opacity=".95"><path class="lt" d="M256 256L275.9 208.0L335.2 176.8Z"/><path class="dk" d="M256 256L335.2 176.8L304.0 236.1Z"/><path class="lt" d="M256 256L304.0 275.9L335.2 335.2Z"/><path class="dk" d="M256 256L335.2 335.2L275.9 304.0Z"/><path class="lt" d="M256 256L236.1 304.0L176.8 335.2Z"/><path class="dk" d="M256 256L176.8 335.2L208.0 275.9Z"/><path class="lt" d="M256 256L208.0 236.1L176.8 176.8Z"/><path class="dk" d="M256 256L176.8 176.8L236.1 208.0Z"/></g>
+<g><path class="lt" d="M256 256L236.1 208.0L256.0 80.0Z"/><path class="dk" d="M256 256L256.0 80.0L275.9 208.0Z"/><path class="lt" d="M256 256L304.0 236.1L432.0 256.0Z"/><path class="dk" d="M256 256L432.0 256.0L304.0 275.9Z"/><path class="lt" d="M256 256L275.9 304.0L256.0 432.0Z"/><path class="dk" d="M256 256L256.0 432.0L236.1 304.0Z"/><path class="lt" d="M256 256L208.0 275.9L80.0 256.0Z"/><path class="dk" d="M256 256L80.0 256.0L208.0 236.1Z"/></g>
+</svg>

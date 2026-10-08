@@ -9,7 +9,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>{% block title %}Peace Oracle{% endblock %}</title>
-  <link rel="icon" href="{{ url_for('static', filename='images/web_logo.png') }}" type="image/png" />
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml" />
+  <link rel="icon" href="{{ url_for('static', filename='images/favicon-32.png') }}" type="image/png" sizes="32x32" />
+  <link rel="icon" href="{{ url_for('static', filename='images/web_logo.png') }}" type="image/png" sizes="256x256" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/apple-touch-icon.png') }}" />
   <meta name="description" content="{% block description %}Zodiak, Shio, Weton, dan Tarot dalam satu app.{% endblock %}" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Peace Oracle" />
