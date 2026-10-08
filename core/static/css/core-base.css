@@ -1,8 +1,6 @@
 :root {
   --bg-dark: #0a0a1a;
   --text-light: #e0e0ff;
-  --accent-color: #6b4cff;
-  --accent-glow: 0 0 15px rgba(107, 76, 255, 0.5);
 
   --gold: #ffd700;
   --gold-rgb: 255, 215, 0;
@@ -290,65 +288,141 @@ body.has-bottom-nav .mode-switcher-container {
   right: 16px;
 }
 .mode-switcher-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-color), #4a2ecc);
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid rgba(var(--sky-gold-rgb), 0.75);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, var(--sky-top), var(--sky-deep) 75%);
+  color: var(--sky-title);
   cursor: pointer;
-  box-shadow: var(--accent-glow);
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow:
+    inset 0 0 0 3px var(--sky-deep),
+    inset 0 0 0 4px rgba(var(--sky-gold-rgb), 0.45),
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(var(--sky-gold-rgb), 0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.mode-switcher-icon {
+  width: 30px;
+  height: 30px;
+  overflow: visible;
+}
+.mode-switcher-icon .ms-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+.mode-switcher-icon .ms-ticks {
+  stroke-width: 3;
+  stroke-dasharray: 1 4.5;
+  opacity: 0.8;
+}
+.mode-switcher-icon .ms-star {
+  fill: currentColor;
+}
+.mode-switcher-icon .ms-inner {
+  transform-origin: 24px 24px;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .mode-switcher-container.active .mode-switcher-btn {
-  transform: scale(1.1);
+  box-shadow:
+    inset 0 0 0 3px var(--sky-deep),
+    inset 0 0 0 4px rgba(var(--sky-gold-rgb), 0.7),
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    0 0 26px rgba(var(--sky-gold-rgb), 0.4);
+}
+.mode-switcher-container.active .ms-inner {
+  transform: rotate(45deg);
 }
 .mode-switcher-menu {
   position: absolute;
-  bottom: 70px;
+  bottom: 52px;
   right: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  opacity: 0;
+  align-items: flex-end;
+  gap: 8px;
+  padding-bottom: 14px;
   visibility: hidden;
-  transform: translateY(20px) scale(0.9);
-  transform-origin: bottom right;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  pointer-events: none;
+  transition: visibility 0s linear 0.35s;
 }
 .mode-switcher-container.active .mode-switcher-menu {
-  opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition-delay: 0s;
 }
 .mode-item {
+  --card-gold: var(--sky-cream);
+  --card-gold-rgb: var(--sky-cream-rgb);
+  --card-glow-rgb: var(--sky-gold-rgb);
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 15px;
-  background: rgba(20, 20, 40, 0.95);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 12px 20px;
-  border-radius: 30px;
-  color: white;
+  gap: 12px;
+  box-sizing: border-box;
+  min-width: 148px;
+  min-height: 48px;
+  padding: 8px 22px 8px 10px;
+  border: 1px solid rgba(var(--card-gold-rgb), 0.5);
+  border-radius: 6px;
+  color: var(--card-gold);
+  font-family: "Cinzel", "Noto Serif TC", serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1px;
   text-decoration: none;
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 500;
   white-space: nowrap;
-  transition: all 0.2s ease;
-  flex-direction: row-reverse;
+  box-shadow: var(--card-inset, 0 0 transparent), 0 10px 24px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: translateX(16px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  transition-delay: calc(var(--i, 0) * 40ms);
   -webkit-tap-highlight-color: transparent;
 }
-.mode-item:active {
-  background: var(--accent-color);
-  box-shadow: var(--accent-glow);
-  transform: translateX(-5px);
+.mode-switcher-container.active .mode-item {
+  opacity: 1;
+  transform: none;
 }
-.mode-item i {
-  font-size: 1.2rem;
+.mode-switcher-container.active .mode-item:active {
+  transform: translateX(-4px);
+}
+.mode-switcher-menu .mode-item.tarot {
+  --card-inset: inset 0 0 0 3px var(--home-tarot-wood);
+}
+.mode-item .co-emblem {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: var(--card-gold);
+  filter: drop-shadow(0 0 6px rgba(var(--card-glow-rgb), 0.5));
+}
+.mode-item span {
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.6);
+}
+.mode-item[aria-current="page"] {
+  border-color: rgba(var(--card-gold-rgb), 0.95);
+}
+.mode-item[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--card-gold);
+  box-shadow: 0 0 8px rgba(var(--card-gold-rgb), 0.8);
 }
 #ai-quota-toast {
   position: fixed;
@@ -458,8 +532,6 @@ button.loading i {
 }
 
 .co-sky {
-  --sky-x: 0px;
-  --sky-y: 0px;
   position: fixed;
   inset: 0;
   z-index: -10;
@@ -487,12 +559,12 @@ button.loading i {
 .co-astrolabe {
   position: absolute;
   left: 50%;
-  top: 32%;
-  width: min(96vh, 960px);
-  height: min(96vh, 960px);
+  top: 50%;
+  width: min(100vh, 96vw, 1100px);
+  height: min(100vh, 96vw, 1100px);
   overflow: visible;
   color: rgba(var(--sky-gold-rgb), 0.22);
-  transform: translate(calc(-50% + var(--sky-x)), calc(-50% + var(--sky-y)));
+  transform: translate(-50%, -50%);
 }
 
 .co-astrolabe circle,
@@ -516,9 +588,6 @@ button.loading i {
 }
 
 .co-ring {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: co-spin 240s linear infinite;
   transition: color 0.6s ease;
 }
 
@@ -532,19 +601,10 @@ button.loading i {
   font-size: 34px;
 }
 
-.co-ring-shio {
-  animation-duration: 180s;
-  animation-direction: reverse;
-}
-
 .co-ring-shio text {
   font-family: "Noto Serif TC", serif;
   font-size: 34px;
   font-weight: 700;
-}
-
-.co-ring-weton {
-  animation-duration: 140s;
 }
 
 .co-ring-weton text {
@@ -554,19 +614,10 @@ button.loading i {
   letter-spacing: 4px;
 }
 
-.co-ring-tarot {
-  animation-duration: 300s;
-  animation-direction: reverse;
-}
-
 .co-ring-tarot text {
   font-family: "Cinzel", serif;
   font-size: 15px;
   font-weight: 600;
-}
-
-.co-ring-core {
-  animation-duration: 600s;
 }
 
 body:has(.mode-card.zodiak:is(:hover, :focus-visible)) .co-ring-zodiak {
@@ -603,12 +654,6 @@ body:has(.mode-card.weton:is(:hover, :focus-visible)) .co-sky {
 
 body:has(.mode-card.tarot:is(:hover, :focus-visible)) .co-sky {
   --sky-glow-rgb: var(--home-tarot-sage-rgb);
-}
-
-@keyframes co-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 body.co-home .mode-switcher-container {
@@ -653,7 +698,8 @@ body.co-home .mode-switcher-container {
   position: relative;
 }
 
-.mode-card.zodiak {
+.mode-card.zodiak,
+.mode-item.zodiak {
   --card-gold: var(--home-zodiak-gold);
   --card-gold-rgb: var(--home-zodiak-gold-rgb);
   --card-glow-rgb: var(--home-zodiak-rgb);
@@ -664,7 +710,8 @@ body.co-home .mode-switcher-container {
     var(--home-zodiak-deep);
 }
 
-.mode-card.shio {
+.mode-card.shio,
+.mode-item.shio {
   --card-gold: var(--home-shio-gold);
   --card-gold-rgb: var(--home-shio-gold-rgb);
   --card-glow-rgb: var(--home-shio-rgb);
@@ -675,7 +722,8 @@ body.co-home .mode-switcher-container {
     linear-gradient(180deg, var(--home-shio), var(--home-shio-deep));
 }
 
-.mode-card.weton {
+.mode-card.weton,
+.mode-item.weton {
   --card-gold: var(--home-weton-gold);
   --card-gold-rgb: var(--home-weton-gold-rgb);
   --card-glow-rgb: var(--home-weton-glow-rgb);
@@ -685,7 +733,8 @@ body.co-home .mode-switcher-container {
     linear-gradient(180deg, var(--home-weton), var(--home-weton-deep) 85%);
 }
 
-.mode-card.tarot {
+.mode-card.tarot,
+.mode-item.tarot {
   --card-gold: var(--home-tarot-gold);
   --card-gold-rgb: var(--home-tarot-gold-rgb);
   --card-glow-rgb: var(--home-tarot-sage-rgb);

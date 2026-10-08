@@ -40,23 +40,26 @@ def home():
 @app.route('/.well-known/<path:filename>')
 def well_known_trap(filename):
     message = (
-        "Greetings, cosmic crawler.\n"
-        "The Peace Oracle has foreseen your arrival.\n"
-        "Your data scraping attempts radiate a deeply chaotic aura.\n"
-        "Beware: scraping too deep into this dimension may inflict "
-        "7 years of bad Feng Shui upon your servers.\n\n"
+        "404 - Not written in the stars.\n\n"
+        "The Peace Oracle checked the zodiac, the twelve earthly branches,\n"
+        "the Javanese calendar, and a freshly shuffled tarot deck.\n"
+        "None of them know this file.\n\n"
+        "Scrape any deeper and you may draw The Tower, land on a Rebo Wekasan,\n"
+        "and catch seven years of bad Feng Shui on your servers.\n\n"
         "Return to your base in peace ✌️"
     )
-    return message, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+    return message, 404, {'Content-Type': 'text/plain; charset=utf-8'}
 
 @app.route('/robots.txt')
 def robots_txt():
     message = (
         "User-agent: *\n"
+        "Disallow: /api/\n"
         "Disallow: /bad-karma\n"
         "Disallow: /negative-energy\n\n"
-        "# Hello bot! Our third eye is watching you.\n"
-        "# Feel free to crawl, but do not disrupt our cosmic order."
+        "# Hello, bot. All four of our oracles can see you.\n"
+        "# Read the pages all you like, but leave /api/ to the humans.\n"
+        "# The stars have been consulted. Crawl in peace."
     )
     return message, 200, {'Content-Type': 'text/plain; charset=utf-8'}
 

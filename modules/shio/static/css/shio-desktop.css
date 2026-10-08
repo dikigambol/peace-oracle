@@ -140,7 +140,10 @@
 .sh-d-panel > .sh-shio-picker,
 .sh-d-panel > .year-picker,
 .sh-d-panel > .yearly-lichun,
-.sh-d-panel > .sh-d-year-label {
+.sh-d-panel > .sh-d-year-label,
+.sh-d-panel > .sh-shio-picker ~ .sh-hint,
+.sh-d-panel > .sh-d-quiz-join,
+.sh-d-panel > .sh-d-quiz-join ~ .sh-hint {
   column-span: all;
 }
 
@@ -153,9 +156,39 @@
 }
 
 .sh-d-panel > .sh-btn-block {
-  width: auto;
+  display: flex;
+  width: fit-content;
   min-width: 280px;
-  margin-top: 8px;
+  margin: 8px auto 0;
+}
+
+.sh-d-panel > .sh-d-quiz-join {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 16px;
+}
+
+.sh-d-quiz-join .sh-field {
+  margin-bottom: 0;
+}
+
+.sh-d-quiz-join .sh-btn-block {
+  width: auto;
+  min-width: 200px;
+}
+
+.sh-d-quiz-create .quiz-option-group > .sh-label,
+.sh-d-quiz-create .quiz-hint {
+  text-align: center;
+}
+
+.sh-d-quiz-create .quiz-option-group .choice-chips {
+  justify-content: center;
+}
+
+.guardian-categories {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .sh-d-results {
@@ -282,6 +315,7 @@
 
 .sh-d-year-label {
   margin: 24px 0 8px;
+  text-align: center;
 }
 
 .sh-d-panel .yearly-lichun {

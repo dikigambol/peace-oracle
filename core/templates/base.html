@@ -1,3 +1,4 @@
+{% from '_emblem.html' import emblem -%}
 <!doctype html>
 <html lang="id">
 
@@ -51,6 +52,7 @@
     <canvas id="co-stars"></canvas>
     <svg class="co-astrolabe" viewBox="-500 -500 1000 1000" focusable="false">
       <g class="co-ring co-ring-zodiak">
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="240s" repeatCount="indefinite" />
         <circle r="478" />
         <circle r="470" />
         <circle r="410" />
@@ -63,6 +65,7 @@
         {% endfor %}
       </g>
       <g class="co-ring co-ring-shio">
+        <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="180s" repeatCount="indefinite" />
         <circle r="400" />
         <circle r="332" />
         {% for branch in branches %}
@@ -73,6 +76,7 @@
         {% endfor %}
       </g>
       <g class="co-ring co-ring-weton">
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="140s" repeatCount="indefinite" />
         <circle r="322" />
         <circle r="262" />
         {% for day in pasaran %}
@@ -83,6 +87,7 @@
         {% endfor %}
       </g>
       <g class="co-ring co-ring-tarot">
+        <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="300s" repeatCount="indefinite" />
         <circle r="252" />
         <circle r="186" />
         {% for numeral in arcana %}
@@ -92,6 +97,7 @@
         {% endfor %}
       </g>
       <g class="co-ring co-ring-core">
+        <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="600s" repeatCount="indefinite" />
         <circle r="176" />
         <circle class="co-ticks" r="170" />
         <circle r="44" />
@@ -130,36 +136,32 @@
       <span class="pl-percent">0%</span>
     </div>
   </div>
+  {% set switcher_modes = [
+    ('zodiak', 'zodiak.home', 'Zodiak'),
+    ('shio', 'shio.shio_index', 'Shio'),
+    ('weton', 'weton.weton_index', 'Weton'),
+    ('tarot', 'tarot.tarot_index', 'Tarot'),
+  ] %}
   <div class="mode-switcher-container">
-    <div class="mode-switcher-btn" id="mode-switcher-toggle">
-      <i class="fa-solid fa-layer-group"></i>
-    </div>
-    <div class="mode-switcher-menu">
-      {% if 'zodiak' in installed_modes %}
-      <a href="{{ url_for('zodiak.home') }}" class="mode-item">
-        <i class="fa-solid fa-moon"></i>
-        <span>Zodiak</span>
+    <button type="button" class="mode-switcher-btn" id="mode-switcher-toggle" aria-expanded="false"
+      aria-controls="mode-switcher-menu" aria-label="Pindah mode">
+      <svg class="mode-switcher-icon" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle class="ms-ring" cx="24" cy="24" r="20" />
+        <g class="ms-inner">
+          <circle class="ms-ring ms-ticks" cx="24" cy="24" r="14" />
+          <path class="ms-star" d="M24 9 L27 21 L39 24 L27 27 L24 39 L21 27 L9 24 L21 21 Z" />
+        </g>
+      </svg>
+    </button>
+    <nav class="mode-switcher-menu" id="mode-switcher-menu" aria-label="Pilih mode">
+      {% for key, endpoint, label in switcher_modes if key in installed_modes %}
+      <a href="{{ url_for(endpoint) }}" class="mode-item {{ key }}" style="--i: {{ loop.revindex0 }}"
+        {% if request.blueprint == key %}aria-current="page"{% endif %}>
+        {{ emblem(key, 'co-emblem-sm') }}
+        <span>{{ label }}</span>
       </a>
-      {% endif %}
-      {% if 'shio' in installed_modes %}
-      <a href="{{ url_for('shio.shio_index') }}" class="mode-item">
-        <i class="fa-solid fa-dragon"></i>
-        <span>Shio</span>
-      </a>
-      {% endif %}
-      {% if 'weton' in installed_modes %}
-      <a href="{{ url_for('weton.weton_index') }}" class="mode-item">
-        <i class="fa-solid fa-scroll"></i>
-        <span>Weton</span>
-      </a>
-      {% endif %}
-      {% if 'tarot' in installed_modes %}
-      <a href="{{ url_for('tarot.tarot_index') }}" class="mode-item">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <span>Tarot</span>
-      </a>
-      {% endif %}
-    </div>
+      {% endfor %}
+    </nav>
   </div>
   {% block content %}{% endblock %}
   {% block backdrop_js %}{% endblock %}

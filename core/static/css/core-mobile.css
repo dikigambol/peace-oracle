@@ -37,25 +37,29 @@
 .mode-switcher-btn {
   width: 46px;
   height: 46px;
-  font-size: 1.3rem;
+}
+
+.mode-switcher-icon {
+  width: 26px;
+  height: 26px;
 }
 
 .mode-switcher-menu {
-  bottom: 62px;
-  gap: 8px;
+  bottom: 46px;
+  padding-bottom: 12px;
 }
 
 .mode-item {
+  min-width: 136px;
   min-height: 44px;
-  box-sizing: border-box;
-  padding: 10px 16px;
+  padding: 6px 20px 6px 10px;
   gap: 10px;
-  border-radius: 24px;
   font-size: 0.88rem;
 }
 
-.mode-item i {
-  font-size: 1.05rem;
+.mode-item .co-emblem {
+  width: 24px;
+  height: 24px;
 }
 
 #ai-quota-toast {
@@ -189,7 +193,6 @@
 }
 
 .co-astrolabe {
-  top: 86dvh;
   width: 150vw;
   height: 150vw;
   color: rgba(var(--sky-gold-rgb), 0.18);

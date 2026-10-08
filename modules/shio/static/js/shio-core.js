@@ -919,7 +919,7 @@
   }
 
   function buildCategories(data) {
-    const grid = Shio.el("div", "fortune-categories");
+    const grid = Shio.el("div", "fortune-categories guardian-categories");
     sections(data).forEach((section) => {
       const box = Shio.el("div", "category-box" + (section.full ? " guardian-category-full" : ""));
       const title = Shio.el("h3");
@@ -1320,6 +1320,7 @@
     if (cracked) nodes.cookie.classList.add("cracked");
     else if (!busy) nodes.cookie.classList.remove("cracked", "shaking");
     nodes.cookie.disabled = cracked;
+    nodes.stage.classList.toggle("is-open", cracked);
     nodes.hint.classList.toggle("faded", cracked || (busy && nodes.cookie.classList.contains("cracked")));
     nodes.hint.textContent = "";
     nodes.hint.appendChild(Shio.icon(state.loading ? "fa-spinner fa-spin" : "fa-hand-pointer"));
@@ -1338,15 +1339,19 @@
     nodes.slipBox.appendChild(slip);
     renderedSlips.set(nodes.slipBox, state.result);
     if (!instant) {
-      setTimeout(() => slip.scrollIntoView({ behavior: window.prefersReducedMotion() ? "auto" : "smooth", block: "center" }), 150);
+      nodes.slipBox.setAttribute("tabindex", "-1");
+      nodes.slipBox.classList.add("sh-result-target");
+      nodes.slipBox.focus({ preventScroll: true });
     }
   }
 
   function stageElements(prefix) {
+    const cookie = Shio.byId(prefix + "-cookie");
     return {
       hanzi: Shio.byId(prefix + "-cookie-hanzi"),
       name: Shio.byId(prefix + "-cookie-name"),
-      cookie: Shio.byId(prefix + "-cookie"),
+      cookie: cookie,
+      stage: cookie.closest(".cookie-stage"),
       hint: Shio.byId(prefix + "-cookie-hint"),
       slipBox: Shio.byId(prefix + "-cookie-slip"),
     };

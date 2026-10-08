@@ -125,6 +125,11 @@
   color: var(--gold);
 }
 
+.sh-card-title-center {
+  text-align: center;
+  background: linear-gradient(90deg, rgba(var(--sh-cinnabar-rgb), 0), var(--sh-cinnabar), rgba(var(--sh-cinnabar-rgb), 0)) center bottom / 160px 2px no-repeat;
+}
+
 .sh-field {
   display: block;
   margin-bottom: 16px;
@@ -638,6 +643,7 @@ select.sh-input option {
 }
 
 .meta-box {
+  text-align: center;
   font-weight: bold;
   color: var(--gold);
   animation: cardFadeInUp 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -4522,6 +4528,16 @@ body.board-locked {
   min-height: 300px;
 }
 
+.cookie-stage.is-open {
+  min-height: 0;
+  padding-bottom: 0;
+}
+
+.cookie-stage.is-open .cookie,
+.cookie-stage.is-open .cookie-hint {
+  display: none;
+}
+
 .cookie-shio {
   text-align: center;
   margin-bottom: 8px;
@@ -4677,7 +4693,7 @@ body.board-locked {
 }
 
 .slip-body {
-  padding: 28px 32px 24px;
+  padding: 28px 32px 16px;
   text-align: center;
 }
 
@@ -4732,7 +4748,7 @@ body.board-locked {
 .slip-note {
   color: rgba(92, 74, 42, 0.7);
   font-size: var(--fs-xs);
-  margin: 0;
+  margin: 16px 0 0;
 }
 
 .slip-note i {

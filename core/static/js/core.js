@@ -224,14 +224,21 @@ document.addEventListener("DOMContentLoaded", () => {
     ".mode-switcher-container",
   );
   if (modeSwitcherToggle && modeSwitcherContainer) {
+    const setOpen = (open) => {
+      modeSwitcherContainer.classList.toggle("active", open);
+      modeSwitcherToggle.setAttribute("aria-expanded", String(open));
+    };
     modeSwitcherToggle.addEventListener("click", (e) => {
       e.stopPropagation();
-      modeSwitcherContainer.classList.toggle("active");
+      setOpen(!modeSwitcherContainer.classList.contains("active"));
     });
     document.addEventListener("click", (e) => {
-      if (!modeSwitcherContainer.contains(e.target)) {
-        modeSwitcherContainer.classList.remove("active");
-      }
+      if (!modeSwitcherContainer.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Escape" || !modeSwitcherContainer.classList.contains("active")) return;
+      setOpen(false);
+      modeSwitcherToggle.focus();
     });
   }
 });
@@ -241,6 +248,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("co-stars");
   const context = canvas && canvas.getContext("2d");
   if (!sky || !context) return;
+  const astrolabe = sky.querySelector(".co-astrolabe");
+  const spin = (running) => {
+    if (!astrolabe || !astrolabe.pauseAnimations) return;
+    if (running) astrolabe.unpauseAnimations();
+    else astrolabe.pauseAnimations();
+  };
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
   const reducedMotion = window.prefersReducedMotion();
   const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -295,13 +308,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const loop = (time) => {
     offset.x += (pointer.x - offset.x) * 0.04;
     offset.y += (pointer.y - offset.y) * 0.04;
-    sky.style.setProperty("--sky-x", `${(-offset.x * 12).toFixed(2)}px`);
-    sky.style.setProperty("--sky-y", `${(-offset.y * 12).toFixed(2)}px`);
     draw(time);
     frame = requestAnimationFrame(loop);
   };
   resize();
   if (reducedMotion) {
+    spin(false);
+    if (astrolabe && astrolabe.setCurrentTime) astrolabe.setCurrentTime(0);
     draw(0);
     window.addEventListener("resize", () => {
       resize();
@@ -318,6 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("resize", resize);
   document.addEventListener("visibilitychange", () => {
     cancelAnimationFrame(frame);
+    spin(!document.hidden);
     if (!document.hidden) frame = requestAnimationFrame(loop);
   });
   frame = requestAnimationFrame(loop);

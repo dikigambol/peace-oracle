@@ -3,19 +3,31 @@
 }
 
 .mode-switcher-container:hover .mode-switcher-btn {
-  transform: scale(1.1);
+  transform: scale(1.06);
+}
+
+.mode-switcher-container:hover .ms-inner {
+  transform: rotate(45deg);
 }
 
 .mode-switcher-container:hover .mode-switcher-menu {
-  opacity: 1;
   visibility: visible;
-  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  transition-delay: 0s;
 }
 
-.mode-item:hover {
-  background: var(--accent-color);
-  box-shadow: var(--accent-glow);
-  transform: translateX(-5px);
+.mode-switcher-container:hover .mode-item {
+  opacity: 1;
+  transform: none;
+}
+
+.mode-switcher-container .mode-item:hover {
+  border-color: rgba(var(--card-gold-rgb), 0.95);
+  box-shadow:
+    var(--card-inset, 0 0 transparent),
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(var(--card-glow-rgb), 0.5);
+  transform: translateX(-4px);
 }
 
 .ai-quota-toast-close:hover {
