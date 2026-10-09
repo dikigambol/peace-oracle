@@ -4,7 +4,7 @@ import datetime
 import hashlib
 import math
 
-from core.core import get_mysql_connection
+from core.core import get_firestore_client, db_available
 
 from .horoscope_bank import (
     get_daily_horoscope,
@@ -760,53 +760,13 @@ def generate_dynamic_ratings(base_ratings, cosmic, ruler_planet, sign_key):
 
 
 ROOM_TTL_HOURS = 24
-ROOMS_TABLE_STATE = {"ready": False}
-ROOMS_TABLE_SQL = """
-CREATE TABLE IF NOT EXISTS zodiak_rooms (
-    room_code VARCHAR(32) PRIMARY KEY,
-    host_name VARCHAR(100) NOT NULL,
-    host_sign VARCHAR(30) NOT NULL,
-    host_answers TEXT DEFAULT NULL,
-    partner_name VARCHAR(100) DEFAULT NULL,
-    partner_sign VARCHAR(30) DEFAULT NULL,
-    partner_answers TEXT DEFAULT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'waiting',
-    match_score INT DEFAULT 0,
-    breakdown_json LONGTEXT DEFAULT NULL,
-    ai_result_json LONGTEXT DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    INDEX idx_status (status)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-"""
 
 
-def ensure_rooms_table(conn):
-    if ROOMS_TABLE_STATE["ready"]:
-        return True
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(ROOMS_TABLE_SQL)
-        ROOMS_TABLE_STATE["ready"] = True
-    except Exception:
-        pass
-    return ROOMS_TABLE_STATE["ready"]
-
-
-def purge_stale_rooms(conn):
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "DELETE FROM zodiak_rooms WHERE status <> 'completed' "
-                "AND created_at <= NOW() - INTERVAL %s HOUR",
-                (ROOM_TTL_HOURS,),
-            )
-    except Exception:
-        pass
+def purge_stale_rooms(db=None):
+    # In Firestore, TTL checks are handled when reading documents
+    pass
 
 
 def rooms_connection():
-    conn = get_mysql_connection()
-    if conn:
-        ensure_rooms_table(conn)
-    return conn
+    return get_firestore_client()
+

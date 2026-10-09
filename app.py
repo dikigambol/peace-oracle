@@ -65,39 +65,34 @@ def robots_txt():
 
 @app.route("/api/db-debug")
 def db_debug():
-    from core.core import HAS_PYMYSQL, get_mysql_config
-    import pymysql
-    cfg = get_mysql_config()
+    import time
+    from core.core import HAS_FIREBASE, get_firestore_client, get_service_account_dict
+    has_env = bool(os.environ.get("FIREBASE_SERVICE_ACCOUNT_KEY"))
+    has_file = os.path.isfile("serviceAccountKey.json") or os.path.isfile(os.path.join(os.path.dirname(__file__), "serviceAccountKey.json"))
     diag = {
-        "has_pymysql": HAS_PYMYSQL,
-        "host": cfg["host"],
-        "port": cfg["port"],
-        "user": cfg["user"],
-        "database": cfg["database"],
-        "password_configured": bool(cfg["password"]),
+        "provider": "firebase_firestore",
+        "has_firebase_package": HAS_FIREBASE,
+        "has_env_key": has_env,
+        "has_local_file": has_file,
     }
-    if not cfg["host"] or not cfg["user"] or not cfg["database"]:
+    sa_dict = get_service_account_dict()
+    if not sa_dict:
         diag["status"] = "error"
-        diag["message"] = "Environment variables database belum lengkap di Vercel"
+        diag["message"] = "Kredensial Firebase tidak ditemukan. Tambahkan FIREBASE_SERVICE_ACCOUNT_KEY di Environment Variables Vercel."
         return diag, 500
+    diag["project_id"] = sa_dict.get("project_id")
+    diag["client_email"] = sa_dict.get("client_email")
     try:
-        conn = pymysql.connect(
-            host=cfg["host"],
-            port=cfg["port"],
-            user=cfg["user"],
-            password=cfg["password"],
-            database=cfg["database"],
-            connect_timeout=8,
-            read_timeout=10,
-            write_timeout=10,
-            autocommit=True,
-        )
-        with conn.cursor() as cur:
-            cur.execute("SELECT 1 AS ok")
-            res = cur.fetchone()
-        conn.close()
+        db = get_firestore_client()
+        if not db:
+            diag["status"] = "error"
+            diag["message"] = "Gagal inisialisasi Firestore client."
+            return diag, 500
+        test_ref = db.collection("_healthcheck").document("ping")
+        test_ref.set({"timestamp": time.time(), "status": "ok"})
+        doc = test_ref.get()
         diag["status"] = "success"
-        diag["query_result"] = res
+        diag["ping_result"] = doc.to_dict()
         return diag, 200
     except Exception as e:
         diag["status"] = "error"

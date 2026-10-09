@@ -4,14 +4,16 @@ import time
 
 from flask import request
 
+import base64
+import json
+
 try:
-    import pymysql
-    import pymysql.cursors
+    import firebase_admin
+    from firebase_admin import credentials, firestore
 
-    HAS_PYMYSQL = True
+    HAS_FIREBASE = True
 except ImportError:
-    HAS_PYMYSQL = False
-
+    HAS_FIREBASE = False
 
 def init_app(app):
     @app.context_processor
@@ -26,69 +28,77 @@ def env_int(name, fallback):
         return fallback
 
 
-DB_OFFLINE_COOLDOWN = env_int("DB_OFFLINE_COOLDOWN", 5)
-_DB_OFFLINE_UNTIL = 0.0
+_FIRESTORE_CLIENT = None
+_FIREBASE_INIT_ATTEMPTED = False
+_SERVICE_ACCOUNT_INFO = None
 
 
-def _clean_env(val):
-    if not val:
+def get_service_account_dict():
+    # 1. Cek environment variable FIREBASE_SERVICE_ACCOUNT_KEY (bisa raw JSON string atau base64)
+    raw_env_key = os.environ.get("FIREBASE_SERVICE_ACCOUNT_KEY")
+    if raw_env_key:
+        raw_env_key = raw_env_key.strip()
+        try:
+            return json.loads(raw_env_key)
+        except Exception:
+            try:
+                decoded = base64.b64decode(raw_env_key).decode("utf-8")
+                return json.loads(decoded)
+            except Exception as e:
+                print(f"[FIREBASE ERROR] Gagal parse FIREBASE_SERVICE_ACCOUNT_KEY: {e}", flush=True)
+
+    # 2. Cek file lokal serviceAccountKey.json
+    custom_path = os.environ.get("FIREBASE_SERVICE_ACCOUNT_PATH")
+    root_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "serviceAccountKey.json")
+    for path in (custom_path, root_file, "serviceAccountKey.json"):
+        if path and os.path.isfile(path):
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception as e:
+                print(f"[FIREBASE ERROR] Gagal membaca service account dari file {path}: {e}", flush=True)
+
+    return None
+
+
+def get_firestore_client():
+    global _FIRESTORE_CLIENT, _FIREBASE_INIT_ATTEMPTED, _SERVICE_ACCOUNT_INFO
+    if not HAS_FIREBASE:
         return None
-    s = str(val).strip()
-    if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
-        s = s[1:-1].strip()
-    return s or None
+    if _FIRESTORE_CLIENT is not None:
+        return _FIRESTORE_CLIENT
+    if _FIREBASE_INIT_ATTEMPTED and _FIRESTORE_CLIENT is None:
+        return None
+
+    _FIREBASE_INIT_ATTEMPTED = True
+    key_dict = get_service_account_dict()
+    if not key_dict:
+        print("[FIREBASE WARN] Kredensial Firebase tidak ditemukan (tidak ada env FIREBASE_SERVICE_ACCOUNT_KEY maupun file serviceAccountKey.json).", flush=True)
+        return None
+
+    try:
+        _SERVICE_ACCOUNT_INFO = {
+            "project_id": key_dict.get("project_id"),
+            "client_email": key_dict.get("client_email"),
+        }
+        cred = credentials.Certificate(key_dict)
+        if not firebase_admin._apps:
+            firebase_admin.initialize_app(cred)
+        _FIRESTORE_CLIENT = firestore.client()
+        return _FIRESTORE_CLIENT
+    except Exception as e:
+        print(f"[FIREBASE ERROR] Gagal inisialisasi Firebase Admin / Firestore: {e}", flush=True)
+        return None
 
 
-def get_mysql_config():
-    return {
-        "host": _clean_env(os.environ.get("MYSQL_HOST")),
-        "port": env_int("MYSQL_PORT", 3306),
-        "database": _clean_env(os.environ.get("MYSQL_DB")),
-        "user": _clean_env(os.environ.get("MYSQL_USER")),
-        "password": _clean_env(os.environ.get("MYSQL_PASSWORD")),
-    }
-
-
-MYSQL_HOST = _clean_env(os.environ.get("MYSQL_HOST"))
-MYSQL_PORT = env_int("MYSQL_PORT", 3306)
-MYSQL_DB = _clean_env(os.environ.get("MYSQL_DB"))
-MYSQL_USER = _clean_env(os.environ.get("MYSQL_USER"))
-MYSQL_PASSWORD = _clean_env(os.environ.get("MYSQL_PASSWORD"))
+def get_firebase_info():
+    get_firestore_client()
+    return _SERVICE_ACCOUNT_INFO
 
 
 def db_available():
-    cfg = get_mysql_config()
-    return bool(HAS_PYMYSQL and cfg["host"] and cfg["database"] and cfg["user"])
+    return get_firestore_client() is not None
 
-
-def mark_db_offline():
-    global _DB_OFFLINE_UNTIL
-    _DB_OFFLINE_UNTIL = time.monotonic() + DB_OFFLINE_COOLDOWN
-
-
-def get_mysql_connection():
-    if not db_available():
-        return None
-    if time.monotonic() < _DB_OFFLINE_UNTIL:
-        return None
-    cfg = get_mysql_config()
-    try:
-        return pymysql.connect(
-            host=cfg["host"],
-            port=cfg["port"],
-            user=cfg["user"],
-            password=cfg["password"],
-            database=cfg["database"],
-            cursorclass=pymysql.cursors.DictCursor,
-            connect_timeout=8,
-            read_timeout=10,
-            write_timeout=10,
-            autocommit=True,
-        )
-    except (pymysql.MySQLError, OSError) as e:
-        print(f"[DB ERROR] Gagal koneksi MySQL ({cfg['host']}:{cfg['port']}, db={cfg['database']}, user={cfg['user']}): {e}", flush=True)
-        mark_db_offline()
-        return None
 
 
 def _hash(value):

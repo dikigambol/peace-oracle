@@ -6,7 +6,7 @@
   <p>
     <img src="https://img.shields.io/badge/Python-3.12+-3776AB?style=flat-square&labelColor=30363D&logo=python&logoColor=FFD43B" alt="Python 3.12+">
     <img src="https://img.shields.io/badge/Flask-009688?style=flat-square&labelColor=30363D&logo=flask&logoColor=white" alt="Flask">
-    <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&labelColor=30363D&logo=mysql&logoColor=white" alt="MySQL">
+    <img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&labelColor=30363D&logo=firebase&logoColor=black" alt="Firebase">
     <img src="https://img.shields.io/badge/Vercel-7B5CFF?style=flat-square&labelColor=30363D&logo=vercel&logoColor=white" alt="Vercel">
     <img src="https://img.shields.io/badge/Status-Beta-FF8C42?style=flat-square&labelColor=30363D" alt="Beta">
   </p>
@@ -61,7 +61,7 @@ Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma
 
 AI dipakai di Zodiak dan untuk menjawab pertanyaan di Tarot. Shio, Weton, dan sisa fitur Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
 
-MySQL dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Semua tabel (`ai_usage`, `zodiak_rooms`, `shio_rooms`, `shio_room_participants`) dibuat otomatis saat pertama kali dibutuhkan, jadi cukup siapin database kosong.
+Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Semua data disimpan di collection `ai_usage`, `zodiak_rooms`, dan `shio_rooms` di Firestore.
 
 ```text
 peace-oracle/
@@ -100,10 +100,10 @@ Lalu isi `.env`. Yang penting:
 | --- | --- |
 | `SECRET_KEY` | Wajib. Generate pakai `python -c "import secrets; print(secrets.token_hex(32))"` |
 | `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, plus jawaban pertanyaan di Tarot (Bacaan dan Ya/Tidak) |
-| `MYSQL_HOST`, `MYSQL_DB`, `MYSQL_USER`, `MYSQL_PASSWORD` | Koneksi database. Kalau kosong, Quiz Room Zodiak dan Ju Hui Shio nggak aktif, dan kuota AI cuma disimpan di memori |
+| `FIREBASE_SERVICE_ACCOUNT_KEY` | Kredensial Firebase (isi raw JSON dari serviceAccountKey.json untuk Vercel / serverless). Secara lokal otomatis membaca file `serviceAccountKey.json` |
 | `FLASK_ENV` | Set `production` di server biar debug mode selalu off |
 
-Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `MYSQL_PORT` (3306), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `DB_OFFLINE_COOLDOWN` (60 detik), `MEMORY_STORE_MAX` (5000).
+Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `DB_OFFLINE_COOLDOWN` (60 detik), `MEMORY_STORE_MAX` (5000).
 
 Terus run:
 

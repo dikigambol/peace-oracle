@@ -2451,154 +2451,26 @@ class QuizError(Exception):
         self.status = status
 
 
-class Transaction:
-    lock_suffix = " FOR UPDATE"
+class FirestoreRoomStore:
+    def __init__(self):
+        self.integrity_errors = ()
 
-    def __init__(self, cursor):
-        self.cursor = cursor
-
-    def prepare(self, sql):
-        return sql
-
-    def execute(self, sql, params=()):
-        self.cursor.execute(self.prepare(sql), tuple(params))
-        return self.cursor.rowcount
-
-    def fetch_one(self, sql, params=()):
-        self.execute(sql, params)
-        row = self.cursor.fetchone()
-        return dict(row) if row is not None else None
-
-    def fetch_all(self, sql, params=()):
-        self.execute(sql, params)
-        return [dict(row) for row in self.cursor.fetchall()]
-
-    def lock_room(self, room_code):
-        return self.fetch_one(
-            "SELECT * FROM shio_rooms WHERE room_code = %s" + self.lock_suffix, (room_code,)
-        )
-
-
-ROOM_SCHEMA = (
-    """CREATE TABLE IF NOT EXISTS shio_rooms (
-        room_code CHAR(6) NOT NULL,
-        mode VARCHAR(16) NOT NULL,
-        relation_type VARCHAR(16) NULL,
-        status VARCHAR(16) NOT NULL,
-        capacity TINYINT UNSIGNED NOT NULL,
-        settings_json TEXT NOT NULL,
-        state_json MEDIUMTEXT NULL,
-        result_json MEDIUMTEXT NULL,
-        creator_device VARCHAR(64) NOT NULL,
-        created_at DATETIME NOT NULL,
-        updated_at DATETIME NOT NULL,
-        expires_at DATETIME NOT NULL,
-        PRIMARY KEY (room_code),
-        INDEX idx_shio_rooms_expires (expires_at),
-        INDEX idx_shio_rooms_creator (creator_device, created_at)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""",
-    """CREATE TABLE IF NOT EXISTS shio_room_participants (
-        room_code CHAR(6) NOT NULL,
-        slot TINYINT UNSIGNED NOT NULL,
-        participant_token CHAR(64) NOT NULL,
-        name VARCHAR(40) NOT NULL,
-        birth_date DATE NOT NULL,
-        shio_key VARCHAR(16) NOT NULL,
-        answers_json TEXT NULL,
-        progress_json MEDIUMTEXT NULL,
-        joined_at DATETIME NOT NULL,
-        PRIMARY KEY (room_code, slot),
-        UNIQUE KEY uq_shio_participant_token (participant_token)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci""",
-)
-
-
-class RoomStore:
-    transaction_class = Transaction
-
-    def __init__(self, connect, unavailable_errors=(), integrity_errors=(), on_unavailable=None, schema=()):
-        self.connect = connect
-        self.unavailable_errors = tuple(unavailable_errors)
-        self.integrity_errors = tuple(integrity_errors)
-        self.on_unavailable = on_unavailable
-        self.schema = tuple(schema)
-        self.schema_ready = not self.schema
-
-    def prepare_schema(self, conn):
-        if self.schema_ready:
-            return
-        with conn.cursor() as cursor:
-            for statement in self.schema:
-                cursor.execute(statement)
-        self.schema_ready = True
-
-    def begin(self, conn):
-        with conn.cursor() as setup:
-            setup.execute("SET TRANSACTION ISOLATION LEVEL READ COMMITTED")
-        conn.begin()
-
-    def report_unavailable(self, error):
-        if self.on_unavailable is not None:
-            self.on_unavailable(error)
-
-    @contextmanager
-    def transaction(self):
-        try:
-            conn = self.connect()
-        except self.unavailable_errors as error:
-            self.report_unavailable(error)
-            raise QuizUnavailable() from error
-        if conn is None:
+    @property
+    def db(self):
+        from core.core import get_firestore_client
+        client = get_firestore_client()
+        if not client:
             raise QuizUnavailable()
-        try:
-            self.prepare_schema(conn)
-            self.begin(conn)
-            yield self.transaction_class(conn.cursor())
-            conn.commit()
-        except self.unavailable_errors as error:
-            rollback_quietly(conn)
-            self.report_unavailable(error)
-            raise QuizUnavailable() from error
-        except BaseException:
-            rollback_quietly(conn)
-            raise
-        finally:
-            try:
-                conn.close()
-            except Exception:
-                pass
+        return client
+
+    def collection(self):
+        return self.db.collection("shio_rooms")
 
 
-def rollback_quietly(conn):
-    try:
-        conn.rollback()
-    except Exception:
-        pass
+def build_room_store():
+    return FirestoreRoomStore()
 
 
-def build_mysql_store():
-    from core import core as shared
-
-    if not shared.HAS_PYMYSQL:
-        return RoomStore(lambda: None)
-
-    import pymysql
-
-    def on_unavailable(error):
-        if isinstance(error, (pymysql.err.OperationalError, pymysql.err.InterfaceError)):
-            shared.mark_db_offline()
-
-    return RoomStore(
-        shared.get_mysql_connection,
-        unavailable_errors=(
-            pymysql.err.OperationalError,
-            pymysql.err.InterfaceError,
-            pymysql.err.ProgrammingError,
-        ),
-        integrity_errors=(pymysql.err.IntegrityError,),
-        on_unavailable=on_unavailable,
-        schema=ROOM_SCHEMA,
-    )
 
 
 MODE_LIMITS = {"pasangan": (2, 2), "kelompok": (3, 8), "tebak": (3, 8)}
@@ -2700,9 +2572,14 @@ def read_person(payload):
 
 
 def load_json(value, fallback):
-    if not value:
+    if value is None:
         return fallback
-    return json.loads(value)
+    if isinstance(value, (dict, list)):
+        return value
+    try:
+        return json.loads(value)
+    except Exception:
+        return fallback
 
 
 def dump_json(value):
@@ -2714,30 +2591,35 @@ def normalise_participant(row):
         **row,
         "slot": int(row["slot"]),
         "birth_date": str(row["birth_date"]),
-        "answers": load_json(row.get("answers_json"), None),
-        "progress": load_json(row.get("progress_json"), {}),
+        "answers": load_json(row.get("answers") or row.get("answers_json"), None),
+        "progress": load_json(row.get("progress") or row.get("progress_json"), {}),
     }
 
 
-def fetch_participants(tx, room_code):
-    rows = tx.fetch_all(
-        "SELECT * FROM shio_room_participants WHERE room_code = %s ORDER BY slot",
-        (room_code,),
-    )
-    return [normalise_participant(row) for row in rows]
+def fetch_participants(room):
+    if isinstance(room, dict):
+        raw = room.get("participants", [])
+    else:
+        raw = []
+    return [normalise_participant(row) for row in raw]
 
 
 def require_room(room, now):
-    if room is None or (room["status"] != STATUS_DONE and read_moment(room["expires_at"]) <= now):
+    if room is None:
         raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    if room.get("status") != STATUS_DONE:
+        expires = read_moment(room["expires_at"])
+        if expires <= now:
+            raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
     return room
 
 
-def load_room(tx, room_code, now, lock=True):
-    if lock:
-        room = tx.lock_room(room_code)
-    else:
-        room = tx.fetch_one("SELECT * FROM shio_rooms WHERE room_code = %s", (room_code,))
+def load_room(store, room_code, now):
+    coll = store.collection()
+    doc = coll.document(room_code).get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = doc.to_dict() or {}
     return require_room(room, now)
 
 
@@ -2758,45 +2640,17 @@ def require_member(participants, token):
     return member
 
 
-def touch_room(tx, room_code, now, **fields):
-    assignments = ["updated_at = %s"]
-    params = [format_moment(now)]
-    for column, value in fields.items():
-        assignments.append(column + " = %s")
-        params.append(value)
-    params.append(room_code)
-    tx.execute(
-        "UPDATE shio_rooms SET " + ", ".join(assignments) + " WHERE room_code = %s",
-        params,
-    )
-
-
-def insert_participant(tx, room_code, slot, person, now):
-    if not SLOT_LIMITS[0] <= slot <= SLOT_LIMITS[1]:
-        raise QuizError("Slot peserta di luar batas.", 409)
-    token = secrets.token_urlsafe(TOKEN_BYTES)
-    tx.execute(
-        "INSERT INTO shio_room_participants "
-        "(room_code, slot, participant_token, name, birth_date, shio_key, joined_at) "
-        "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-        (room_code, slot, hash_token(token), person["name"], person["birth_date"],
-         person["shio_key"], format_moment(now)),
-    )
-    return token
-
-
 def purge_expired_rooms(store, now):
-    cutoff = format_moment(now)
-    with store.transaction() as tx:
-        tx.execute(
-            "DELETE FROM shio_room_participants WHERE room_code IN "
-            "(SELECT room_code FROM shio_rooms WHERE expires_at <= %s AND status <> %s)",
-            (cutoff, STATUS_DONE),
-        )
-        return tx.execute(
-            "DELETE FROM shio_rooms WHERE expires_at <= %s AND status <> %s",
-            (cutoff, STATUS_DONE),
-        )
+    try:
+        cutoff = format_moment(now)
+        coll = store.collection()
+        query = coll.where("expires_at", "<=", cutoff).limit(20)
+        for doc in query.stream():
+            data = doc.to_dict() or {}
+            if data.get("status") != STATUS_DONE:
+                doc.reference.delete()
+    except Exception:
+        pass
 
 
 def read_room_settings(payload, mode):
@@ -2823,58 +2677,94 @@ def create_room(store, payload, device, now=None):
     relation_type, settings = read_room_settings(payload, mode)
     person = read_person(payload)
     purge_expired_rooms(store, now)
-    with store.transaction() as tx:
-        recent = tx.fetch_one(
-            "SELECT COUNT(*) AS total FROM shio_rooms "
-            "WHERE creator_device = %s AND created_at > %s",
-            (device, format_moment(now - ROOM_CREATE_WINDOW)),
-        )
-        if int(recent["total"]) >= ROOM_CREATE_LIMIT:
+    coll = store.collection()
+
+    cutoff_recent = format_moment(now - ROOM_CREATE_WINDOW)
+    try:
+        from google.cloud.firestore import FieldFilter
+        recent_count = len(list(coll.where(filter=FieldFilter("creator_device", "==", device)).where(filter=FieldFilter("created_at", ">", cutoff_recent)).limit(ROOM_CREATE_LIMIT + 1).stream()))
+        if recent_count >= ROOM_CREATE_LIMIT:
             raise QuizError(
                 "Kamu sudah membuat terlalu banyak room dalam satu jam. Coba lagi nanti.", 429
             )
-        room_code = None
-        for _ in range(ROOM_CODE_ATTEMPTS):
-            candidate = generate_room_code()
-            if tx.fetch_one(
-                "SELECT room_code FROM shio_rooms WHERE room_code = %s", (candidate,)
-            ):
-                continue
-            try:
-                tx.execute(
-                    "INSERT INTO shio_rooms (room_code, mode, relation_type, status, "
-                    "capacity, settings_json, creator_device, created_at, updated_at, "
-                    "expires_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-                    (candidate, mode, relation_type, STATUS_LOBBY, MODE_LIMITS[mode][1],
-                     dump_json(settings), device, format_moment(now), format_moment(now),
-                     format_moment(now + ROOM_TTL)),
-                )
-            except store.integrity_errors:
-                continue
+    except Exception:
+        pass
+
+    room_code = None
+    for _ in range(ROOM_CODE_ATTEMPTS):
+        candidate = generate_room_code()
+        doc_ref = coll.document(candidate)
+        if not doc_ref.get().exists:
             room_code = candidate
             break
-        if room_code is None:
-            raise QuizError("Gagal membuat kode room. Coba sekali lagi.", 503)
-        token = insert_participant(tx, room_code, HOST_SLOT, person, now)
+    if room_code is None:
+        raise QuizError("Gagal membuat kode room. Coba sekali lagi.", 503)
+
+    token = secrets.token_urlsafe(TOKEN_BYTES)
+    host_participant = {
+        "slot": HOST_SLOT,
+        "participant_token": hash_token(token),
+        "name": person["name"],
+        "birth_date": person["birth_date"],
+        "shio_key": person["shio_key"],
+        "answers": None,
+        "progress": {},
+        "joined_at": format_moment(now),
+    }
+    room_data = {
+        "room_code": room_code,
+        "mode": mode,
+        "relation_type": relation_type,
+        "status": STATUS_LOBBY,
+        "capacity": MODE_LIMITS[mode][1],
+        "settings": settings,
+        "state": None,
+        "result": None,
+        "creator_device": device,
+        "created_at": format_moment(now),
+        "updated_at": format_moment(now),
+        "expires_at": format_moment(now + ROOM_TTL),
+        "participants": [host_participant],
+    }
+    coll.document(room_code).set(room_data)
     return {"room_code": room_code, "token": token, "slot": HOST_SLOT}
 
 
 def join_room(store, room_code, payload, now=None):
     now = now or utc_now()
     person = read_person(payload)
-    with store.transaction() as tx:
-        room = load_room(tx, room_code, now)
-        if room["status"] != STATUS_LOBBY:
-            raise QuizError("Room ini sudah mulai atau selesai, tidak bisa bergabung lagi.", 409)
-        participants = fetch_participants(tx, room_code)
-        if len(participants) >= int(room["capacity"]):
-            raise QuizError("Room sudah penuh.", 409)
-        slot = max(p["slot"] for p in participants) + 1 if participants else HOST_SLOT
-        token = insert_participant(tx, room_code, slot, person, now)
-        status = room["status"]
-        if room["mode"] == "pasangan" and len(participants) + 1 == int(room["capacity"]):
-            status = STATUS_PLAYING
-        touch_room(tx, room_code, now, status=status)
+    coll = store.collection()
+    doc_ref = coll.document(room_code)
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = require_room(doc.to_dict(), now)
+    if room["status"] != STATUS_LOBBY:
+        raise QuizError("Room ini sudah mulai atau selesai, tidak bisa bergabung lagi.", 409)
+    participants = fetch_participants(room)
+    if len(participants) >= int(room["capacity"]):
+        raise QuizError("Room sudah penuh.", 409)
+    slot = max(p["slot"] for p in participants) + 1 if participants else HOST_SLOT
+    token = secrets.token_urlsafe(TOKEN_BYTES)
+    new_participant = {
+        "slot": slot,
+        "participant_token": hash_token(token),
+        "name": person["name"],
+        "birth_date": person["birth_date"],
+        "shio_key": person["shio_key"],
+        "answers": None,
+        "progress": {},
+        "joined_at": format_moment(now),
+    }
+    participants.append(new_participant)
+    status = room["status"]
+    if room["mode"] == "pasangan" and len(participants) == int(room["capacity"]):
+        status = STATUS_PLAYING
+    doc_ref.update({
+        "participants": participants,
+        "status": status,
+        "updated_at": format_moment(now),
+    })
     return {"room_code": room_code, "token": token, "slot": slot}
 
 
@@ -2886,7 +2776,7 @@ def get_pair_questions(question_ids):
 
 
 def get_room_pair_questions(room):
-    settings = load_json(room["settings_json"], {})
+    settings = load_json(room.get("settings") or room.get("settings_json"), {})
     return get_pair_questions(settings.get("question_ids") or LEGACY_PAIR_QUESTION_IDS)
 
 
@@ -2977,32 +2867,35 @@ def build_pair_result(room, participants):
 
 def submit_answers(store, room_code, token, answers, now=None):
     now = now or utc_now()
-    with store.transaction() as tx:
-        room = load_room(tx, room_code, now)
-        if room["mode"] != "pasangan":
-            raise QuizError("Mode ini tidak memakai soal.")
-        cleaned = read_pair_answers(answers, get_room_pair_questions(room))
-        participants = fetch_participants(tx, room_code)
-        member = require_member(participants, token)
-        if room["status"] == STATUS_DONE:
-            raise QuizError("Hasil room ini sudah terkunci.", 409)
-        if member["answers"] is not None:
-            raise QuizError("Jawabanmu sudah tersimpan.", 409)
-        tx.execute(
-            "UPDATE shio_room_participants SET answers_json = %s "
-            "WHERE room_code = %s AND slot = %s",
-            (dump_json(cleaned), room_code, member["slot"]),
-        )
-        member["answers"] = cleaned
-        complete = (
-            len(participants) == int(room["capacity"])
-            and all(p["answers"] is not None for p in participants)
-        )
-        if complete:
-            result = build_pair_result(room, participants)
-            touch_room(tx, room_code, now, status=STATUS_DONE, result_json=dump_json(result))
-        else:
-            touch_room(tx, room_code, now)
+    coll = store.collection()
+    doc_ref = coll.document(room_code)
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = require_room(doc.to_dict(), now)
+    if room["mode"] != "pasangan":
+        raise QuizError("Mode ini tidak memakai soal.")
+    cleaned = read_pair_answers(answers, get_room_pair_questions(room))
+    participants = fetch_participants(room)
+    member = require_member(participants, token)
+    if room["status"] == STATUS_DONE:
+        raise QuizError("Hasil room ini sudah terkunci.", 409)
+    if member.get("answers") is not None:
+        raise QuizError("Jawabanmu sudah tersimpan.", 409)
+    member["answers"] = cleaned
+    complete = (
+        len(participants) == int(room["capacity"])
+        and all(p.get("answers") is not None for p in participants)
+    )
+    update_data = {
+        "participants": participants,
+        "updated_at": format_moment(now),
+    }
+    if complete:
+        result = build_pair_result(room, participants)
+        update_data["status"] = STATUS_DONE
+        update_data["result"] = result
+    doc_ref.update(update_data)
     return {"completed": complete}
 
 
@@ -3025,27 +2918,35 @@ def build_guess_rounds(participants, flavor, rng):
 
 def start_room(store, room_code, token, now=None):
     now = now or utc_now()
-    with store.transaction() as tx:
-        room = load_room(tx, room_code, now)
-        participants = fetch_participants(tx, room_code)
-        member = require_member(participants, token)
-        if room["mode"] == "pasangan":
-            raise QuizError("Ramalan Pasangan mulai otomatis setelah berdua.")
-        if member["slot"] != HOST_SLOT:
-            raise QuizError("Hanya pembuat room yang bisa memulai.", 403)
-        if room["status"] != STATUS_LOBBY:
-            raise QuizError("Room ini sudah dimulai.", 409)
-        minimum = MODE_LIMITS[room["mode"]][0]
-        if len(participants) < minimum:
-            raise QuizError(f"Butuh minimal {minimum} orang untuk mulai.", 409)
-        if room["mode"] == "kelompok":
-            result = build_group_result(room, participants)
-            touch_room(tx, room_code, now, status=STATUS_DONE, result_json=dump_json(result))
-        else:
-            settings = load_json(room["settings_json"], {})
-            rng = random.Random(secrets.randbits(64))
-            state = {"rounds": build_guess_rounds(participants, settings.get("flavor", "manis"), rng)}
-            touch_room(tx, room_code, now, status=STATUS_PLAYING, state_json=dump_json(state))
+    coll = store.collection()
+    doc_ref = coll.document(room_code)
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = require_room(doc.to_dict(), now)
+    participants = fetch_participants(room)
+    member = require_member(participants, token)
+    if room["mode"] == "pasangan":
+        raise QuizError("Ramalan Pasangan mulai otomatis setelah berdua.")
+    if member["slot"] != HOST_SLOT:
+        raise QuizError("Hanya pembuat room yang bisa memulai.", 403)
+    if room["status"] != STATUS_LOBBY:
+        raise QuizError("Room ini sudah dimulai.", 409)
+    minimum = MODE_LIMITS[room["mode"]][0]
+    if len(participants) < minimum:
+        raise QuizError(f"Butuh minimal {minimum} orang untuk mulai.", 409)
+    update_data = {"updated_at": format_moment(now)}
+    if room["mode"] == "kelompok":
+        result = build_group_result(room, participants)
+        update_data["status"] = STATUS_DONE
+        update_data["result"] = result
+    else:
+        settings = load_json(room.get("settings") or room.get("settings_json"), {})
+        rng = random.Random(secrets.randbits(64))
+        state = {"rounds": build_guess_rounds(participants, settings.get("flavor", "manis"), rng)}
+        update_data["status"] = STATUS_PLAYING
+        update_data["state"] = state
+    doc_ref.update(update_data)
     return {"started": True}
 
 
@@ -3078,39 +2979,42 @@ def submit_guess(store, room_code, token, round_index, guess_slot, now=None):
         raise QuizError("Ronde tidak dikenal.")
     if isinstance(guess_slot, bool) or not isinstance(guess_slot, int):
         raise QuizError("Pilih salah satu teman.")
-    with store.transaction() as tx:
-        room = load_room(tx, room_code, now)
-        if room["mode"] != "tebak":
-            raise QuizError("Mode ini tidak memakai tebakan.")
-        participants = fetch_participants(tx, room_code)
-        member = require_member(participants, token)
-        if room["status"] != STATUS_PLAYING:
-            raise QuizError("Permainan belum dimulai atau sudah selesai.", 409)
-        rounds = load_json(room["state_json"], {"rounds": []})["rounds"]
-        if round_index != find_current_round(rounds, member):
-            raise QuizError("Ronde ini bukan giliranmu sekarang.", 409)
-        slots = {p["slot"] for p in participants}
-        if guess_slot == member["slot"] or guess_slot not in slots:
-            raise QuizError("Pilih salah satu teman, bukan dirimu sendiri.")
-        entry = round_entry(member["progress"], round_index)
-        if guess_slot in entry["attempts"]:
-            raise QuizError("Teman itu sudah kamu tebak di ronde ini.")
-        entry["attempts"].append(guess_slot)
-        correct = guess_slot == rounds[round_index]["target_slot"]
-        if correct:
-            entry["solved"] = True
-            entry["points"] = guess_points(len(entry["attempts"]), len(slots) - 1)
-        member["progress"][str(round_index)] = entry
-        tx.execute(
-            "UPDATE shio_room_participants SET progress_json = %s "
-            "WHERE room_code = %s AND slot = %s",
-            (dump_json(member["progress"]), room_code, member["slot"]),
-        )
-        if is_guess_complete(rounds, participants):
-            result = build_guess_result(room, participants, rounds)
-            touch_room(tx, room_code, now, status=STATUS_DONE, result_json=dump_json(result))
-        else:
-            touch_room(tx, room_code, now)
+    coll = store.collection()
+    doc_ref = coll.document(room_code)
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = require_room(doc.to_dict(), now)
+    if room["mode"] != "tebak":
+        raise QuizError("Mode ini tidak memakai tebakan.")
+    participants = fetch_participants(room)
+    member = require_member(participants, token)
+    if room["status"] != STATUS_PLAYING:
+        raise QuizError("Permainan belum dimulai atau sudah selesai.", 409)
+    rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
+    if round_index != find_current_round(rounds, member):
+        raise QuizError("Ronde ini bukan giliranmu sekarang.", 409)
+    slots = {p["slot"] for p in participants}
+    if guess_slot == member["slot"] or guess_slot not in slots:
+        raise QuizError("Pilih salah satu teman, bukan dirimu sendiri.")
+    entry = round_entry(member["progress"], round_index)
+    if guess_slot in entry["attempts"]:
+        raise QuizError("Teman itu sudah kamu tebak di ronde ini.")
+    entry["attempts"].append(guess_slot)
+    correct = guess_slot == rounds[round_index]["target_slot"]
+    if correct:
+        entry["solved"] = True
+        entry["points"] = guess_points(len(entry["attempts"]), len(slots) - 1)
+    member["progress"][str(round_index)] = entry
+    update_data = {
+        "participants": participants,
+        "updated_at": format_moment(now),
+    }
+    if is_guess_complete(rounds, participants):
+        result = build_guess_result(room, participants, rounds)
+        update_data["status"] = STATUS_DONE
+        update_data["result"] = result
+    doc_ref.update(update_data)
     return {"correct": correct, "points": entry["points"], "attempts": len(entry["attempts"])}
 
 
@@ -3159,17 +3063,25 @@ def build_guess_result(room, participants, rounds):
 
 def finish_room(store, room_code, token, now=None):
     now = now or utc_now()
-    with store.transaction() as tx:
-        room = load_room(tx, room_code, now)
-        participants = fetch_participants(tx, room_code)
-        member = require_member(participants, token)
-        if member["slot"] != HOST_SLOT:
-            raise QuizError("Hanya pembuat room yang bisa mengakhiri permainan.", 403)
-        if room["mode"] != "tebak" or room["status"] != STATUS_PLAYING:
-            raise QuizError("Tidak ada permainan yang sedang berjalan.", 409)
-        rounds = load_json(room["state_json"], {"rounds": []})["rounds"]
-        result = build_guess_result(room, participants, rounds)
-        touch_room(tx, room_code, now, status=STATUS_DONE, result_json=dump_json(result))
+    coll = store.collection()
+    doc_ref = coll.document(room_code)
+    doc = doc_ref.get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = require_room(doc.to_dict(), now)
+    participants = fetch_participants(room)
+    member = require_member(participants, token)
+    if member["slot"] != HOST_SLOT:
+        raise QuizError("Hanya pembuat room yang bisa mengakhiri permainan.", 403)
+    if room["mode"] != "tebak" or room["status"] != STATUS_PLAYING:
+        raise QuizError("Tidak ada permainan yang sedang berjalan.", 409)
+    rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
+    result = build_guess_result(room, participants, rounds)
+    doc_ref.update({
+        "status": STATUS_DONE,
+        "result": result,
+        "updated_at": format_moment(now),
+    })
     return {"finished": True}
 
 
@@ -3188,12 +3100,12 @@ def describe_participant(participant, member, mode, status):
         row["shio"] = shio["name"]
         row["hanzi"] = shio["hanzi"]
     if mode == "pasangan":
-        row["answered"] = participant["answers"] is not None
+        row["answered"] = participant.get("answers") is not None
     return row
 
 
 def describe_guess_turn(room, participants, member):
-    rounds = load_json(room["state_json"], {"rounds": []})["rounds"]
+    rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
     playable = [i for i, item in enumerate(rounds) if item["target_slot"] != member["slot"]]
     index = find_current_round(rounds, member)
     solved = sum(1 for i in playable if round_entry(member["progress"], i)["solved"])
@@ -3228,14 +3140,17 @@ def describe_guess_turn(room, participants, member):
 
 def build_room_view(store, room_code, token, now=None):
     now = now or utc_now()
-    with store.transaction() as tx:
-        room = load_room(tx, room_code, now, lock=False)
-        participants = fetch_participants(tx, room_code)
+    coll = store.collection()
+    doc = coll.document(room_code).get()
+    if not doc.exists:
+        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
+    room = require_room(doc.to_dict(), now)
+    participants = fetch_participants(room)
     member = find_member(participants, token)
     mode = room["mode"]
     status = room["status"]
     minimum, maximum = MODE_LIMITS[mode]
-    settings = load_json(room["settings_json"], {})
+    settings = load_json(room.get("settings") or room.get("settings_json"), {})
     view = {
         "room_code": room["room_code"],
         "mode": mode,
@@ -3249,7 +3164,7 @@ def build_room_view(store, room_code, token, now=None):
         "participants": [describe_participant(p, member, mode, status) for p in participants],
         "me": None,
     }
-    if room["relation_type"]:
+    if room.get("relation_type"):
         view["relation_type"] = room["relation_type"]
         view["relation_label"] = RELATION_LENS[room["relation_type"]]["label"]
     if "flavor" in settings:
@@ -3263,8 +3178,8 @@ def build_room_view(store, room_code, token, now=None):
         "is_host": member["slot"] == HOST_SLOT,
     }
     if mode == "pasangan" and status != STATUS_DONE:
-        view["me"]["answered"] = member["answers"] is not None
-        if member["answers"] is None:
+        view["me"]["answered"] = member.get("answers") is not None
+        if member.get("answers") is None:
             view["questions"] = [
                 {"id": q["id"], "question": q["question"], "options": q["options"]}
                 for q in get_room_pair_questions(room)
@@ -3272,5 +3187,6 @@ def build_room_view(store, room_code, token, now=None):
     if mode == "tebak" and status == STATUS_PLAYING:
         view["turn"] = describe_guess_turn(room, participants, member)
     if status == STATUS_DONE:
-        view["result"] = load_json(room["result_json"], None)
+        view["result"] = load_json(room.get("result") or room.get("result_json"), None)
     return view
+

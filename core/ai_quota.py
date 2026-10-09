@@ -1,75 +1,62 @@
 import datetime
 
-from core.core import db_available, env_int, get_mysql_connection
+from core.core import db_available, env_int, get_firestore_client
 
 WIB = datetime.timezone(datetime.timedelta(hours=7))
 QUOTA_MEMORY_MAX = env_int("MEMORY_STORE_MAX", 5000)
 QUOTA_TOTAL_BUCKET = "__total__"
 QUOTA_MEMORY = {}
-QUOTA_TABLE_STATE = {"ready": False}
 
 
 def quota_day():
     return datetime.datetime.now(WIB).date().isoformat()
 
 
-def run_quota_sql(sql, params=()):
-    conn = get_mysql_connection()
-    if not conn:
-        return False, None
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(sql, params)
-            return True, cursor.fetchone()
-    except Exception:
-        return False, None
-    finally:
-        conn.close()
-
-
-def ensure_quota_table():
-    if QUOTA_TABLE_STATE["ready"] or not db_available():
-        return QUOTA_TABLE_STATE["ready"]
-    created, _ = run_quota_sql("""
-        CREATE TABLE IF NOT EXISTS ai_usage (
-            namespace VARCHAR(32) NOT NULL,
-            client_id VARCHAR(191) NOT NULL,
-            quota_date VARCHAR(10) NOT NULL,
-            used_count INT NOT NULL DEFAULT 0,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            PRIMARY KEY (namespace, client_id)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-    """)
-    QUOTA_TABLE_STATE["ready"] = created
-    return QUOTA_TABLE_STATE["ready"]
+def _quota_doc_id(namespace, client_id):
+    # Bersihkan ID agar aman sebagai Document ID Firestore
+    raw = f"{namespace}_{client_id}".replace("/", "_").replace(".", "_")
+    return raw[:200]
 
 
 def stored_quota_count(namespace, client_id, day):
-    if not ensure_quota_table():
+    db = get_firestore_client()
+    if not db:
         return None
-    ok, row = run_quota_sql(
-        "SELECT used_count, quota_date FROM ai_usage WHERE namespace = %s AND client_id = %s",
-        (namespace, client_id),
-    )
-    if not ok:
+    try:
+        doc = db.collection("ai_usage").document(_quota_doc_id(namespace, client_id)).get()
+        if doc.exists:
+            data = doc.to_dict() or {}
+            if data.get("quota_date") == day:
+                return data.get("used_count", 0)
+        return 0
+    except Exception as e:
+        print(f"[FIREBASE QUOTA ERROR] Gagal baca quota: {e}", flush=True)
         return None
-    return row["used_count"] if row and row["quota_date"] == day else 0
 
 
 def store_quota_increment(namespace, client_id, day):
-    if not ensure_quota_table():
+    db = get_firestore_client()
+    if not db:
         return False
-    ok, _ = run_quota_sql(
-        """
-        INSERT INTO ai_usage (namespace, client_id, quota_date, used_count)
-        VALUES (%s, %s, %s, 1)
-        ON DUPLICATE KEY UPDATE
-            used_count = IF(quota_date = VALUES(quota_date), used_count + 1, 1),
-            quota_date = VALUES(quota_date)
-        """,
-        (namespace, client_id, day),
-    )
-    return ok
+    try:
+        doc_ref = db.collection("ai_usage").document(_quota_doc_id(namespace, client_id))
+        doc = doc_ref.get()
+        new_count = 1
+        if doc.exists:
+            data = doc.to_dict() or {}
+            if data.get("quota_date") == day:
+                new_count = int(data.get("used_count", 0)) + 1
+        doc_ref.set({
+            "namespace": namespace,
+            "client_id": client_id,
+            "quota_date": day,
+            "used_count": new_count,
+        })
+        return True
+    except Exception as e:
+        print(f"[FIREBASE QUOTA ERROR] Gagal update quota: {e}", flush=True)
+        return False
+
 
 
 def memory_quota_count(namespace, client_id, day):

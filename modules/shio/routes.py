@@ -14,7 +14,7 @@ from .data import (
     SHIOS_LIST,
     QuizError,
     QuizUnavailable,
-    build_mysql_store,
+    build_room_store,
 )
 from .bank import RELATION_LENS, QUIZ_MODE_BANK, GUESS_FLAVOR_BANK
 from . import data as shio_data
@@ -161,7 +161,7 @@ QUIZ_OFFLINE_MESSAGE = (
 def get_quiz_store():
     store = current_app.config.get("SHIO_QUIZ_STORE")
     if store is None:
-        store = build_mysql_store()
+        store = build_room_store()
         current_app.config["SHIO_QUIZ_STORE"] = store
     return store
 

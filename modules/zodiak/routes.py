@@ -1,3 +1,4 @@
+import datetime
 from flask import Blueprint, render_template, jsonify, request
 from .data import (
     ELEMENT_COMPATIBILITY,
@@ -428,24 +429,36 @@ def zodiac_pair_score(host_sign, partner_sign):
 
 
 def load_json_field(row, field, default=None):
-    return json.loads(row[field]) if row.get(field) else default
-
-
-def fetch_quiz_room(conn, room_code):
+    val = row.get(field)
+    if val is None:
+        return default
+    if isinstance(val, (dict, list)):
+        return val
     try:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                "SELECT * FROM zodiak_rooms WHERE room_code = %s "
-                "AND (status = 'completed' OR created_at > NOW() - INTERVAL %s HOUR);",
-                (room_code, ROOM_TTL_HOURS),
-            )
-            return cursor.fetchone()
+        return json.loads(val)
     except Exception:
+        return default
+
+
+def fetch_quiz_room(db, room_code):
+    try:
+        doc = db.collection("zodiak_rooms").document(room_code).get()
+        if not doc.exists:
+            return None
+        data = doc.to_dict() or {}
+        if data.get("status") != "completed":
+            created_str = data.get("created_at")
+            if created_str:
+                created_dt = datetime.datetime.fromisoformat(created_str)
+                if datetime.datetime.now(datetime.timezone.utc) - created_dt > datetime.timedelta(hours=ROOM_TTL_HOURS):
+                    return None
+        return data
+    except Exception as e:
+        print(f"[ZODIAK ROOM ERROR] Gagal fetch room {room_code}: {e}", flush=True)
         return None
 
 
-def completed_room_response(conn, row, room_code, message):
-    conn.close()
+def completed_room_response(row, room_code, message):
     return jsonify(
         {
             "status": "completed",
@@ -458,8 +471,8 @@ def completed_room_response(conn, row, room_code, message):
             "partner_sign": row.get("partner_sign"),
             "match_score": row.get("match_score", 0),
             "zodiac_score": zodiac_pair_score(row["host_sign"], row["partner_sign"]),
-            "breakdown": load_json_field(row, "breakdown_json", []),
-            "ai_result": load_json_field(row, "ai_result_json"),
+            "breakdown": load_json_field(row, "breakdown", load_json_field(row, "breakdown_json", [])),
+            "ai_result": load_json_field(row, "ai_result", load_json_field(row, "ai_result_json")),
         }
     )
 
@@ -473,25 +486,31 @@ def create_quiz_room():
         return jsonify({"error": "Nama dan Zodiak Host wajib diisi."}), 400
     code_chars = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
     room_code = f"RO-{code_chars}"
-    conn = rooms_connection()
-    if conn:
-        purge_stale_rooms(conn)
-        try:
-            with conn.cursor() as cursor:
-                cursor.execute(
-                    """
-                    INSERT INTO zodiak_rooms (room_code, host_name, host_sign, host_answers, status)
-                    VALUES (%s, %s, %s, NULL, 'waiting');
-                """,
-                    (room_code, host_name, host_sign),
-                )
-            conn.close()
-        except Exception:
-            if conn:
-                conn.close()
-            return jsonify({"error": "Gagal membuat room di database."}), 500
-    else:
+    db = rooms_connection()
+    if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
+
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    try:
+        db.collection("zodiak_rooms").document(room_code).set({
+            "room_code": room_code,
+            "host_name": host_name,
+            "host_sign": host_sign,
+            "host_answers": None,
+            "partner_name": None,
+            "partner_sign": None,
+            "partner_answers": None,
+            "status": "waiting",
+            "match_score": 0,
+            "breakdown": [],
+            "ai_result": None,
+            "created_at": now_iso,
+            "updated_at": now_iso,
+        })
+    except Exception as e:
+        print(f"[ZODIAK ERROR] Gagal create room di Firestore: {e}", flush=True)
+        return jsonify({"error": "Gagal membuat room di database."}), 500
+
     share_url = f"{request.host_url}zodiak/kecocokan?room={room_code}"
     return jsonify(
         {
@@ -515,34 +534,28 @@ def join_quiz_room():
             jsonify({"error": "Kode room, nama, dan zodiak partner wajib diisi."}),
             400,
         )
-    conn = rooms_connection()
-    if not conn:
+    db = rooms_connection()
+    if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = fetch_quiz_room(conn, room_code)
+    row = fetch_quiz_room(db, room_code)
     if not row:
-        conn.close()
         return (
             jsonify({"error": "Room tidak ditemukan. Pastikan kode room benar."}),
             404,
         )
     if row.get("status") == "completed":
         return completed_room_response(
-            conn, row, room_code, "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan."
+            row, room_code, "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan."
         )
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
     try:
-        with conn.cursor() as cursor:
-            cursor.execute(
-                """
-                UPDATE zodiak_rooms 
-                SET partner_name = %s, partner_sign = %s
-                WHERE room_code = %s;
-            """,
-                (partner_name, partner_sign, room_code),
-            )
-        conn.close()
-    except Exception:
-        if conn:
-            conn.close()
+        db.collection("zodiak_rooms").document(room_code).update({
+            "partner_name": partner_name,
+            "partner_sign": partner_sign,
+            "updated_at": now_iso,
+        })
+    except Exception as e:
+        print(f"[ZODIAK ERROR] Gagal join room di Firestore: {e}", flush=True)
     return jsonify(
         {
             "status": "success",
@@ -563,32 +576,27 @@ def submit_quiz_answers():
     answers = clean_quiz_answers(data.get("answers"))
     if not room_code or answers is None:
         return jsonify({"error": "Data jawaban 10 pertanyaan tidak lengkap."}), 400
-    conn = rooms_connection()
-    if not conn:
+    db = rooms_connection()
+    if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = fetch_quiz_room(conn, room_code)
+    row = fetch_quiz_room(db, room_code)
     if not row:
-        conn.close()
         return jsonify({"error": "Room tidak ditemukan."}), 404
     if row.get("status") == "completed":
         return completed_room_response(
-            conn, row, room_code, "Room ini sudah selesai dan jawabannya telah terkunci."
+            row, room_code, "Room ini sudah selesai dan jawabannya telah terkunci."
         )
     host_answers = load_json_field(row, "host_answers")
     partner_answers = load_json_field(row, "partner_answers")
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    update_data = {"updated_at": now_iso}
     if role == "host":
         host_answers = answers
-        sql_update = "UPDATE zodiak_rooms SET host_answers = %s WHERE room_code = %s;"
+        update_data["host_answers"] = answers
     else:
         partner_answers = answers
-        sql_update = "UPDATE zodiak_rooms SET partner_answers = %s WHERE room_code = %s;"
-    try:
-        with conn.cursor() as cursor:
-            cursor.execute(sql_update, (json.dumps(answers), room_code))
-    except Exception:
-        if conn:
-            conn.close()
-        return jsonify({"error": "Gagal menyimpan jawaban."}), 500
+        update_data["partner_answers"] = answers
+
     is_both_completed = (
         host_answers is not None
         and isinstance(host_answers, list)
@@ -598,8 +606,9 @@ def submit_quiz_answers():
         and len(partner_answers) >= 10
     )
     match_score = row.get("match_score", 0)
-    breakdown = load_json_field(row, "breakdown_json", [])
-    ai_result = load_json_field(row, "ai_result_json")
+    breakdown = load_json_field(row, "breakdown", load_json_field(row, "breakdown_json", []))
+    ai_result = load_json_field(row, "ai_result", load_json_field(row, "ai_result_json"))
+
     if is_both_completed:
         match_score, breakdown = calculate_quiz_match(host_answers, partner_answers)
         host_name = row["host_name"]
@@ -609,28 +618,19 @@ def submit_quiz_answers():
         ai_result = get_ai_couple_quiz_analysis(
             host_name, host_sign, partner_name, partner_sign, match_score, breakdown
         )
-        try:
-            with conn.cursor() as cursor:
-                cursor.execute(
-                    """
-                    UPDATE zodiak_rooms 
-                    SET status = 'completed', match_score = %s, breakdown_json = %s, ai_result_json = %s
-                    WHERE room_code = %s;
-                """,
-                    (
-                        match_score,
-                        json.dumps(breakdown),
-                        json.dumps(ai_result),
-                        room_code,
-                    ),
-                )
-            conn.close()
-        except Exception:
-            if conn:
-                conn.close()
-    else:
-        if conn:
-            conn.close()
+        update_data.update({
+            "status": "completed",
+            "match_score": match_score,
+            "breakdown": breakdown,
+            "ai_result": ai_result,
+        })
+
+    try:
+        db.collection("zodiak_rooms").document(room_code).update(update_data)
+    except Exception as e:
+        print(f"[ZODIAK ERROR] Gagal simpan jawaban: {e}", flush=True)
+        return jsonify({"error": "Gagal menyimpan jawaban."}), 500
+
     zodiac_score = zodiac_pair_score(row["host_sign"], row.get("partner_sign") or "taurus")
     return jsonify(
         {
@@ -653,11 +653,10 @@ def submit_quiz_answers():
 @zodiak_bp.route("/api/zodiak/quiz/room/<room_code>")
 def get_quiz_room_status(room_code):
     room_code = room_code.strip().upper()
-    conn = rooms_connection()
-    if not conn:
+    db = rooms_connection()
+    if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = fetch_quiz_room(conn, room_code)
-    conn.close()
+    row = fetch_quiz_room(db, room_code)
     if not row:
         return jsonify({"error": "Room tidak ditemukan."}), 404
     return jsonify(
@@ -672,8 +671,9 @@ def get_quiz_room_status(room_code):
             "has_partner_answered": load_json_field(row, "partner_answers") is not None,
             "match_score": row.get("match_score", 0),
             "zodiac_score": zodiac_pair_score(row["host_sign"], row["partner_sign"]),
-            "breakdown": load_json_field(row, "breakdown_json", []),
-            "ai_result": load_json_field(row, "ai_result_json"),
-            "created_at": str(row["created_at"]),
+            "breakdown": load_json_field(row, "breakdown", load_json_field(row, "breakdown_json", [])),
+            "ai_result": load_json_field(row, "ai_result", load_json_field(row, "ai_result_json")),
+            "created_at": str(row.get("created_at")),
         }
     )
+

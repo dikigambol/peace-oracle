@@ -1,5 +1,7 @@
 # Environments
 .env
+serviceAccountKey.json
+*serviceAccount*.json
 venv/
 .venv/
 
