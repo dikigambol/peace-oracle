@@ -26,17 +26,39 @@ def env_int(name, fallback):
         return fallback
 
 
-DB_OFFLINE_COOLDOWN = env_int("DB_OFFLINE_COOLDOWN", 60)
-MYSQL_HOST = os.environ.get("MYSQL_HOST")
-MYSQL_PORT = env_int("MYSQL_PORT", 3306)
-MYSQL_DB = os.environ.get("MYSQL_DB")
-MYSQL_USER = os.environ.get("MYSQL_USER")
-MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
+DB_OFFLINE_COOLDOWN = env_int("DB_OFFLINE_COOLDOWN", 5)
 _DB_OFFLINE_UNTIL = 0.0
 
 
+def _clean_env(val):
+    if not val:
+        return None
+    s = str(val).strip()
+    if (s.startswith('"') and s.endswith('"')) or (s.startswith("'") and s.endswith("'")):
+        s = s[1:-1].strip()
+    return s or None
+
+
+def get_mysql_config():
+    return {
+        "host": _clean_env(os.environ.get("MYSQL_HOST")),
+        "port": env_int("MYSQL_PORT", 3306),
+        "database": _clean_env(os.environ.get("MYSQL_DB")),
+        "user": _clean_env(os.environ.get("MYSQL_USER")),
+        "password": _clean_env(os.environ.get("MYSQL_PASSWORD")),
+    }
+
+
+MYSQL_HOST = _clean_env(os.environ.get("MYSQL_HOST"))
+MYSQL_PORT = env_int("MYSQL_PORT", 3306)
+MYSQL_DB = _clean_env(os.environ.get("MYSQL_DB"))
+MYSQL_USER = _clean_env(os.environ.get("MYSQL_USER"))
+MYSQL_PASSWORD = _clean_env(os.environ.get("MYSQL_PASSWORD"))
+
+
 def db_available():
-    return bool(HAS_PYMYSQL and MYSQL_HOST and MYSQL_DB and MYSQL_USER)
+    cfg = get_mysql_config()
+    return bool(HAS_PYMYSQL and cfg["host"] and cfg["database"] and cfg["user"])
 
 
 def mark_db_offline():
@@ -49,20 +71,22 @@ def get_mysql_connection():
         return None
     if time.monotonic() < _DB_OFFLINE_UNTIL:
         return None
+    cfg = get_mysql_config()
     try:
         return pymysql.connect(
-            host=MYSQL_HOST,
-            port=MYSQL_PORT,
-            user=MYSQL_USER,
-            password=MYSQL_PASSWORD,
-            database=MYSQL_DB,
+            host=cfg["host"],
+            port=cfg["port"],
+            user=cfg["user"],
+            password=cfg["password"],
+            database=cfg["database"],
             cursorclass=pymysql.cursors.DictCursor,
-            connect_timeout=2,
-            read_timeout=3,
-            write_timeout=3,
+            connect_timeout=8,
+            read_timeout=10,
+            write_timeout=10,
             autocommit=True,
         )
-    except (pymysql.MySQLError, OSError):
+    except (pymysql.MySQLError, OSError) as e:
+        print(f"[DB ERROR] Gagal koneksi MySQL ({cfg['host']}:{cfg['port']}, db={cfg['database']}, user={cfg['user']}): {e}", flush=True)
         mark_db_offline()
         return None
 

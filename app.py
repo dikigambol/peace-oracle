@@ -63,6 +63,48 @@ def robots_txt():
     )
     return message, 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
+@app.route("/api/db-debug")
+def db_debug():
+    from core.core import HAS_PYMYSQL, get_mysql_config
+    import pymysql
+    cfg = get_mysql_config()
+    diag = {
+        "has_pymysql": HAS_PYMYSQL,
+        "host": cfg["host"],
+        "port": cfg["port"],
+        "user": cfg["user"],
+        "database": cfg["database"],
+        "password_configured": bool(cfg["password"]),
+    }
+    if not cfg["host"] or not cfg["user"] or not cfg["database"]:
+        diag["status"] = "error"
+        diag["message"] = "Environment variables database belum lengkap di Vercel"
+        return diag, 500
+    try:
+        conn = pymysql.connect(
+            host=cfg["host"],
+            port=cfg["port"],
+            user=cfg["user"],
+            password=cfg["password"],
+            database=cfg["database"],
+            connect_timeout=8,
+            read_timeout=10,
+            write_timeout=10,
+            autocommit=True,
+        )
+        with conn.cursor() as cur:
+            cur.execute("SELECT 1 AS ok")
+            res = cur.fetchone()
+        conn.close()
+        diag["status"] = "success"
+        diag["query_result"] = res
+        return diag, 200
+    except Exception as e:
+        diag["status"] = "error"
+        diag["error_type"] = type(e).__name__
+        diag["error_message"] = str(e)
+        return diag, 500
+
 if __name__ == "__main__":
     raw_debug = os.getenv("FLASK_DEBUG", "false").strip().lower()
     is_debug = raw_debug in ("true", "1", "t", "yes")
