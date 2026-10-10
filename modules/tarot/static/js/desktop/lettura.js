@@ -12,6 +12,7 @@
       Tarot.renderBoard(Tarot.byId(prefix + "-board"), result, prefix);
       Tarot.renderInsights(Tarot.byId(prefix + "-insights"), result);
       Tarot.renderCardList(Tarot.byId(prefix + "-cards"), result, prefix);
+      Tarot.followupChat(prefix, result);
       Tarot.renderFooter(prefix, result);
     },
   }));

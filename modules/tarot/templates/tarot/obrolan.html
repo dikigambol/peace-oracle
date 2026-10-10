@@ -1,0 +1,6 @@
+{% extends 'tarot/_tavola.html' %}
+{% set page = 'obrolan' %}
+{% set page_api = 'tarot.tarot_chat_api' %}
+{% set page_data = {'chat-api': url_for('tarot.tarot_chat_api'), 'chat-ready': '1' if chat_available else '0'} %}
+{% block title %}Ngobrol dengan Peramal Tarot - Peace Oracle{% endblock %}
+{% block description %}Ngobrol santai dengan peramal tarot. Untuk tiap pesanmu, peramal menarik satu kartu Rider-Waite dan menjawab dari kartu itu.{% endblock %}

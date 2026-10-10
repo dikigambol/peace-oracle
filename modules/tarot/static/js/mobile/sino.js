@@ -10,6 +10,7 @@
     validate: (form, step) => (step === 1 ? Tarot.questionError(form, true) : ""),
     renderResult: (result, prefix) => {
       Tarot.renderYesNo(Tarot.byId(prefix + "-cards"), result);
+      Tarot.followupChat(prefix, result);
       Tarot.renderFooter(prefix, result);
     },
   }));

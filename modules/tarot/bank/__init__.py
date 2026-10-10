@@ -43,6 +43,18 @@ from .tarot_reference_bank import (
     AI_NOTE,
     AI_RESTING_NOTE,
     AI_LIMIT_NOTE,
+    CHAT_TURN_LIMIT,
+    CHAT_HISTORY_MESSAGES,
+    CHAT_TTL_DAYS,
+    CHAT_GREETING,
+    CHAT_HINT,
+    CHAT_FOLLOWUP_TITLE,
+    CHAT_FOLLOWUP_HINT,
+    CHAT_UNAVAILABLE,
+    CHAT_NOT_FOUND,
+    CHAT_TURN_LIMIT_NOTE,
+    CHAT_CARD_LEAD,
+    CHAT_CARD_POSITION,
 )
 from .tarot_major_bank import MAJOR_ARCANA
 from .tarot_wands_bank import WANDS

@@ -16,6 +16,8 @@ from .bank import (
     ANSWER_GENERIC,
     ANSWER_SOURCE,
     CARD_SOURCE,
+    CHAT_CARD_LEAD,
+    CHAT_HISTORY_MESSAGES,
     COUNT_LINE,
     COURT_PEOPLE,
     COURT_RANKS,
@@ -48,6 +50,12 @@ QUOTA = AiQuota(
     env_int("TAROT_FINGERPRINT_AI_LIMIT", 30),
     env_int("TAROT_AI_BUDGET", 300),
 )
+CHAT_QUOTA = AiQuota(
+    "tarot_chat",
+    env_int("TAROT_CHAT_AI_LIMIT", 20),
+    env_int("TAROT_CHAT_FINGERPRINT_AI_LIMIT", 60),
+    env_int("TAROT_CHAT_AI_BUDGET", 600),
+)
 
 SYSTEM_PROMPT = (
     "Kamu pembaca tarot yang hangat dan santai. Kamu selalu menjawab pertanyaan secara langsung "
@@ -64,6 +72,16 @@ SHARED_RULES = [
     "menghubungi orang atau ahli yang tepat, bukan meramal.",
     "Tanpa markdown, tanpa emoji, tanpa salam pembuka.",
 ]
+CHAT_SYSTEM_PROMPT = (
+    "Kamu peramal tarot yang sedang ngobrol santai dengan satu orang. Kamu hangat, jujur, dan nggak bertele-tele. "
+    "Setiap balasanmu berpijak pada kartu yang ada di obrolan, ditulis dalam bahasa Indonesia sehari-hari. "
+    "Balas HANYA dengan JSON valid."
+)
+CHAT_RULES = [
+    "Ingat isi obrolan sebelumnya dan jangan mengulang jawaban yang sudah kamu berikan.",
+    "Kalau pesannya cuma sapaan, curhat, atau ucapan terima kasih, balas sewajarnya sambil tetap mengaitkan ke kartunya.",
+]
+SPEAKERS = {"user": "Penanya", "peramal": "Peramal"}
 
 
 def api_key():
@@ -124,10 +142,10 @@ def card_line(card):
     return f"- {line}. Kata kunci: {', '.join(card['keywords'])}. Makna: {card['meaning']}"
 
 
-def reply_format(sentences):
+def reply_format(sentences, extra_rules=()):
     return (
         f"Tulis jawabanmu dalam {sentences} kalimat.\n"
-        + "\n".join("- " + rule for rule in SHARED_RULES)
+        + "\n".join("- " + rule for rule in [*SHARED_RULES, *extra_rules])
         + '\nFormat balasan: {"reply": "..."}'
     )
 
@@ -263,12 +281,13 @@ def answer_fallback(result, rng=None):
     return f"{lead} {body} {ANSWER_SOURCE.format(kartu=card_title(card))}"
 
 
-def reply_for(result, prompt, fallback, clients=(), rng=None):
-    if not QUOTA.allows(*clients):
+def reply_for(result, prompt, fallback, clients=(), rng=None, quota=None, system=SYSTEM_PROMPT):
+    quota = quota or QUOTA
+    if not quota.allows(*clients):
         return {"text": fallback(result, rng), "source": "kartu", "note": AI_LIMIT_NOTE}
-    text = clean_reply(ask_ai(SYSTEM_PROMPT, prompt))
+    text = clean_reply(ask_ai(system, prompt))
     if text:
-        QUOTA.record(*clients)
+        quota.record(*clients)
         return {"text": text, "source": "ai", "note": AI_NOTE}
     return {"text": fallback(result, rng), "source": "kartu", "note": AI_RESTING_NOTE}
 
@@ -279,3 +298,69 @@ def reply_to_reading(reading, clients=(), rng=None):
 
 def explain_answer(result, clients=(), rng=None):
     return reply_for(result, answer_prompt(result), answer_fallback, clients, rng)
+
+
+def history_lines(history):
+    lines = []
+    for message in history[-CHAT_HISTORY_MESSAGES:]:
+        speaker = SPEAKERS[message["role"]]
+        if message.get("card"):
+            key = message["card"]
+            speaker += f" (kartu {card_title({'name': CARDS[key['slug']]['name'], 'reversed': key['reversed']})})"
+        lines.append(f"{speaker}: {message['text']}")
+    return "\n".join(lines) or "(belum ada)"
+
+
+def scene_text(kind, scene):
+    if kind == "bacaan":
+        lines = "\n".join(card_line(card) for card in scene["cards"])
+        return (
+            f"Pertanyaan awal: \"{scene['question'] or 'tanpa pertanyaan khusus'}\"\n"
+            f"Topik: {scene['topic']['label']}\n"
+            f"Spread: {scene['spread']['name']}\n"
+            f"Kartu yang keluar:\n{lines}\n"
+            "Ini obrolan lanjutan dari bacaan itu. Jangan menarik kartu baru, jawab hanya dari kartu-kartu ini."
+        )
+    if kind == "yatidak":
+        answer = scene["answer"]
+        return (
+            f"Pertanyaan awal: \"{scene['question']}\"\n"
+            f"Kartu yang keluar:\n{card_line(scene['card'])}\n"
+            f"Vonis kartu: {answer['label']} ({answer['text']})\n"
+            "Ini obrolan lanjutan dari jawaban itu. Vonisnya sudah final dan TIDAK BOLEH diubah atau dibantah."
+        )
+    return f"Kartu yang baru kamu tarik untuk pesan ini:\n{card_line(scene['card'])}"
+
+
+def chat_prompt(kind, scene, history, message):
+    return (
+        f"{scene_text(kind, scene)}\n\n"
+        f"Riwayat obrolan, dari yang terlama:\n{history_lines(history)}\n\n"
+        f"Pesan baru dari penanya: \"{message}\"\n\n"
+        "Balas pesan baru itu sebagai peramal.\n"
+        + reply_format("2 sampai 4", CHAT_RULES)
+    )
+
+
+def chat_fallback(kind, scene, message, rng=None):
+    if kind == "bacaan":
+        return reading_fallback({**scene, "question": message}, rng)
+    if kind == "yatidak":
+        return answer_fallback({**scene, "question": message}, rng)
+    card = scene["card"]
+    _, body = shaped_reply(message, card, rng or random)
+    if body is None:
+        return f"{CHAT_CARD_LEAD.format(kartu=card_title(card))} {card['saran']}"
+    return f"{body} {ANSWER_SOURCE.format(kartu=card_title(card))}"
+
+
+def reply_to_chat(kind, scene, history, message, clients=(), rng=None):
+    return reply_for(
+        scene,
+        chat_prompt(kind, scene, history, message),
+        lambda _, chosen_rng: chat_fallback(kind, scene, message, chosen_rng),
+        clients,
+        rng,
+        CHAT_QUOTA,
+        CHAT_SYSTEM_PROMPT,
+    )

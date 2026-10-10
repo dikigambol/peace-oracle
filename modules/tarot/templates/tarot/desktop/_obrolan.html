@@ -1,0 +1,16 @@
+<div class="tr-d-shell">
+  {{ desktop_header("Ngobrol dengan Peramal", "Ceritakan atau tanyakan apa saja. Untuk tiap pesanmu, peramal menarik satu kartu dan menjawab dari kartu itu.", "obrolan") }}
+
+  <section class="tr-card tr-chat tr-chat-room" aria-labelledby="d-chat-title">
+    <header class="tr-chat-head">
+      <h2 class="tr-chat-title" id="d-chat-title">Meja peramal</h2>
+      <button class="tr-btn tr-btn-ghost tr-btn-sm" id="d-chat-new" type="button"{% if not chat_available %} disabled{% endif %}>
+        <i class="fa-solid fa-plus" aria-hidden="true"></i> Obrolan baru
+      </button>
+    </header>
+    {% if not chat_available %}<p class="tr-error tr-chat-offline">{{ chat_unavailable }}</p>{% endif %}
+    <ol class="tr-chat-thread tr-chat-scroll" id="d-chat-thread" aria-live="polite" data-greeting="{{ chat_greeting }}"></ol>
+    {{ chat_composer("d", "Tulis pesan untuk peramal", chat_hint, disabled=not chat_available) }}
+  </section>
+  <p class="tr-disclaimer">{{ disclaimer }}</p>
+</div>

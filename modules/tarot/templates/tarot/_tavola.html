@@ -206,6 +206,27 @@
 </nav>
 {% endmacro %}
 
+{% macro chat_composer(prefix, placeholder, hint, disabled=False) %}
+<form class="tr-chat-form" id="{{ prefix }}-chat-form" novalidate>
+  <label class="tr-sr-only" for="{{ prefix }}-chat-input">Pesan untuk peramal</label>
+  <textarea class="tr-input tr-chat-input" id="{{ prefix }}-chat-input" rows="1" maxlength="{{ question_max }}" placeholder="{{ placeholder }}" autocomplete="off"{% if disabled %} disabled{% endif %}></textarea>
+  <button class="tr-btn tr-btn-primary tr-chat-send" id="{{ prefix }}-chat-send" type="submit" aria-label="Kirim pesan"{% if disabled %} disabled{% endif %}>
+    <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+  </button>
+</form>
+<p class="tr-error" id="{{ prefix }}-chat-error" role="alert" hidden></p>
+<p class="tr-hint tr-chat-hint">{{ hint }}</p>
+{% endmacro %}
+
+{% macro followup_chat(prefix) %}
+<section class="tr-card tr-chat tr-chat-followup" id="{{ prefix }}-chat" aria-labelledby="{{ prefix }}-chat-title" hidden>
+  <p class="tr-eyebrow">Peramal</p>
+  <h2 class="tr-chat-title" id="{{ prefix }}-chat-title">{{ chat_followup_title }}</h2>
+  <ol class="tr-chat-thread" id="{{ prefix }}-chat-thread" aria-live="polite"></ol>
+  {{ chat_composer(prefix, "Tanya lanjutan soal kartu tadi", chat_followup_hint) }}
+</section>
+{% endmacro %}
+
 {% macro result_footer(prefix) %}
 <p class="tr-disclaimer" id="{{ prefix }}-disclaimer">{{ disclaimer }}</p>
 <p class="tr-sources" id="{{ prefix }}-sources"></p>
