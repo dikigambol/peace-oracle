@@ -1,6 +1,5 @@
 import hashlib
 import os
-import time
 
 from flask import request
 
@@ -88,6 +87,10 @@ def db_available():
     return get_firestore_client() is not None
 
 
+class TransactionFailed(Exception):
+    pass
+
+
 def transact(doc_ref, change):
     client = get_firestore_client()
     if client is None:
@@ -104,7 +107,12 @@ def transact(doc_ref, change):
                 transaction.set(doc_ref, fields)
         return result
 
-    return run(client.transaction())
+    try:
+        return run(client.transaction())
+    except ValueError as error:
+        if str(error).startswith("Failed to commit transaction"):
+            raise TransactionFailed() from error
+        raise
 
 
 def _hash(value):
