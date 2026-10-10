@@ -3,12 +3,16 @@ import requests
 import datetime
 import hashlib
 import math
+import re
 
 from core.core import get_firestore_client, transact
+from core.room_codes import allocate_room_code, clean_room_code
 
 try:
+    from google.api_core.exceptions import AlreadyExists
     from google.cloud.firestore import FieldFilter
 except ImportError:
+    AlreadyExists = ()
     FieldFilter = None
 
 from .horoscope_bank import (
@@ -767,6 +771,22 @@ def generate_dynamic_ratings(base_ratings, cosmic, ruler_planet, sign_key):
 ROOM_TTL_HOURS = 24
 ROOMS_COLLECTION = "zodiak_rooms"
 PURGE_BATCH = 50
+ROOM_CODE_ATTEMPTS = 20
+ROOM_CODE_NAMESPACE = "zodiak"
+ROOM_CODE_PREFIX = "RO-"
+LEGACY_ROOM_CODE = re.compile(r"[A-Z0-9]{5}")
+
+
+def normalise_quiz_room_code(value):
+    if not isinstance(value, str):
+        return None
+    body = re.sub(r"[\s-]", "", value).upper()
+    if body.startswith("RO") and len(body) in (7, 8):
+        body = body[2:]
+    if LEGACY_ROOM_CODE.fullmatch(body):
+        return ROOM_CODE_PREFIX + body
+    code = clean_room_code(body)
+    return ROOM_CODE_PREFIX + code if code else None
 
 
 def utc_moment(hours=0):

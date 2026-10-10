@@ -1,10 +1,15 @@
 import datetime
 from flask import Blueprint, render_template, jsonify, request
 from .data import (
+    AlreadyExists,
     ELEMENT_COMPATIBILITY,
     GENERAL_CHARACTERISTICS,
+    ROOM_CODE_ATTEMPTS,
+    ROOM_CODE_NAMESPACE,
+    ROOM_CODE_PREFIX,
     ROOM_TTL_HOURS,
     ZODIAC_DATA,
+    allocate_room_code,
     generate_dynamic_ratings,
     get_ai_compatibility_modes,
     get_ai_relationship_roast,
@@ -12,6 +17,7 @@ from .data import (
     get_cosmic_context,
     get_daily_horoscope,
     get_daily_youtube_track,
+    normalise_quiz_room_code,
     purge_stale_rooms,
     room_document,
     rooms_connection,
@@ -376,7 +382,7 @@ def get_compatibility(sign_one, sign_two):
     )
 
 
-import json, random, string
+import json
 from .quiz_bank import (
     PARTNER_QUIZ_QUESTIONS,
     calculate_quiz_match,
@@ -487,33 +493,40 @@ def create_quiz_room():
     host_sign = clean_quiz_sign(data.get("host_sign"))
     if not host_name or not host_sign:
         return jsonify({"error": "Nama dan Zodiak Host wajib diisi."}), 400
-    code_chars = "".join(random.choices(string.ascii_uppercase + string.digits, k=5))
-    room_code = f"RO-{code_chars}"
     db = rooms_connection()
     if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
 
     purge_stale_rooms(db)
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    try:
-        room_document(db, room_code).set({
-            "room_code": room_code,
-            "host_name": host_name,
-            "host_sign": host_sign,
-            "host_answers": None,
-            "partner_name": None,
-            "partner_sign": None,
-            "partner_answers": None,
-            "status": "waiting",
-            "match_score": 0,
-            "breakdown": [],
-            "ai_result": None,
-            "created_at": now_iso,
-            "updated_at": now_iso,
-            "purge_at": utc_moment(ROOM_TTL_HOURS),
-        })
-    except Exception as e:
-        print(f"[ZODIAK ERROR] Gagal create room di Firestore: {e}", flush=True)
+    room = {
+        "host_name": host_name,
+        "host_sign": host_sign,
+        "host_answers": None,
+        "partner_name": None,
+        "partner_sign": None,
+        "partner_answers": None,
+        "status": "waiting",
+        "match_score": 0,
+        "breakdown": [],
+        "ai_result": None,
+        "created_at": now_iso,
+        "updated_at": now_iso,
+        "purge_at": utc_moment(ROOM_TTL_HOURS),
+    }
+    room_code = None
+    for _ in range(ROOM_CODE_ATTEMPTS):
+        try:
+            candidate = ROOM_CODE_PREFIX + allocate_room_code(db, ROOM_CODE_NAMESPACE)
+            room_document(db, candidate).create({"room_code": candidate, **room})
+        except AlreadyExists:
+            continue
+        except Exception as e:
+            print(f"[ZODIAK ERROR] Gagal create room di Firestore: {e}", flush=True)
+            return jsonify({"error": "Gagal membuat room di database."}), 500
+        room_code = candidate
+        break
+    if room_code is None:
         return jsonify({"error": "Gagal membuat room di database."}), 500
 
     share_url = f"{request.host_url}zodiak/kecocokan?room={room_code}"
@@ -531,10 +544,11 @@ def create_quiz_room():
 @zodiak_bp.route("/api/zodiak/quiz/join_room", methods=["POST"])
 def join_quiz_room():
     data = request.get_json(silent=True) or {}
-    room_code = str(data.get("room_code", "")).strip().upper()[:32]
+    raw_code = str(data.get("room_code", "")).strip()
+    room_code = normalise_quiz_room_code(raw_code)
     partner_name = clean_quiz_name(data.get("partner_name"))
     partner_sign = clean_quiz_sign(data.get("partner_sign"))
-    if not room_code or not partner_name or not partner_sign:
+    if not raw_code or not partner_name or not partner_sign:
         return (
             jsonify({"error": "Kode room, nama, dan zodiak partner wajib diisi."}),
             400,
@@ -542,7 +556,7 @@ def join_quiz_room():
     db = rooms_connection()
     if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = fetch_quiz_room(db, room_code)
+    row = fetch_quiz_room(db, room_code) if room_code else None
     if not row:
         return (
             jsonify({"error": "Room tidak ditemukan. Pastikan kode room benar."}),
@@ -564,7 +578,7 @@ def join_quiz_room():
         joined = update_room(db, room_code, join)
     except Exception as e:
         print(f"[ZODIAK ERROR] Gagal join room di Firestore: {e}", flush=True)
-        joined = row
+        return jsonify({"error": "Gagal bergabung ke room. Coba lagi."}), 500
     if joined and joined.get("status") == "completed":
         return completed_room_response(
             joined, room_code, "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan."
@@ -584,15 +598,16 @@ def join_quiz_room():
 @zodiak_bp.route("/api/zodiak/quiz/submit_answers", methods=["POST"])
 def submit_quiz_answers():
     data = request.get_json(silent=True) or {}
-    room_code = str(data.get("room_code", "")).strip().upper()[:32]
+    raw_code = str(data.get("room_code", "")).strip()
+    room_code = normalise_quiz_room_code(raw_code)
     role = str(data.get("role", "host")).strip().lower()
     answers = clean_quiz_answers(data.get("answers"))
-    if not room_code or answers is None:
+    if not raw_code or answers is None:
         return jsonify({"error": "Data jawaban 10 pertanyaan tidak lengkap."}), 400
     db = rooms_connection()
     if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = fetch_quiz_room(db, room_code)
+    row = fetch_quiz_room(db, room_code) if room_code else None
     if not row:
         return jsonify({"error": "Room tidak ditemukan."}), 404
     if row.get("status") == "completed":
@@ -677,11 +692,11 @@ def submit_quiz_answers():
 
 @zodiak_bp.route("/api/zodiak/quiz/room/<room_code>")
 def get_quiz_room_status(room_code):
-    room_code = room_code.strip().upper()
+    room_code = normalise_quiz_room_code(room_code)
     db = rooms_connection()
     if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
-    row = fetch_quiz_room(db, room_code)
+    row = fetch_quiz_room(db, room_code) if room_code else None
     if not row:
         return jsonify({"error": "Room tidak ditemukan."}), 404
     return jsonify(

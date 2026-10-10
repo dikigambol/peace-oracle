@@ -61,12 +61,12 @@ Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma
 
 AI dipakai di Zodiak dan untuk menjawab pertanyaan di Tarot. Shio, Weton, dan sisa fitur Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
 
-Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Semua data disimpan di collection `ai_usage`, `zodiak_rooms`, dan `shio_rooms` di Firestore.
+Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Kode room Shio dan Zodiak diambil dari counter per modul lalu diacak pakai kunci rahasia, jadi kelihatan random tapi nggak pernah keluar dua kali, termasuk kode room yang sudah dihapus. Waktu join, huruf O dibaca 0 dan I/L dibaca 1. Semua data disimpan di collection `ai_usage`, `room_codes`, `zodiak_rooms`, dan `shio_rooms` di Firestore.
 
 ```text
 peace-oracle/
 ├── app.py            # entry point, register blueprint
-├── core/             # core.py, ai_quota.py, base template, landing page, shared assets
+├── core/             # core.py, ai_quota.py, room_codes.py, base template, landing page, shared assets
 ├── modules/
 │   ├── zodiak/
 │   ├── shio/

@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ? inputRoomCode.value.trim().toUpperCase()
           : "";
         if (!code || code.length < 5) {
-          window.showErrorToast("Harap masukkan Kode Room pasangan yang valid (Contoh: RO-8X92K).");
+          window.showErrorToast("Harap masukkan Kode Room pasangan yang valid (Contoh: RO-8X92KM).");
           window.setButtonLoading(btnStartQuiz, false);
           return;
         }

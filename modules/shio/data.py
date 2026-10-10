@@ -13,7 +13,8 @@ from itertools import combinations
 
 import ephem
 
-from core.core import get_firestore_client, transact
+from core.core import TransactionFailed, get_firestore_client, transact
+from core.room_codes import RoomCodesExhausted, allocate_room_code, clean_room_code
 
 try:
     from google.api_core.exceptions import AlreadyExists, GoogleAPIError
@@ -2462,17 +2463,23 @@ class QuizError(Exception):
 
 
 class FirestoreRoomStore:
-    def collection(self):
+    def client(self):
         client = get_firestore_client()
         if client is None:
             raise QuizUnavailable()
-        return client.collection(ROOMS_COLLECTION)
+        return client
+
+    def collection(self):
+        return self.client().collection(ROOMS_COLLECTION)
 
     def call(self, action):
         try:
             return action()
-        except GoogleAPIError as error:
+        except (GoogleAPIError, TransactionFailed, RoomCodesExhausted) as error:
             raise QuizUnavailable() from error
+
+    def next_code(self):
+        return self.call(lambda: allocate_room_code(self.client(), ROOM_CODE_NAMESPACE))
 
     def get(self, code):
         snapshot = self.call(lambda: self.collection().document(code).get())
@@ -2515,10 +2522,8 @@ MODE_LIMITS = {"pasangan": (2, 2), "kelompok": (3, 8), "tebak": (3, 8)}
 SLOT_LIMITS = (1, 8)
 HOST_SLOT = 1
 
-ROOM_CODE_ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ"
-ROOM_CODE_LENGTH = 6
-ROOM_CODE_ATTEMPTS = 5
-ROOM_CODE_ALIASES = str.maketrans({"O": "0", "I": "1", "L": "1"})
+ROOM_CODE_NAMESPACE = "shio"
+ROOM_CODE_ATTEMPTS = 20
 
 ROOM_TTL = datetime.timedelta(hours=24)
 ROOMS_COLLECTION = "shio_rooms"
@@ -2569,19 +2574,8 @@ def hash_token(token):
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
 
 
-def generate_room_code():
-    return "".join(secrets.choice(ROOM_CODE_ALPHABET) for _ in range(ROOM_CODE_LENGTH))
-
-
 def normalise_room_code(value):
-    if not isinstance(value, str):
-        return None
-    code = re.sub(r"[\s-]", "", value).upper().translate(ROOM_CODE_ALIASES)
-    if len(code) != ROOM_CODE_LENGTH:
-        return None
-    if any(char not in ROOM_CODE_ALPHABET for char in code):
-        return None
-    return code
+    return clean_room_code(value)
 
 
 def clean_name(value):
@@ -2746,7 +2740,7 @@ def create_room(store, payload, device, now=None):
         "participants": [host_participant],
     }
     for _ in range(ROOM_CODE_ATTEMPTS):
-        room_code = generate_room_code()
+        room_code = store.next_code()
         if store.create(room_code, {"room_code": room_code, **room_data}):
             return {"room_code": room_code, "token": token, "slot": HOST_SLOT}
     raise QuizError("Gagal membuat kode room. Coba sekali lagi.", 503)
