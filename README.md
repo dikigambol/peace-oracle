@@ -100,10 +100,12 @@ Lalu isi `.env`. Yang penting:
 | --- | --- |
 | `SECRET_KEY` | Wajib. Generate pakai `python -c "import secrets; print(secrets.token_hex(32))"` |
 | `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, plus jawaban pertanyaan di Tarot (Bacaan dan Ya/Tidak) |
-| `FIREBASE_SERVICE_ACCOUNT_KEY` | Kredensial Firebase (isi raw JSON dari serviceAccountKey.json untuk Vercel / serverless). Secara lokal otomatis membaca file `serviceAccountKey.json` |
+| `FIREBASE_SERVICE_ACCOUNT_KEY` | Kredensial Firebase (isi raw JSON dari serviceAccountKey.json untuk Vercel / serverless). Secara lokal otomatis membaca file `serviceAccountKey.json` di root, atau path lain lewat `FIREBASE_SERVICE_ACCOUNT_PATH` |
 | `FLASK_ENV` | Set `production` di server biar debug mode selalu off |
 
-Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `DB_OFFLINE_COOLDOWN` (60 detik), `MEMORY_STORE_MAX` (5000).
+Pastikan Firestore sudah aktif di project Firebase-nya (Build → Firestore Database → Create database), nggak perlu bikin index tambahan. Buat kredensial Firebase di lokal, download service account dari Firebase Console (Project settings → Service accounts → Generate new private key), lalu simpan sebagai `serviceAccountKey.json` di root repo. File ini sudah masuk `.gitignore`. Hati-hati, app lokal jadi baca-tulis ke project Firestore yang sama.
+
+Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `MEMORY_STORE_MAX` (5000).
 
 Terus run:
 
@@ -115,7 +117,7 @@ Buka `http://127.0.0.1:5000/` dan selesai.
 
 ## Deploy ke Vercel
 
-Connect repo ke [Vercel](https://vercel.com), copy semua environment variable dari `.env`, lalu deploy. Config-nya sudah siap di `vercel.json`, nggak perlu setting tambahan.
+Connect repo ke [Vercel](https://vercel.com), copy semua environment variable dari `.env`, lalu isi `FIREBASE_SERVICE_ACCOUNT_KEY` dengan isi file `serviceAccountKey.json` (raw JSON atau base64), karena file itu nggak ikut ter-deploy. Config-nya sudah siap di `vercel.json`, nggak perlu setting tambahan.
 
 Sebagai pengaman terakhir, set credit limit di API key OpenRouter (dashboard OpenRouter, menu Keys). Jadi walaupun ada yang kebobolan di sisi app, tagihannya tetap mentok di angka itu.
 

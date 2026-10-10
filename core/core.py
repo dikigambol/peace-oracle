@@ -30,11 +30,9 @@ def env_int(name, fallback):
 
 _FIRESTORE_CLIENT = None
 _FIREBASE_INIT_ATTEMPTED = False
-_SERVICE_ACCOUNT_INFO = None
 
 
 def get_service_account_dict():
-    # 1. Cek environment variable FIREBASE_SERVICE_ACCOUNT_KEY (bisa raw JSON string atau base64)
     raw_env_key = os.environ.get("FIREBASE_SERVICE_ACCOUNT_KEY")
     if raw_env_key:
         raw_env_key = raw_env_key.strip()
@@ -47,7 +45,6 @@ def get_service_account_dict():
             except Exception as e:
                 print(f"[FIREBASE ERROR] Gagal parse FIREBASE_SERVICE_ACCOUNT_KEY: {e}", flush=True)
 
-    # 2. Cek file lokal serviceAccountKey.json
     custom_path = os.environ.get("FIREBASE_SERVICE_ACCOUNT_PATH")
     root_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "serviceAccountKey.json")
     for path in (custom_path, root_file, "serviceAccountKey.json"):
@@ -62,7 +59,7 @@ def get_service_account_dict():
 
 
 def get_firestore_client():
-    global _FIRESTORE_CLIENT, _FIREBASE_INIT_ATTEMPTED, _SERVICE_ACCOUNT_INFO
+    global _FIRESTORE_CLIENT, _FIREBASE_INIT_ATTEMPTED
     if not HAS_FIREBASE:
         return None
     if _FIRESTORE_CLIENT is not None:
@@ -77,10 +74,6 @@ def get_firestore_client():
         return None
 
     try:
-        _SERVICE_ACCOUNT_INFO = {
-            "project_id": key_dict.get("project_id"),
-            "client_email": key_dict.get("client_email"),
-        }
         cred = credentials.Certificate(key_dict)
         if not firebase_admin._apps:
             firebase_admin.initialize_app(cred)
@@ -91,14 +84,27 @@ def get_firestore_client():
         return None
 
 
-def get_firebase_info():
-    get_firestore_client()
-    return _SERVICE_ACCOUNT_INFO
-
-
 def db_available():
     return get_firestore_client() is not None
 
+
+def transact(doc_ref, change):
+    client = get_firestore_client()
+    if client is None:
+        raise RuntimeError("Firestore is not configured")
+
+    @firestore.transactional
+    def run(transaction):
+        snapshot = doc_ref.get(transaction=transaction)
+        fields, result = change(snapshot.to_dict() if snapshot.exists else None)
+        if fields:
+            if snapshot.exists:
+                transaction.update(doc_ref, fields)
+            else:
+                transaction.set(doc_ref, fields)
+        return result
+
+    return run(client.transaction())
 
 
 def _hash(value):

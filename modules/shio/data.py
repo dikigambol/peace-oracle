@@ -12,6 +12,16 @@ from contextlib import contextmanager
 from itertools import combinations
 
 import ephem
+
+from core.core import get_firestore_client, transact
+
+try:
+    from google.api_core.exceptions import AlreadyExists, GoogleAPIError
+    from google.cloud.firestore import FieldFilter
+except ImportError:
+    AlreadyExists = GoogleAPIError = ()
+    FieldFilter = None
+
 from .bank import (
     BIRTH_CITIES,
     TIME_ZONE_MERIDIANS,
@@ -2452,25 +2462,53 @@ class QuizError(Exception):
 
 
 class FirestoreRoomStore:
-    def __init__(self):
-        self.integrity_errors = ()
-
-    @property
-    def db(self):
-        from core.core import get_firestore_client
-        client = get_firestore_client()
-        if not client:
-            raise QuizUnavailable()
-        return client
-
     def collection(self):
-        return self.db.collection("shio_rooms")
+        client = get_firestore_client()
+        if client is None:
+            raise QuizUnavailable()
+        return client.collection(ROOMS_COLLECTION)
+
+    def call(self, action):
+        try:
+            return action()
+        except GoogleAPIError as error:
+            raise QuizUnavailable() from error
+
+    def get(self, code):
+        snapshot = self.call(lambda: self.collection().document(code).get())
+        return snapshot.to_dict() if snapshot.exists else None
+
+    def create(self, code, data):
+        try:
+            self.call(lambda: self.collection().document(code).create(data))
+        except QuizUnavailable as error:
+            if isinstance(error.__cause__, AlreadyExists):
+                return False
+            raise
+        return True
+
+    def update(self, code, change):
+        return self.call(lambda: transact(self.collection().document(code), change))
+
+    def created_by(self, device):
+        query = self.collection().where(filter=FieldFilter("creator_device", "==", device))
+        return self.call(lambda: [doc.to_dict().get("created_at") for doc in query.stream()])
+
+    def purge(self, cutoff, limit):
+        query = self.collection().where(filter=FieldFilter("purge_at", "<=", cutoff)).limit(limit)
+
+        def run():
+            removed = 0
+            for doc in query.stream():
+                doc.reference.delete()
+                removed += 1
+            return removed
+
+        return self.call(run)
 
 
 def build_room_store():
     return FirestoreRoomStore()
-
-
 
 
 MODE_LIMITS = {"pasangan": (2, 2), "kelompok": (3, 8), "tebak": (3, 8)}
@@ -2483,6 +2521,8 @@ ROOM_CODE_ATTEMPTS = 5
 ROOM_CODE_ALIASES = str.maketrans({"O": "0", "I": "1", "L": "1"})
 
 ROOM_TTL = datetime.timedelta(hours=24)
+ROOMS_COLLECTION = "shio_rooms"
+PURGE_BATCH = 50
 ROOM_CREATE_WINDOW = datetime.timedelta(hours=1)
 ROOM_CREATE_LIMIT = 10
 
@@ -2615,12 +2655,14 @@ def require_room(room, now):
 
 
 def load_room(store, room_code, now):
-    coll = store.collection()
-    doc = coll.document(room_code).get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = doc.to_dict() or {}
-    return require_room(room, now)
+    return require_room(store.get(room_code), now)
+
+
+def change_room(store, room_code, now, apply):
+    def change(room):
+        return apply(require_room(room, now))
+
+    return store.update(room_code, change)
 
 
 def find_member(participants, token):
@@ -2641,16 +2683,12 @@ def require_member(participants, token):
 
 
 def purge_expired_rooms(store, now):
-    try:
-        cutoff = format_moment(now)
-        coll = store.collection()
-        query = coll.where("expires_at", "<=", cutoff).limit(20)
-        for doc in query.stream():
-            data = doc.to_dict() or {}
-            if data.get("status") != STATUS_DONE:
-                doc.reference.delete()
-    except Exception:
-        pass
+    return store.purge(format_moment(now), PURGE_BATCH)
+
+
+def count_recent_rooms(store, device, now):
+    cutoff = now - ROOM_CREATE_WINDOW
+    return sum(1 for created in store.created_by(device) if created and read_moment(created) > cutoff)
 
 
 def read_room_settings(payload, mode):
@@ -2677,29 +2715,10 @@ def create_room(store, payload, device, now=None):
     relation_type, settings = read_room_settings(payload, mode)
     person = read_person(payload)
     purge_expired_rooms(store, now)
-    coll = store.collection()
-
-    cutoff_recent = format_moment(now - ROOM_CREATE_WINDOW)
-    try:
-        from google.cloud.firestore import FieldFilter
-        recent_count = len(list(coll.where(filter=FieldFilter("creator_device", "==", device)).where(filter=FieldFilter("created_at", ">", cutoff_recent)).limit(ROOM_CREATE_LIMIT + 1).stream()))
-        if recent_count >= ROOM_CREATE_LIMIT:
-            raise QuizError(
-                "Kamu sudah membuat terlalu banyak room dalam satu jam. Coba lagi nanti.", 429
-            )
-    except Exception:
-        pass
-
-    room_code = None
-    for _ in range(ROOM_CODE_ATTEMPTS):
-        candidate = generate_room_code()
-        doc_ref = coll.document(candidate)
-        if not doc_ref.get().exists:
-            room_code = candidate
-            break
-    if room_code is None:
-        raise QuizError("Gagal membuat kode room. Coba sekali lagi.", 503)
-
+    if count_recent_rooms(store, device, now) >= ROOM_CREATE_LIMIT:
+        raise QuizError(
+            "Kamu sudah membuat terlalu banyak room dalam satu jam. Coba lagi nanti.", 429
+        )
     token = secrets.token_urlsafe(TOKEN_BYTES)
     host_participant = {
         "slot": HOST_SLOT,
@@ -2712,7 +2731,6 @@ def create_room(store, payload, device, now=None):
         "joined_at": format_moment(now),
     }
     room_data = {
-        "room_code": room_code,
         "mode": mode,
         "relation_type": relation_type,
         "status": STATUS_LOBBY,
@@ -2724,48 +2742,45 @@ def create_room(store, payload, device, now=None):
         "created_at": format_moment(now),
         "updated_at": format_moment(now),
         "expires_at": format_moment(now + ROOM_TTL),
+        "purge_at": format_moment(now + ROOM_TTL),
         "participants": [host_participant],
     }
-    coll.document(room_code).set(room_data)
-    return {"room_code": room_code, "token": token, "slot": HOST_SLOT}
+    for _ in range(ROOM_CODE_ATTEMPTS):
+        room_code = generate_room_code()
+        if store.create(room_code, {"room_code": room_code, **room_data}):
+            return {"room_code": room_code, "token": token, "slot": HOST_SLOT}
+    raise QuizError("Gagal membuat kode room. Coba sekali lagi.", 503)
 
 
 def join_room(store, room_code, payload, now=None):
     now = now or utc_now()
     person = read_person(payload)
-    coll = store.collection()
-    doc_ref = coll.document(room_code)
-    doc = doc_ref.get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = require_room(doc.to_dict(), now)
-    if room["status"] != STATUS_LOBBY:
-        raise QuizError("Room ini sudah mulai atau selesai, tidak bisa bergabung lagi.", 409)
-    participants = fetch_participants(room)
-    if len(participants) >= int(room["capacity"]):
-        raise QuizError("Room sudah penuh.", 409)
-    slot = max(p["slot"] for p in participants) + 1 if participants else HOST_SLOT
-    token = secrets.token_urlsafe(TOKEN_BYTES)
-    new_participant = {
-        "slot": slot,
-        "participant_token": hash_token(token),
-        "name": person["name"],
-        "birth_date": person["birth_date"],
-        "shio_key": person["shio_key"],
-        "answers": None,
-        "progress": {},
-        "joined_at": format_moment(now),
-    }
-    participants.append(new_participant)
-    status = room["status"]
-    if room["mode"] == "pasangan" and len(participants) == int(room["capacity"]):
-        status = STATUS_PLAYING
-    doc_ref.update({
-        "participants": participants,
-        "status": status,
-        "updated_at": format_moment(now),
-    })
-    return {"room_code": room_code, "token": token, "slot": slot}
+
+    def apply(room):
+        if room["status"] != STATUS_LOBBY:
+            raise QuizError("Room ini sudah mulai atau selesai, tidak bisa bergabung lagi.", 409)
+        participants = fetch_participants(room)
+        if len(participants) >= int(room["capacity"]):
+            raise QuizError("Room sudah penuh.", 409)
+        slot = max(p["slot"] for p in participants) + 1 if participants else HOST_SLOT
+        token = secrets.token_urlsafe(TOKEN_BYTES)
+        participants.append({
+            "slot": slot,
+            "participant_token": hash_token(token),
+            "name": person["name"],
+            "birth_date": person["birth_date"],
+            "shio_key": person["shio_key"],
+            "answers": None,
+            "progress": {},
+            "joined_at": format_moment(now),
+        })
+        status = room["status"]
+        if room["mode"] == "pasangan" and len(participants) == int(room["capacity"]):
+            status = STATUS_PLAYING
+        fields = {"participants": participants, "status": status, "updated_at": format_moment(now)}
+        return fields, {"room_code": room_code, "token": token, "slot": slot}
+
+    return change_room(store, room_code, now, apply)
 
 
 PAIR_QUESTIONS_BY_ID = {question["id"]: question for question in PAIR_QUIZ_QUESTIONS}
@@ -2867,36 +2882,32 @@ def build_pair_result(room, participants):
 
 def submit_answers(store, room_code, token, answers, now=None):
     now = now or utc_now()
-    coll = store.collection()
-    doc_ref = coll.document(room_code)
-    doc = doc_ref.get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = require_room(doc.to_dict(), now)
-    if room["mode"] != "pasangan":
-        raise QuizError("Mode ini tidak memakai soal.")
-    cleaned = read_pair_answers(answers, get_room_pair_questions(room))
-    participants = fetch_participants(room)
-    member = require_member(participants, token)
-    if room["status"] == STATUS_DONE:
-        raise QuizError("Hasil room ini sudah terkunci.", 409)
-    if member.get("answers") is not None:
-        raise QuizError("Jawabanmu sudah tersimpan.", 409)
-    member["answers"] = cleaned
-    complete = (
-        len(participants) == int(room["capacity"])
-        and all(p.get("answers") is not None for p in participants)
-    )
-    update_data = {
-        "participants": participants,
-        "updated_at": format_moment(now),
-    }
-    if complete:
-        result = build_pair_result(room, participants)
-        update_data["status"] = STATUS_DONE
-        update_data["result"] = result
-    doc_ref.update(update_data)
-    return {"completed": complete}
+
+    def apply(room):
+        if room["mode"] != "pasangan":
+            raise QuizError("Mode ini tidak memakai soal.")
+        cleaned = read_pair_answers(answers, get_room_pair_questions(room))
+        participants = fetch_participants(room)
+        member = require_member(participants, token)
+        if room["status"] == STATUS_DONE:
+            raise QuizError("Hasil room ini sudah terkunci.", 409)
+        if member.get("answers") is not None:
+            raise QuizError("Jawabanmu sudah tersimpan.", 409)
+        member["answers"] = cleaned
+        complete = (
+            len(participants) == int(room["capacity"])
+            and all(p.get("answers") is not None for p in participants)
+        )
+        fields = {"participants": participants, "updated_at": format_moment(now)}
+        if complete:
+            fields.update(finished_fields(build_pair_result(room, participants)))
+        return fields, {"completed": complete}
+
+    return change_room(store, room_code, now, apply)
+
+
+def finished_fields(result):
+    return {"status": STATUS_DONE, "result": result, "purge_at": None}
 
 
 def build_group_result(room, participants):
@@ -2918,36 +2929,30 @@ def build_guess_rounds(participants, flavor, rng):
 
 def start_room(store, room_code, token, now=None):
     now = now or utc_now()
-    coll = store.collection()
-    doc_ref = coll.document(room_code)
-    doc = doc_ref.get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = require_room(doc.to_dict(), now)
-    participants = fetch_participants(room)
-    member = require_member(participants, token)
-    if room["mode"] == "pasangan":
-        raise QuizError("Ramalan Pasangan mulai otomatis setelah berdua.")
-    if member["slot"] != HOST_SLOT:
-        raise QuizError("Hanya pembuat room yang bisa memulai.", 403)
-    if room["status"] != STATUS_LOBBY:
-        raise QuizError("Room ini sudah dimulai.", 409)
-    minimum = MODE_LIMITS[room["mode"]][0]
-    if len(participants) < minimum:
-        raise QuizError(f"Butuh minimal {minimum} orang untuk mulai.", 409)
-    update_data = {"updated_at": format_moment(now)}
-    if room["mode"] == "kelompok":
-        result = build_group_result(room, participants)
-        update_data["status"] = STATUS_DONE
-        update_data["result"] = result
-    else:
-        settings = load_json(room.get("settings") or room.get("settings_json"), {})
-        rng = random.Random(secrets.randbits(64))
-        state = {"rounds": build_guess_rounds(participants, settings.get("flavor", "manis"), rng)}
-        update_data["status"] = STATUS_PLAYING
-        update_data["state"] = state
-    doc_ref.update(update_data)
-    return {"started": True}
+
+    def apply(room):
+        participants = fetch_participants(room)
+        member = require_member(participants, token)
+        if room["mode"] == "pasangan":
+            raise QuizError("Ramalan Pasangan mulai otomatis setelah berdua.")
+        if member["slot"] != HOST_SLOT:
+            raise QuizError("Hanya pembuat room yang bisa memulai.", 403)
+        if room["status"] != STATUS_LOBBY:
+            raise QuizError("Room ini sudah dimulai.", 409)
+        minimum = MODE_LIMITS[room["mode"]][0]
+        if len(participants) < minimum:
+            raise QuizError(f"Butuh minimal {minimum} orang untuk mulai.", 409)
+        fields = {"updated_at": format_moment(now)}
+        if room["mode"] == "kelompok":
+            fields.update(finished_fields(build_group_result(room, participants)))
+        else:
+            settings = load_json(room.get("settings") or room.get("settings_json"), {})
+            rng = random.Random(secrets.randbits(64))
+            fields["status"] = STATUS_PLAYING
+            fields["state"] = {"rounds": build_guess_rounds(participants, settings.get("flavor", "manis"), rng)}
+        return fields, {"started": True}
+
+    return change_room(store, room_code, now, apply)
 
 
 def guess_points(attempt, options):
@@ -2979,43 +2984,35 @@ def submit_guess(store, room_code, token, round_index, guess_slot, now=None):
         raise QuizError("Ronde tidak dikenal.")
     if isinstance(guess_slot, bool) or not isinstance(guess_slot, int):
         raise QuizError("Pilih salah satu teman.")
-    coll = store.collection()
-    doc_ref = coll.document(room_code)
-    doc = doc_ref.get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = require_room(doc.to_dict(), now)
-    if room["mode"] != "tebak":
-        raise QuizError("Mode ini tidak memakai tebakan.")
-    participants = fetch_participants(room)
-    member = require_member(participants, token)
-    if room["status"] != STATUS_PLAYING:
-        raise QuizError("Permainan belum dimulai atau sudah selesai.", 409)
-    rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
-    if round_index != find_current_round(rounds, member):
-        raise QuizError("Ronde ini bukan giliranmu sekarang.", 409)
-    slots = {p["slot"] for p in participants}
-    if guess_slot == member["slot"] or guess_slot not in slots:
-        raise QuizError("Pilih salah satu teman, bukan dirimu sendiri.")
-    entry = round_entry(member["progress"], round_index)
-    if guess_slot in entry["attempts"]:
-        raise QuizError("Teman itu sudah kamu tebak di ronde ini.")
-    entry["attempts"].append(guess_slot)
-    correct = guess_slot == rounds[round_index]["target_slot"]
-    if correct:
-        entry["solved"] = True
-        entry["points"] = guess_points(len(entry["attempts"]), len(slots) - 1)
-    member["progress"][str(round_index)] = entry
-    update_data = {
-        "participants": participants,
-        "updated_at": format_moment(now),
-    }
-    if is_guess_complete(rounds, participants):
-        result = build_guess_result(room, participants, rounds)
-        update_data["status"] = STATUS_DONE
-        update_data["result"] = result
-    doc_ref.update(update_data)
-    return {"correct": correct, "points": entry["points"], "attempts": len(entry["attempts"])}
+
+    def apply(room):
+        if room["mode"] != "tebak":
+            raise QuizError("Mode ini tidak memakai tebakan.")
+        participants = fetch_participants(room)
+        member = require_member(participants, token)
+        if room["status"] != STATUS_PLAYING:
+            raise QuizError("Permainan belum dimulai atau sudah selesai.", 409)
+        rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
+        if round_index != find_current_round(rounds, member):
+            raise QuizError("Ronde ini bukan giliranmu sekarang.", 409)
+        slots = {p["slot"] for p in participants}
+        if guess_slot == member["slot"] or guess_slot not in slots:
+            raise QuizError("Pilih salah satu teman, bukan dirimu sendiri.")
+        entry = round_entry(member["progress"], round_index)
+        if guess_slot in entry["attempts"]:
+            raise QuizError("Teman itu sudah kamu tebak di ronde ini.")
+        entry["attempts"].append(guess_slot)
+        correct = guess_slot == rounds[round_index]["target_slot"]
+        if correct:
+            entry["solved"] = True
+            entry["points"] = guess_points(len(entry["attempts"]), len(slots) - 1)
+        member["progress"][str(round_index)] = entry
+        fields = {"participants": participants, "updated_at": format_moment(now)}
+        if is_guess_complete(rounds, participants):
+            fields.update(finished_fields(build_guess_result(room, participants, rounds)))
+        return fields, {"correct": correct, "points": entry["points"], "attempts": len(entry["attempts"])}
+
+    return change_room(store, room_code, now, apply)
 
 
 def build_guess_result(room, participants, rounds):
@@ -3063,26 +3060,19 @@ def build_guess_result(room, participants, rounds):
 
 def finish_room(store, room_code, token, now=None):
     now = now or utc_now()
-    coll = store.collection()
-    doc_ref = coll.document(room_code)
-    doc = doc_ref.get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = require_room(doc.to_dict(), now)
-    participants = fetch_participants(room)
-    member = require_member(participants, token)
-    if member["slot"] != HOST_SLOT:
-        raise QuizError("Hanya pembuat room yang bisa mengakhiri permainan.", 403)
-    if room["mode"] != "tebak" or room["status"] != STATUS_PLAYING:
-        raise QuizError("Tidak ada permainan yang sedang berjalan.", 409)
-    rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
-    result = build_guess_result(room, participants, rounds)
-    doc_ref.update({
-        "status": STATUS_DONE,
-        "result": result,
-        "updated_at": format_moment(now),
-    })
-    return {"finished": True}
+
+    def apply(room):
+        participants = fetch_participants(room)
+        member = require_member(participants, token)
+        if member["slot"] != HOST_SLOT:
+            raise QuizError("Hanya pembuat room yang bisa mengakhiri permainan.", 403)
+        if room["mode"] != "tebak" or room["status"] != STATUS_PLAYING:
+            raise QuizError("Tidak ada permainan yang sedang berjalan.", 409)
+        rounds = load_json(room.get("state") or room.get("state_json"), {"rounds": []})["rounds"]
+        fields = {"updated_at": format_moment(now), **finished_fields(build_guess_result(room, participants, rounds))}
+        return fields, {"finished": True}
+
+    return change_room(store, room_code, now, apply)
 
 
 def describe_participant(participant, member, mode, status):
@@ -3140,11 +3130,7 @@ def describe_guess_turn(room, participants, member):
 
 def build_room_view(store, room_code, token, now=None):
     now = now or utc_now()
-    coll = store.collection()
-    doc = coll.document(room_code).get()
-    if not doc.exists:
-        raise QuizError("Room tidak ditemukan atau sudah kedaluwarsa.", 404)
-    room = require_room(doc.to_dict(), now)
+    room = load_room(store, room_code, now)
     participants = fetch_participants(room)
     member = find_member(participants, token)
     mode = room["mode"]

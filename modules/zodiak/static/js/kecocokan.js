@@ -12,6 +12,23 @@ document.addEventListener("DOMContentLoaded", () => {
           "'": "&#39;",
         })[ch],
     );
+  const ROMAN_STEPS = [
+    [10, "X"],
+    [9, "IX"],
+    [5, "V"],
+    [4, "IV"],
+    [1, "I"],
+  ];
+  const toRoman = (number) => {
+    let rest = number;
+    return ROMAN_STEPS.reduce((text, [value, symbol]) => {
+      while (rest >= value) {
+        text += symbol;
+        rest -= value;
+      }
+      return text;
+    }, "");
+  };
   const btnCalc = document.getElementById("btn-calculate-compatibility-large");
   const quickViz = document.getElementById("quick-viz");
   const resultCircle = document.getElementById("result-svg-circle-large");
@@ -495,26 +512,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (breakdownList && data.breakdown) {
       breakdownList.innerHTML = "";
-      data.breakdown.forEach((item, idx) => {
-        const row = document.createElement("div");
+      const items = data.breakdown;
+      const matched = items.filter((item) => item.is_match).length;
+      const tally = document.createElement("div");
+      tally.className = "breakdown-tally";
+      tally.innerHTML = `
+                    <span class="breakdown-pips" aria-hidden="true">${items
+                      .map((item) => `<i class="${item.is_match ? "on" : ""}"></i>`)
+                      .join("")}</span>
+                    <span class="breakdown-tally-text">${matched} dari ${items.length} jawaban sehati</span>
+                `;
+      breakdownList.appendChild(tally);
+      items.forEach((item, idx) => {
+        const row = document.createElement("article");
         row.className = `breakdown-item ${item.is_match ? "match" : "unique"}`;
-        row.innerHTML = `
-                    <div class="breakdown-item-header">
-                        <span class="breakdown-q-num">Pertanyaan #${idx + 1} (${escapeHtml(item.category)})</span>
-                        <span class="breakdown-status-badge ${item.is_match ? "match" : "unique"}">
-                            ${item.is_match ? "✨ Match!" : "💡 Unik"}
-                        </span>
-                    </div>
-                    <p class="breakdown-q-title">${escapeHtml(item.question)}</p>
-                    <div class="breakdown-answers-grid">
+        row.style.setProperty("--i", idx);
+        const answers = item.is_match
+          ? `
+                        <div class="ans-box ans-shared">
+                            <span class="ans-user">${escapeHtml(data.host_name)} &amp; ${escapeHtml(data.partner_name)}</span>
+                            <span class="ans-text">${escapeHtml(item.host_answer)}</span>
+                        </div>`
+          : `
                         <div class="ans-box host">
-                            <span class="ans-user">${escapeHtml(data.host_name)}:</span>
+                            <span class="ans-user">${escapeHtml(data.host_name)}</span>
                             <span class="ans-text">${escapeHtml(item.host_answer)}</span>
                         </div>
+                        <span class="ans-divider" aria-hidden="true"></span>
                         <div class="ans-box partner">
-                            <span class="ans-user">${escapeHtml(data.partner_name)}:</span>
+                            <span class="ans-user">${escapeHtml(data.partner_name)}</span>
                             <span class="ans-text">${escapeHtml(item.partner_answer)}</span>
-                        </div>
+                        </div>`;
+        row.innerHTML = `
+                    <header class="breakdown-item-header">
+                        <span class="breakdown-q-num" aria-label="Pertanyaan ${idx + 1}">${toRoman(idx + 1)}</span>
+                        <span class="breakdown-q-cat">${escapeHtml(item.category)}</span>
+                        <span class="breakdown-status-badge ${item.is_match ? "match" : "unique"}">
+                            ${item.is_match ? "✦ Sehati" : "☾ Beda Pilihan"}
+                        </span>
+                    </header>
+                    <p class="breakdown-q-title">${escapeHtml(item.question)}</p>
+                    <div class="breakdown-answers-grid${item.is_match ? " shared" : ""}">${answers}
                     </div>
                 `;
         breakdownList.appendChild(row);

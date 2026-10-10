@@ -4,7 +4,12 @@ import datetime
 import hashlib
 import math
 
-from core.core import get_firestore_client, db_available
+from core.core import get_firestore_client, transact
+
+try:
+    from google.cloud.firestore import FieldFilter
+except ImportError:
+    FieldFilter = None
 
 from .horoscope_bank import (
     get_daily_horoscope,
@@ -760,11 +765,30 @@ def generate_dynamic_ratings(base_ratings, cosmic, ruler_planet, sign_key):
 
 
 ROOM_TTL_HOURS = 24
+ROOMS_COLLECTION = "zodiak_rooms"
+PURGE_BATCH = 50
 
 
-def purge_stale_rooms(db=None):
-    # In Firestore, TTL checks are handled when reading documents
-    pass
+def utc_moment(hours=0):
+    moment = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=hours)
+    return moment.isoformat(timespec="seconds")
+
+
+def room_document(db, room_code):
+    return db.collection(ROOMS_COLLECTION).document(room_code)
+
+
+def update_room(db, room_code, change):
+    return transact(room_document(db, room_code), change)
+
+
+def purge_stale_rooms(db):
+    try:
+        query = db.collection(ROOMS_COLLECTION).where(filter=FieldFilter("purge_at", "<=", utc_moment())).limit(PURGE_BATCH)
+        for doc in query.stream():
+            doc.reference.delete()
+    except Exception:
+        pass
 
 
 def rooms_connection():
