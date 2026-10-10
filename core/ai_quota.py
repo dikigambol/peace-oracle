@@ -1,6 +1,6 @@
 import datetime
 
-from core.core import db_available, env_int, get_firestore_client
+from core.core import env_int, get_firestore_client, transact
 
 WIB = datetime.timezone(datetime.timedelta(hours=7))
 QUOTA_MEMORY_MAX = env_int("MEMORY_STORE_MAX", 5000)
@@ -13,7 +13,6 @@ def quota_day():
 
 
 def _quota_doc_id(namespace, client_id):
-    # Bersihkan ID agar aman sebagai Document ID Firestore
     raw = f"{namespace}_{client_id}".replace("/", "_").replace(".", "_")
     return raw[:200]
 
@@ -38,25 +37,23 @@ def store_quota_increment(namespace, client_id, day):
     db = get_firestore_client()
     if not db:
         return False
-    try:
-        doc_ref = db.collection("ai_usage").document(_quota_doc_id(namespace, client_id))
-        doc = doc_ref.get()
-        new_count = 1
-        if doc.exists:
-            data = doc.to_dict() or {}
-            if data.get("quota_date") == day:
-                new_count = int(data.get("used_count", 0)) + 1
-        doc_ref.set({
+
+    def change(current):
+        same_day = bool(current) and current.get("quota_date") == day
+        count = int(current.get("used_count", 0)) + 1 if same_day else 1
+        fields = {
             "namespace": namespace,
             "client_id": client_id,
             "quota_date": day,
-            "used_count": new_count,
-        })
-        return True
+            "used_count": count,
+        }
+        return fields, True
+
+    try:
+        return transact(db.collection("ai_usage").document(_quota_doc_id(namespace, client_id)), change)
     except Exception as e:
         print(f"[FIREBASE QUOTA ERROR] Gagal update quota: {e}", flush=True)
         return False
-
 
 
 def memory_quota_count(namespace, client_id, day):

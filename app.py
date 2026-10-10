@@ -63,43 +63,6 @@ def robots_txt():
     )
     return message, 200, {'Content-Type': 'text/plain; charset=utf-8'}
 
-@app.route("/api/db-debug")
-def db_debug():
-    import time
-    from core.core import HAS_FIREBASE, get_firestore_client, get_service_account_dict
-    has_env = bool(os.environ.get("FIREBASE_SERVICE_ACCOUNT_KEY"))
-    has_file = os.path.isfile("serviceAccountKey.json") or os.path.isfile(os.path.join(os.path.dirname(__file__), "serviceAccountKey.json"))
-    diag = {
-        "provider": "firebase_firestore",
-        "has_firebase_package": HAS_FIREBASE,
-        "has_env_key": has_env,
-        "has_local_file": has_file,
-    }
-    sa_dict = get_service_account_dict()
-    if not sa_dict:
-        diag["status"] = "error"
-        diag["message"] = "Kredensial Firebase tidak ditemukan. Tambahkan FIREBASE_SERVICE_ACCOUNT_KEY di Environment Variables Vercel."
-        return diag, 500
-    diag["project_id"] = sa_dict.get("project_id")
-    diag["client_email"] = sa_dict.get("client_email")
-    try:
-        db = get_firestore_client()
-        if not db:
-            diag["status"] = "error"
-            diag["message"] = "Gagal inisialisasi Firestore client."
-            return diag, 500
-        test_ref = db.collection("_healthcheck").document("ping")
-        test_ref.set({"timestamp": time.time(), "status": "ok"})
-        doc = test_ref.get()
-        diag["status"] = "success"
-        diag["ping_result"] = doc.to_dict()
-        return diag, 200
-    except Exception as e:
-        diag["status"] = "error"
-        diag["error_type"] = type(e).__name__
-        diag["error_message"] = str(e)
-        return diag, 500
-
 if __name__ == "__main__":
     raw_debug = os.getenv("FLASK_DEBUG", "false").strip().lower()
     is_debug = raw_debug in ("true", "1", "t", "yes")

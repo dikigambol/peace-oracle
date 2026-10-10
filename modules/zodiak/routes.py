@@ -13,7 +13,10 @@ from .data import (
     get_daily_horoscope,
     get_daily_youtube_track,
     purge_stale_rooms,
+    room_document,
     rooms_connection,
+    update_room,
+    utc_moment,
 )
 
 zodiak_bp = Blueprint(
@@ -442,7 +445,7 @@ def load_json_field(row, field, default=None):
 
 def fetch_quiz_room(db, room_code):
     try:
-        doc = db.collection("zodiak_rooms").document(room_code).get()
+        doc = room_document(db, room_code).get()
         if not doc.exists:
             return None
         data = doc.to_dict() or {}
@@ -490,9 +493,10 @@ def create_quiz_room():
     if not db:
         return jsonify({"error": "Database tidak terhubung."}), 500
 
+    purge_stale_rooms(db)
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
     try:
-        db.collection("zodiak_rooms").document(room_code).set({
+        room_document(db, room_code).set({
             "room_code": room_code,
             "host_name": host_name,
             "host_sign": host_sign,
@@ -506,6 +510,7 @@ def create_quiz_room():
             "ai_result": None,
             "created_at": now_iso,
             "updated_at": now_iso,
+            "purge_at": utc_moment(ROOM_TTL_HOURS),
         })
     except Exception as e:
         print(f"[ZODIAK ERROR] Gagal create room di Firestore: {e}", flush=True)
@@ -548,14 +553,22 @@ def join_quiz_room():
             row, room_code, "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan."
         )
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    def join(current):
+        if current is None or current.get("status") == "completed":
+            return None, current
+        fields = {"partner_name": partner_name, "partner_sign": partner_sign, "updated_at": now_iso}
+        return fields, {**current, **fields}
+
     try:
-        db.collection("zodiak_rooms").document(room_code).update({
-            "partner_name": partner_name,
-            "partner_sign": partner_sign,
-            "updated_at": now_iso,
-        })
+        joined = update_room(db, room_code, join)
     except Exception as e:
         print(f"[ZODIAK ERROR] Gagal join room di Firestore: {e}", flush=True)
+        joined = row
+    if joined and joined.get("status") == "completed":
+        return completed_room_response(
+            joined, room_code, "Room ini sudah selesai terisi dan dijawab oleh kedua pasangan."
+        )
     return jsonify(
         {
             "status": "success",
@@ -586,16 +599,28 @@ def submit_quiz_answers():
         return completed_room_response(
             row, room_code, "Room ini sudah selesai dan jawabannya telah terkunci."
         )
+    answer_key = "host_answers" if role == "host" else "partner_answers"
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    def answer(current):
+        if current is None or current.get("status") == "completed":
+            return None, current
+        fields = {answer_key: answers, "updated_at": now_iso}
+        return fields, {**current, **fields}
+
+    try:
+        row = update_room(db, room_code, answer)
+    except Exception as e:
+        print(f"[ZODIAK ERROR] Gagal simpan jawaban: {e}", flush=True)
+        return jsonify({"error": "Gagal menyimpan jawaban."}), 500
+    if not row:
+        return jsonify({"error": "Room tidak ditemukan."}), 404
+    if row.get("status") == "completed":
+        return completed_room_response(
+            row, room_code, "Room ini sudah selesai dan jawabannya telah terkunci."
+        )
     host_answers = load_json_field(row, "host_answers")
     partner_answers = load_json_field(row, "partner_answers")
-    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    update_data = {"updated_at": now_iso}
-    if role == "host":
-        host_answers = answers
-        update_data["host_answers"] = answers
-    else:
-        partner_answers = answers
-        update_data["partner_answers"] = answers
 
     is_both_completed = (
         host_answers is not None
@@ -618,18 +643,18 @@ def submit_quiz_answers():
         ai_result = get_ai_couple_quiz_analysis(
             host_name, host_sign, partner_name, partner_sign, match_score, breakdown
         )
-        update_data.update({
-            "status": "completed",
-            "match_score": match_score,
-            "breakdown": breakdown,
-            "ai_result": ai_result,
-        })
-
-    try:
-        db.collection("zodiak_rooms").document(room_code).update(update_data)
-    except Exception as e:
-        print(f"[ZODIAK ERROR] Gagal simpan jawaban: {e}", flush=True)
-        return jsonify({"error": "Gagal menyimpan jawaban."}), 500
+        try:
+            room_document(db, room_code).update({
+                "status": "completed",
+                "match_score": match_score,
+                "breakdown": breakdown,
+                "ai_result": ai_result,
+                "purge_at": None,
+                "updated_at": now_iso,
+            })
+        except Exception as e:
+            print(f"[ZODIAK ERROR] Gagal simpan hasil: {e}", flush=True)
+            return jsonify({"error": "Gagal menyimpan jawaban."}), 500
 
     zodiac_score = zodiac_pair_score(row["host_sign"], row.get("partner_sign") or "taurus")
     return jsonify(
