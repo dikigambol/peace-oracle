@@ -24,6 +24,14 @@ HUB_FEATURES = [
         "text": "Untuk pertanyaan tertutup. Satu kartu menjawab ya, tidak, atau belum pasti, lengkap dengan alasannya.",
     },
     {
+        "key": "obrolan",
+        "short": "Peramal",
+        "endpoint": "tarot.tarot_chat_page",
+        "icon": "fa-comments",
+        "title": "Tanya Peramal",
+        "text": "Cerita atau tanya apa saja. Untuk tiap pesanmu, peramal menarik satu kartu dan menjawab dari kartu itu.",
+    },
+    {
         "key": "hubungan",
         "short": "Hubungan",
         "endpoint": "tarot.tarot_relationship_page",
@@ -425,3 +433,16 @@ VERDICT_LEADS = {
 AI_NOTE = "Dirangkum AI dari kartu yang keluar."
 AI_RESTING_NOTE = "AI lagi nggak tersedia, ini bacaan langsung dari kartu."
 AI_LIMIT_NOTE = "Jatah jawaban AI-mu hari ini udah habis, ini bacaan langsung dari kartu."
+
+CHAT_TURN_LIMIT = 20
+CHAT_HISTORY_MESSAGES = 8
+CHAT_TTL_DAYS = 7
+CHAT_GREETING = "Duduk dulu. Ceritakan apa yang lagi kamu pikirkan, nanti aku tarik satu kartu untuk setiap pertanyaanmu."
+CHAT_HINT = "Satu pesan, satu kartu. Obrolan disimpan di perangkat ini selama 7 hari sejak pesan terakhir."
+CHAT_FOLLOWUP_TITLE = "Tanya lanjutan ke peramal"
+CHAT_FOLLOWUP_HINT = "Peramal menjawab dari kartu yang sama, tanpa menarik kartu baru."
+CHAT_UNAVAILABLE = "Obrolan dengan peramal lagi nggak bisa dibuka. Coba lagi sebentar lagi."
+CHAT_NOT_FOUND = "Obrolan ini nggak ketemu atau sudah lewat 7 hari. Mulai obrolan baru, ya."
+CHAT_TURN_LIMIT_NOTE = "Obrolan ini sudah 20 pesan. Mulai obrolan baru supaya kartunya dibaca dengan kepala dingin."
+CHAT_CARD_LEAD = "Kartu yang keluar untukmu: {kartu}."
+CHAT_CARD_POSITION = "Kartu untuk pesan ini"

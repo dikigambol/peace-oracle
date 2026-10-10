@@ -4,6 +4,11 @@ from core.core import get_device_id, get_fingerprint_id
 
 from .bank import (
     BIRTH_NOTE,
+    CHAT_FOLLOWUP_HINT,
+    CHAT_FOLLOWUP_TITLE,
+    CHAT_GREETING,
+    CHAT_HINT,
+    CHAT_UNAVAILABLE,
     DAILY_NOTE,
     DEFAULT_SPREAD,
     DEFAULT_TOPIC,
@@ -25,6 +30,7 @@ from .data import (
     YEAR_LAST,
     BIRTH_FIRST,
     TarotError,
+    read_question,
     build_birth_card,
     build_daily,
     build_reading,
@@ -38,7 +44,20 @@ from .data import (
     relationship_positions,
     today_wib,
 )
-from .ai_client import explain_answer, reply_to_reading
+from .ai_client import explain_answer, reply_to_chat, reply_to_reading
+from .chat import (
+    ChatUnavailable,
+    answer_context,
+    build_chat_store,
+    chat_ready,
+    chat_scene,
+    draw_chat_card,
+    ensure_room,
+    peramal_message,
+    public_chat,
+    reading_context,
+    user_message,
+)
 
 tarot_bp = Blueprint(
     "tarot",
@@ -69,6 +88,8 @@ def render_page(template, **extra):
         disclaimer=DISCLAIMER,
         draw_note=DRAW_NOTE,
         question_max=QUESTION_MAX_LENGTH,
+        chat_followup_title=CHAT_FOLLOWUP_TITLE,
+        chat_followup_hint=CHAT_FOLLOWUP_HINT,
         **extra,
     )
 
@@ -77,17 +98,53 @@ def ai_clients():
     return (get_device_id(), get_fingerprint_id())
 
 
+def attach_chat(result, kind, context):
+    try:
+        chat = chat_store().create(kind, get_device_id(), context)
+    except ChatUnavailable:
+        return result
+    result["chat"] = {"id": chat["id"]}
+    return result
+
+
 def build_answered_reading(payload):
     reading = build_reading(payload)
     if reading["question"]:
         reading["reply"] = reply_to_reading(reading, ai_clients())
-    return reading
+    return attach_chat(reading, "bacaan", reading_context(reading))
 
 
 def build_explained_answer(payload):
     result = build_answer(payload)
     result["reply"] = explain_answer(result, ai_clients())
-    return result
+    return attach_chat(result, "yatidak", answer_context(result))
+
+
+def chat_store():
+    return build_chat_store()
+
+
+def load_chat(payload):
+    chat_id = request.args.get("id")
+    store = chat_store()
+    if chat_id:
+        return public_chat(store.get(chat_id, get_device_id()))
+    chat = store.latest(get_device_id(), "obrolan")
+    return public_chat(chat) if chat else {"id": None, "kind": "obrolan", "messages": []}
+
+
+def send_chat_message(payload):
+    payload = payload if isinstance(payload, dict) else {}
+    text = read_question(payload.get("text"), required=True)
+    store = chat_store()
+    device = get_device_id()
+    chat_id = payload.get("id")
+    chat = store.get(chat_id, device) if chat_id else store.create("obrolan", device, {})
+    ensure_room(chat)
+    card = draw_chat_card() if chat["kind"] == "obrolan" else None
+    reply = reply_to_chat(chat["kind"], chat_scene(chat, card), chat.get("messages", []), text, ai_clients())
+    turn = [user_message(text), peramal_message(reply, card)]
+    return public_chat(store.append(chat["id"], device, turn))
 
 
 def api_response(builder, *args):
@@ -95,6 +152,8 @@ def api_response(builder, *args):
         return jsonify(builder(request.get_json(silent=True), *args))
     except TarotError as error:
         return jsonify({"error": error.message}), error.status
+    except ChatUnavailable:
+        return jsonify({"error": CHAT_UNAVAILABLE}), 503
 
 
 @tarot_bp.route("/tarot")
@@ -138,6 +197,24 @@ def tarot_answer_page():
 @tarot_bp.route("/api/tarot/answer", methods=["POST"])
 def tarot_answer_api():
     return api_response(build_explained_answer)
+
+
+@tarot_bp.route("/tarot/chat")
+def tarot_chat_page():
+    return render_page(
+        "tarot/obrolan.html",
+        chat_available=chat_ready(),
+        chat_greeting=CHAT_GREETING,
+        chat_hint=CHAT_HINT,
+        chat_unavailable=CHAT_UNAVAILABLE,
+    )
+
+
+@tarot_bp.route("/api/tarot/chat", methods=["GET", "POST"])
+def tarot_chat_api():
+    if request.method == "GET":
+        return api_response(load_chat)
+    return api_response(send_chat_message)
 
 
 @tarot_bp.route("/tarot/relationship")

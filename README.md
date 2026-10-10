@@ -48,6 +48,7 @@ UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa respon
 - Sintesis bacaan dihitung dari pola kartunya: dominasi Arcana Mayor, suit yang paling banyak atau absen, angka yang berulang, kartu istana, proporsi kartu terbalik, plus relasi antar posisi di Celtic Cross.
 - Jawaban pertanyaan dirangkum AI via OpenRouter dari kartu yang keluar. Kalau AI lagi down atau jatah harian habis, jawabannya tetap keluar dari bank jawaban yang membaca kata tanya (siapa, kapan, di mana, kenapa, gimana, berapa) dan elemen kartunya.
 - Ya atau tidak: satu kartu untuk pertanyaan tertutup. Vonisnya ditetapkan per kartu dan per orientasi, lalu dijelaskan sesuai pertanyaanmu.
+- Tanya peramal: ngobrol santai sama peramal tarot. Tiap pesan, peramal narik satu kartu dan jawab dari kartu itu sambil ingat obrolan sebelumnya. Hasil Bacaan dan Ya/Tidak juga bisa ditanya lanjut, dan peramal jawab dari kartu yang sama tanpa narik kartu baru (vonis ya/tidak nggak bisa dibantah). Satu obrolan maksimal 20 pesan.
 - Bacaan hubungan: tujuh posisi buat kamu, dia, kebutuhan masing-masing, tantangan, dan arah hubungan.
 - Kartu lahir: kartu kepribadian, kartu jiwa, dan kartu tahunan dengan metode Mary K. Greer, lengkap dengan langkah hitungnya.
 - Ensiklopedia 78 kartu: simbol Rider-Waite, korespondensi astrologi dan huruf Ibrani versi Golden Dawn, serta makna tegak dan terbalik per topik.
@@ -61,7 +62,7 @@ Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma
 
 AI dipakai di Zodiak dan untuk menjawab pertanyaan di Tarot. Shio, Weton, dan sisa fitur Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
 
-Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Kode room Shio dan Zodiak diambil dari counter per modul lalu diacak pakai kunci rahasia, jadi kelihatan random tapi nggak pernah keluar dua kali, termasuk kode room yang sudah dihapus. Waktu join, huruf O dibaca 0 dan I/L dibaca 1. Semua data disimpan di collection `ai_usage`, `room_codes`, `zodiak_rooms`, dan `shio_rooms` di Firestore.
+Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Kode room Shio dan Zodiak diambil dari counter per modul lalu diacak pakai kunci rahasia, jadi kelihatan random tapi nggak pernah keluar dua kali, termasuk kode room yang sudah dihapus. Waktu join, huruf O dibaca 0 dan I/L dibaca 1. Obrolan dengan peramal Tarot juga disimpan di Firestore per perangkat dan dihapus otomatis setelah 7 hari nggak ada pesan baru. Tanpa Firestore, fitur obrolan ikut nonaktif. Semua data disimpan di collection `ai_usage`, `room_codes`, `zodiak_rooms`, `shio_rooms`, dan `tarot_chats` di Firestore.
 
 ```text
 peace-oracle/
@@ -99,13 +100,13 @@ Lalu isi `.env`. Yang penting:
 | Variabel | Keterangan |
 | --- | --- |
 | `SECRET_KEY` | Wajib. Generate pakai `python -c "import secrets; print(secrets.token_hex(32))"` |
-| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, plus jawaban pertanyaan di Tarot (Bacaan dan Ya/Tidak) |
+| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, plus jawaban pertanyaan dan obrolan peramal di Tarot |
 | `FIREBASE_SERVICE_ACCOUNT_KEY` | Kredensial Firebase (isi raw JSON dari serviceAccountKey.json untuk Vercel / serverless). Secara lokal otomatis membaca file `serviceAccountKey.json` di root, atau path lain lewat `FIREBASE_SERVICE_ACCOUNT_PATH` |
 | `FLASK_ENV` | Set `production` di server biar debug mode selalu off |
 
 Pastikan Firestore sudah aktif di project Firebase-nya (Build → Firestore Database → Create database), nggak perlu bikin index tambahan. Buat kredensial Firebase di lokal, download service account dari Firebase Console (Project settings → Service accounts → Generate new private key), lalu simpan sebagai `serviceAccountKey.json` di root repo. File ini sudah masuk `.gitignore`. Hati-hati, app lokal jadi baca-tulis ke project Firestore yang sama.
 
-Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `MEMORY_STORE_MAX` (5000).
+Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `TAROT_CHAT_AI_LIMIT` (20), `TAROT_CHAT_FINGERPRINT_AI_LIMIT` (60), `TAROT_CHAT_AI_BUDGET` (600), `MEMORY_STORE_MAX` (5000).
 
 Terus run:
 

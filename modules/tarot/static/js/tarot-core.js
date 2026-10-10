@@ -604,6 +604,177 @@
     node.appendChild(el("p", "tr-hint", result.note));
   }
 
+  const chatSlots = {};
+  const chatViews = [];
+  const followupViews = {};
+  let chatPageLoaded = false;
+
+  function chatApi() {
+    return app ? app.dataset.chatApi || "" : "";
+  }
+
+  function chatSlot(key) {
+    if (!chatSlots[key]) chatSlots[key] = { id: null, messages: [], pending: "", loading: false, error: "" };
+    return chatSlots[key];
+  }
+
+  function updateChat(key, patch) {
+    Object.assign(chatSlot(key), patch);
+    chatViews.forEach((view) => {
+      if (view.key() === key) view.render(true);
+    });
+  }
+
+  function chatBubble(message) {
+    const item = el("li", "tr-chat-msg tr-chat-" + message.role);
+    if (message.card) {
+      item.classList.add("has-card");
+      item.appendChild(cardFace(message.card, "tr-chat-face"));
+    }
+    const body = el("div", "tr-chat-body");
+    if (message.card) {
+      body.appendChild(el("p", "tr-chat-card", message.card.name + " · " + message.card.orientation_label));
+    }
+    body.appendChild(el("p", "tr-chat-text", message.text));
+    if (message.note) body.appendChild(el("p", "tr-chat-note", message.note));
+    item.appendChild(body);
+    return item;
+  }
+
+  function typingBubble() {
+    const item = el("li", "tr-chat-msg tr-chat-peramal tr-chat-typing");
+    const body = el("div", "tr-chat-body");
+    const dots = el("p", "tr-chat-dots");
+    dots.setAttribute("aria-label", "Peramal sedang menarik kartu");
+    for (let index = 0; index < 3; index += 1) dots.appendChild(el("i"));
+    body.appendChild(dots);
+    item.appendChild(body);
+    return item;
+  }
+
+  function scrollThread(list) {
+    const root = list.closest("[data-layout]");
+    if (!root || root.dataset.layout !== activeLayout || !list.lastElementChild) return;
+    if (list.scrollHeight > list.clientHeight + 4) {
+      list.scrollTop = list.scrollHeight;
+      return;
+    }
+    list.lastElementChild.scrollIntoView({ behavior: window.prefersReducedMotion() ? "auto" : "smooth", block: "nearest" });
+  }
+
+  async function sendChat(key, text) {
+    const slot = chatSlot(key);
+    if (slot.loading) return false;
+    updateChat(key, { loading: true, pending: text, error: "" });
+    try {
+      const body = { text: text };
+      if (slot.id) body.id = slot.id;
+      const chat = await window.fetchJson(chatApi(), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      updateChat(key, { id: chat.id, messages: chat.messages || [], loading: false, pending: "" });
+      return true;
+    } catch (error) {
+      updateChat(key, { loading: false, pending: "", error: error.message });
+      return false;
+    }
+  }
+
+  async function loadChat(key) {
+    updateChat(key, { loading: true, error: "" });
+    try {
+      const chat = await window.fetchJson(chatApi());
+      updateChat(key, { id: chat.id, messages: chat.messages || [], loading: false });
+    } catch (error) {
+      updateChat(key, { loading: false, error: error.message });
+    }
+  }
+
+  function chatView(prefix, options) {
+    const list = byId(prefix + "-chat-thread");
+    const form = byId(prefix + "-chat-form");
+    const input = byId(prefix + "-chat-input");
+    const send = byId(prefix + "-chat-send");
+    const error = byId(prefix + "-chat-error");
+    const greeting = list.dataset.greeting;
+    const view = {
+      key: options.key,
+      render: (follow) => {
+        const slot = chatSlot(view.key());
+        clear(list);
+        if (greeting) list.appendChild(chatBubble({ role: "peramal", text: greeting }));
+        slot.messages.forEach((message) => list.appendChild(chatBubble(message)));
+        if (slot.pending) {
+          list.appendChild(chatBubble({ role: "user", text: slot.pending }));
+          list.appendChild(typingBubble());
+        }
+        list.hidden = !list.children.length;
+        showError(error, slot.error);
+        send.disabled = Boolean(options.disabled || slot.loading);
+        if (!follow) return;
+        Array.from(list.children).slice(-2).forEach((item) => item.classList.add("is-new"));
+        scrollThread(list);
+      },
+    };
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) {
+        showError(error, "Tulis pesanmu dulu.");
+        return;
+      }
+      input.value = "";
+      const ok = await sendChat(view.key(), text);
+      if (!ok && !input.value) input.value = text;
+      if (activeLayout && list.closest("[data-layout]").dataset.layout === activeLayout) input.focus();
+    });
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+      event.preventDefault();
+      form.requestSubmit();
+    });
+    chatViews.push(view);
+    return view;
+  }
+
+  function chatPage(prefix) {
+    let view = null;
+    const ready = () => app.dataset.chatReady === "1";
+
+    function init() {
+      view = chatView(prefix, { key: () => "obrolan", disabled: !ready() });
+      byId(prefix + "-chat-new").addEventListener("click", () => {
+        if (chatSlot("obrolan").loading) return;
+        updateChat("obrolan", { id: null, messages: [], error: "", pending: "" });
+        byId(prefix + "-chat-input").focus();
+      });
+      if (ready() && !chatPageLoaded) {
+        chatPageLoaded = true;
+        loadChat("obrolan");
+      }
+    }
+
+    function activate() {
+      view.render(true);
+    }
+
+    return { init: init, render: () => {}, activate: activate };
+  }
+
+  function followupChat(prefix, result) {
+    const section = byId(prefix + "-chat");
+    if (!section) return;
+    const id = result.chat && result.chat.id;
+    section.hidden = !id;
+    if (!id) return;
+    section.dataset.chatId = id;
+    chatSlot(id).id = id;
+    if (!followupViews[prefix]) followupViews[prefix] = chatView(prefix, { key: () => section.dataset.chatId });
+    followupViews[prefix].render(false);
+  }
+
   function focusResult(node) {
     if (!node) return;
     if (!node.hasAttribute("tabindex")) node.setAttribute("tabindex", "-1");
@@ -1007,6 +1178,8 @@
     picksError: picksError,
     drawForm: drawForm,
     drawSteps: drawSteps,
+    chatPage: chatPage,
+    followupChat: followupChat,
   };
 
   document.addEventListener("DOMContentLoaded", boot);

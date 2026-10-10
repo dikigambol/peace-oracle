@@ -1,0 +1,19 @@
+<div class="tr-m-shell tr-m-shell-chat" data-bottom-nav>
+  {{ mobile_appbar("Peramal") }}
+
+  <main class="tr-m-main tr-m-chat">
+    <div class="tr-m-chat-top">
+      <p class="tr-eyebrow">Meja peramal</p>
+      <button class="tr-btn tr-btn-ghost tr-btn-sm" id="m-chat-new" type="button"{% if not chat_available %} disabled{% endif %}>
+        <i class="fa-solid fa-plus" aria-hidden="true"></i> Baru
+      </button>
+    </div>
+    {% if not chat_available %}<p class="tr-error tr-chat-offline">{{ chat_unavailable }}</p>{% endif %}
+    <ol class="tr-chat-thread" id="m-chat-thread" aria-live="polite" data-greeting="{{ chat_greeting }}"></ol>
+    <div class="tr-chat-dock">
+      {{ chat_composer("m", "Tulis pesan untuk peramal", chat_hint, disabled=not chat_available) }}
+    </div>
+  </main>
+
+  {{ mobile_tabbar("obrolan") }}
+</div>

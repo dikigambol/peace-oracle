@@ -1,6 +1,6 @@
 {% extends 'tarot/_tavola.html' %}
 {% set page = 'lettura' %}
 {% set page_api = 'tarot.tarot_reading_api' %}
-{% set page_data = {'default-topic': default_topic, 'default-spread': default_spread} %}
+{% set page_data = {'default-topic': default_topic, 'default-spread': default_spread, 'chat-api': url_for('tarot.tarot_chat_api')} %}
 {% block title %}Bacaan Tarot - Peace Oracle{% endblock %}
 {% block description %}Ajukan pertanyaan, pilih spread satu kartu, tiga kartu, atau Celtic Cross, lalu ambil sendiri kartumu dari dek 78 kartu Rider-Waite.{% endblock %}
