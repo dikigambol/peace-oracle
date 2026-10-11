@@ -38,9 +38,11 @@ from .data import CARDS
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_MODEL = "google/gemini-2.5-flash-lite"
-KEY_NAMES = ("OPENROUTER_API_KEY", "OPENROUTER_KEY")
-AI_TIMEOUT = 5
+KEY_NAMES = ("OPENROUTER_API_KEY", "openrouter_key", "OPENROUTER_KEY", "OPENROUTER_TOKEN")
+AI_TIMEOUT = 9
 AI_COOLDOWN = 300
+LASTING_FAILURES = (401, 402, 403, 429)
+JSON_BLOCK = re.compile(r"\{.*\}", re.S)
 AI_MAX_TOKENS = 400
 REPLY_MAX_LENGTH = 700
 AI_STATE = {"resting_until": 0.0}
@@ -96,12 +98,25 @@ def parse_json(content):
     text = content.strip()
     if text.startswith("```"):
         text = text.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
-    return json.loads(text)
+    try:
+        return json.loads(text)
+    except ValueError:
+        block = JSON_BLOCK.search(text)
+        if not block:
+            raise
+        return json.loads(block.group(0))
+
+
+def log_failure(reason):
+    print(f"[TAROT AI] {reason}", flush=True)
 
 
 def ask_ai(system, prompt, timeout=AI_TIMEOUT):
     key = api_key()
-    if not key or time.monotonic() < AI_STATE["resting_until"]:
+    if not key:
+        log_failure("tidak ada API key OpenRouter di environment")
+        return None
+    if time.monotonic() < AI_STATE["resting_until"]:
         return None
     try:
         response = requests.post(
@@ -116,13 +131,25 @@ def ask_ai(system, prompt, timeout=AI_TIMEOUT):
                 "messages": [{"role": "system", "content": system}, {"role": "user", "content": prompt}],
                 "temperature": 0.8,
                 "max_tokens": AI_MAX_TOKENS,
+                "response_format": {"type": "json_object"},
             },
             timeout=timeout,
         )
-        response.raise_for_status()
+    except requests.Timeout:
+        log_failure(f"timeout setelah {timeout} detik")
+        return None
+    except requests.RequestException as error:
+        log_failure(f"gagal terhubung: {type(error).__name__}")
+        return None
+    if response.status_code != 200:
+        log_failure(f"HTTP {response.status_code}: {response.text[:200]}")
+        if response.status_code in LASTING_FAILURES:
+            AI_STATE["resting_until"] = time.monotonic() + AI_COOLDOWN
+        return None
+    try:
         parsed = parse_json(response.json()["choices"][0]["message"]["content"])
-    except (requests.RequestException, ValueError, KeyError, IndexError, TypeError, AttributeError):
-        AI_STATE["resting_until"] = time.monotonic() + AI_COOLDOWN
+    except (ValueError, KeyError, IndexError, TypeError, AttributeError):
+        log_failure("balasan bukan JSON yang bisa dibaca")
         return None
     AI_STATE["resting_until"] = 0.0
     return parsed if isinstance(parsed, dict) else None

@@ -202,7 +202,7 @@ def tarot_answer_api():
 @tarot_bp.route("/tarot/chat")
 def tarot_chat_page():
     return render_page(
-        "tarot/obrolan.html",
+        "tarot/consulto.html",
         chat_available=chat_ready(),
         chat_greeting=CHAT_GREETING,
         chat_hint=CHAT_HINT,
