@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, jsonify, render_template, request
+from flask import Blueprint, abort, jsonify, render_template, request, url_for
 
 from core.core import get_device_id, get_fingerprint_id
 
@@ -25,6 +25,7 @@ from .bank import (
     YESNO_HINT,
 )
 from .data import (
+    DECK,
     DECK_SIZE,
     YEAR_FIRST,
     YEAR_LAST,
@@ -66,6 +67,13 @@ tarot_bp = Blueprint(
     static_folder="static",
     static_url_path="/tarot-static",
 )
+
+
+def card_sitemap_paths():
+    return [url_for("tarot.tarot_card_page", slug=card["slug"]) for card in DECK]
+
+
+tarot_bp.sitemap_paths = card_sitemap_paths
 
 
 @tarot_bp.context_processor

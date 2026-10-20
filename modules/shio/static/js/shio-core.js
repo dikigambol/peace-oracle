@@ -1918,6 +1918,9 @@
 
 (function (Shio) {
   const el = Shio.el;
+  const SUMMARY_FALLBACK = "Peramal lagi istirahat sebentar. Bacaan lengkap di bawah tetap berlaku.";
+  const summaryRequests = new WeakMap();
+  const summaryTasks = new WeakMap();
 
   function paragraph(parent, text, className) {
     if (!text) return;
@@ -2344,6 +2347,29 @@
     return box;
   }
 
+  function loadSummary(data) {
+    if (!summaryTasks.has(data)) {
+      summaryTasks.set(data, Shio.postJson(Shio.api() + "/summary", summaryRequests.get(data)).catch(() => null));
+    }
+    return summaryTasks.get(data);
+  }
+
+  function buildSummary(data) {
+    const box = card("destiny-oracle");
+    const waiting = el("p", "destiny-note", "Peramal sedang membaca chart-mu...");
+    box.appendChild(waiting);
+    loadSummary(data).then((reply) => {
+      waiting.remove();
+      const paragraphs = reply && reply.paragraphs ? reply.paragraphs : [];
+      if (!paragraphs.length) {
+        paragraph(box, (reply && reply.note) || SUMMARY_FALLBACK, "destiny-note");
+        return;
+      }
+      paragraphs.forEach((text) => paragraph(box, text));
+    });
+    return box;
+  }
+
   function sections(data) {
     const list = [
       { key: "chart", title: "Empat Pilar", icon: "fa-table-columns", build: () => buildChart(data.pillars) },
@@ -2359,6 +2385,9 @@
     if (data.luck) list.push({ key: "luck", title: "Periode Besar", icon: "fa-hourglass-half", build: () => buildLuck(data.luck) });
     list.push({ key: "heritage", title: "Wajah Luar & Warisan Leluhur", icon: "fa-house-chimney", build: () => buildHeritage(data.heritage) });
     list.push({ key: "remedy", title: "Penyeimbang", icon: "fa-gem", build: () => buildRemedy(data.remedy || []) });
+    if (summaryRequests.has(data)) {
+      list.unshift({ key: "peramal", title: "Kata Peramal", icon: "fa-feather", build: () => buildSummary(data) });
+    }
     return list;
   }
 
@@ -2376,14 +2405,16 @@
     const form = Shio.getState().form;
     if (!form.date || !form.gender) return null;
     const hasHour = form.hour !== "" && form.hour !== undefined && form.hour !== null;
-    const data = await Shio.run(() => Shio.postJson(Shio.api(), {
+    const body = {
       tanggal: form.date,
       jam: hasHour ? form.hour : null,
       menit: hasHour ? form.minute || "0" : null,
       kota: form.city || null,
       gender: form.gender,
-    }));
+    };
+    const data = await Shio.run(() => Shio.postJson(Shio.api(), body));
     if (!data) return null;
+    summaryRequests.set(data, body);
     Shio.setState({ result: data });
     return data;
   }
@@ -2422,19 +2453,23 @@
   const el = Shio.el;
   const CODE_ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
   const CODE_LENGTH = 6;
+  const CODE_MARK = "SX";
+  const CODE_PREFIX = CODE_MARK + "-";
   const SEAT_PREFIX = "shio_quiz_seat_";
   const ROOMS_API = "/api/shio/quiz/rooms";
 
   function normaliseCode(value) {
-    const code = String(value || "").replace(/[\s-]/g, "").toUpperCase().replace(/O/g, "0").replace(/[IL]/g, "1");
+    let code = String(value || "").replace(/[\s-]/g, "").toUpperCase();
+    if (code.startsWith(CODE_MARK) && code.length === CODE_MARK.length + CODE_LENGTH) code = code.slice(CODE_MARK.length);
+    code = code.replace(/O/g, "0").replace(/[IL]/g, "1");
     if (code.length !== CODE_LENGTH) return null;
     for (const char of code) {
       if (CODE_ALPHABET.indexOf(char) === -1) return null;
     }
-    return code;
+    return CODE_PREFIX + code;
   }
 
-  function loadSeat(code) {
+  function readSeat(code) {
     try {
       const raw = localStorage.getItem(SEAT_PREFIX + code);
       const seat = raw ? JSON.parse(raw) : null;
@@ -2442,6 +2477,18 @@
     } catch (error) {
       return null;
     }
+  }
+
+  function loadSeat(code) {
+    const seat = readSeat(code);
+    if (seat || !code.startsWith(CODE_PREFIX)) return seat;
+    const legacyCode = code.slice(CODE_PREFIX.length);
+    const legacySeat = readSeat(legacyCode);
+    if (legacySeat) {
+      saveSeat(code, legacySeat);
+      clearSeat(legacyCode);
+    }
+    return legacySeat;
   }
 
   function saveSeat(code, seat) {
@@ -2574,6 +2621,9 @@
   let lastChangeAt = Date.now();
   let inFlight = false;
   let finishArmedUntil = 0;
+  let reviewTask = null;
+  const REVIEW_RETRIES = 5;
+  const REVIEW_RETRY_DELAY = 3000;
 
   function setNotice(text, withRefresh) {
     Shio.setState({ notice: text ? { text: text, refresh: Boolean(withRefresh) } : null });
@@ -3045,10 +3095,52 @@
     };
   }
 
+  function waitFor(delay) {
+    return new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
+  async function fetchReview() {
+    for (let attempt = 0; attempt <= REVIEW_RETRIES; attempt += 1) {
+      try {
+        const reply = await post("/review");
+        if (reply.state === "ready") return reply.review;
+        if (reply.state !== "pending") return null;
+      } catch (error) {
+        return null;
+      }
+      await waitFor(REVIEW_RETRY_DELAY);
+    }
+    return null;
+  }
+
+  function loadReview(view) {
+    if (view.ai_review) return Promise.resolve(view.ai_review);
+    if (!reviewTask) reviewTask = fetchReview();
+    return reviewTask;
+  }
+
+  function reviewSection(view) {
+    const node = el("div", "quiz-review");
+    node.appendChild(el("p", "quiz-review-note", "Peramal sedang menulis ulasan..."));
+    loadReview(view).then((review) => {
+      if (!review) {
+        const holder = node.closest(".quiz-card, details");
+        (holder || node).hidden = true;
+        return;
+      }
+      Shio.clear(node);
+      node.appendChild(el("h4", "quiz-review-title", review.title));
+      review.paragraphs.forEach((text) => node.appendChild(el("p", "quiz-review-text", text)));
+    });
+    return { key: "review", title: "Kata Peramal", icon: "fa-feather", node: node };
+  }
+
   function buildResult(view) {
-    if (view.mode === "pasangan") return pairResult(view);
-    if (view.mode === "kelompok") return groupResult(view);
-    return guessResult(view);
+    const result = view.mode === "pasangan" ? pairResult(view)
+      : view.mode === "kelompok" ? groupResult(view)
+      : guessResult(view);
+    if (view.me && seat) result.sections.unshift(reviewSection(view));
+    return result;
   }
 
   Shio.onBoot((app) => {

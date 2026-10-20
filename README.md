@@ -25,14 +25,14 @@ UI desktop dan mobile dibangun terpisah, bukan versi desktop yang dipaksa respon
 - Roasting, solo atau bareng pasangan. Kurang pedas? Tinggal reroll.
 
 **Shio**
-- Ming Li: baca Empat Pilar Ba Zi (八字) dari tanggal, jam, dan kota lahir.
+- Ming Li: baca Empat Pilar Ba Zi (八字) dari tanggal, jam, dan kota lahir, lengkap dengan ringkasan dari peramal AI.
 - Tong Shu: almanak harian, 12 dewa harian, plus ranking shio hari ini.
 - Liu Nian: forecast energi tahunan per shio.
 - Pei Dui: cek kecocokan dua orang, bisa pilih mode asmara, pertemanan, atau kerja.
 - Tu Cao: roasting per shio, solo atau berdua.
 - Ben Ming Fo: figur pelindung, mantra, dan tips Feng Shui.
 - Xing Yun Bing: fortune cookie harian.
-- Ju Hui: kuis bareng teman (ramalan pasangan, ramalan grup, dan tebak shio teman).
+- Ju Hui: kuis bareng teman (ramalan pasangan, ramalan grup, dan tebak shio teman), hasilnya diulas AI.
 
 **Weton**
 - Kartu "Hari ini" di halaman depan: weton, tanggal Jawa, wuku, dan mangsa hari ini, lengkap dengan info kapan harinya ganti pas maghrib dan hari istimewa terdekat.
@@ -60,9 +60,9 @@ Di landing page ada floating button buat switch mode, plus beberapa easter egg k
 
 Tiap sistem ramalan jadi Flask Blueprint sendiri di `modules/`. Semua modul cuma depend ke `core/` dan nggak saling import, jadi satu modul bisa dicabut tanpa bikin yang lain rusak. Navigasi dan landing page otomatis nyesuain modul yang ter-install.
 
-AI dipakai di Zodiak dan untuk menjawab pertanyaan di Tarot. Shio, Weton, dan sisa fitur Tarot full dihitung di server pakai data dan rumus sendiri, zero API call.
+AI dipakai di Zodiak, untuk menjawab pertanyaan di Tarot, dan untuk merangkum hasil Ming Li serta mengulas Ju Hui di Shio. Semua hitungan Shio, Weton, dan Tarot tetap dikerjakan server pakai data dan rumus sendiri, AI cuma merangkai ceritanya. Weton dan sisa fitur Tarot zero API call.
 
-Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak dan Tarot pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Kode room Shio dan Zodiak diambil dari counter per modul lalu diacak pakai kunci rahasia, jadi kelihatan random tapi nggak pernah keluar dua kali, termasuk kode room yang sudah dihapus. Waktu join, huruf O dibaca 0 dan I/L dibaca 1. Obrolan dengan peramal Tarot juga disimpan di Firestore per perangkat dan dihapus otomatis setelah 7 hari nggak ada pesan baru. Tanpa Firestore, fitur obrolan ikut nonaktif. Semua data disimpan di collection `ai_usage`, `room_codes`, `zodiak_rooms`, `shio_rooms`, dan `tarot_chats` di Firestore.
+Firebase Firestore dipakai buat nyimpen kuota AI dan room kuis. Kuota AI Zodiak, Tarot, dan Shio pakai mekanisme yang sama di `core/`: batas per perangkat, per jaringan, dan batas total harian per modul biar kredit AI nggak jebol. Kalau database lagi down, app tetap jalan: kuota pindah ke in-memory store, sementara Quiz Room nonaktif sampai database balik lagi. Room kuis yang selesai disimpan permanen dan hasilnya bisa dibuka kapan saja, sedangkan room yang nggak selesai dalam 24 jam dibersihkan otomatis. Kode room Shio dan Zodiak diambil dari counter per modul lalu diacak pakai kunci rahasia, jadi kelihatan random tapi nggak pernah keluar dua kali, termasuk kode room yang sudah dihapus. Waktu join, huruf O dibaca 0 dan I/L dibaca 1. Obrolan dengan peramal Tarot juga disimpan di Firestore per perangkat dan dihapus otomatis setelah 7 hari nggak ada pesan baru. Tanpa Firestore, fitur obrolan ikut nonaktif. Semua data disimpan di collection `ai_usage`, `room_codes`, `zodiak_rooms`, `shio_rooms`, dan `tarot_chats` di Firestore.
 
 ```text
 peace-oracle/
@@ -100,13 +100,14 @@ Lalu isi `.env`. Yang penting:
 | Variabel | Keterangan |
 | --- | --- |
 | `SECRET_KEY` | Wajib. Generate pakai `python -c "import secrets; print(secrets.token_hex(32))"` |
-| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, plus jawaban pertanyaan dan obrolan peramal di Tarot |
+| `OPENROUTER_KEY` | Buat ramalan dan review AI di Zodiak, jawaban pertanyaan dan obrolan peramal di Tarot, plus ringkasan Ming Li dan ulasan Ju Hui di Shio |
 | `FIREBASE_SERVICE_ACCOUNT_KEY` | Kredensial Firebase (isi raw JSON dari serviceAccountKey.json untuk Vercel / serverless). Secara lokal otomatis membaca file `serviceAccountKey.json` di root, atau path lain lewat `FIREBASE_SERVICE_ACCOUNT_PATH` |
+| `SITE_URL` | Domain untuk canonical, Open Graph, `robots.txt`, dan `/sitemap.xml`. Default `https://oracle.peaceorc.web.id`, isi cuma kalau domainnya pindah |
 | `FLASK_ENV` | Set `production` di server biar debug mode selalu off |
 
 Pastikan Firestore sudah aktif di project Firebase-nya (Build → Firestore Database → Create database), nggak perlu bikin index tambahan. Buat kredensial Firebase di lokal, download service account dari Firebase Console (Project settings → Service accounts → Generate new private key), lalu simpan sebagai `serviceAccountKey.json` di root repo. File ini sudah masuk `.gitignore`. Hati-hati, app lokal jadi baca-tulis ke project Firestore yang sama.
 
-Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `TAROT_CHAT_AI_LIMIT` (20), `TAROT_CHAT_FINGERPRINT_AI_LIMIT` (60), `TAROT_CHAT_AI_BUDGET` (600), `MEMORY_STORE_MAX` (5000).
+Sisanya opsional dan sudah ada default-nya: `FLASK_DEBUG`, `FLASK_HOST`, `FLASK_PORT` (5000), `DAILY_AI_LIMIT` (10), `FINGERPRINT_AI_LIMIT` (30), `DAILY_AI_BUDGET` (300), `TAROT_AI_LIMIT` (10), `TAROT_FINGERPRINT_AI_LIMIT` (30), `TAROT_AI_BUDGET` (300), `TAROT_CHAT_AI_LIMIT` (20), `TAROT_CHAT_FINGERPRINT_AI_LIMIT` (60), `TAROT_CHAT_AI_BUDGET` (600), `SHIO_AI_LIMIT` (10), `SHIO_FINGERPRINT_AI_LIMIT` (30), `SHIO_AI_BUDGET` (300), `MEMORY_STORE_MAX` (5000).
 
 Terus run:
 
@@ -118,7 +119,7 @@ Buka `http://127.0.0.1:5000/` dan selesai.
 
 ## Deploy ke Vercel
 
-Connect repo ke [Vercel](https://vercel.com), copy semua environment variable dari `.env`, lalu isi `FIREBASE_SERVICE_ACCOUNT_KEY` dengan isi file `serviceAccountKey.json` (raw JSON atau base64), karena file itu nggak ikut ter-deploy. Config-nya sudah siap di `vercel.json`, nggak perlu setting tambahan.
+Connect repo ke [Vercel](https://vercel.com), copy semua environment variable dari `.env`, lalu isi `FIREBASE_SERVICE_ACCOUNT_KEY` dengan isi file `serviceAccountKey.json` (raw JSON atau base64), karena file itu nggak ikut ter-deploy. Config-nya sudah siap di `vercel.json`, nggak perlu setting tambahan. Daftarkan `https://oracle.peaceorc.web.id/sitemap.xml` di Google Search Console biar halaman-halamannya cepat terindeks.
 
 Sebagai pengaman terakhir, set credit limit di API key OpenRouter (dashboard OpenRouter, menu Keys). Jadi walaupun ada yang kebobolan di sisi app, tagihannya tetap mentok di angka itu.
 

@@ -4971,3 +4971,33 @@ body.board-locked {
 .sh-result-target:focus {
   outline: none;
 }
+
+.destiny-oracle .destiny-text:last-child,
+.destiny-oracle .destiny-note:last-child {
+  margin-bottom: 0;
+}
+
+.quiz-review-title {
+  font-family: "Noto Serif TC", serif;
+  color: var(--gold);
+  font-size: var(--fs-base);
+  margin: 0 0 12px;
+}
+
+.quiz-review-text {
+  margin: 0 0 12px;
+  font-size: var(--fs-sm);
+  line-height: 1.7;
+  color: rgba(var(--cream-rgb), 0.88);
+}
+
+.quiz-review-text:last-child {
+  margin-bottom: 0;
+}
+
+.quiz-review-note {
+  margin: 0;
+  font-size: var(--fs-xs);
+  font-style: italic;
+  color: rgba(var(--cream-rgb), 0.65);
+}

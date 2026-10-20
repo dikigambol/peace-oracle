@@ -14,10 +14,51 @@ try:
 except ImportError:
     HAS_FIREBASE = False
 
+CONTENT_SECURITY_POLICY = "; ".join((
+    "default-src 'self'",
+    "script-src 'self' https://cdn.jsdelivr.net",
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
+    "img-src 'self' data:",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+))
+
+SECURITY_HEADERS = {
+    "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+}
+
+
+DEFAULT_SITE_URL = "https://oracle.peaceorc.web.id"
+
+
+def site_url():
+    return (os.environ.get("SITE_URL", "").strip() or DEFAULT_SITE_URL).rstrip("/")
+
+
+def is_https_request():
+    return request.is_secure or request.headers.get("X-Forwarded-Proto", "").split(",")[0].strip() == "https"
+
+
 def init_app(app):
     @app.context_processor
     def inject_installed_modes():
-        return {"installed_modes": frozenset(app.blueprints)}
+        return {"installed_modes": frozenset(app.blueprints), "site_url": site_url()}
+
+    @app.after_request
+    def apply_security_headers(response):
+        for name, value in SECURITY_HEADERS.items():
+            response.headers.setdefault(name, value)
+        response.headers.setdefault("Content-Security-Policy", CONTENT_SECURITY_POLICY)
+        if is_https_request():
+            response.headers.setdefault("Strict-Transport-Security", "max-age=31536000")
+        return response
 
 
 def env_int(name, fallback):

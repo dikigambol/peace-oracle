@@ -405,7 +405,8 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
-  padding: 12px 0;
+  padding: 12px;
+  border-radius: var(--radius-md);
   background: rgba(10, 2, 2, 0.88);
 }
 

@@ -14,7 +14,7 @@ from itertools import combinations
 import ephem
 
 from core.core import TransactionFailed, get_firestore_client, transact
-from core.room_codes import RoomCodesExhausted, allocate_room_code, clean_room_code
+from core.room_codes import ROOM_CODE_LENGTH, RoomCodesExhausted, allocate_room_code, clean_room_code
 
 try:
     from google.api_core.exceptions import AlreadyExists, GoogleAPIError
@@ -2523,6 +2523,8 @@ SLOT_LIMITS = (1, 8)
 HOST_SLOT = 1
 
 ROOM_CODE_NAMESPACE = "shio"
+ROOM_CODE_MARK = "SX"
+ROOM_CODE_PREFIX = ROOM_CODE_MARK + "-"
 ROOM_CODE_ATTEMPTS = 20
 
 ROOM_TTL = datetime.timedelta(hours=24)
@@ -2575,7 +2577,13 @@ def hash_token(token):
 
 
 def normalise_room_code(value):
-    return clean_room_code(value)
+    if not isinstance(value, str):
+        return None
+    body = re.sub(r"[\s-]", "", value).upper()
+    if body.startswith(ROOM_CODE_MARK) and len(body) == len(ROOM_CODE_MARK) + ROOM_CODE_LENGTH:
+        body = body[len(ROOM_CODE_MARK):]
+    code = clean_room_code(body)
+    return ROOM_CODE_PREFIX + code if code else None
 
 
 def clean_name(value):
@@ -2740,7 +2748,7 @@ def create_room(store, payload, device, now=None):
         "participants": [host_participant],
     }
     for _ in range(ROOM_CODE_ATTEMPTS):
-        room_code = store.next_code()
+        room_code = ROOM_CODE_PREFIX + store.next_code()
         if store.create(room_code, {"room_code": room_code, **room_data}):
             return {"room_code": room_code, "token": token, "slot": HOST_SLOT}
     raise QuizError("Gagal membuat kode room. Coba sekali lagi.", 503)
@@ -3069,6 +3077,62 @@ def finish_room(store, room_code, token, now=None):
     return change_room(store, room_code, now, apply)
 
 
+REVIEW_CLAIM_WINDOW = datetime.timedelta(seconds=60)
+REVIEW_MAX_ATTEMPTS = 2
+
+
+def review_context(room, participants):
+    relation = room.get("relation_type")
+    return {
+        "mode": room["mode"],
+        "relation_label": RELATION_LENS[relation]["label"] if relation in RELATION_LENS else None,
+        "members": [
+            {"slot": p["slot"], "name": p["name"], "shio": SHIO_DATA[p["shio_key"]]["name"]}
+            for p in participants
+        ],
+        "result": load_json(room.get("result") or room.get("result_json"), None),
+    }
+
+
+def claim_review(store, room_code, token, now=None):
+    now = now or utc_now()
+
+    def apply(room):
+        participants = fetch_participants(room)
+        require_member(participants, token)
+        if room["status"] != STATUS_DONE:
+            raise QuizError("Hasil room ini belum keluar.", 409)
+        review = load_json(room.get("ai_review"), None)
+        if review:
+            return None, {"state": "ready", "review": review}
+        if int(room.get("review_attempts") or 0) >= REVIEW_MAX_ATTEMPTS:
+            return None, {"state": "unavailable"}
+        claimed = room.get("review_claimed_at")
+        if claimed and now - read_moment(claimed) < REVIEW_CLAIM_WINDOW:
+            return None, {"state": "pending"}
+        context = review_context(room, participants)
+        return {"review_claimed_at": format_moment(now)}, {"state": "claimed", "context": context}
+
+    return change_room(store, room_code, now, apply)
+
+
+def save_review(store, room_code, review, failure, now=None):
+    now = now or utc_now()
+
+    def apply(room):
+        existing = load_json(room.get("ai_review"), None)
+        if existing:
+            return None, {"state": "ready", "review": existing}
+        if review:
+            return {"ai_review": review, "review_claimed_at": None}, {"state": "ready", "review": review}
+        fields = {"review_claimed_at": None}
+        if failure != "limit":
+            fields["review_attempts"] = int(room.get("review_attempts") or 0) + 1
+        return fields, {"state": "unavailable"}
+
+    return change_room(store, room_code, now, apply)
+
+
 def describe_participant(participant, member, mode, status):
     visible_shio = mode != "tebak" or status == STATUS_DONE or (
         member is not None and member["slot"] == participant["slot"]
@@ -3168,5 +3232,6 @@ def build_room_view(store, room_code, token, now=None):
         view["turn"] = describe_guess_turn(room, participants, member)
     if status == STATUS_DONE:
         view["result"] = load_json(room.get("result") or room.get("result_json"), None)
+        view["ai_review"] = load_json(room.get("ai_review"), None)
     return view
 

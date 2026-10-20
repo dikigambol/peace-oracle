@@ -331,8 +331,8 @@
 {% block backdrop %}<div class="sh-backdrop" aria-hidden="true"></div>{% endblock %}
 {% block backdrop_js %}{% endblock %}
 {% block extra_css %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/themes/dark.css" integrity="sha384-heUUtXw0Djj2DElfLOVPlASSWFKNL3JDY6s3FEqQD03GYyWOeophY5DsfEG40sYX" crossorigin="anonymous" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio-base.css') }}" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio-desktop.css') }}" media="(min-width: 769px)" />
 <link rel="stylesheet" href="{{ url_for('shio.static', filename='css/shio-mobile.css') }}" media="(max-width: 768px)" />
@@ -354,8 +354,8 @@
 </div>
 {% endblock %}
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/flatpickr.min.js" integrity="sha384-5JqMv4L/Xa0hfvtF06qboNdhvuYXUku9ZrhZh3bSk8VXF0A/RuSLHpLsSV9Zqhl6" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.13/dist/l10n/id.js" integrity="sha384-KMhDAY3QD073iimt/X068iLaMgNPBD+J57j7adrjgvlWbfAv2ONSvLFyOtU9TzDN" crossorigin="anonymous"></script>
 <script src="{{ url_for('shio.static', filename='js/shio-core.js') }}"></script>
 {% block shio_js %}
 {% if page %}

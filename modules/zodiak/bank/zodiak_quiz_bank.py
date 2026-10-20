@@ -1,4 +1,4 @@
-from .ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
+from ..ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
 
 PARTNER_QUIZ_QUESTIONS = [
     {
@@ -170,7 +170,7 @@ def get_ai_couple_quiz_analysis(
     Memanggil AI OpenRouter untuk membuat ulasan kecocokan pasangan yang seru, Gen Z, hangat, dan kocak
     berdasarkan zodiak & hasil 10 jawaban quiz.
     """
-    from .data import ZODIAC_DATA
+    from ..data import ZODIAC_DATA
 
     h_sign_name = ZODIAC_DATA.get(host_sign.lower(), {}).get(
         "name", host_sign.capitalize()

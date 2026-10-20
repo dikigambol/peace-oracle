@@ -383,7 +383,7 @@ def get_compatibility(sign_one, sign_two):
 
 
 import json
-from .quiz_bank import (
+from .bank import (
     PARTNER_QUIZ_QUESTIONS,
     calculate_quiz_match,
     get_ai_couple_quiz_analysis,

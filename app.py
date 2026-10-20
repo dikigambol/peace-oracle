@@ -14,8 +14,10 @@ if sys.version_info < MINIMUM_PYTHON:
 from dotenv import load_dotenv
 
 load_dotenv()
+from xml.sax.saxutils import escape
+
 from flask import Flask, render_template
-from core.core import init_app
+from core.core import init_app, site_url
 from modules.zodiak.routes import zodiak_bp
 from modules.shio.routes import shio_bp
 from modules.weton.routes import weton_bp
@@ -24,6 +26,7 @@ from modules.tarot.routes import tarot_bp
 app = Flask(__name__, template_folder="core/templates", static_folder="core/static")
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+app.config['MAX_CONTENT_LENGTH'] = 64 * 1024
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', secrets.token_hex(32))
 
@@ -59,9 +62,37 @@ def robots_txt():
         "Disallow: /negative-energy\n\n"
         "# Hello, bot. All four of our oracles can see you.\n"
         "# Read the pages all you like, but leave /api/ to the humans.\n"
-        "# The stars have been consulted. Crawl in peace."
+        "# The stars have been consulted. Crawl in peace.\n\n"
+        f"Sitemap: {site_url()}/sitemap.xml\n"
     )
     return message, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+
+SITEMAP_EXCLUDED = ('/api/', '/.well-known/', '/robots.txt', '/sitemap.xml')
+
+def sitemap_paths():
+    for rule in app.url_map.iter_rules():
+        if rule.arguments or 'GET' not in rule.methods or rule.endpoint.endswith('static'):
+            continue
+        if rule.rule.startswith(SITEMAP_EXCLUDED):
+            continue
+        yield rule.rule
+    for blueprint in app.blueprints.values():
+        extra_paths = getattr(blueprint, 'sitemap_paths', None)
+        if extra_paths:
+            yield from extra_paths()
+
+@app.route('/sitemap.xml')
+def sitemap_xml():
+    base = site_url()
+    entries = "".join(
+        f"<url><loc>{escape(base + path)}</loc></url>"
+        for path in sorted(set(sitemap_paths()))
+    )
+    body = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        f'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{entries}</urlset>'
+    )
+    return body, 200, {'Content-Type': 'application/xml; charset=utf-8'}
 
 if __name__ == "__main__":
     raw_debug = os.getenv("FLASK_DEBUG", "false").strip().lower()

@@ -1,7 +1,7 @@
 import hashlib
 import requests
 
-from .ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
+from ..ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
 
 HOROSCOPE_BANK = {
     "aries": {

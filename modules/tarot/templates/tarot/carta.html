@@ -2,3 +2,13 @@
 {% set page = 'carta' %}
 {% block title %}{{ card.name }} - Arti Kartu Tarot - Peace Oracle{% endblock %}
 {% block description %}Arti kartu {{ card.name }} ({{ card.name_id }}) dalam tarot Rider-Waite: simbol, korespondensi, serta makna tegak dan terbalik untuk cinta, karier, dan keuangan.{% endblock %}
+{% block structured_data %}{{ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Arti Kartu Tarot " ~ card.name,
+  "description": self.description(),
+  "image": site_url ~ url_for('tarot.static', filename='images/rider/' ~ card.slug ~ '.webp'),
+  "url": site_url ~ request.path,
+  "inLanguage": "id-ID",
+  "isPartOf": {"@type": "WebSite", "name": "Peace Oracle", "url": site_url ~ "/"}
+}|tojson }}{% endblock %}

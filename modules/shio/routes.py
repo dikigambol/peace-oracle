@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, jsonify, request, current_app, abort
+from flask import Blueprint, render_template, jsonify, request, current_app, abort, redirect, url_for
 from .data import (
     get_all_daily_fortunes,
     get_shio_guardian,
@@ -17,6 +17,7 @@ from .data import (
     build_room_store,
 )
 from .bank import RELATION_LENS, QUIZ_MODE_BANK, GUESS_FLAVOR_BANK
+from .ai_client import review_room, summarize_destiny
 from . import data as shio_data
 
 shio_bp = Blueprint(
@@ -137,19 +138,31 @@ def shio_fortune_cookie_api():
     result = get_fortune_cookie(shio_key, read_text(data, "date"))
     return jsonify(result)
 
-@shio_bp.route("/api/shio/destiny", methods=["POST"])
-def shio_destiny_api():
+def read_destiny():
     data = read_payload()
-    result = get_shio_destiny(
+    return get_shio_destiny(
         read_text(data, "tanggal"),
         data.get("jam"),
         data.get("menit"),
         read_text(data, "kota"),
         read_text(data, "gender"),
     )
+
+
+@shio_bp.route("/api/shio/destiny", methods=["POST"])
+def shio_destiny_api():
+    result = read_destiny()
     if "error" in result:
         return jsonify(result), 400
     return jsonify(result)
+
+
+@shio_bp.route("/api/shio/destiny/summary", methods=["POST"])
+def shio_destiny_summary_api():
+    result = read_destiny()
+    if "error" in result:
+        return jsonify(result), 400
+    return jsonify(summarize_destiny(result))
 
 
 QUIZ_OFFLINE_MESSAGE = (
@@ -208,6 +221,8 @@ def shio_quiz_room_page(room_code):
     code = shio_data.normalise_room_code(room_code)
     if code is None:
         abort(404)
+    if code != room_code:
+        return redirect(url_for("shio.shio_quiz_room_page", room_code=code), 301)
     return render_template("shio/juhui.html", room_code=code)
 
 
@@ -274,3 +289,18 @@ def shio_quiz_finish(room_code):
             get_quiz_store(), require_room_code(room_code), read_quiz_token()
         )
     )
+
+
+def review_quiz_room(raw_code):
+    store = get_quiz_store()
+    code = require_room_code(raw_code)
+    claim = shio_data.claim_review(store, code, read_quiz_token())
+    if claim["state"] != "claimed":
+        return claim
+    review, failure = review_room(claim["context"])
+    return shio_data.save_review(store, code, review, failure)
+
+
+@shio_bp.route("/api/shio/quiz/rooms/<room_code>/review", methods=["POST"])
+def shio_quiz_review(room_code):
+    return run_quiz(lambda: review_quiz_room(room_code))

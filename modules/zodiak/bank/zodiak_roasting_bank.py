@@ -3,7 +3,7 @@ import math
 
 import ephem
 
-from .ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
+from ..ai_client import ask_openrouter, check_ai_quota, get_openrouter_api_key, increment_ai_quota
 
 SIGN_ORDER = [
     "aries",
@@ -183,13 +183,13 @@ ROASTING_DATA = {
 
 
 def sign_name(sign_key, fallback):
-    from .data import ZODIAC_DATA
+    from ..data import ZODIAC_DATA
 
     return ZODIAC_DATA[sign_key]["name"] if sign_key in ZODIAC_DATA else fallback
 
 
 def sign_element(sign_key):
-    from .data import ZODIAC_DATA
+    from ..data import ZODIAC_DATA
 
     return ZODIAC_DATA[sign_key]["element"].lower() if sign_key in ZODIAC_DATA else "api"
 

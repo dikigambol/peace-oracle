@@ -883,3 +883,6 @@ BIRTH_CITIES = {
     "wonosobo": ("Wonosobo", 109.9, "WIB", "Jawa Tengah"),
     "yogyakarta": ("Yogyakarta", 110.36, "WIB", "DI Yogyakarta"),
 }
+
+AI_RESTING_NOTE = "Peramal lagi istirahat sebentar. Bacaan lengkap di bawah tetap berlaku."
+AI_LIMIT_NOTE = "Jatah ringkasan peramal hari ini sudah habis. Bacaan lengkap di bawah tetap berlaku."

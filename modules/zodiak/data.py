@@ -15,15 +15,13 @@ except ImportError:
     AlreadyExists = ()
     FieldFilter = None
 
-from .horoscope_bank import (
+from .bank import (
+    determine_zodiac_from_date,
+    get_ai_compatibility_modes,
+    get_ai_relationship_roast,
+    get_ai_roast,
     get_daily_horoscope,
     get_daily_youtube_track,
-    get_ai_compatibility_modes,
-)
-from .roasting_bank import (
-    determine_zodiac_from_date,
-    get_ai_roast,
-    get_ai_relationship_roast,
 )
 
 ZODIAC_DATA = {
@@ -773,7 +771,8 @@ ROOMS_COLLECTION = "zodiak_rooms"
 PURGE_BATCH = 50
 ROOM_CODE_ATTEMPTS = 20
 ROOM_CODE_NAMESPACE = "zodiak"
-ROOM_CODE_PREFIX = "RO-"
+ROOM_CODE_PREFIX = "ZD-"
+ACCEPTED_ROOM_PREFIXES = ("ZD", "RO")
 LEGACY_ROOM_CODE = re.compile(r"[A-Z0-9]{5}")
 
 
@@ -781,7 +780,7 @@ def normalise_quiz_room_code(value):
     if not isinstance(value, str):
         return None
     body = re.sub(r"[\s-]", "", value).upper()
-    if body.startswith("RO") and len(body) in (7, 8):
+    if body[:2] in ACCEPTED_ROOM_PREFIXES and len(body) in (7, 8):
         body = body[2:]
     if LEGACY_ROOM_CODE.fullmatch(body):
         return ROOM_CODE_PREFIX + body

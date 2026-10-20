@@ -34,6 +34,8 @@ from .shio_reference_bank import (
     TIME_ZONE_MERIDIANS,
     DEFAULT_CITY,
     CITY_ALIASES,
+    AI_RESTING_NOTE,
+    AI_LIMIT_NOTE,
 )
 from .shio_fortune_bank import (
     HEAVENLY_STEMS,

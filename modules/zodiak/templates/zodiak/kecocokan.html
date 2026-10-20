@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block backdrop %}{% endblock %}
 {% block backdrop_js %}{% endblock %}
-{% block title %}Kecocokan Zodiak - Zodiak Oracle{% endblock %}
+{% block title %}Kecocokan Zodiak - Peace Oracle{% endblock %}
+{% block description %}Cek kecocokan dua zodiak untuk asmara, pertemanan, dan kerja, atau main quiz kecocokan bareng pasangan pakai satu kode room.{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{{ url_for('zodiak.static', filename='css/style.css') }}?v=gothic-v3">
@@ -288,7 +289,7 @@
               <span class="sigil-bullet">🗝</span> Kode Room Pasangan
             </label>
             <div class="input-with-icon">
-              <input type="text" id="quiz-input-room-code" placeholder="Contoh: RO-8X92KM" maxlength="12"
+              <input type="text" id="quiz-input-room-code" placeholder="Contoh: ZD-8X92KM" maxlength="12"
                 class="custom-input uppercase-input gothic-input">
               <span class="field-icon gothic-input-glyph">🗝</span>
             </div>
@@ -383,7 +384,7 @@
           </p>
           <div class="room-code-display gothic-code-vault">
             <span class="room-code-label">KODE ROOM:</span>
-            <strong class="room-code-val gothic-code-text" id="display-room-code">RO-XXXXXX</strong>
+            <strong class="room-code-val gothic-code-text" id="display-room-code">ZD-XXXXXX</strong>
           </div>
           <div class="share-actions">
             <button type="button" class="btn-share-wa gothic-wa-btn" id="btn-copy-wa-link">
